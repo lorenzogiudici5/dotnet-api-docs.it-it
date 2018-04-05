@@ -1,0 +1,1283 @@
+<Type Name="EventLogInstaller" FullName="System.Diagnostics.EventLogInstaller">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="3dea502097bd7de2a1d19d1c41fb212d88ea6ba2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class EventLogInstaller : System.Configuration.Install.ComponentInstaller" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit EventLogInstaller extends System.Configuration.Install.ComponentInstaller" />
+  <TypeSignature Language="DocId" Value="T:System.Diagnostics.EventLogInstaller" />
+  <TypeSignature Language="VB.NET" Value="Public Class EventLogInstaller&#xA;Inherits ComponentInstaller" />
+  <TypeSignature Language="C++ CLI" Value="public ref class EventLogInstaller : System::Configuration::Install::ComponentInstaller" />
+  <AssemblyInfo>
+    <AssemblyName>System.Configuration.Install</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Configuration.Install.ComponentInstaller</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="99a48-101">Consente di installare e configurare un log eventi che l'applicazione legge o nel quale scrive durante l'esecuzione.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="99a48-101">Allows you to install and configure an event log that your application reads from or writes to when running.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-102">Il <xref:System.Diagnostics.EventLogInstaller> viene utilizzato il [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) durante l'installazione di un registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-102">The <xref:System.Diagnostics.EventLogInstaller> is used by the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) when installing an event log.</span></span> <span data-ttu-id="99a48-103">La <xref:System.Diagnostics.EventLogInstaller> classe è possibile installare i registri eventi solo nel computer locale.</span><span class="sxs-lookup"><span data-stu-id="99a48-103">The <xref:System.Diagnostics.EventLogInstaller> class can install event logs only on the local computer.</span></span>  
+  
+ <span data-ttu-id="99a48-104">Utilizzare la <xref:System.Diagnostics.EventLogInstaller> classe quando l'applicazione scrive nel log eventi, non è necessario utilizzare un programma di installazione del registro eventi dell'applicazione per leggere da un registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-104">Use the <xref:System.Diagnostics.EventLogInstaller> class when your application writes to an event log; it is not necessary to use an event log installer for your application to read from an event log.</span></span> <span data-ttu-id="99a48-105">Servizi e applicazioni scrivono nel registro applicazioni o in un log personalizzato.</span><span class="sxs-lookup"><span data-stu-id="99a48-105">Applications and services should write to the Application log or a custom log.</span></span> <span data-ttu-id="99a48-106">I driver di dispositivo devono scrivere nel Registro di sistema.</span><span class="sxs-lookup"><span data-stu-id="99a48-106">Device drivers should write to the System log.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="99a48-107">Il Registro di sicurezza è di sola lettura.</span><span class="sxs-lookup"><span data-stu-id="99a48-107">The Security log is read-only.</span></span>  
+  
+ <span data-ttu-id="99a48-108">Il programma di installazione crea l'origine evento specificata nel <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà e i registri per il registro eventi specificato in <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-108">The installer creates the event source that you specify in the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property and registers it for the event log specified in <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span> <span data-ttu-id="99a48-109">Questo comportamento è simile alla chiamata <xref:System.Diagnostics.EventLog.CreateEventSource%2A> sul <xref:System.Diagnostics.EventLog> componente.</span><span class="sxs-lookup"><span data-stu-id="99a48-109">This behavior is similar to calling <xref:System.Diagnostics.EventLog.CreateEventSource%2A> on the <xref:System.Diagnostics.EventLog> component.</span></span>  
+  
+ <span data-ttu-id="99a48-110">Utilizzare il <xref:System.Diagnostics.EventLog.WriteEvent%2A> e <xref:System.Diagnostics.EventLog.WriteEntry%2A> metodi per scrivere eventi in un log eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-110">Use the <xref:System.Diagnostics.EventLog.WriteEvent%2A> and <xref:System.Diagnostics.EventLog.WriteEntry%2A> methods to write events to an event log.</span></span> <span data-ttu-id="99a48-111">È necessario specificare un'origine eventi per scrivere eventi; è necessario creare e configurare l'origine evento prima di scrivere la prima voce con l'origine.</span><span class="sxs-lookup"><span data-stu-id="99a48-111">You must specify an event source to write events; you must create and configure the event source before writing the first entry with the source.</span></span>  
+  
+ <span data-ttu-id="99a48-112">Creare la nuova origine eventi durante l'installazione dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-112">Create the new event source during the installation of your application.</span></span> <span data-ttu-id="99a48-113">Questo consente di tempo per il sistema operativo aggiornare l'elenco delle origini eventi registrati e le relative configurazioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-113">This allows time for the operating system to refresh its list of registered event sources and their configurations.</span></span> <span data-ttu-id="99a48-114">Se il sistema operativo non è aggiornato l'elenco delle origini evento e si tenta di scrivere un evento con la nuova origine, che l'operazione di scrittura avrà esito negativo.</span><span class="sxs-lookup"><span data-stu-id="99a48-114">If the operating system has not refreshed its list of event sources, and you attempt to write an event with the new source, the write operation will fail.</span></span> <span data-ttu-id="99a48-115">È possibile configurare una nuova origine mediante un <xref:System.Diagnostics.EventLogInstaller>, o tramite il <xref:System.Diagnostics.EventLog.CreateEventSource%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="99a48-115">You can configure a new source using an <xref:System.Diagnostics.EventLogInstaller>, or using the <xref:System.Diagnostics.EventLog.CreateEventSource%2A> method.</span></span> <span data-ttu-id="99a48-116">È necessario disporre dei diritti amministrativi nel computer per creare una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-116">You must have administrative rights on the computer to create a new event source.</span></span>  
+  
+ <span data-ttu-id="99a48-117">È possibile creare un'origine evento per un log eventi esistente o un nuovo registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-117">You can create an event source for an existing event log or a new event log.</span></span> <span data-ttu-id="99a48-118">Quando si crea una nuova origine per un nuovo registro eventi, il sistema registra l'origine di tale log, ma non viene creato il registro fino a quando la prima voce è scritto in essa.</span><span class="sxs-lookup"><span data-stu-id="99a48-118">When you create a new source for a new event log, the system registers the source for that log, but the log is not created until the first entry is written to it.</span></span>  
+  
+ <span data-ttu-id="99a48-119">Per installare un registro eventi, creare una classe di installazione di progetto che eredita da <xref:System.Configuration.Install.Installer>e impostare il <xref:System.ComponentModel.RunInstallerAttribute> che la classe `true`.</span><span class="sxs-lookup"><span data-stu-id="99a48-119">To install an event log, create a project installer class that inherits from <xref:System.Configuration.Install.Installer>, and set the <xref:System.ComponentModel.RunInstallerAttribute> for the class to `true`.</span></span> <span data-ttu-id="99a48-120">All'interno del progetto, creare un <xref:System.Diagnostics.EventLogInstaller> per ogni log di eventi che scriverà l'applicazione e aggiungere l'istanza alla classe del programma di installazione del progetto.</span><span class="sxs-lookup"><span data-stu-id="99a48-120">Within your project, create an <xref:System.Diagnostics.EventLogInstaller> for each event log that your application will write to and add the instance to your project installer class.</span></span>  
+  
+ <span data-ttu-id="99a48-121">Quando il [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) viene chiamato, esamina il <xref:System.ComponentModel.RunInstallerAttribute>.</span><span class="sxs-lookup"><span data-stu-id="99a48-121">When the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) is called, it looks at the <xref:System.ComponentModel.RunInstallerAttribute>.</span></span> <span data-ttu-id="99a48-122">Se è `true`, lo strumento consente di installare tutti gli elementi di <xref:System.Configuration.Install.Installer.Installers%2A> insieme che sono associati al programma di installazione del progetto.</span><span class="sxs-lookup"><span data-stu-id="99a48-122">If it is `true`, the tool installs all the items in the <xref:System.Configuration.Install.Installer.Installers%2A> collection that are associated with your project installer.</span></span> <span data-ttu-id="99a48-123">Se <xref:System.ComponentModel.RunInstallerAttribute> è `false`, lo strumento ignora il programma di installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-123">If <xref:System.ComponentModel.RunInstallerAttribute> is `false`, the tool ignores the project installer.</span></span>  
+  
+ <span data-ttu-id="99a48-124">Modificare altre proprietà di un <xref:System.Diagnostics.EventLogInstaller> prima o dopo l'aggiunta dell'istanza di <xref:System.Configuration.Install.Installer.Installers%2A> raccolta del programma di installazione del progetto, ma prima che venga eseguito lo strumento programma di installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-124">You modify other properties of an <xref:System.Diagnostics.EventLogInstaller> either before or after adding the instance to the <xref:System.Configuration.Install.Installer.Installers%2A> collection of your project installer, but before the installer tool runs.</span></span> <span data-ttu-id="99a48-125">È necessario impostare il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà se l'applicazione verrà scritta nel registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-125">You must set the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property if your application will be writing to the event log.</span></span>  
+  
+ <span data-ttu-id="99a48-126">Utilizzare <xref:System.Diagnostics.EventLogInstaller> per registrare una nuova origine per un registro eventi di nuovo o esistente; non utilizzare <xref:System.Diagnostics.EventLogInstaller> per modificare un'origine esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-126">Use <xref:System.Diagnostics.EventLogInstaller> to register a new source for a new or existing event log; do not use <xref:System.Diagnostics.EventLogInstaller> to change an existing source.</span></span> <span data-ttu-id="99a48-127">La <xref:System.Diagnostics.EventLogInstaller> classe non modifica le proprietà di configurazione di un'origine esistente a cui corrispondono alle proprietà di installazione specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-127">The <xref:System.Diagnostics.EventLogInstaller> class does not modify the configuration properties of an existing source to match the specified installation properties.</span></span> <span data-ttu-id="99a48-128">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo genera un'eccezione se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è registrato per un altro log eventi nel computer.</span><span class="sxs-lookup"><span data-stu-id="99a48-128">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method throws an exception if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is registered for a different event log on the computer.</span></span> <span data-ttu-id="99a48-129">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo registra l'origine se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è già registrato per lo stesso log eventi specificato nella <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-129">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method does not register the source if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is already registered for the same event log specified in the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-130">È possibile registrare l'origine evento con file di risorse localizzate per le stringhe di categoria e il messaggio di evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-130">You can register the event source with localized resource files for your event category and message strings.</span></span> <span data-ttu-id="99a48-131">L'applicazione può scrivere voci nel registro eventi tramite identificatori di risorsa, anziché specificare la stringa effettiva.</span><span class="sxs-lookup"><span data-stu-id="99a48-131">Your application can write event log entries using resource identifiers, rather than specifying the actual string.</span></span> <span data-ttu-id="99a48-132">Il Visualizzatore eventi utilizza l'identificatore di risorsa per trovare e visualizzare la stringa corrispondente dal file di risorse localizzato in base alle impostazioni di lingua corrente.</span><span class="sxs-lookup"><span data-stu-id="99a48-132">The Event Viewer uses the resource identifier to find and display the corresponding string from the localized resource file based on current language settings.</span></span> <span data-ttu-id="99a48-133">È possibile registrare un file separato per le categorie di eventi, messaggi e le stringhe di inserimento di parametro o è possibile registrare lo stesso file di risorse per tutti i tre tipi di stringhe.</span><span class="sxs-lookup"><span data-stu-id="99a48-133">You can register a separate file for event categories, messages, and parameter insertion strings, or you can register the same resource file for all three types of strings.</span></span> <span data-ttu-id="99a48-134">Utilizzare il <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A>, <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A>, <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A>, e <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> proprietà per configurare l'origine per scrivere voci localizzate nel registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-134">Use the <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A>, <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A>, <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A>, and <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> properties to configure the source to write localized entries to the event log.</span></span> <span data-ttu-id="99a48-135">Se l'applicazione scrive valori stringa direttamente nel registro eventi, non è necessario impostare queste proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-135">If your application writes strings values directly to the event log, you do not need to set these properties.</span></span>  
+  
+ <span data-ttu-id="99a48-136">L'origine deve essere configurata per la scrittura di voci localizzate o per la scrittura di stringhe dirette.</span><span class="sxs-lookup"><span data-stu-id="99a48-136">The source must be configured either for writing localized entries or for writing direct strings.</span></span> <span data-ttu-id="99a48-137">Se l'applicazione scrive voci tramite identificatori di risorsa e i valori stringa, è necessario registrare due origini separate.</span><span class="sxs-lookup"><span data-stu-id="99a48-137">If your application writes entries using both resource identifiers and string values, you must register two separate sources.</span></span> <span data-ttu-id="99a48-138">Ad esempio, configurare un'origine dei file di risorse e quindi utilizzare tale origine nel <xref:System.Diagnostics.EventLog.WriteEvent%2A> metodo per scrivere voci tramite identificatori di risorsa nel registro eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-138">For example, configure one source with resource files, and then use that source in the <xref:System.Diagnostics.EventLog.WriteEvent%2A> method to write entries using resource identifiers to the event log.</span></span> <span data-ttu-id="99a48-139">Creare un'origine diversa senza file di risorse e quindi utilizzare tale origine nel <xref:System.Diagnostics.EventLog.WriteEntry%2A> metodo per scrivere stringhe direttamente nel log eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-139">Create a different source without resource files and then use that source in the <xref:System.Diagnostics.EventLog.WriteEntry%2A> method to write strings directly to the event log using that source.</span></span>  
+  
+ <span data-ttu-id="99a48-140">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> classe all'interno del codice; in genere vengono chiamati solo da Installutil.exe.</span><span class="sxs-lookup"><span data-stu-id="99a48-140">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> class from within your code; they are generally called only by Installutil.exe.</span></span> <span data-ttu-id="99a48-141">Lo strumento chiama automaticamente il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo durante il processo di installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-141">The tool automatically calls the <xref:System.Diagnostics.EventLogInstaller.Install%2A> method during the installation process.</span></span> <span data-ttu-id="99a48-142">Per il ripristino da errori, se necessario, chiamando la <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> metodo per l'oggetto che ha generato l'eccezione.</span><span class="sxs-lookup"><span data-stu-id="99a48-142">It backs out failures, if necessary, by calling the <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> method for the object that generated the exception.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="99a48-143">Esempio di codice seguente imposta le proprietà di installazione per una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-143">The following code example sets the installation properties for a new event source.</span></span> <span data-ttu-id="99a48-144">L'esempio di codice imposta il nome di origine e il nome del registro eventi e aggiunge il <xref:System.Diagnostics.EventLogInstaller> per il <xref:System.Configuration.Install.Installer.Installers%2A> insieme.</span><span class="sxs-lookup"><span data-stu-id="99a48-144">The code example sets the source name and the event log name, and adds the <xref:System.Diagnostics.EventLogInstaller> to the <xref:System.Configuration.Install.Installer.Installers%2A> collection.</span></span>  
+  
+ [!code-cpp[EventLogInstaller#1](~/samples/snippets/cpp/VS_Snippets_CLR/EventLogInstaller/CPP/eventloginstaller.cpp#1)]
+ [!code-csharp[EventLogInstaller#1](~/samples/snippets/csharp/VS_Snippets_CLR/EventLogInstaller/CS/eventloginstaller.cs#1)]
+ [!code-vb[EventLogInstaller#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/EventLogInstaller/VB/eventloginstaller.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Diagnostics.EventLog" />
+    <altmember cref="Overload:System.Diagnostics.EventLog.CreateEventSource" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public EventLogInstaller ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; EventLogInstaller();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-145">Inizializza una nuova istanza della classe <see cref="T:System.Diagnostics.EventLogInstaller" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-145">Initializes a new instance of the <see cref="T:System.Diagnostics.EventLogInstaller" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CategoryCount">
+      <MemberSignature Language="C#" Value="public int CategoryCount { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CategoryCount" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.CategoryCount" />
+      <MemberSignature Language="VB.NET" Value="Public Property CategoryCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int CategoryCount { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-146">Ottiene o imposta il numero di categorie nel file di risorse di categoria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-146">Gets or sets the number of categories in the category resource file.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-147">Numero di categorie nel file di risorse di categoria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-147">The number of categories in the category resource file.</span>
+          </span>
+          <span data-ttu-id="99a48-148">Il valore predefinito è zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-148">The default value is zero.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-149">Utilizzare il <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> e <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> categoria stringhe localizzate per le proprietà per scrivere eventi con.</span><span class="sxs-lookup"><span data-stu-id="99a48-149">Use the <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> and <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> properties to write events with localized category strings.</span></span> <span data-ttu-id="99a48-150">Il Visualizzatore eventi consente di visualizzare la categoria per una voce di evento, se si specifica una categoria quando si scrittura l'evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-150">The Event Viewer displays the category for an event entry, if you supply a category when you write the event.</span></span> <span data-ttu-id="99a48-151">Categorie del registro eventi sono stringhe definite dall'applicazione che consentono di filtrare gli eventi, o forniscono informazioni su un evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-151">Event log categories are application-defined strings that help filter events, or provide information on an event.</span></span> <span data-ttu-id="99a48-152">Ad esempio, l'applicazione è possibile definire categorie separate per i diversi componenti o diverse operazioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-152">For example, your application can define separate categories for different components or different operations.</span></span>  
+  
+ <span data-ttu-id="99a48-153">Categorie di eventi sono facoltative. Se l'applicazione non utilizza le categorie, non impostare il <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> e <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-153">Event categories are optional; if your application does not use categories, do not set the <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> and <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> properties.</span></span>  
+  
+ <span data-ttu-id="99a48-154">Per informazioni dettagliate sulla definizione dei messaggi di evento e la creazione di file di risorse di eventi, vedere l'argomento "Messaggio del compilatore" nella documentazione di Platform SDK [ http://msdn.microsoft.com ](http://msdn.microsoft.com/).</span><span class="sxs-lookup"><span data-stu-id="99a48-154">For details about defining event messages and building event resource files, see the "Message Compiler" topic in the Platform SDK documentation at [http://msdn.microsoft.com](http://msdn.microsoft.com/).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="99a48-155">Esempio di codice seguente imposta le proprietà di installazione per una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-155">The following code example sets the installation properties for a new event source.</span></span> <span data-ttu-id="99a48-156">L'esempio di codice imposta il nome dell'origine evento, nome registro eventi e i file di risorse per il testo dell'evento localizzata.</span><span class="sxs-lookup"><span data-stu-id="99a48-156">The code example sets the event source name, event log name, and resource file for localized event text.</span></span>  
+  
+ [!code-cpp[EventLogInstaller_Resources#1](~/samples/snippets/cpp/VS_Snippets_CLR/eventlogInstaller_Resources/CPP/source.cpp#1)]
+ [!code-csharp[EventLogInstaller_Resources#1](~/samples/snippets/csharp/VS_Snippets_CLR/eventlogInstaller_Resources/CS/source.cs#1)]
+ [!code-vb[EventLogInstaller_Resources#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/eventlogInstaller_Resources/VB/source.vb#1)]  
+  
+ <span data-ttu-id="99a48-157">L'esempio di codice Usa il seguente file di testo di messaggio, generato nella libreria di risorse EventLogMsgs.</span><span class="sxs-lookup"><span data-stu-id="99a48-157">The code example uses the following message text file, built into the resource library EventLogMsgs.dll.</span></span> <span data-ttu-id="99a48-158">Un file di testo del messaggio è l'origine da cui viene creato il file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-158">A message text file is the source from which the message resource file is created.</span></span> <span data-ttu-id="99a48-159">Il file di testo del messaggio definisce gli identificatori di risorsa e un testo per la categoria, un messaggio di evento e le stringhe di inserimento di parametro.</span><span class="sxs-lookup"><span data-stu-id="99a48-159">The message text file defines the resource identifiers and text for the category, event message, and parameter insertion strings.</span></span>  
+  
+```  
+; // EventLogMsgs.mc  
+; // ********************************************************  
+  
+; // Use the following commands to build this file:  
+  
+; //   mc -s EventLogMsgs.mc  
+; //   rc EventLogMsgs.rc  
+; //   link /DLL /SUBSYSTEM:WINDOWS /NOENTRY /MACHINE:x86 EventLogMsgs.Res   
+; // ********************************************************  
+  
+; // - Event categories -  
+; // Categories must be numbered consecutively starting at 1.  
+; // ********************************************************  
+  
+MessageId=0x1  
+Severity=Success  
+SymbolicName=INSTALL_CATEGORY  
+Language=English  
+Installation  
+.  
+  
+MessageId=0x2  
+Severity=Success  
+SymbolicName=QUERY_CATEGORY  
+Language=English  
+Database Query  
+.  
+  
+MessageId=0x3  
+Severity=Success  
+SymbolicName=REFRESH_CATEGORY  
+Language=English  
+Data Refresh  
+.  
+  
+; // - Event messages -  
+; // *********************************  
+  
+MessageId = 1000  
+Severity = Success  
+Facility = Application  
+SymbolicName = AUDIT_SUCCESS_MESSAGE_ID_1000  
+Language=English  
+My application message text, in English, for message id 1000, called from %1.  
+.  
+  
+MessageId = 1001  
+Severity = Warning  
+Facility = Application  
+SymbolicName = AUDIT_FAILED_MESSAGE_ID_1001  
+Language=English  
+My application message text, in English, for message id 1001, called from %1.  
+.  
+  
+MessageId = 1002  
+Severity = Success  
+Facility = Application  
+SymbolicName = GENERIC_INFO_MESSAGE_ID_1002  
+Language=English  
+My generic information message in English, for message id 1002.  
+.  
+  
+MessageId = 1003  
+Severity = Warning  
+Facility = Application  
+SymbolicName = GENERIC_WARNING_MESSAGE_ID_1003  
+Language=English  
+My generic warning message in English, for message id 1003, called from %1.  
+.  
+  
+MessageId = 1004  
+Severity = Success  
+Facility = Application  
+SymbolicName = UPDATE_CYCLE_COMPLETE_MESSAGE_ID_1004  
+Language=English  
+The update cycle is complete for %%5002.  
+.  
+  
+MessageId = 1005  
+Severity = Warning  
+Facility = Application  
+SymbolicName = SERVER_CONNECTION_DOWN_MESSAGE_ID_1005  
+Language=English  
+The refresh operation did not complete because the connection to server %1 could not be established.  
+.  
+  
+; // - Event log display name -  
+; // ********************************************************  
+  
+MessageId = 5001  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_DISPLAY_NAME_MSGID  
+Language=English  
+Sample Event Log  
+.  
+  
+; // - Event message parameters -  
+; //   Language independent insertion strings  
+; // ********************************************************  
+  
+MessageId = 5002  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_SERVICE_NAME_MSGID  
+Language=English  
+SVC_UPDATE.EXE  
+.  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventLogInstaller.CategoryResourceFile" />
+        <altmember cref="P:System.Diagnostics.EventSourceCreationData.CategoryCount" />
+        <altmember cref="Overload:System.Diagnostics.EventLog.WriteEvent" />
+      </Docs>
+    </Member>
+    <Member MemberName="CategoryResourceFile">
+      <MemberSignature Language="C#" Value="public string CategoryResourceFile { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string CategoryResourceFile" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.CategoryResourceFile" />
+      <MemberSignature Language="VB.NET" Value="Public Property CategoryResourceFile As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ CategoryResourceFile { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("System.Windows.Forms.Design.FileNameEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter("System.Diagnostics.Design.StringValueConverter, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-160">Ottiene o imposta il percorso del file di risorse che contiene le stringhe di categoria per l'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-160">Gets or sets the path of the resource file that contains category strings for the source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-161">Percorso del file di risorse di categoria.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-161">The path of the category resource file.</span>
+          </span>
+          <span data-ttu-id="99a48-162">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-162">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-163">Utilizzare il <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> e <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> categoria stringhe localizzate per le proprietà per scrivere eventi con.</span><span class="sxs-lookup"><span data-stu-id="99a48-163">Use the <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> and <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> properties to write events with localized category strings.</span></span> <span data-ttu-id="99a48-164">Consente di visualizzare la categoria per una voce di evento nel Visualizzatore eventi se si specifica una categoria quando si scrittura l'evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-164">The Event Viewer displays the category for an event entry if you supply a category when you write the event.</span></span> <span data-ttu-id="99a48-165">Categorie del registro eventi sono stringhe definite dall'applicazione che consentono di filtrare gli eventi, o di ottenere informazioni su un evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-165">Event log categories are application-defined strings that help filter events, or provide information about an event.</span></span> <span data-ttu-id="99a48-166">Ad esempio, l'applicazione potrebbe essere categorie separate per i diversi componenti o diverse operazioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-166">For example, your application might have separate categories for different components or different operations.</span></span>  
+  
+ <span data-ttu-id="99a48-167">Categorie di eventi sono facoltative. Se l'applicazione non utilizza le categorie, non impostare il <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> e <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-167">Event categories are optional; if your application does not use categories, do not set the <xref:System.Diagnostics.EventLogInstaller.CategoryCount%2A> and <xref:System.Diagnostics.EventLogInstaller.CategoryResourceFile%2A> properties.</span></span>  
+  
+ <span data-ttu-id="99a48-168">Per informazioni dettagliate sulla definizione dei messaggi di evento e la creazione di file di risorse di eventi, vedere l'argomento "Messaggio del compilatore" nella documentazione di Platform SDK [ http://msdn.microsoft.com ](http://msdn.microsoft.com/).</span><span class="sxs-lookup"><span data-stu-id="99a48-168">For details about defining event messages and building event resource files, see the "Message Compiler" topic in the Platform SDK documentation at [http://msdn.microsoft.com](http://msdn.microsoft.com/).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="99a48-169">Esempio di codice seguente imposta le proprietà di installazione per una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-169">The following code example sets the installation properties for a new event source.</span></span> <span data-ttu-id="99a48-170">L'esempio di codice imposta il nome dell'origine evento, nome registro eventi e i file di risorse per il testo dell'evento localizzata.</span><span class="sxs-lookup"><span data-stu-id="99a48-170">The code example sets the event source name, event log name, and resource file for localized event text.</span></span>  
+  
+ [!code-cpp[EventLogInstaller_Resources#1](~/samples/snippets/cpp/VS_Snippets_CLR/eventlogInstaller_Resources/CPP/source.cpp#1)]
+ [!code-csharp[EventLogInstaller_Resources#1](~/samples/snippets/csharp/VS_Snippets_CLR/eventlogInstaller_Resources/CS/source.cs#1)]
+ [!code-vb[EventLogInstaller_Resources#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/eventlogInstaller_Resources/VB/source.vb#1)]  
+  
+ <span data-ttu-id="99a48-171">L'esempio di codice Usa il seguente file di testo di messaggio, generato nella libreria di risorse EventLogMsgs.</span><span class="sxs-lookup"><span data-stu-id="99a48-171">The code example uses the following message text file, built into the resource library EventLogMsgs.dll.</span></span> <span data-ttu-id="99a48-172">Un file di testo del messaggio è l'origine da cui viene creato il file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-172">A message text file is the source from which the message resource file is created.</span></span> <span data-ttu-id="99a48-173">Il file di testo del messaggio definisce gli identificatori di risorsa e un testo per la categoria, un messaggio di evento e le stringhe di inserimento di parametro.</span><span class="sxs-lookup"><span data-stu-id="99a48-173">The message text file defines the resource identifiers and text for the category, event message, and parameter insertion strings.</span></span>  
+  
+```  
+; // EventLogMsgs.mc  
+; // ********************************************************  
+  
+; // Use the following commands to build this file:  
+  
+; //   mc -s EventLogMsgs.mc  
+; //   rc EventLogMsgs.rc  
+; //   link /DLL /SUBSYSTEM:WINDOWS /NOENTRY /MACHINE:x86 EventLogMsgs.Res   
+; // ********************************************************  
+  
+; // - Event categories -  
+; // Categories must be numbered consecutively starting at 1.  
+; // ********************************************************  
+  
+MessageId=0x1  
+Severity=Success  
+SymbolicName=INSTALL_CATEGORY  
+Language=English  
+Installation  
+.  
+  
+MessageId=0x2  
+Severity=Success  
+SymbolicName=QUERY_CATEGORY  
+Language=English  
+Database Query  
+.  
+  
+MessageId=0x3  
+Severity=Success  
+SymbolicName=REFRESH_CATEGORY  
+Language=English  
+Data Refresh  
+.  
+  
+; // - Event messages -  
+; // *********************************  
+  
+MessageId = 1000  
+Severity = Success  
+Facility = Application  
+SymbolicName = AUDIT_SUCCESS_MESSAGE_ID_1000  
+Language=English  
+My application message text, in English, for message id 1000, called from %1.  
+.  
+  
+MessageId = 1001  
+Severity = Warning  
+Facility = Application  
+SymbolicName = AUDIT_FAILED_MESSAGE_ID_1001  
+Language=English  
+My application message text, in English, for message id 1001, called from %1.  
+.  
+  
+MessageId = 1002  
+Severity = Success  
+Facility = Application  
+SymbolicName = GENERIC_INFO_MESSAGE_ID_1002  
+Language=English  
+My generic information message in English, for message id 1002.  
+.  
+  
+MessageId = 1003  
+Severity = Warning  
+Facility = Application  
+SymbolicName = GENERIC_WARNING_MESSAGE_ID_1003  
+Language=English  
+My generic warning message in English, for message id 1003, called from %1.  
+.  
+  
+MessageId = 1004  
+Severity = Success  
+Facility = Application  
+SymbolicName = UPDATE_CYCLE_COMPLETE_MESSAGE_ID_1004  
+Language=English  
+The update cycle is complete for %%5002.  
+.  
+  
+MessageId = 1005  
+Severity = Warning  
+Facility = Application  
+SymbolicName = SERVER_CONNECTION_DOWN_MESSAGE_ID_1005  
+Language=English  
+The refresh operation did not complete because the connection to server %1 could not be established.  
+.  
+  
+; // - Event log display name -  
+; // ********************************************************  
+  
+MessageId = 5001  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_DISPLAY_NAME_MSGID  
+Language=English  
+Sample Event Log  
+.  
+  
+; // - Event message parameters -  
+; //   Language independent insertion strings  
+; // ********************************************************  
+  
+MessageId = 5002  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_SERVICE_NAME_MSGID  
+Language=English  
+SVC_UPDATE.EXE  
+.  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventLogInstaller.CategoryCount" />
+        <altmember cref="P:System.Diagnostics.EventSourceCreationData.CategoryResourceFile" />
+        <altmember cref="Overload:System.Diagnostics.EventLog.WriteEvent" />
+      </Docs>
+    </Member>
+    <Member MemberName="CopyFromComponent">
+      <MemberSignature Language="C#" Value="public override void CopyFromComponent (System.ComponentModel.IComponent component);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void CopyFromComponent(class System.ComponentModel.IComponent component) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.CopyFromComponent(System.ComponentModel.IComponent)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub CopyFromComponent (component As IComponent)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void CopyFromComponent(System::ComponentModel::IComponent ^ component);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="component" Type="System.ComponentModel.IComponent" />
+      </Parameters>
+      <Docs>
+        <param name="component">
+          <span data-ttu-id="99a48-174">
+            <see cref="T:System.ComponentModel.IComponent" /> da utilizzare come modello per <see cref="T:System.Diagnostics.EventLogInstaller" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-174">An <see cref="T:System.ComponentModel.IComponent" /> to use as a template for the <see cref="T:System.Diagnostics.EventLogInstaller" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="99a48-175">Copia i valori di proprietà di un componente <see cref="T:System.Diagnostics.EventLog" /> necessari in fase di installazione per un log eventi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-175">Copies the property values of an <see cref="T:System.Diagnostics.EventLog" /> component that are required at installation time for an event log.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-176">Il componente specificato per il `component` parametro deve essere un <xref:System.Diagnostics.EventLog>; in caso contrario, viene generata un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="99a48-176">The component specified by the `component` parameter must be an <xref:System.Diagnostics.EventLog>; otherwise, an exception is thrown.</span></span>  
+  
+ <span data-ttu-id="99a48-177">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> dall'interno del codice; di solito vengono chiamati solo dal [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span><span class="sxs-lookup"><span data-stu-id="99a48-177">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> from within your code; they are generally called only by the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span></span> <span data-ttu-id="99a48-178"><xref:System.Diagnostics.EventLogInstaller.CopyFromComponent%2A> viene utilizzato da Installutil.exe per impostare i valori delle proprietà per il <xref:System.Diagnostics.EventLogInstaller> ai valori di un oggetto esistente <xref:System.Diagnostics.EventLog>.</span><span class="sxs-lookup"><span data-stu-id="99a48-178"><xref:System.Diagnostics.EventLogInstaller.CopyFromComponent%2A> is used by Installutil.exe to set the property values for the <xref:System.Diagnostics.EventLogInstaller> to the values of an existing <xref:System.Diagnostics.EventLog>.</span></span>  
+  
+ <span data-ttu-id="99a48-179">Se il <xref:System.Diagnostics.EventLog.Log%2A> del <xref:System.Diagnostics.EventLog> che è passato è una stringa vuota (""), è necessario impostare il <xref:System.Diagnostics.EventLog.Log%2A> proprietà su un valore valido prima dell'esecuzione il programma di installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-179">If the <xref:System.Diagnostics.EventLog.Log%2A> of the <xref:System.Diagnostics.EventLog> that is passed in is an empty string (""), you must set the <xref:System.Diagnostics.EventLog.Log%2A> property to a valid value before the installer executes.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="99a48-180">Il componente specificato non è un <see cref="T:System.Diagnostics.EventLog" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-180">The specified component is not an <see cref="T:System.Diagnostics.EventLog" />.</span>
+          </span>
+          <span data-ttu-id="99a48-181">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-181">-or-</span>
+          </span>
+          <span data-ttu-id="99a48-182">La proprietà <see cref="P:System.Diagnostics.EventLog.Log" /> o <see cref="P:System.Diagnostics.EventLog.Source" /> del componente specificato è <see langword="null" /> o vuota.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-182">The <see cref="P:System.Diagnostics.EventLog.Log" /> or <see cref="P:System.Diagnostics.EventLog.Source" /> property of the specified component is either <see langword="null" /> or empty.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Install">
+      <MemberSignature Language="C#" Value="public override void Install (System.Collections.IDictionary stateSaver);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Install(class System.Collections.IDictionary stateSaver) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.Install(System.Collections.IDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Install (stateSaver As IDictionary)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Install(System::Collections::IDictionary ^ stateSaver);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stateSaver" Type="System.Collections.IDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="stateSaver">
+          <span data-ttu-id="99a48-183">
+            <see cref="T:System.Collections.IDictionary" /> utilizzato per salvare le informazioni necessarie per eseguire un'operazione di ripristino o di disinstallazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-183">An <see cref="T:System.Collections.IDictionary" /> used to save information needed to perform a rollback or uninstall operation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="99a48-184">Esegue l'installazione e inserisce nel Registro di sistema le informazioni relative al log eventi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-184">Performs the installation and writes event log information to the registry.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-185">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo scrive informazioni del registro eventi nel Registro di sistema e associa il registro eventi a un log specificato da di <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-185">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method writes event log information to the registry, and associates the event log with a log that is specified by the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span> <span data-ttu-id="99a48-186">Se il log esiste già e viene specificata un'origine, <xref:System.Diagnostics.EventLogInstaller.Install%2A> crea un log e associa la nuova origine.</span><span class="sxs-lookup"><span data-stu-id="99a48-186">If the log does not already exist (and a source is specified), <xref:System.Diagnostics.EventLogInstaller.Install%2A> creates a log and associates the new source with it.</span></span>  
+  
+ <span data-ttu-id="99a48-187">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> dall'interno del codice; di solito vengono chiamati solo dal [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span><span class="sxs-lookup"><span data-stu-id="99a48-187">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> from within your code; they are generally called only by the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span></span> <span data-ttu-id="99a48-188">Lo strumento chiama automaticamente il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo durante il processo di installazione per scrivere le informazioni del Registro di sistema associate al log eventi da installare.</span><span class="sxs-lookup"><span data-stu-id="99a48-188">The tool automatically calls the <xref:System.Diagnostics.EventLogInstaller.Install%2A> method during the installation process to write registry information that is associated with the event log being installed.</span></span> <span data-ttu-id="99a48-189">L'installazione è transazionale, quindi se si verifica un errore di qualsiasi componente di progetto di installazione durante l'installazione, vengono ripristinati allo stato pre-installazione di tutti i componenti installati in precedenza.</span><span class="sxs-lookup"><span data-stu-id="99a48-189">Installation is transactional, so if there is a failure of any installation project component during the installation, all the previously-installed components are rolled back to their pre-installation states.</span></span> <span data-ttu-id="99a48-190">Questa operazione viene eseguita chiamando ogni componente <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="99a48-190">This is accomplished by calling each component's <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> method.</span></span>  
+  
+ <span data-ttu-id="99a48-191">Utilizzare <xref:System.Diagnostics.EventLogInstaller> per registrare una nuova origine per un registro eventi di nuovo o esistente; non utilizzare <xref:System.Diagnostics.EventLogInstaller> per modificare un'origine esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-191">Use <xref:System.Diagnostics.EventLogInstaller> to register a new source for a new or existing event log; do not use <xref:System.Diagnostics.EventLogInstaller> to change an existing source.</span></span> <span data-ttu-id="99a48-192">La <xref:System.Diagnostics.EventLogInstaller> classe non modifica le proprietà di configurazione di un'origine esistente a cui corrispondono alle proprietà di installazione specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-192">The <xref:System.Diagnostics.EventLogInstaller> class does not modify the configuration properties of an existing source to match the specified installation properties.</span></span> <span data-ttu-id="99a48-193">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo genera un'eccezione se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è registrato per un altro log eventi nel computer.</span><span class="sxs-lookup"><span data-stu-id="99a48-193">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method throws an exception if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is registered for a different event log on the computer.</span></span> <span data-ttu-id="99a48-194">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo ignora la registrazione dell'origine se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è già registrato per lo stesso log eventi specificato nella <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-194">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method skips registering the source if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is already registered for the same event log specified in the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-195">Routine di installazione di un'applicazione utilizza il programma di installazione progetto <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> proprietà per gestire automaticamente le informazioni sui componenti che sono già stati installati.</span><span class="sxs-lookup"><span data-stu-id="99a48-195">An application's install routine uses the project installer's <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> property to automatically maintain information about the components that have already been installed.</span></span> <span data-ttu-id="99a48-196">Queste informazioni sullo stato, che viene passate a <xref:System.Diagnostics.EventLogInstaller.Install%2A> come il `stateSaver` parametro, viene continuamente aggiornato mentre lo strumento installa ogni <xref:System.Diagnostics.EventLogInstaller>.</span><span class="sxs-lookup"><span data-stu-id="99a48-196">This state information, which is passed to <xref:System.Diagnostics.EventLogInstaller.Install%2A> as the `stateSaver` parameter, is continuously updated as the tool installs each <xref:System.Diagnostics.EventLogInstaller>.</span></span> <span data-ttu-id="99a48-197">In genere, non è necessario che il codice modificare in modo esplicito queste informazioni sullo stato.</span><span class="sxs-lookup"><span data-stu-id="99a48-197">Usually, it is not necessary for your code to explicitly modify this state information.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.PlatformNotSupportedException">
+          <span data-ttu-id="99a48-198">Il programma di installazione sta tentando di utilizzare una piattaforma diversa da Windows NT 4.0 o versione successiva.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-198">The platform the installer is trying to use is not Windows NT 4.0 or later.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="99a48-199">Il nome specificato nella proprietà <see cref="P:System.Diagnostics.EventLogInstaller.Source" /> è già registrato per un altro log eventi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-199">The name specified in the <see cref="P:System.Diagnostics.EventLogInstaller.Source" /> property is already registered for a different event log.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.Rollback(System.Collections.IDictionary)" />
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.Uninstall(System.Collections.IDictionary)" />
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsEquivalentInstaller">
+      <MemberSignature Language="C#" Value="public override bool IsEquivalentInstaller (System.Configuration.Install.ComponentInstaller otherInstaller);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool IsEquivalentInstaller(class System.Configuration.Install.ComponentInstaller otherInstaller) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.IsEquivalentInstaller(System.Configuration.Install.ComponentInstaller)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function IsEquivalentInstaller (otherInstaller As ComponentInstaller) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool IsEquivalentInstaller(System::Configuration::Install::ComponentInstaller ^ otherInstaller);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="otherInstaller" Type="System.Configuration.Install.ComponentInstaller" />
+      </Parameters>
+      <Docs>
+        <param name="otherInstaller">
+          <span data-ttu-id="99a48-200">Programma di installazione da confrontare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-200">The installer to compare.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="99a48-201">Stabilisce se un programma di installazione e un altro programma di installazione specificato fanno riferimento alla stessa origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-201">Determines whether an installer and another specified installer refer to the same source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="99a48-202">Restituisce <see langword="true" /> se il programma di installazione corrente e quello specificato dal parametro <paramref name="otherInstaller" /> installano o disinstallano la stessa origine; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-202">
+              <see langword="true" /> if this installer and the installer specified by the <paramref name="otherInstaller" /> parameter would install or uninstall the same source; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-203">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> dall'interno del codice; di solito vengono chiamati solo dallo strumento programma di installazione (Installutil.exe).</span><span class="sxs-lookup"><span data-stu-id="99a48-203">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> from within your code; they are generally called only by the Installer tool (Installutil.exe).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.CopyFromComponent(System.ComponentModel.IComponent)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Log">
+      <MemberSignature Language="C#" Value="public string Log { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Log" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.Log" />
+      <MemberSignature Language="VB.NET" Value="Public Property Log As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Log { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter("System.Diagnostics.Design.StringValueConverter, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-204">Ottiene o imposta il nome del log sul quale impostare l'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-204">Gets or sets the name of the log to set the source to.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-205">Nome del log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-205">The name of the log.</span>
+          </span>
+          <span data-ttu-id="99a48-206">Può trattarsi di un nome di log personalizzato o dei log Applicazione o Sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-206">This can be Application, System, or a custom log name.</span>
+          </span>
+          <span data-ttu-id="99a48-207">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-207">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-208">È possibile utilizzare il <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà per associare l'origine specificata nel <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà con un log esistente o un nuovo log nel computer locale.</span><span class="sxs-lookup"><span data-stu-id="99a48-208">You can use the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property to associate the source you specify in the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property with either an existing log or a new log on the local computer.</span></span> <span data-ttu-id="99a48-209">Il [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) queste informazioni vengono utilizzate per eseguire il mapping di origine per il log nel Registro di sistema del computer.</span><span class="sxs-lookup"><span data-stu-id="99a48-209">The [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) uses this information to map the source to the log in the computer's registry.</span></span> <span data-ttu-id="99a48-210">Servizi e applicazioni scrivono nel registro applicazioni o in un log personalizzato.</span><span class="sxs-lookup"><span data-stu-id="99a48-210">Applications and services should write to the Application log or a custom log.</span></span> <span data-ttu-id="99a48-211">I driver di dispositivo devono scrivere nel Registro di sistema.</span><span class="sxs-lookup"><span data-stu-id="99a48-211">Device drivers should write to the System log.</span></span>  
+  
+ <span data-ttu-id="99a48-212">Per scrivere voci nel log eventi, è necessario creare un'origine e registrarlo con un log eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-212">To write entries to an event log, you must create a source and register it with an event log.</span></span> <span data-ttu-id="99a48-213">Un'origine eventi può solo scrivere in un log alla volta.</span><span class="sxs-lookup"><span data-stu-id="99a48-213">An event source can only write to one log at a time.</span></span> <span data-ttu-id="99a48-214">Il programma di installazione utilizza il valore della <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà per registrare l'applicazione con il log eventi come origine valida delle voci.</span><span class="sxs-lookup"><span data-stu-id="99a48-214">The installer uses the value of the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property to register your application with the event log as a valid source of entries.</span></span> <span data-ttu-id="99a48-215">Se non si specifica un nome di log prima dell'esecuzione del programma di installazione, il programma di installazione registra l'origine nel registro applicazioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-215">If you do not specify a log name before the installer runs, the installer registers your source to the Application log.</span></span> <span data-ttu-id="99a48-216">Se si specifica una nuova origine e un log esistente, il programma di installazione crea una nuova origine evento e lo associa al log specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-216">If you specify a new source and an existing log, the installer creates a new event source and associates it with the log you specify.</span></span> <span data-ttu-id="99a48-217">Se si specifica una nuova origine sia un nuovo registro, il programma di installazione consente di associare la nuova origine con il nuovo registro nel Registro di sistema, ma non viene creato il registro fino a quando la prima voce è scritto in essa.</span><span class="sxs-lookup"><span data-stu-id="99a48-217">If you specify both a new source and a new log, the installer associates the new source with the new log in the registry, but the log is not created until the first entry is written to it.</span></span>  
+  
+ <span data-ttu-id="99a48-218">Il sistema operativo archivia i registri eventi come file.</span><span class="sxs-lookup"><span data-stu-id="99a48-218">The operating system stores event logs as files.</span></span> <span data-ttu-id="99a48-219">Quando si utilizza <xref:System.Diagnostics.EventLogInstaller> o <xref:System.Diagnostics.EventLog.CreateEventSource%2A> metodo per creare un nuovo registro eventi, il file associato viene archiviato nella directory %SystemRoot%\System32\Config del computer specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-219">When you use <xref:System.Diagnostics.EventLogInstaller> or the <xref:System.Diagnostics.EventLog.CreateEventSource%2A> method to create a new event log, the associated file is stored in the %SystemRoot%\System32\Config directory on the specified computer.</span></span> <span data-ttu-id="99a48-220">Aggiungendo i primi 8 caratteri di cui è impostato il nome del file di <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà con l'estensione "evt".</span><span class="sxs-lookup"><span data-stu-id="99a48-220">The file name is set by appending the first 8 characters of the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property with the ".evt" file name extension.</span></span>  
+  
+ <span data-ttu-id="99a48-221">Utilizzare <xref:System.Diagnostics.EventLogInstaller> per registrare una nuova origine per un registro eventi di nuovo o esistente; non utilizzare <xref:System.Diagnostics.EventLogInstaller> per modificare un'origine esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-221">Use <xref:System.Diagnostics.EventLogInstaller> to register a new source for a new or existing event log; do not use <xref:System.Diagnostics.EventLogInstaller> to change an existing source.</span></span> <span data-ttu-id="99a48-222">La <xref:System.Diagnostics.EventLogInstaller> classe non modifica le proprietà di configurazione di un'origine esistente a cui corrispondono alle proprietà di installazione specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-222">The <xref:System.Diagnostics.EventLogInstaller> class does not modify the configuration properties of an existing source to match the specified installation properties.</span></span> <span data-ttu-id="99a48-223">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo genera un'eccezione se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è registrato per un altro log eventi nel computer.</span><span class="sxs-lookup"><span data-stu-id="99a48-223">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method throws an exception if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is registered for a different event log on the computer.</span></span> <span data-ttu-id="99a48-224">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo registra l'origine se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è già registrato per lo stesso log eventi specificato nella <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-224">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method does not register the source if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is already registered for the same event log specified in the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-225">Per ulteriori informazioni sui comportamenti di origini e i registri eventi, vedere il <xref:System.Diagnostics.EventLog> documentazione per la classe di <xref:System.Diagnostics.EventLog.Log%2A> e <xref:System.Diagnostics.EventLog.Source%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-225">For more detailed information about the behaviors of event logs and sources, see the <xref:System.Diagnostics.EventLog> class documentation for the <xref:System.Diagnostics.EventLog.Log%2A> and <xref:System.Diagnostics.EventLog.Source%2A> properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventLog.Log" />
+        <altmember cref="T:System.Diagnostics.EventLog" />
+      </Docs>
+    </Member>
+    <Member MemberName="MessageResourceFile">
+      <MemberSignature Language="C#" Value="public string MessageResourceFile { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string MessageResourceFile" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.MessageResourceFile" />
+      <MemberSignature Language="VB.NET" Value="Public Property MessageResourceFile As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ MessageResourceFile { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("System.Windows.Forms.Design.FileNameEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter("System.Diagnostics.Design.StringValueConverter, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-226">Ottiene o imposta il percorso del file di risorse che contiene le stringhe di formattazione del messaggio per l'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-226">Gets or sets the path of the resource file that contains message formatting strings for the source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-227">Percorso del file di risorse del messaggio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-227">The path of the message resource file.</span>
+          </span>
+          <span data-ttu-id="99a48-228">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-228">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-229">Utilizzare il <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> proprietà per configurare un'origine di log eventi per scrivere messaggi di evento localizzati.</span><span class="sxs-lookup"><span data-stu-id="99a48-229">Use the <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> property to configure an event log source to write localized event messages.</span></span> <span data-ttu-id="99a48-230">Messaggi di evento sono stringhe definite dall'applicazione che descrivono l'evento all'utente.</span><span class="sxs-lookup"><span data-stu-id="99a48-230">Event messages are application-defined strings that describe the event to the user.</span></span>  
+  
+ <span data-ttu-id="99a48-231">L'applicazione può scrivere voci del registro eventi tramite identificatori di risorsa.</span><span class="sxs-lookup"><span data-stu-id="99a48-231">Your application can write event log entries using resource identifiers.</span></span> <span data-ttu-id="99a48-232">Un identificatore di risorsa indicizza un messaggio all'interno di <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A>.</span><span class="sxs-lookup"><span data-stu-id="99a48-232">A resource identifier indexes a message located in the <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A>.</span></span> <span data-ttu-id="99a48-233">Il Visualizzatore eventi utilizza l'identificatore di risorsa per trovare e visualizzare la stringa corrispondente dal file di risorse localizzato in base alle impostazioni di lingua corrente.</span><span class="sxs-lookup"><span data-stu-id="99a48-233">The Event Viewer uses the resource identifier to find and display the corresponding string from the localized resource file based on current language settings.</span></span>  
+  
+ <span data-ttu-id="99a48-234">L'origine evento deve essere configurata per la scrittura di voci localizzate o per la scrittura di stringhe dirette.</span><span class="sxs-lookup"><span data-stu-id="99a48-234">The event source must be configured either for writing localized entries or for writing direct strings.</span></span> <span data-ttu-id="99a48-235">Utilizzare il <xref:System.Diagnostics.EventLog.WriteEvent%2A> metodo per scrivere voci localizzate per un'origine configurata con un file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-235">Use the <xref:System.Diagnostics.EventLog.WriteEvent%2A> method to write localized entries for a source configured with a message resource file.</span></span>  
+  
+ <span data-ttu-id="99a48-236">Se l'applicazione scrive le stringhe di messaggio di evento direttamente, anziché utilizzare un identificatore di risorsa in un file di risorse localizzato, non impostare la <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-236">If your application writes event message strings directly, rather than using a resource identifier in a localized resource file, do not set the <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-237">Se il <xref:System.Diagnostics.EventLog.MachineName%2A> proprietà non è l'identificatore del computer locale ("."), .NET Framework presuppone che il file di risorse è in un computer remoto.</span><span class="sxs-lookup"><span data-stu-id="99a48-237">If the <xref:System.Diagnostics.EventLog.MachineName%2A> property is not the local computer identifier ("."), the .NET Framework assumes that the resource file is on a remote computer.</span></span> <span data-ttu-id="99a48-238">Se il <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> valore della proprietà contiene una lettera di unità, si presuppone che il file di risorse nel \\ \\< machinename\>\\< unità\>condivisione $ (ad esempio, \\\server \c$).</span><span class="sxs-lookup"><span data-stu-id="99a48-238">If the <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> property value contains a drive letter, the resource file is assumed to be on the \\\\<machinename\>\\<drive\>$ share (for example, \\\server\c$).</span></span> <span data-ttu-id="99a48-239">Se il valore contiene la stringa % systemroot %, si presuppone che il file di risorse nel \\ \\< machinename\>\admin$ condivisione (ad esempio, \\\server\admin$).</span><span class="sxs-lookup"><span data-stu-id="99a48-239">If the value contains the string %systemroot%, the resource file is assumed to be on the \\\\<machinename\>\admin$ share (for example, \\\server\admin$).</span></span>  
+  
+ <span data-ttu-id="99a48-240">Per informazioni dettagliate sulla definizione dei messaggi di evento e la creazione di file di risorse di eventi, vedere l'argomento "Messaggio del compilatore" nella documentazione di Platform SDK [ http://msdn.microsoft.com ](http://msdn.microsoft.com/).</span><span class="sxs-lookup"><span data-stu-id="99a48-240">For details about defining event messages and building event resource files, see the "Message Compiler" topic in the Platform SDK documentation at [http://msdn.microsoft.com](http://msdn.microsoft.com/).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="99a48-241">Esempio di codice seguente imposta le proprietà di installazione per una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-241">The following code example sets the installation properties for a new event source.</span></span> <span data-ttu-id="99a48-242">L'esempio di codice imposta il nome dell'origine evento, nome registro eventi e i file di risorse per il testo dell'evento localizzata.</span><span class="sxs-lookup"><span data-stu-id="99a48-242">The code example sets the event source name, event log name, and resource file for localized event text.</span></span>  
+  
+ [!code-cpp[EventLogInstaller_Resources#1](~/samples/snippets/cpp/VS_Snippets_CLR/eventlogInstaller_Resources/CPP/source.cpp#1)]
+ [!code-csharp[EventLogInstaller_Resources#1](~/samples/snippets/csharp/VS_Snippets_CLR/eventlogInstaller_Resources/CS/source.cs#1)]
+ [!code-vb[EventLogInstaller_Resources#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/eventlogInstaller_Resources/VB/source.vb#1)]  
+  
+ <span data-ttu-id="99a48-243">L'esempio di codice Usa il seguente file di testo di messaggio, generato nella libreria di risorse EventLogMsgs.</span><span class="sxs-lookup"><span data-stu-id="99a48-243">The code example uses the following message text file, built into the resource library EventLogMsgs.dll.</span></span> <span data-ttu-id="99a48-244">Un file di testo del messaggio è l'origine da cui viene creato il file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-244">A message text file is the source from which the message resource file is created.</span></span> <span data-ttu-id="99a48-245">Il file di testo del messaggio definisce gli identificatori di risorsa e un testo per la categoria, un messaggio di evento e le stringhe di inserimento di parametro.</span><span class="sxs-lookup"><span data-stu-id="99a48-245">The message text file defines the resource identifiers and text for the category, event message, and parameter insertion strings.</span></span>  
+  
+```  
+; // EventLogMsgs.mc  
+; // ********************************************************  
+  
+; // Use the following commands to build this file:  
+  
+; //   mc -s EventLogMsgs.mc  
+; //   rc EventLogMsgs.rc  
+; //   link /DLL /SUBSYSTEM:WINDOWS /NOENTRY /MACHINE:x86 EventLogMsgs.Res   
+; // ********************************************************  
+  
+; // - Event categories -  
+; // Categories must be numbered consecutively starting at 1.  
+; // ********************************************************  
+  
+MessageId=0x1  
+Severity=Success  
+SymbolicName=INSTALL_CATEGORY  
+Language=English  
+Installation  
+.  
+  
+MessageId=0x2  
+Severity=Success  
+SymbolicName=QUERY_CATEGORY  
+Language=English  
+Database Query  
+.  
+  
+MessageId=0x3  
+Severity=Success  
+SymbolicName=REFRESH_CATEGORY  
+Language=English  
+Data Refresh  
+.  
+  
+; // - Event messages -  
+; // *********************************  
+  
+MessageId = 1000  
+Severity = Success  
+Facility = Application  
+SymbolicName = AUDIT_SUCCESS_MESSAGE_ID_1000  
+Language=English  
+My application message text, in English, for message id 1000, called from %1.  
+.  
+  
+MessageId = 1001  
+Severity = Warning  
+Facility = Application  
+SymbolicName = AUDIT_FAILED_MESSAGE_ID_1001  
+Language=English  
+My application message text, in English, for message id 1001, called from %1.  
+.  
+  
+MessageId = 1002  
+Severity = Success  
+Facility = Application  
+SymbolicName = GENERIC_INFO_MESSAGE_ID_1002  
+Language=English  
+My generic information message in English, for message id 1002.  
+.  
+  
+MessageId = 1003  
+Severity = Warning  
+Facility = Application  
+SymbolicName = GENERIC_WARNING_MESSAGE_ID_1003  
+Language=English  
+My generic warning message in English, for message id 1003, called from %1.  
+.  
+  
+MessageId = 1004  
+Severity = Success  
+Facility = Application  
+SymbolicName = UPDATE_CYCLE_COMPLETE_MESSAGE_ID_1004  
+Language=English  
+The update cycle is complete for %%5002.  
+.  
+  
+MessageId = 1005  
+Severity = Warning  
+Facility = Application  
+SymbolicName = SERVER_CONNECTION_DOWN_MESSAGE_ID_1005  
+Language=English  
+The refresh operation did not complete because the connection to server %1 could not be established.  
+.  
+  
+; // - Event log display name -  
+; // ********************************************************  
+  
+MessageId = 5001  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_DISPLAY_NAME_MSGID  
+Language=English  
+Sample Event Log  
+.  
+  
+; // - Event message parameters -  
+; //   Language independent insertion strings  
+; // ********************************************************  
+  
+MessageId = 5002  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_SERVICE_NAME_MSGID  
+Language=English  
+SVC_UPDATE.EXE  
+.  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventSourceCreationData.MessageResourceFile" />
+      </Docs>
+    </Member>
+    <Member MemberName="ParameterResourceFile">
+      <MemberSignature Language="C#" Value="public string ParameterResourceFile { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ParameterResourceFile" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.ParameterResourceFile" />
+      <MemberSignature Language="VB.NET" Value="Public Property ParameterResourceFile As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ParameterResourceFile { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("System.Windows.Forms.Design.FileNameEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter("System.Diagnostics.Design.StringValueConverter, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-246">Ottiene o imposta il percorso del file di risorse che contiene le stringhe dei parametri di messaggio per l'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-246">Gets or sets the path of the resource file that contains message parameter strings for the source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-247">Percorso del file di risorse dei parametri del messaggio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-247">The path of the message parameter resource file.</span>
+          </span>
+          <span data-ttu-id="99a48-248">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-248">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-249">Utilizzare il <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> proprietà per configurare un'origine di log eventi per scrivere messaggi di evento localizzati con inserito le stringhe di parametri.</span><span class="sxs-lookup"><span data-stu-id="99a48-249">Use the <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> property to configure an event log source to write localized event messages with inserted parameter strings.</span></span> <span data-ttu-id="99a48-250">Ogni messaggio di evento localizzata specificato nella <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> proprietà può contenere i segnaposto per le stringhe di inserimento.</span><span class="sxs-lookup"><span data-stu-id="99a48-250">Each localized event message specified in the <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> property can contain placeholders for insertion strings.</span></span> <span data-ttu-id="99a48-251">Questi segnaposto vengono utilizzati per specificare la posizione e l'identificatore di risorsa per una stringa indipendente dal linguaggio all'interno del messaggio di evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-251">These placeholders are used to specify the position and resource identifier for a language-independent string within the event message.</span></span> <span data-ttu-id="99a48-252">Il Visualizzatore eventi sostituisce i segnaposto con le stringhe corrispondenti dal <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> e formatta il messaggio registro eventi per la voce di evento localizzata.</span><span class="sxs-lookup"><span data-stu-id="99a48-252">The Event Viewer replaces the placeholders with the corresponding strings from the <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> and formats the event log message for the localized event entry.</span></span>  
+  
+ <span data-ttu-id="99a48-253">Ad esempio, la sezione seguente di un file di testo del messaggio definisce una stringa con un segnaposto per il parametro:</span><span class="sxs-lookup"><span data-stu-id="99a48-253">For example, the following section of a message text file defines a string with a parameter placeholder:</span></span>  
+  
+```  
+  
+MessageId = 1501  
+Severity = Success  
+Facility = Application  
+SymbolicName = COMPONENT_STARTING  
+Language=English  
+Component %%6050 is starting.  
+.  
+```  
+  
+ <span data-ttu-id="99a48-254">All'interno del file di risorse di parametro, è necessario definire la stringa di inserimento con l'identificatore di risorsa che corrisponde al segnaposto, come illustrato di seguito:</span><span class="sxs-lookup"><span data-stu-id="99a48-254">Within the parameter resource file, the insertion string must be defined with the resource identifier that corresponds to the placeholder, as shown below:</span></span>  
+  
+```  
+MessageId = 6050  
+Severity = Success  
+Facility = Application  
+SymbolicName = COMPONENT_NAME_MSGID  
+Language=English  
+TRIGGER.EXE  
+.  
+```  
+  
+ <span data-ttu-id="99a48-255">L'origine evento deve essere configurata per la scrittura di voci localizzate o per la scrittura di stringhe dirette.</span><span class="sxs-lookup"><span data-stu-id="99a48-255">The event source must be configured either for writing localized entries or for writing direct strings.</span></span> <span data-ttu-id="99a48-256">Utilizzare il <xref:System.Diagnostics.EventLog.WriteEvent%2A> metodo per scrivere voci localizzate per un'origine configurata con un file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-256">Use the <xref:System.Diagnostics.EventLog.WriteEvent%2A> method to write localized entries for a source configured with a message resource file.</span></span>  
+  
+ <span data-ttu-id="99a48-257">Se l'applicazione scrive le stringhe di messaggio di evento direttamente nel registro eventi o se il <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> non contiene messaggi di inserimento dei segnaposto di parametri, non impostare la <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-257">If your application writes event message strings directly to the event log, or if your <xref:System.Diagnostics.EventLogInstaller.MessageResourceFile%2A> does not contain messages with parameter insertion placeholders, do not set the <xref:System.Diagnostics.EventLogInstaller.ParameterResourceFile%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-258">Per informazioni dettagliate sulla definizione dei messaggi di evento e la creazione di file di risorse di eventi, vedere l'argomento "Messaggio del compilatore" nella documentazione di Platform SDK [ http://msdn.microsoft.com ](http://msdn.microsoft.com/).</span><span class="sxs-lookup"><span data-stu-id="99a48-258">For details about defining event messages and building event resource files, see the "Message Compiler" topic in the Platform SDK documentation at [http://msdn.microsoft.com](http://msdn.microsoft.com/).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="99a48-259">Esempio di codice seguente imposta le proprietà di installazione per una nuova origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-259">The following code example sets the installation properties for a new event source.</span></span> <span data-ttu-id="99a48-260">L'esempio di codice imposta il nome dell'origine evento, nome registro eventi e i file di risorse per il testo dell'evento localizzata.</span><span class="sxs-lookup"><span data-stu-id="99a48-260">The code example sets the event source name, event log name, and resource file for localized event text.</span></span>  
+  
+ [!code-cpp[EventLogInstaller_Resources#1](~/samples/snippets/cpp/VS_Snippets_CLR/eventlogInstaller_Resources/CPP/source.cpp#1)]
+ [!code-csharp[EventLogInstaller_Resources#1](~/samples/snippets/csharp/VS_Snippets_CLR/eventlogInstaller_Resources/CS/source.cs#1)]
+ [!code-vb[EventLogInstaller_Resources#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/eventlogInstaller_Resources/VB/source.vb#1)]  
+  
+ <span data-ttu-id="99a48-261">L'esempio di codice Usa il seguente file di testo di messaggio, generato nella libreria di risorse EventLogMsgs.</span><span class="sxs-lookup"><span data-stu-id="99a48-261">The code example uses the following message text file, built into the resource library EventLogMsgs.dll.</span></span> <span data-ttu-id="99a48-262">Un file di testo del messaggio è l'origine da cui viene creato il file di risorse del messaggio.</span><span class="sxs-lookup"><span data-stu-id="99a48-262">A message text file is the source from which the message resource file is created.</span></span> <span data-ttu-id="99a48-263">Il file di testo del messaggio definisce gli identificatori di risorsa e un testo per la categoria, un messaggio di evento e le stringhe di inserimento di parametro.</span><span class="sxs-lookup"><span data-stu-id="99a48-263">The message text file defines the resource identifiers and text for the category, event message, and parameter insertion strings.</span></span> <span data-ttu-id="99a48-264">In particolare, il messaggio definito per l'identificatore di risorsa 1004 utilizza un segnaposto per la stringa di un parametro definita per l'identificatore di risorsa 5002.</span><span class="sxs-lookup"><span data-stu-id="99a48-264">Specifically, the message defined for resource identifier 1004 uses a placeholder for a parameter string defined for resource identifier 5002.</span></span>  
+  
+```  
+; // EventLogMsgs.mc  
+; // ********************************************************  
+  
+; // Use the following commands to build this file:  
+  
+; //   mc -s EventLogMsgs.mc  
+; //   rc EventLogMsgs.rc  
+; //   link /DLL /SUBSYSTEM:WINDOWS /NOENTRY /MACHINE:x86 EventLogMsgs.Res   
+; // ********************************************************  
+  
+; // - Event categories -  
+; // Categories must be numbered consecutively starting at 1.  
+; // ********************************************************  
+  
+MessageId=0x1  
+Severity=Success  
+SymbolicName=INSTALL_CATEGORY  
+Language=English  
+Installation  
+.  
+  
+MessageId=0x2  
+Severity=Success  
+SymbolicName=QUERY_CATEGORY  
+Language=English  
+Database Query  
+.  
+  
+MessageId=0x3  
+Severity=Success  
+SymbolicName=REFRESH_CATEGORY  
+Language=English  
+Data Refresh  
+.  
+  
+; // - Event messages -  
+; // *********************************  
+  
+MessageId = 1000  
+Severity = Success  
+Facility = Application  
+SymbolicName = AUDIT_SUCCESS_MESSAGE_ID_1000  
+Language=English  
+My application message text, in English, for message id 1000, called from %1.  
+.  
+  
+MessageId = 1001  
+Severity = Warning  
+Facility = Application  
+SymbolicName = AUDIT_FAILED_MESSAGE_ID_1001  
+Language=English  
+My application message text, in English, for message id 1001, called from %1.  
+.  
+  
+MessageId = 1002  
+Severity = Success  
+Facility = Application  
+SymbolicName = GENERIC_INFO_MESSAGE_ID_1002  
+Language=English  
+My generic information message in English, for message id 1002.  
+.  
+  
+MessageId = 1003  
+Severity = Warning  
+Facility = Application  
+SymbolicName = GENERIC_WARNING_MESSAGE_ID_1003  
+Language=English  
+My generic warning message in English, for message id 1003, called from %1.  
+.  
+  
+MessageId = 1004  
+Severity = Success  
+Facility = Application  
+SymbolicName = UPDATE_CYCLE_COMPLETE_MESSAGE_ID_1004  
+Language=English  
+The update cycle is complete for %%5002.  
+.  
+  
+MessageId = 1005  
+Severity = Warning  
+Facility = Application  
+SymbolicName = SERVER_CONNECTION_DOWN_MESSAGE_ID_1005  
+Language=English  
+The refresh operation did not complete because the connection to server %1 could not be established.  
+.  
+  
+; // - Event log display name -  
+; // ********************************************************  
+  
+MessageId = 5001  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_DISPLAY_NAME_MSGID  
+Language=English  
+Sample Event Log  
+.  
+  
+; // - Event message parameters -  
+; //   Language independent insertion strings  
+; // ********************************************************  
+  
+MessageId = 5002  
+Severity = Success  
+Facility = Application  
+SymbolicName = EVENT_LOG_SERVICE_NAME_MSGID  
+Language=English  
+SVC_UPDATE.EXE  
+.  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventSourceCreationData.ParameterResourceFile" />
+      </Docs>
+    </Member>
+    <Member MemberName="Rollback">
+      <MemberSignature Language="C#" Value="public override void Rollback (System.Collections.IDictionary savedState);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rollback(class System.Collections.IDictionary savedState) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.Rollback(System.Collections.IDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Rollback (savedState As IDictionary)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Rollback(System::Collections::IDictionary ^ savedState);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="savedState" Type="System.Collections.IDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="savedState">
+          <span data-ttu-id="99a48-265">Oggetto <see cref="T:System.Collections.IDictionary" /> che contiene lo stato del computer precedente all'installazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-265">An <see cref="T:System.Collections.IDictionary" /> that contains the pre-installation state of the computer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="99a48-266">Ripristina lo stato del computer precedente l'installazione, ripristinando le informazioni del log eventi scritte nel Registro di sistema durante la procedura di installazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-266">Restores the computer to the state it was in before the installation by rolling back the event log information that the installation procedure wrote to the registry.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-267">Il <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> metodo annulla gli effetti del <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="99a48-267">The <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> method undoes the effects of the <xref:System.Diagnostics.EventLogInstaller.Install%2A> method.</span></span> <span data-ttu-id="99a48-268"><xref:System.Diagnostics.EventLogInstaller.Rollback%2A> viene chiamato se l'installazione di qualsiasi componente del progetto di installazione non riesce.</span><span class="sxs-lookup"><span data-stu-id="99a48-268"><xref:System.Diagnostics.EventLogInstaller.Rollback%2A> is called if the installation of any component in the installation project fails.</span></span> <span data-ttu-id="99a48-269">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo crea o imposta le proprietà per un log eventi e l'origine evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-269">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method creates or sets the properties for an event log and event source.</span></span> <span data-ttu-id="99a48-270"><xref:System.Diagnostics.EventLogInstaller.Rollback%2A> Elimina il registro eventi e l'origine o Reimposta le proprietà di un'origine di pre-installazione valori.</span><span class="sxs-lookup"><span data-stu-id="99a48-270"><xref:System.Diagnostics.EventLogInstaller.Rollback%2A> either deletes the event log and source or resets the properties of a pre-existing source to its pre-installation values.</span></span>  
+  
+ <span data-ttu-id="99a48-271">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> dall'interno del codice; di solito vengono chiamati solo dal [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span><span class="sxs-lookup"><span data-stu-id="99a48-271">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> from within your code; they are generally called only by the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md).</span></span> <span data-ttu-id="99a48-272">Lo strumento chiama il <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> metodo, quando non è riuscita o in un altro componente per l'installazione, per annullare le modifiche già effettuate il processo di installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-272">The tool calls the <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> method, when this or another component has failed to install, to undo any changes that the installation process has already made.</span></span>  
+  
+ <span data-ttu-id="99a48-273">Routine di installazione di un'applicazione utilizza il programma di installazione progetto <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> proprietà per gestire automaticamente le informazioni sui componenti che sono già stati installati.</span><span class="sxs-lookup"><span data-stu-id="99a48-273">An application's install routine uses the project installer's <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> property to automatically maintain information about the components that have already been installed.</span></span> <span data-ttu-id="99a48-274">Queste informazioni sullo stato, che viene passate a <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> come il `savedState` parametro, viene continuamente aggiornato mentre lo strumento esegue il rollback ciascuna istanza <xref:System.Diagnostics.EventLogInstaller>.</span><span class="sxs-lookup"><span data-stu-id="99a48-274">This state information, which is passed to <xref:System.Diagnostics.EventLogInstaller.Rollback%2A> as the `savedState` parameter, is continuously updated as the tool rolls back each <xref:System.Diagnostics.EventLogInstaller>.</span></span> <span data-ttu-id="99a48-275">In genere, non è necessario che il codice modificare in modo esplicito queste informazioni sullo stato.</span><span class="sxs-lookup"><span data-stu-id="99a48-275">Usually, it is not necessary for your code to explicitly modify this state information.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.Install(System.Collections.IDictionary)" />
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.Uninstall(System.Collections.IDictionary)" />
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="Source">
+      <MemberSignature Language="C#" Value="public string Source { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Source" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.Source" />
+      <MemberSignature Language="VB.NET" Value="Public Property Source As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Source { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter("System.Diagnostics.Design.StringValueConverter, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-276">Ottiene o imposta il nome origine da registrare con il log.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-276">Gets or sets the source name to register with the log.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-277">Nome da registrare con il log eventi come origine delle voci.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-277">The name to register with the event log as a source of entries.</span>
+          </span>
+          <span data-ttu-id="99a48-278">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-278">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-279">L'origine eventi indica ciò che registra l'evento.</span><span class="sxs-lookup"><span data-stu-id="99a48-279">The event source indicates what logs the event.</span></span> <span data-ttu-id="99a48-280">È spesso il nome dell'applicazione o il nome di un componente all'interno di un'applicazione di grandi dimensioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-280">It is often the name of the application, or the name of a component within a large application.</span></span>  
+  
+ <span data-ttu-id="99a48-281">Il programma di installazione utilizza il valore della <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà per registrare l'applicazione con il log eventi come origine valida delle voci.</span><span class="sxs-lookup"><span data-stu-id="99a48-281">The installer uses the value of the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property to register your application with the event log as a valid source of entries.</span></span> <span data-ttu-id="99a48-282">Un nuovo nome di origine non può corrispondere un nome di origine esistente o un nome registro eventi esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-282">A new source name cannot match an existing source name or an existing event log name.</span></span> <span data-ttu-id="99a48-283">Ogni origine solo è possibile scrivere in un log eventi alla volta. Tuttavia, l'applicazione può utilizzare più origini per scrivere più registri eventi.</span><span class="sxs-lookup"><span data-stu-id="99a48-283">Each source can only write to one event log at a time; however, your application can use multiple sources to write to multiple event logs.</span></span> <span data-ttu-id="99a48-284">Ad esempio, l'applicazione potrebbe richiedere più origini configurate per diversi log eventi o file di risorse diversi.</span><span class="sxs-lookup"><span data-stu-id="99a48-284">For example, your application might require multiple sources configured for different event logs or different resource files.</span></span>  
+  
+ <span data-ttu-id="99a48-285">Servizi e applicazioni scrivono nel registro applicazioni o in un log personalizzato.</span><span class="sxs-lookup"><span data-stu-id="99a48-285">Applications and services should write to the Application log or a custom log.</span></span> <span data-ttu-id="99a48-286">I driver di dispositivo devono scrivere nel Registro di sistema.</span><span class="sxs-lookup"><span data-stu-id="99a48-286">Device drivers should write to the System log.</span></span> <span data-ttu-id="99a48-287">Se non si specifica un nome di log prima dell'esecuzione del programma di installazione, il programma di installazione registra l'origine nel registro applicazioni.</span><span class="sxs-lookup"><span data-stu-id="99a48-287">If you do not specify a log name before the installer runs, the installer registers your source to the Application log.</span></span> <span data-ttu-id="99a48-288">Se si specifica il nome di un log che non esiste, il sistema registra il <xref:System.Diagnostics.EventLogInstaller.Source%2A> in tale registro, ma il log non viene creato fino a quando la prima voce è scritto in essa.</span><span class="sxs-lookup"><span data-stu-id="99a48-288">If you specify the name of a log that does not exist, the system registers the <xref:System.Diagnostics.EventLogInstaller.Source%2A> to that log, but the log is not created until the first entry is written to it.</span></span>  
+  
+ <span data-ttu-id="99a48-289">Utilizzare <xref:System.Diagnostics.EventLogInstaller> per registrare una nuova origine per un registro eventi di nuovo o esistente; non utilizzare <xref:System.Diagnostics.EventLogInstaller> per modificare un'origine esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-289">Use <xref:System.Diagnostics.EventLogInstaller> to register a new source for a new or existing event log; do not use <xref:System.Diagnostics.EventLogInstaller> to change an existing source.</span></span> <span data-ttu-id="99a48-290">La <xref:System.Diagnostics.EventLogInstaller> classe non modifica le proprietà di configurazione di un'origine esistente a cui corrispondono alle proprietà di installazione specificato.</span><span class="sxs-lookup"><span data-stu-id="99a48-290">The <xref:System.Diagnostics.EventLogInstaller> class does not modify the configuration properties of an existing source to match the specified installation properties.</span></span> <span data-ttu-id="99a48-291">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo genera un'eccezione se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è registrato per un altro log eventi nel computer.</span><span class="sxs-lookup"><span data-stu-id="99a48-291">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method throws an exception if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is registered for a different event log on the computer.</span></span> <span data-ttu-id="99a48-292">Il <xref:System.Diagnostics.EventLogInstaller.Install%2A> metodo registra l'origine se il <xref:System.Diagnostics.EventLogInstaller.Source%2A> proprietà corrisponde a un nome di origine che è già registrato per lo stesso log eventi specificato nella <xref:System.Diagnostics.EventLogInstaller.Log%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-292">The <xref:System.Diagnostics.EventLogInstaller.Install%2A> method does not register the source if the <xref:System.Diagnostics.EventLogInstaller.Source%2A> property matches a source name that is already registered for the same event log specified in the <xref:System.Diagnostics.EventLogInstaller.Log%2A> property.</span></span>  
+  
+ <span data-ttu-id="99a48-293">Per ulteriori informazioni sui comportamenti di origini e i registri eventi, vedere il <xref:System.Diagnostics.EventLog> documentazione per la classe di <xref:System.Diagnostics.EventLog.Log%2A> e <xref:System.Diagnostics.EventLog.Source%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-293">For more detailed information about the behaviors of event logs and sources, see the <xref:System.Diagnostics.EventLog> class documentation for the <xref:System.Diagnostics.EventLog.Log%2A> and <xref:System.Diagnostics.EventLog.Source%2A> properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Diagnostics.EventLog.Source" />
+        <altmember cref="T:System.Diagnostics.EventLog" />
+      </Docs>
+    </Member>
+    <Member MemberName="Uninstall">
+      <MemberSignature Language="C#" Value="public override void Uninstall (System.Collections.IDictionary savedState);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Uninstall(class System.Collections.IDictionary savedState) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.EventLogInstaller.Uninstall(System.Collections.IDictionary)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Uninstall (savedState As IDictionary)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Uninstall(System::Collections::IDictionary ^ savedState);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="savedState" Type="System.Collections.IDictionary" />
+      </Parameters>
+      <Docs>
+        <param name="savedState">
+          <span data-ttu-id="99a48-294">Oggetto <see cref="T:System.Collections.IDictionary" /> che contiene lo stato del computer precedente all'installazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-294">An <see cref="T:System.Collections.IDictionary" /> that contains the pre-installation state of the computer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="99a48-295">Rimuove un'installazione eliminando le informazioni sul log eventi dal Registro di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-295">Removes an installation by removing event log information from the registry.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-296">Se il <xref:System.Diagnostics.EventLogInstaller.UninstallAction%2A> valore della proprietà è `Remove`, <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> metodo elimina l'origine e log associato che ha creato il programma di installazione se il <xref:System.Diagnostics.EventLogInstaller.Log%2A> e <xref:System.Diagnostics.EventLogInstaller.Source%2A> la creazione di un nuovo registro eventi e un'origine di specificare le proprietà.</span><span class="sxs-lookup"><span data-stu-id="99a48-296">If the <xref:System.Diagnostics.EventLogInstaller.UninstallAction%2A> property value is `Remove`, the <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> method deletes the source and the associated log that the installer created if the <xref:System.Diagnostics.EventLogInstaller.Log%2A> and <xref:System.Diagnostics.EventLogInstaller.Source%2A> properties specified the creation of a new event log and source.</span></span>  
+  
+ <span data-ttu-id="99a48-297">In genere, non si chiama i metodi del <xref:System.Diagnostics.EventLogInstaller> dall'interno del codice; di solito vengono chiamati solo dal [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) in modalità di disinstallazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-297">Typically, you do not call the methods of the <xref:System.Diagnostics.EventLogInstaller> from within your code; they are generally called only by the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) in uninstall mode.</span></span> <span data-ttu-id="99a48-298">Lo strumento chiama automaticamente il <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> per ripristinare le parti del sistema che sono state interessate dall'installazione allo stato pre-installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-298">The tool automatically calls the <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> method to restore the parts of the system that were affected by the installation to their pre-installation states.</span></span> <span data-ttu-id="99a48-299">Ciò include le informazioni del Registro di sistema associate al log eventi disinstallazione in corso l'eliminazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-299">This includes deleting registry information that is associated with the event log being uninstalled.</span></span>  
+  
+ <span data-ttu-id="99a48-300">Un'applicazione la disinstallazione di routine utilizza il programma di installazione progetto <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> proprietà per gestire automaticamente le informazioni sui componenti che sono già stati disinstallati.</span><span class="sxs-lookup"><span data-stu-id="99a48-300">An application's uninstall routine uses the project installer's <xref:System.Configuration.Install.Installer.Context%2A?displayProperty=nameWithType> property to automatically maintain information about the components that have already been uninstalled.</span></span> <span data-ttu-id="99a48-301">Queste informazioni sullo stato, che viene passate a <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> come il `savedState` parametro, viene continuamente aggiornato mentre lo strumento Disinstalla ogni <xref:System.Diagnostics.EventLogInstaller>.</span><span class="sxs-lookup"><span data-stu-id="99a48-301">This state information, which is passed to <xref:System.Diagnostics.EventLogInstaller.Uninstall%2A> as the `savedState` parameter, is continuously updated as the tool uninstalls each <xref:System.Diagnostics.EventLogInstaller>.</span></span> <span data-ttu-id="99a48-302">In genere, non è necessario che il codice modificare in modo esplicito queste informazioni sullo stato.</span><span class="sxs-lookup"><span data-stu-id="99a48-302">Usually, it is not necessary for your code to explicitly modify this state information.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Diagnostics.EventLogInstaller.Install(System.Collections.IDictionary)" />
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="UninstallAction">
+      <MemberSignature Language="C#" Value="public System.Configuration.Install.UninstallAction UninstallAction { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Configuration.Install.UninstallAction UninstallAction" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.EventLogInstaller.UninstallAction" />
+      <MemberSignature Language="VB.NET" Value="Public Property UninstallAction As UninstallAction" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Configuration::Install::UninstallAction UninstallAction { System::Configuration::Install::UninstallAction get(); void set(System::Configuration::Install::UninstallAction value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Configuration.Install</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(Mono.Cecil.CustomAttributeArgument)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Configuration.Install.UninstallAction</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="99a48-303">Ottiene o imposta un valore che indica se lo [Installutil.exe (Strumento Programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) deve rimuovere il log eventi o lasciarlo installato al momento della disinstallazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-303">Gets or sets a value that indicates whether the [Installutil.exe (Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) should remove the event log or leave it in its installed state at uninstall time.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="99a48-304">Uno dei valori <see cref="T:System.Configuration.Install.UninstallAction" /> che indica lo stato in cui lasciare il log eventi quando <see cref="T:System.Diagnostics.EventLog" /> viene disinstallato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-304">One of the <see cref="T:System.Configuration.Install.UninstallAction" /> values that indicates what state to leave the event log in when the <see cref="T:System.Diagnostics.EventLog" /> is uninstalled.</span>
+          </span>
+          <span data-ttu-id="99a48-305">Il valore predefinito è <see langword="Remove" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-305">The default is <see langword="Remove" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="99a48-306">Quando si installa un registro eventi, è facoltativamente possibile collegarlo a un log esistente.</span><span class="sxs-lookup"><span data-stu-id="99a48-306">When you install an event log, you can optionally connect it to an existing log.</span></span> <span data-ttu-id="99a48-307">Se si esegue questa operazione, è necessario decidere se il registro deve restituire lo stato di pre-installazione o rimanere nello stato corrente, dopo l'installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-307">If you do so, you must decide whether the log should return to its pre-installation state, or remain in its current, post-installation state.</span></span> <span data-ttu-id="99a48-308">Se si sceglie di ripristinare lo stato pre-installazione nel registro eventi, le modifiche alle voci registro eventi in fase di installazione non vengono ripristinate.</span><span class="sxs-lookup"><span data-stu-id="99a48-308">If you elect to return the event log to its pre-installation state, changes to the event log entries at installation are not restored.</span></span> <span data-ttu-id="99a48-309">È possibile reimpostare solo le proprietà del registro eventi che sono associate le <xref:System.Diagnostics.EventLogInstaller> in base ai valori di pre-installazione.</span><span class="sxs-lookup"><span data-stu-id="99a48-309">You can reset only the event log properties that are associated with the <xref:System.Diagnostics.EventLogInstaller> to their pre-installation values.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="99a48-310">
+            <see cref="P:System.Diagnostics.EventLogInstaller.UninstallAction" /> contiene un valore non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-310">
+              <see cref="P:System.Diagnostics.EventLogInstaller.UninstallAction" /> contains an invalid value.</span>
+          </span>
+          <span data-ttu-id="99a48-311">Gli unici valori validi per questa proprietà sono <see langword="Remove" /> e <see langword="NoAction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="99a48-311">The only valid values for this property are <see langword="Remove" /> and <see langword="NoAction" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

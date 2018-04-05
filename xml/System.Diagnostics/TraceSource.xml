@@ -1,0 +1,1503 @@
+<Type Name="TraceSource" FullName="System.Diagnostics.TraceSource">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d4caa5811c989fc979484b9d07a7c31c32638d19" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class TraceSource" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TraceSource extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Diagnostics.TraceSource" />
+  <TypeSignature Language="VB.NET" Value="Public Class TraceSource" />
+  <TypeSignature Language="C++ CLI" Value="public ref class TraceSource" />
+  <AssemblyInfo>
+    <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="06367-101">Fornisce un insieme di metodi e proprietà che consentono alle applicazioni di tracciare l'esecuzione del codice e associare i messaggi di traccia alla relativa origine.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="06367-101">Provides a set of methods and properties that enable applications to trace the execution of code and associate trace messages with their source.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-102">La classe <xref:System.Diagnostics.TraceSource> viene utilizzata dalle applicazioni per produrre tracce associabili all'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-102">The <xref:System.Diagnostics.TraceSource> class is used by applications to produce traces that can be associated with the application.</span></span> <span data-ttu-id="06367-103"><xref:System.Diagnostics.TraceSource> fornisce metodi di traccia che consentono di tracciare con facilità eventi e dati e di generare tracce informative.</span><span class="sxs-lookup"><span data-stu-id="06367-103"><xref:System.Diagnostics.TraceSource> provides tracing methods that allow you to easily trace events, trace data, and issue informational traces.</span></span> <span data-ttu-id="06367-104">Output di traccia da <xref:System.Diagnostics.TraceSource> possono essere controllate dalle impostazioni del file di configurazione.</span><span class="sxs-lookup"><span data-stu-id="06367-104">Trace output from <xref:System.Diagnostics.TraceSource> can be controlled by configuration file settings.</span></span> <span data-ttu-id="06367-105">Il file di configurazione si trova nella cartella con il file eseguibile dell'applicazione e ha il nome dell'applicazione con l'estensione del nome file con estensione config aggiunto.</span><span class="sxs-lookup"><span data-stu-id="06367-105">The configuration file is located in the folder with the application executable and has the name of the application with the .config file name extension added.</span></span> <span data-ttu-id="06367-106">Ad esempio, il nome del file di configurazione per TraceSourceSample.exe è TraceSourceSample.exe.config. Il file di configurazione è utilizzabile per determinare dove vengono inviato le informazioni di traccia e i livelli di attività da tracciare.</span><span class="sxs-lookup"><span data-stu-id="06367-106">For example, the name of the configuration file for TraceSourceSample.exe is TraceSourceSample.exe.config. The configuration file can be used to determine where the trace information is to be sent and what levels of activity are to be traced.</span></span> <span data-ttu-id="06367-107">Nell'esempio seguente viene illustrato il contenuto di un file di configurazione dell'applicazione di esempio.</span><span class="sxs-lookup"><span data-stu-id="06367-107">The following example shows the contents of a sample application configuration file.</span></span>  
+  
+```  
+<configuration>  
+  <system.diagnostics>  
+    <sources>  
+      <source name="TraceTest" switchName="SourceSwitch"   
+        switchType="System.Diagnostics.SourceSwitch" >  
+        <listeners>  
+          <add name="console" />  
+          <remove name ="Default" />  
+        </listeners>  
+      </source>  
+    </sources>  
+    <switches>  
+      <!-- You can set the level at which tracing is to occur -->  
+      <add name="SourceSwitch" value="Warning" />  
+        <!-- You can turn tracing off -->  
+        <!--add name="SourceSwitch" value="Off" -->  
+    </switches>  
+    <sharedListeners>  
+      <add name="console"   
+        type="System.Diagnostics.ConsoleTraceListener"   
+        initializeData="false"/>  
+    </sharedListeners>  
+    <trace autoflush="true" indentsize="4">  
+      <listeners>  
+        <add name="console" />  
+      </listeners>  
+    </trace>  
+  </system.diagnostics>  
+</configuration>  
+```  
+  
+ <span data-ttu-id="06367-108">La <xref:System.Diagnostics.TraceSource> classe è identificata dal nome di un'origine, in genere il nome dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-108">The <xref:System.Diagnostics.TraceSource> class is identified by the name of a source, typically the name of the application.</span></span>  <span data-ttu-id="06367-109">I messaggi di traccia provenienti da un determinato componente possono essere avviati da un'origine di traccia specifico agevolare l'identificazione di tutti i messaggi provenienti da tale componente.</span><span class="sxs-lookup"><span data-stu-id="06367-109">The trace messages coming from a particular component can be initiated by a particular trace source, allowing all messages coming from that component to be easily identified.</span></span>  
+  
+ <span data-ttu-id="06367-110"><xref:System.Diagnostics.TraceSource> Definisce i metodi di traccia, ma non fornisce alcun meccanismo specifico per la generazione e l'archiviazione dei dati di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-110"><xref:System.Diagnostics.TraceSource> defines tracing methods but does not actually provide any specific mechanism for generating and storing tracing data.</span></span> <span data-ttu-id="06367-111">I dati di traccia sono prodotti dai listener di traccia, plug-in che possono essere caricati dalle origini di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-111">The tracing data is produced by trace listeners, which are plug-ins that can be loaded by trace sources.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-112">Chiamare i metodi di analisi non durante la finalizzazione.</span><span class="sxs-lookup"><span data-stu-id="06367-112">You should not call the tracing methods during finalization.</span></span> <span data-ttu-id="06367-113">In questo modo può comportare un <xref:System.ObjectDisposedException> generata.</span><span class="sxs-lookup"><span data-stu-id="06367-113">Doing so can result in an <xref:System.ObjectDisposedException> being thrown.</span></span>  
+  
+ <span data-ttu-id="06367-114">È possibile personalizzare la destinazione dell'output di tracciatura aggiungendo o rimuovendo <xref:System.Diagnostics.TraceListener> le istanze o dalla raccolta archiviati nel <xref:System.Diagnostics.TraceSource.Listeners%2A?displayProperty=nameWithType> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-114">You can customize the tracing output's target by adding or removing <xref:System.Diagnostics.TraceListener> instances to or from the collection stored in the <xref:System.Diagnostics.TraceSource.Listeners%2A?displayProperty=nameWithType> property.</span></span> <span data-ttu-id="06367-115">Per impostazione predefinita, l'output di traccia viene prodotto utilizzando un'istanza di <xref:System.Diagnostics.DefaultTraceListener> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-115">By default, trace output is produced using an instance of the <xref:System.Diagnostics.DefaultTraceListener> class.</span></span> <span data-ttu-id="06367-116">Nel precedente esempio di file di configurazione illustrato come rimuovere il <xref:System.Diagnostics.DefaultTraceListener> e l'aggiunta di un <xref:System.Diagnostics.ConsoleTraceListener> per produrre l'output di traccia per l'origine di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-116">The preceding configuration file example demonstrates removing the <xref:System.Diagnostics.DefaultTraceListener> and adding a <xref:System.Diagnostics.ConsoleTraceListener> to produce the trace output for the trace source.</span></span> <span data-ttu-id="06367-117">Per ulteriori informazioni, vedere [ &lt;listener&gt; ](~/docs/framework/configure-apps/file-schema/trace-debug/listeners-element-for-source.md) e [ &lt;sharedListeners&gt;](~/docs/framework/configure-apps/file-schema/trace-debug/sharedlisteners-element.md).</span><span class="sxs-lookup"><span data-stu-id="06367-117">For more information, see [&lt;listeners&gt;](~/docs/framework/configure-apps/file-schema/trace-debug/listeners-element-for-source.md) and [&lt;sharedListeners&gt;](~/docs/framework/configure-apps/file-schema/trace-debug/sharedlisteners-element.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-118">Aggiunta di un listener di traccia di <xref:System.Diagnostics.TraceSource.Listeners%2A> raccolta può causare un'eccezione generata durante la traccia, se una risorsa utilizzata dal listener di traccia non è disponibile.</span><span class="sxs-lookup"><span data-stu-id="06367-118">Adding a trace listener to the <xref:System.Diagnostics.TraceSource.Listeners%2A> collection can cause an exception to be thrown while tracing, if a resource used by the trace listener is not available.</span></span> <span data-ttu-id="06367-119">Le condizioni e l'eccezione generata dipendono dal listener di traccia e non può essere enumerate in questo argomento.</span><span class="sxs-lookup"><span data-stu-id="06367-119">The conditions and the exception thrown depend on the trace listener and cannot be enumerated in this topic.</span></span> <span data-ttu-id="06367-120">Può essere utile effettuare le chiamate per il <xref:System.Diagnostics.TraceSource> metodi `try` / `catch` blocchi per rilevare e gestire tutte le eccezioni dai listener di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-120">It may be useful to place calls to the <xref:System.Diagnostics.TraceSource> methods in `try`/`catch` blocks to detect and handle any exceptions from trace listeners.</span></span>  
+  
+ <span data-ttu-id="06367-121">La <xref:System.Diagnostics.SourceSwitch> classe fornisce i mezzi per controllare in modo dinamico l'output di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-121">The <xref:System.Diagnostics.SourceSwitch> class provides the means to dynamically control the tracing output.</span></span> <span data-ttu-id="06367-122">Nell'esempio di file di configurazione precedente viene illustrato come è possibile disattivare la traccia da un'origine di traccia e controllare il livello in cui la traccia si verifica.</span><span class="sxs-lookup"><span data-stu-id="06367-122">The preceding configuration file example shows how you can turn off tracing from a trace source and control the level at which tracing occurs.</span></span>  <span data-ttu-id="06367-123">È possibile modificare il valore dell'opzione di origine senza ricompilare l'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-123">You can modify the value of the source switch without recompiling your application.</span></span> <span data-ttu-id="06367-124">Per informazioni sull'utilizzo del file di configurazione per impostare un'opzione, vedere <xref:System.Diagnostics.Switch> e [procedura: creare, inizializzare e configurare opzioni di traccia](~/docs/framework/debug-trace-profile/how-to-create-initialize-and-configure-trace-switches.md).</span><span class="sxs-lookup"><span data-stu-id="06367-124">For information on using the configuration file to set a switch, see <xref:System.Diagnostics.Switch> and [How to: Create, Initialize and Configure Trace Switches](~/docs/framework/debug-trace-profile/how-to-create-initialize-and-configure-trace-switches.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-125">Se si modifica un file di configurazione durante l'esecuzione di un'applicazione, è necessario arrestare e riavviare l'applicazione o <xref:System.Diagnostics.Trace.Refresh%2A> metodo deve essere chiamato prima che le nuove impostazioni abbiano effetto.</span><span class="sxs-lookup"><span data-stu-id="06367-125">If you modify a configuration file while an application is executing, the application must be stopped and restarted or the <xref:System.Diagnostics.Trace.Refresh%2A> method must be called before the new settings take effect.</span></span>  
+  
+ <span data-ttu-id="06367-126">Il <xref:System.Diagnostics.TraceEventType> enumerazione viene utilizzata per definire il tipo di evento del messaggio di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-126">The <xref:System.Diagnostics.TraceEventType> enumeration is used to define the event type of the trace message.</span></span> <span data-ttu-id="06367-127">Utilizzo di filtri di traccia di <xref:System.Diagnostics.TraceEventType> per determinare se un listener di traccia deve produrre un messaggio di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-127">Trace filters use the <xref:System.Diagnostics.TraceEventType> to determine if a trace listener should produce the trace message.</span></span>  
+  
+ <span data-ttu-id="06367-128">I listener di traccia possono disporre di un ulteriore livello di applicazione di filtri tramite un filtro di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-128">The trace listeners can optionally have an additional layer of filtering through a trace filter.</span></span>  <span data-ttu-id="06367-129">Se un listener di traccia è associato un filtro, il listener chiama il <xref:System.Diagnostics.TraceFilter.ShouldTrace%2A> metodo su tale filtro per determinare se visualizzare o meno per produrre le informazioni di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-129">If a trace listener has an associated filter, the listener calls the <xref:System.Diagnostics.TraceFilter.ShouldTrace%2A> method on that filter to determine whether or not to produce the trace information.</span></span>  
+  
+ <span data-ttu-id="06367-130">I listener di traccia utilizzano i valori del <xref:System.Diagnostics.Trace> proprietà della classe <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, e <xref:System.Diagnostics.Trace.AutoFlush%2A> formato output di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-130">The trace listeners use the values of the <xref:System.Diagnostics.Trace> class properties <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, and <xref:System.Diagnostics.Trace.AutoFlush%2A> to format trace output.</span></span> <span data-ttu-id="06367-131">È possibile utilizzare gli attributi di file di configurazione per impostare il <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, e <xref:System.Diagnostics.Trace.AutoFlush%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-131">You can use configuration file attributes to set the <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, and <xref:System.Diagnostics.Trace.AutoFlush%2A> properties.</span></span> <span data-ttu-id="06367-132">L'esempio seguente imposta il <xref:System.Diagnostics.Trace.AutoFlush%2A> proprietà `false` e <xref:System.Diagnostics.Trace.IndentSize%2A> proprietà su 3.</span><span class="sxs-lookup"><span data-stu-id="06367-132">The following example sets the <xref:System.Diagnostics.Trace.AutoFlush%2A> property to `false` and the <xref:System.Diagnostics.Trace.IndentSize%2A> property to 3.</span></span>  
+  
+```  
+<configuration>  
+  <system.diagnostics>  
+    <trace autoflush="false" indentsize="3" />  
+  </system.diagnostics>  
+</configuration>  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-133">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource> classe per inoltrare le tracce di listener di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-133">The following code example shows the use of the <xref:System.Diagnostics.TraceSource> class to forward traces to listeners.</span></span>  <span data-ttu-id="06367-134">Viene inoltre illustrato l'utilizzo di switch e filtro.</span><span class="sxs-lookup"><span data-stu-id="06367-134">The example also demonstrates switch and filter usage.</span></span>  
+  
+ [!code-cpp[System.Diagnostics.TraceSource2#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CPP/tracesource2.cpp#1)]
+ [!code-csharp[System.Diagnostics.TraceSource2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#1)]
+ [!code-vb[System.Diagnostics.TraceSource2#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="06367-135">Questo tipo è thread-safe.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="06367-135">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-136">Inizializza una nuova istanza della classe <see cref="T:System.Diagnostics.TraceSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-136">Initializes a new instance of the <see cref="T:System.Diagnostics.TraceSource" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TraceSource (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TraceSource(System::String ^ name);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="06367-137">Nome dell'origine, che in genere corrisponde al nome dell'applicazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-137">The name of the source (typically, the name of the application).</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-138">Inizializza una nuova istanza della classe <see cref="T:System.Diagnostics.TraceSource" /> usando il nome specificato per l'origine</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-138">Initializes a new instance of the <see cref="T:System.Diagnostics.TraceSource" /> class, using the specified name for the source.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-139">Il nome di origine viene usato per identificare le tracce.</span><span class="sxs-lookup"><span data-stu-id="06367-139">The source name is used to identify traces.</span></span> <span data-ttu-id="06367-140">Viene utilizzato da un <xref:System.Diagnostics.SourceFilter> per determinare se un listener di traccia deve produrre la traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-140">It is used by a <xref:System.Diagnostics.SourceFilter> to determine whether a trace listener should produce the trace.</span></span> <span data-ttu-id="06367-141">La procedura consigliata consiste nell'utilizzare il nome dell'applicazione per il nome di origine.</span><span class="sxs-lookup"><span data-stu-id="06367-141">The recommended practice is to use the name of the application for the source name.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-142">Non è necessario creare un nuovo <xref:System.Diagnostics.TraceSource> istanza per ogni richiesta di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-142">It is not necessary to create a new <xref:System.Diagnostics.TraceSource> instance for each trace request.</span></span> <span data-ttu-id="06367-143">Creare uno <xref:System.Diagnostics.TraceSource> istanza e utilizzarlo per tutte le richieste di traccia per l'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-143">Create one <xref:System.Diagnostics.TraceSource> instance and use it for all trace requests for the application.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-144">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource.%23ctor%2A> costruttore per creare un nuovo <xref:System.Diagnostics.TraceSource> oggetto.</span><span class="sxs-lookup"><span data-stu-id="06367-144">The following code example shows the use of the <xref:System.Diagnostics.TraceSource.%23ctor%2A> constructor to create a new <xref:System.Diagnostics.TraceSource> object.</span></span> <span data-ttu-id="06367-145">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-145">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#9)]
+ [!code-vb[System.Diagnostics.TraceSource2#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#9)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="06367-146">
+            <paramref name="name" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-146">
+              <paramref name="name" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="06367-147">
+            <paramref name="name" /> è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-147">
+              <paramref name="name" /> is an empty string ("").</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TraceSource (string name, System.Diagnostics.SourceLevels defaultLevel);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, valuetype System.Diagnostics.SourceLevels defaultLevel) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.#ctor(System.String,System.Diagnostics.SourceLevels)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, defaultLevel As SourceLevels)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TraceSource(System::String ^ name, System::Diagnostics::SourceLevels defaultLevel);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="defaultLevel" Type="System.Diagnostics.SourceLevels" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="06367-148">Nome dell'origine, che in genere corrisponde al nome dell'applicazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-148">The name of the source, typically the name of the application.</span>
+          </span>
+        </param>
+        <param name="defaultLevel">
+          <span data-ttu-id="06367-149">Combinazione bit per bit dei valori di enumerazione che specifica il livello di origine predefinito in corrispondenza del quale tracciare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-149">A bitwise combination of the enumeration values that specifies the default source level at which to trace.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-150">Inizializza una nuova istanza della classe <see cref="T:System.Diagnostics.TraceSource" />, usando il nome specificato per l'origine e il livello di origine predefinito in corrispondenza del quale deve essere eseguita la traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-150">Initializes a new instance of the <see cref="T:System.Diagnostics.TraceSource" /> class, using the specified name for the source and the default source level at which tracing is to occur.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-151">Il nome di origine viene usato per identificare le tracce.</span><span class="sxs-lookup"><span data-stu-id="06367-151">The source name is used to identify traces.</span></span> <span data-ttu-id="06367-152">E può essere utilizzato da un <xref:System.Diagnostics.SourceSwitch> per stabilire se la traccia e da un <xref:System.Diagnostics.SourceFilter> per determinare se generare la traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-152">It can be used by a <xref:System.Diagnostics.SourceSwitch> to determine if tracing is to occur and by a <xref:System.Diagnostics.SourceFilter> to determine whether to produce the trace.</span></span> <span data-ttu-id="06367-153">Il livello di origine predefinito viene utilizzato un <xref:System.Diagnostics.EventTypeFilter> per stabilire se la traccia in base al livello di origine del messaggio da tracciare.</span><span class="sxs-lookup"><span data-stu-id="06367-153">The default source level is used by an <xref:System.Diagnostics.EventTypeFilter> to determine if tracing is to occur based on the source level of the message to be traced.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-154">Non è necessario creare un nuovo <xref:System.Diagnostics.TraceSource> istanza per ogni richiesta di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-154">It is not necessary to create a new <xref:System.Diagnostics.TraceSource> instance for each trace request.</span></span> <span data-ttu-id="06367-155">Creare uno <xref:System.Diagnostics.TraceSource> istanza e utilizzarlo per tutte le richieste di traccia per l'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-155">Create one <xref:System.Diagnostics.TraceSource> instance and use it for all trace requests for the application.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="06367-156">
+            <paramref name="name" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-156">
+              <paramref name="name" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="06367-157">
+            <paramref name="name" /> è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-157">
+              <paramref name="name" /> is an empty string ("").</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Attributes">
+      <MemberSignature Language="C#" Value="public System.Collections.Specialized.StringDictionary Attributes { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Specialized.StringDictionary Attributes" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.TraceSource.Attributes" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Attributes As StringDictionary" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::Specialized::StringDictionary ^ Attributes { System::Collections::Specialized::StringDictionary ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Specialized.StringDictionary</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-158">Ottiene gli attributi di opzione personalizzati definiti nel file di configurazione dell'applicazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-158">Gets the custom switch attributes defined in the application configuration file.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="06367-159">Classe <see cref="T:System.Collections.Specialized.StringDictionary" /> contenente gli attributi personalizzati per l'opzione di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-159">A <see cref="T:System.Collections.Specialized.StringDictionary" /> containing the custom attributes for the trace switch.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-160">Il <xref:System.Diagnostics.TraceSource.Attributes%2A> proprietà identifica gli attributi personalizzati a cui fa riferimento nel file di configurazione dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="06367-160">The <xref:System.Diagnostics.TraceSource.Attributes%2A> property identifies the custom attributes referenced in the application's configuration file.</span></span> <span data-ttu-id="06367-161">Attributi personalizzati senza riferimenti non vengono enumerati.</span><span class="sxs-lookup"><span data-stu-id="06367-161">Unreferenced custom attributes are not enumerated.</span></span> <span data-ttu-id="06367-162">Le classi che ereditano dal <xref:System.Diagnostics.TraceSource> classe è possibile aggiungere attributi personalizzati eseguendo l'override di <xref:System.Diagnostics.Switch.GetSupportedAttributes%2A?displayProperty=nameWithType> metodo e la restituzione di una matrice di stringhe di nomi di attributi personalizzati.</span><span class="sxs-lookup"><span data-stu-id="06367-162">Classes that inherit from the <xref:System.Diagnostics.TraceSource> class can add custom attributes by overriding the <xref:System.Diagnostics.Switch.GetSupportedAttributes%2A?displayProperty=nameWithType> method and returning a string array of custom attribute names.</span></span>  
+  
+ <span data-ttu-id="06367-163">Di seguito è riportato un esempio di un elemento di origine di traccia che specifica l'attributo personalizzato `SecondTraceSourceAttribute`:</span><span class="sxs-lookup"><span data-stu-id="06367-163">The following is a sample of a trace source element specifying the custom attribute `SecondTraceSourceAttribute`:</span></span>  
+  
+```  
+<sources>  
+  <source name="TraceTest" switchName="TestSourceSwitch"   
+    switchType="Testing.MySourceSwitch, TraceSample"   
+    SecondTraceSourceAttribute="two">  
+  </source>  
+</sources>  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-164">Esempio di codice seguente viene illustrato come visualizzare gli attributi personalizzati per un <xref:System.Diagnostics.TraceSource>.</span><span class="sxs-lookup"><span data-stu-id="06367-164">The following code sample shows how to display the custom attributes for a <xref:System.Diagnostics.TraceSource>.</span></span>  <span data-ttu-id="06367-165">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-165">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#14](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#14)]
+ [!code-vb[System.Diagnostics.TraceSource2#14](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#14)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-166">Chiude tutti i listener di traccia nella raccolta di listener di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-166">Closes all the trace listeners in the trace listener collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-167">Il <xref:System.Diagnostics.TraceSource.Close%2A> chiamate al metodo di <xref:System.Diagnostics.TraceListener.Close%2A> metodo per ogni listener di traccia di <xref:System.Diagnostics.TraceSource.Listeners%2A> insieme.</span><span class="sxs-lookup"><span data-stu-id="06367-167">The <xref:System.Diagnostics.TraceSource.Close%2A> method calls the <xref:System.Diagnostics.TraceListener.Close%2A> method of each trace listener in the <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-168">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Diagnostics.TraceSource.Close%2A> metodo per chiudere tutti i listener nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="06367-168">The following code example shows how you can use the <xref:System.Diagnostics.TraceSource.Close%2A> method to close all the listeners in the collection.</span></span> <span data-ttu-id="06367-169">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-169">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#33)]
+ [!code-vb[System.Diagnostics.TraceSource2#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#33)]  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="06367-170">per operare con codice non gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-170">for operating with unmanaged code.</span>
+          </span>
+          <span data-ttu-id="06367-171">Valore richiesta: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-171">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public void Flush ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Flush() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.Flush" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Flush ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Flush();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-172">Scarica tutti i listener di traccia nella raccolta di listener di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-172">Flushes all the trace listeners in the trace listener collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-173">Il <xref:System.Diagnostics.TraceSource.Flush%2A> chiamate al metodo di <xref:System.Diagnostics.TraceListener.Flush%2A> metodo per ogni listener di traccia di <xref:System.Diagnostics.TraceSource.Listeners%2A> insieme.</span><span class="sxs-lookup"><span data-stu-id="06367-173">The <xref:System.Diagnostics.TraceSource.Flush%2A> method calls the <xref:System.Diagnostics.TraceListener.Flush%2A> method of each trace listener in the <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-174">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Diagnostics.TraceSource.Flush%2A> metodo per scaricare tutti i listener nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="06367-174">The following code example shows how you can use the <xref:System.Diagnostics.TraceSource.Flush%2A> method to flush all the listeners in the collection.</span></span> <span data-ttu-id="06367-175">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-175">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#33)]
+ [!code-vb[System.Diagnostics.TraceSource2#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#33)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-176">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-176">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSupportedAttributes">
+      <MemberSignature Language="C#" Value="protected internal virtual string[] GetSupportedAttributes ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance string[] GetSupportedAttributes() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.GetSupportedAttributes" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function GetSupportedAttributes () As String()" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual cli::array &lt;System::String ^&gt; ^ GetSupportedAttributes();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-177">Ottiene gli attributi personalizzati supportati dall'origine di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-177">Gets the custom attributes supported by the trace source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="06367-178">Matrice di stringhe che nomina gli attributi personalizzati supportati dall'origine di traccia oppure <see langword="null" /> in assenza di attributi personalizzati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-178">A string array naming the custom attributes supported by the trace source, or <see langword="null" /> if there are no custom attributes.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-179">L'implementazione predefinita per <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> restituisce `null`.</span><span class="sxs-lookup"><span data-stu-id="06367-179">The default implementation for <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> returns `null`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-180">Esempio di codice seguente viene illustrato un override del <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> metodo per identificare gli attributi personalizzati per la `MyTraceSource` classe.</span><span class="sxs-lookup"><span data-stu-id="06367-180">The following code example shows an override of the <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> method to identify the custom attributes for the `MyTraceSource` class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource/CS/program.cs#33)]
+ [!code-vb[System.Diagnostics.TraceSource#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource/VB/program.vb#33)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="06367-181">Quando si eredita dal <see cref="T:System.Diagnostics.TraceSource" /> classe o una classe derivata, è possibile eseguire l'override di <see cref="M:System.Diagnostics.TraceSource.GetSupportedAttributes" /> metodo per fornire gli attributi personalizzati per la classe.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="06367-181">When inheriting from the <see cref="T:System.Diagnostics.TraceSource" /> class or a derived class, you can override the <see cref="M:System.Diagnostics.TraceSource.GetSupportedAttributes" /> method to provide custom attributes for your class.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="Listeners">
+      <MemberSignature Language="C#" Value="public System.Diagnostics.TraceListenerCollection Listeners { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Diagnostics.TraceListenerCollection Listeners" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.TraceSource.Listeners" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Listeners As TraceListenerCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Diagnostics::TraceListenerCollection ^ Listeners { System::Diagnostics::TraceListenerCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Diagnostics.TraceListenerCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-182">Ottiene la raccolta dei listener di traccia per l'origine di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-182">Gets the collection of trace listeners for the trace source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="06367-183">Classe <see cref="T:System.Diagnostics.TraceListenerCollection" /> che contiene i listener di traccia attivi associati all'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-183">A <see cref="T:System.Diagnostics.TraceListenerCollection" /> that contains the active trace listeners associated with the source.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-184">Utilizzare questa proprietà per accedere ed eseguire operazioni sul listener di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-184">Use this property to access and perform operations on the trace listeners.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="06367-185">per operare con codice non gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-185">for operating with unmanaged code.</span>
+          </span>
+          <span data-ttu-id="06367-186">Valore richiesta: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-186">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Name">
+      <MemberSignature Language="C#" Value="public string Name { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Name" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.TraceSource.Name" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Name As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Name { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-187">Ottiene il nome dell'origine di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-187">Gets the name of the trace source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="06367-188">Nome dell'origine di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-188">The name of the trace source.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-189">Il nome viene impostato mediante il `name` parametro passato al costruttore.</span><span class="sxs-lookup"><span data-stu-id="06367-189">The name is set by the `name` parameter passed to the constructor.</span></span> <span data-ttu-id="06367-190">È possibile fare riferimento all'origine di traccia utilizzando la `name` attributo nel file di configurazione.</span><span class="sxs-lookup"><span data-stu-id="06367-190">You can refer to the trace source by using the `name` attribute in the configuration file.</span></span>  
+  
+ <span data-ttu-id="06367-191">L'elemento XML seguente viene illustrato che fa riferimento a un'origine di traccia nel file di configurazione.</span><span class="sxs-lookup"><span data-stu-id="06367-191">The following XML element shows referring to a trace source in the configuration file.</span></span>  
+  
+```  
+<configuration>  
+  <system.diagnostics>  
+    <sources>  
+      <source name="TraceTest">  
+      </source>  
+    </sources>  
+  </system.diagnostics>  
+</configuration>  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-192">Esempio di codice seguente viene illustrato come assegnare un nome di un'origine di traccia nella chiamata al costruttore.</span><span class="sxs-lookup"><span data-stu-id="06367-192">The following code sample shows how to name a trace source in the constructor call.</span></span>  <span data-ttu-id="06367-193">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-193">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#9)]
+ [!code-vb[System.Diagnostics.TraceSource2#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#9)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Switch">
+      <MemberSignature Language="C#" Value="public System.Diagnostics.SourceSwitch Switch { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Diagnostics.SourceSwitch Switch" />
+      <MemberSignature Language="DocId" Value="P:System.Diagnostics.TraceSource.Switch" />
+      <MemberSignature Language="VB.NET" Value="Public Property Switch As SourceSwitch" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Diagnostics::SourceSwitch ^ Switch { System::Diagnostics::SourceSwitch ^ get(); void set(System::Diagnostics::SourceSwitch ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Diagnostics.SourceSwitch</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-194">Ottiene o imposta il valore dell'opzione relativa all'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-194">Gets or sets the source switch value.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="06367-195">Oggetto <see cref="T:System.Diagnostics.SourceSwitch" /> che rappresenta il valore dell'opzione di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-195">A <see cref="T:System.Diagnostics.SourceSwitch" /> object representing the source switch value.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-196">Il <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà consente di filtrare i messaggi prima che l'origine di traccia chiami i listener.</span><span class="sxs-lookup"><span data-stu-id="06367-196">The <xref:System.Diagnostics.TraceSource.Switch%2A> property allows the filtering of messages before the trace source calls the listeners.</span></span>  
+  
+ <span data-ttu-id="06367-197">L'opzione viene utilizzata per controllare se le chiamate di traccia devono essere generate o ignorate.</span><span class="sxs-lookup"><span data-stu-id="06367-197">The switch is used to check whether trace calls should be generated or ignored.</span></span> <span data-ttu-id="06367-198">Chiama ogni metodo di analisi di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> metodo il <xref:System.Diagnostics.SourceSwitch> per stabilire se procedere con la traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-198">Each trace method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> method of the <xref:System.Diagnostics.SourceSwitch> to determine whether to proceed with the trace.</span></span> <span data-ttu-id="06367-199">Se la chiamata restituisce `true`, vengono chiamati i listener.</span><span class="sxs-lookup"><span data-stu-id="06367-199">If the call returns `true`, the listeners are called.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="06367-200">
+            <see cref="P:System.Diagnostics.TraceSource.Switch" /> è impostato su <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-200">
+              <see cref="P:System.Diagnostics.TraceSource.Switch" /> is set to <see langword="null" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="06367-201">per operare con codice non gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-201">for operating with unmanaged code.</span>
+          </span>
+          <span data-ttu-id="06367-202">Valore richiesta: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-202">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />; Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TraceData">
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-203">Scrive i dati di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-203">Writes trace data to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TraceData">
+      <MemberSignature Language="C#" Value="public void TraceData (System.Diagnostics.TraceEventType eventType, int id, object data);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceData(valuetype System.Diagnostics.TraceEventType eventType, int32 id, object data) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceData (eventType As TraceEventType, id As Integer, data As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceData(System::Diagnostics::TraceEventType eventType, int id, System::Object ^ data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventType" Type="System.Diagnostics.TraceEventType" />
+        <Parameter Name="id" Type="System.Int32" />
+        <Parameter Name="data" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="eventType">
+          <span data-ttu-id="06367-204">Uno dei valori di enumerazione che specifica il tipo di evento dei dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-204">One of the enumeration values that specifies the event type of the trace data.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="06367-205">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-205">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <param name="data">
+          <span data-ttu-id="06367-206">Dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-206">The trace data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-207">Scrive i dati di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il tipo di evento, l'identificatore di evento e i dati di traccia specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-207">Writes trace data to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified event type, event identifier, and trace data.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-208">Il <xref:System.Diagnostics.TraceSource.TraceData%2A> (metodo), ad esempio il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> metodo è destinato agli strumenti automatizzati, ma consente inoltre di associare un oggetto supplementare, ad esempio un'istanza di eccezione nella traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-208">The <xref:System.Diagnostics.TraceSource.TraceData%2A> method, like the <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method, is intended for automated tools, but it also allows the attaching of an additional object, such as an exception instance, to the trace.</span></span>  
+  
+ <span data-ttu-id="06367-209">Il <xref:System.Diagnostics.TraceSource.TraceData%2A> chiamate al metodo di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A?displayProperty=nameWithType> metodo il <xref:System.Diagnostics.SourceSwitch> oggetto restituito dal <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-209">The <xref:System.Diagnostics.TraceSource.TraceData%2A> method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A?displayProperty=nameWithType> method of the <xref:System.Diagnostics.SourceSwitch> object returned by the <xref:System.Diagnostics.TraceSource.Switch%2A> property.</span></span> <span data-ttu-id="06367-210">Se <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> restituisce `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> chiama corrispondente <xref:System.Diagnostics.TraceListener.TraceData%2A> metodo su tutti i listener.</span><span class="sxs-lookup"><span data-stu-id="06367-210">If <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> returns `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> calls the corresponding <xref:System.Diagnostics.TraceListener.TraceData%2A> method on all listeners.</span></span> <span data-ttu-id="06367-211">In caso contrario, <xref:System.Diagnostics.TraceSource.TraceData%2A> termina senza chiamare i metodi dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-211">Otherwise, <xref:System.Diagnostics.TraceSource.TraceData%2A> returns without calling the listeners' methods.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-212">Il <xref:System.Diagnostics.EventLogTraceListener> l'oggetto è limitato a un massimo `id` valore di 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-212">The <xref:System.Diagnostics.EventLogTraceListener> object is limited to a maximum `id` value of 65,535.</span></span> <span data-ttu-id="06367-213">Se il `id` valore specificato è maggiore di 65.535, il <xref:System.Diagnostics.EventLogTraceListener> oggetto utilizza 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-213">If the `id` value specified is greater than 65,535, the <xref:System.Diagnostics.EventLogTraceListener> object uses 65,535.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-214">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource.TraceData%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.Object%29> metodo per filtrare e inoltrare un messaggio di traccia ai listener.</span><span class="sxs-lookup"><span data-stu-id="06367-214">The following code example shows the use of the <xref:System.Diagnostics.TraceSource.TraceData%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.Object%29> method to filter and forward a trace message to the listeners.</span></span> <span data-ttu-id="06367-215">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-215">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#28](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#28)]
+ [!code-vb[System.Diagnostics.TraceSource2#28](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#28)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-216">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-216">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TraceData">
+      <MemberSignature Language="C#" Value="public void TraceData (System.Diagnostics.TraceEventType eventType, int id, params object[] data);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceData(valuetype System.Diagnostics.TraceEventType eventType, int32 id, object[] data) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceData (eventType As TraceEventType, id As Integer, ParamArray data As Object())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceData(System::Diagnostics::TraceEventType eventType, int id, ... cli::array &lt;System::Object ^&gt; ^ data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventType" Type="System.Diagnostics.TraceEventType" />
+        <Parameter Name="id" Type="System.Int32" />
+        <Parameter Name="data" Type="System.Object[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="eventType">
+          <span data-ttu-id="06367-217">Uno dei valori di enumerazione che specifica il tipo di evento dei dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-217">One of the enumeration values that specifies the event type of the trace data.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="06367-218">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-218">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <param name="data">
+          <span data-ttu-id="06367-219">Matrice di oggetti contenente i dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-219">An object array containing the trace data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-220">Scrive i dati di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il tipo di evento, l'identificatore di evento e la matrice di dati di traccia specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-220">Writes trace data to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified event type, event identifier, and trace data array.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-221">Il <xref:System.Diagnostics.TraceSource.TraceData%2A> (metodo), ad esempio il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> metodo è destinato agli strumenti automatizzati, ma consente anche di associare oggetti aggiuntivi, ad esempio un'istanza di eccezione e una traccia dello stack, alla traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-221">The <xref:System.Diagnostics.TraceSource.TraceData%2A> method, like the <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method, is intended for automated tools, but it also allows the attaching of additional objects, such as an exception instance and a stack trace, to the trace.</span></span>  
+  
+ <span data-ttu-id="06367-222">Il <xref:System.Diagnostics.TraceSource.TraceData%2A> chiamate al metodo di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> metodo il <xref:System.Diagnostics.SourceSwitch> oggetto restituito dal <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-222">The <xref:System.Diagnostics.TraceSource.TraceData%2A> method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> method of the <xref:System.Diagnostics.SourceSwitch> object returned by the <xref:System.Diagnostics.TraceSource.Switch%2A> property.</span></span> <span data-ttu-id="06367-223">Se <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> restituisce `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> chiama corrispondente <xref:System.Diagnostics.TraceListener.TraceData%2A> metodo su tutti i listener.</span><span class="sxs-lookup"><span data-stu-id="06367-223">If <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> returns `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> calls the corresponding <xref:System.Diagnostics.TraceListener.TraceData%2A> method on all listeners.</span></span> <span data-ttu-id="06367-224">In caso contrario, <xref:System.Diagnostics.TraceSource.TraceData%2A> termina senza chiamare i metodi dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-224">Otherwise, <xref:System.Diagnostics.TraceSource.TraceData%2A> returns without calling the listeners' methods.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-225">Il <xref:System.Diagnostics.EventLogTraceListener> l'oggetto è limitato a un massimo `id` valore di 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-225">The <xref:System.Diagnostics.EventLogTraceListener> object is limited to a maximum `id` value of 65,535.</span></span> <span data-ttu-id="06367-226">Se il `id` valore specificato è maggiore di 65.535, il <xref:System.Diagnostics.EventLogTraceListener> oggetto utilizza 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-226">If the `id` value specified is greater than 65,535, the <xref:System.Diagnostics.EventLogTraceListener> object uses 65,535.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-227">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-227">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TraceEvent">
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-228">Scrive un messaggio di evento di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-228">Writes a trace event message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TraceEvent">
+      <MemberSignature Language="C#" Value="public void TraceEvent (System.Diagnostics.TraceEventType eventType, int id);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceEvent(valuetype System.Diagnostics.TraceEventType eventType, int32 id) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceEvent (eventType As TraceEventType, id As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceEvent(System::Diagnostics::TraceEventType eventType, int id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventType" Type="System.Diagnostics.TraceEventType" />
+        <Parameter Name="id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="eventType">
+          <span data-ttu-id="06367-229">Uno dei valori di enumerazione che specifica il tipo di evento dei dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-229">One of the enumeration values that specifies the event type of the trace data.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="06367-230">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-230">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-231">Scrive un messaggio di evento di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il tipo di evento e l'identificatore di evento specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-231">Writes a trace event message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified event type and event identifier.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-232">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> metodo è destinato agli eventi di traccia che possono essere elaborati automaticamente dagli strumenti.</span><span class="sxs-lookup"><span data-stu-id="06367-232">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method is intended to trace events that can be processed automatically by tools.</span></span> <span data-ttu-id="06367-233">Ad esempio, uno strumento di monitoraggio può inviare una notifica amministratore se un evento specifico viene analizzato da un'origine specifica.</span><span class="sxs-lookup"><span data-stu-id="06367-233">For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</span></span>  
+  
+ <span data-ttu-id="06367-234">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiamate al metodo di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> metodo il <xref:System.Diagnostics.SourceSwitch> oggetto restituito dal <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-234">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> method of the <xref:System.Diagnostics.SourceSwitch> object returned by the <xref:System.Diagnostics.TraceSource.Switch%2A> property.</span></span> <span data-ttu-id="06367-235">Se <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> restituisce `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiama corrispondente <xref:System.Diagnostics.TraceListener.TraceEvent%2A> metodo di ogni listener.</span><span class="sxs-lookup"><span data-stu-id="06367-235">If <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> returns `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> calls the corresponding <xref:System.Diagnostics.TraceListener.TraceEvent%2A> method of each listener.</span></span> <span data-ttu-id="06367-236">In caso contrario, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> termina senza chiamare i metodi dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-236">Otherwise, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> returns without calling the listeners' methods.</span></span>  
+  
+ <span data-ttu-id="06367-237">Il contenuto della traccia è specifico dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-237">The trace content is listener specific.</span></span> <span data-ttu-id="06367-238">Se il metodo non esegue l'override l'implementazione del listener, l'output predefinito è il nome di origine di traccia, la relativa identità numerica e il tipo di evento.</span><span class="sxs-lookup"><span data-stu-id="06367-238">If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, and the event type.</span></span>  <span data-ttu-id="06367-239">Contenuto aggiuntivo della traccia è dipendente per il listener <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valore della proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-239">Additional trace content is dependent upon the listener's <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> property value.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-240">Il <xref:System.Diagnostics.EventLogTraceListener> l'oggetto è limitato a un massimo `id` valore di 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-240">The <xref:System.Diagnostics.EventLogTraceListener> object is limited to a maximum `id` value of 65,535.</span></span> <span data-ttu-id="06367-241">Se il `id` valore specificato è maggiore di 65.535, il <xref:System.Diagnostics.EventLogTraceListener> utilizza 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-241">If the `id` value specified is greater than 65,535, the <xref:System.Diagnostics.EventLogTraceListener> uses 65,535.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-242">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> metodo per passare un evento di traccia ai listener.</span><span class="sxs-lookup"><span data-stu-id="06367-242">The following code example shows the use of the <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> method to pass a trace event to the listeners.</span></span> <span data-ttu-id="06367-243">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-243">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#17](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#17)]
+ [!code-vb[System.Diagnostics.TraceSource2#17](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#17)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-244">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-244">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TraceEvent">
+      <MemberSignature Language="C#" Value="public void TraceEvent (System.Diagnostics.TraceEventType eventType, int id, string message);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceEvent(valuetype System.Diagnostics.TraceEventType eventType, int32 id, string message) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceEvent (eventType As TraceEventType, id As Integer, message As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceEvent(System::Diagnostics::TraceEventType eventType, int id, System::String ^ message);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventType" Type="System.Diagnostics.TraceEventType" />
+        <Parameter Name="id" Type="System.Int32" />
+        <Parameter Name="message" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="eventType">
+          <span data-ttu-id="06367-245">Uno dei valori di enumerazione che specifica il tipo di evento dei dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-245">One of the enumeration values that specifies the event type of the trace data.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="06367-246">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-246">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <param name="message">
+          <span data-ttu-id="06367-247">Messaggio di traccia da scrivere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-247">The trace message to write.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-248">Scrive un messaggio di evento di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il tipo di evento, l'identificatore di evento e il messaggio specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-248">Writes a trace event message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified event type, event identifier, and message.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-249">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> metodo è destinato agli eventi di traccia che possono essere elaborati automaticamente dagli strumenti.</span><span class="sxs-lookup"><span data-stu-id="06367-249">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method is intended to trace events that can be processed automatically by tools.</span></span> <span data-ttu-id="06367-250">Ad esempio, uno strumento di monitoraggio può inviare una notifica amministratore se un evento specifico viene analizzato da un'origine specifica.</span><span class="sxs-lookup"><span data-stu-id="06367-250">For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</span></span>  
+  
+ <span data-ttu-id="06367-251">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiamate al metodo di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> metodo il <xref:System.Diagnostics.SourceSwitch> oggetto restituito dal <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-251">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> method of the <xref:System.Diagnostics.SourceSwitch> object returned by the <xref:System.Diagnostics.TraceSource.Switch%2A> property.</span></span> <span data-ttu-id="06367-252">Se <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> restituisce `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiama corrispondente <xref:System.Diagnostics.TraceListener.TraceEvent%2A> metodo di ogni listener.</span><span class="sxs-lookup"><span data-stu-id="06367-252">If <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> returns `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> calls the corresponding <xref:System.Diagnostics.TraceListener.TraceEvent%2A> method of each listener.</span></span> <span data-ttu-id="06367-253">In caso contrario, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> termina senza chiamare i metodi dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-253">Otherwise, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> returns without calling the listeners' methods.</span></span>  
+  
+ <span data-ttu-id="06367-254">Il contenuto della traccia è specifico dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-254">The trace content is listener specific.</span></span> <span data-ttu-id="06367-255">Se il metodo non esegue l'override l'implementazione del listener, l'output predefinito è il nome di origine di traccia, la relativa identità numerica, il tipo di evento e il messaggio.</span><span class="sxs-lookup"><span data-stu-id="06367-255">If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, the event type, and the message.</span></span>  <span data-ttu-id="06367-256">Contenuto aggiuntivo della traccia è dipendente per il listener <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valore della proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-256">Additional trace content is dependent upon the listener's <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> property value.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-257">Il <xref:System.Diagnostics.EventLogTraceListener> l'oggetto è limitato a un massimo `id` valore di 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-257">The <xref:System.Diagnostics.EventLogTraceListener> object is limited to a maximum `id` value of 65,535.</span></span> <span data-ttu-id="06367-258">Se il `id` valore specificato è maggiore di 65.535, il <xref:System.Diagnostics.EventLogTraceListener> oggetto utilizza 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-258">If the `id` value specified is greater than 65,535, the <xref:System.Diagnostics.EventLogTraceListener> object uses 65,535.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-259">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> metodo per passare un evento di traccia ai listener.</span><span class="sxs-lookup"><span data-stu-id="06367-259">The following code example shows the use of the <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> method to pass a trace event to the listeners.</span></span> <span data-ttu-id="06367-260">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-260">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#18](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#18)]
+ [!code-vb[System.Diagnostics.TraceSource2#18](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#18)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-261">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-261">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TraceEvent">
+      <MemberSignature Language="C#" Value="public void TraceEvent (System.Diagnostics.TraceEventType eventType, int id, string format, params object[] args);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceEvent(valuetype System.Diagnostics.TraceEventType eventType, int32 id, string format, object[] args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceEvent (eventType As TraceEventType, id As Integer, format As String, ParamArray args As Object())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceEvent(System::Diagnostics::TraceEventType eventType, int id, System::String ^ format, ... cli::array &lt;System::Object ^&gt; ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="eventType" Type="System.Diagnostics.TraceEventType" />
+        <Parameter Name="id" Type="System.Int32" />
+        <Parameter Name="format" Type="System.String" />
+        <Parameter Name="args" Type="System.Object[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="eventType">
+          <span data-ttu-id="06367-262">Uno dei valori di enumerazione che specifica il tipo di evento dei dati di traccia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-262">One of the enumeration values that specifies the event type of the trace data.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="06367-263">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-263">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <param name="format">
+          <span data-ttu-id="06367-264">Stringa di formato composito che contiene testo combinato con zero o più elementi di formato, che corrispondono agli oggetti nella matrice <c>args</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-264">A composite format string that contains text intermixed with zero or more format items, which correspond to objects in the <c>args</c> array.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="06367-265">Matrice <see langword="object" /> che contiene zero o più oggetti da formattare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-265">An <see langword="object" /> array containing zero or more objects to format.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-266">Scrive un evento di traccia nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il tipo di evento, l'identificatore di evento, la matrice di argomenti e il formato specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-266">Writes a trace event to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified event type, event identifier, and argument array and format.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-267">Per ulteriori informazioni sul `format` parametro, vedere [formattazione composita](~/docs/standard/base-types/composite-formatting.md).</span><span class="sxs-lookup"><span data-stu-id="06367-267">For more information about the `format` parameter, see [Composite Formatting](~/docs/standard/base-types/composite-formatting.md).</span></span>  
+  
+ <span data-ttu-id="06367-268">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> metodo è destinato agli eventi di traccia che possono essere elaborati automaticamente dagli strumenti.</span><span class="sxs-lookup"><span data-stu-id="06367-268">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method is intended to trace events that can be processed automatically by tools.</span></span> <span data-ttu-id="06367-269">Ad esempio, uno strumento di monitoraggio può inviare una notifica amministratore se un evento specifico viene analizzato da un'origine specifica.</span><span class="sxs-lookup"><span data-stu-id="06367-269">For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</span></span>  
+  
+ <span data-ttu-id="06367-270">Il <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiamate al metodo di <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> metodo il <xref:System.Diagnostics.SourceSwitch> oggetto restituito dal <xref:System.Diagnostics.TraceSource.Switch%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="06367-270">The <xref:System.Diagnostics.TraceSource.TraceEvent%2A> method calls the <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> method of the <xref:System.Diagnostics.SourceSwitch> object returned by the <xref:System.Diagnostics.TraceSource.Switch%2A> property.</span></span> <span data-ttu-id="06367-271">Se <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> restituisce `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> chiama corrispondente <xref:System.Diagnostics.TraceListener.TraceEvent%2A> metodo di ogni listener.</span><span class="sxs-lookup"><span data-stu-id="06367-271">If <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> returns `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> calls the corresponding <xref:System.Diagnostics.TraceListener.TraceEvent%2A> method of each listener.</span></span> <span data-ttu-id="06367-272">In caso contrario, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> termina senza chiamare i metodi dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-272">Otherwise, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> returns without calling the listeners' methods.</span></span>  
+  
+ <span data-ttu-id="06367-273">Il contenuto della traccia è specifico dei listener.</span><span class="sxs-lookup"><span data-stu-id="06367-273">The trace content is listener specific.</span></span> <span data-ttu-id="06367-274">Il valore predefinito <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> metodo scrive il nome di origine, il tipo di evento e identità numerica nell'intestazione della traccia, quindi chiama il <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType> , passando il `format` stringa e `args` matrice e tramite il <xref:System.Globalization.CultureInfo.InvariantCulture?displayProperty=nameWithType> proprietà per formattare il stringa come l'output del messaggio.</span><span class="sxs-lookup"><span data-stu-id="06367-274">The default <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> method writes the source name, event type, and numeric identity in the trace header, then calls the <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType> method, passing the `format` string and `args` array and using the <xref:System.Globalization.CultureInfo.InvariantCulture?displayProperty=nameWithType> property to format the string as the message output.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="06367-275">Il <xref:System.Diagnostics.EventLogTraceListener> l'oggetto è limitato a un massimo `id` valore di 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-275">The <xref:System.Diagnostics.EventLogTraceListener> object is limited to a maximum `id` value of 65,535.</span></span> <span data-ttu-id="06367-276">Se il `id` valore specificato è maggiore di 65.535, il <xref:System.Diagnostics.EventLogTraceListener> oggetto utilizza 65.535.</span><span class="sxs-lookup"><span data-stu-id="06367-276">If the `id` value specified is greater than 65,535, the <xref:System.Diagnostics.EventLogTraceListener> object uses 65,535.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="06367-277">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> metodo per passare un evento di traccia ai listener.</span><span class="sxs-lookup"><span data-stu-id="06367-277">The following code example shows the use of the <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> method to pass a trace event to the listeners.</span></span> <span data-ttu-id="06367-278">Questo esempio di codice fa parte di un esempio più esaustivo disponibile per la <xref:System.Diagnostics.TraceSource> classe.</span><span class="sxs-lookup"><span data-stu-id="06367-278">This code example is part of a larger example provided for the <xref:System.Diagnostics.TraceSource> class.</span></span>  
+  
+ [!code-csharp[System.Diagnostics.TraceSource2#24](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#24)]
+ [!code-vb[System.Diagnostics.TraceSource2#24](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#24)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="06367-279">
+            <paramref name="format" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-279">
+              <paramref name="format" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.FormatException">
+          <span data-ttu-id="06367-280">
+            <paramref name="format" /> non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-280">
+              <paramref name="format" /> is invalid.</span>
+          </span>
+          <span data-ttu-id="06367-281">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-281">-or-</span>
+          </span>
+          <span data-ttu-id="06367-282">Il numero che indica un argomento da formattare è minore di zero oppure maggiore o uguale al numero di oggetti specificati da formattare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-282">The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-283">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-283">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="TraceInformation">
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="06367-284">Scrive un messaggio informativo nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-284">Writes an informational message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="TraceInformation">
+      <MemberSignature Language="C#" Value="public void TraceInformation (string message);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceInformation(string message) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceInformation(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceInformation (message As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceInformation(System::String ^ message);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="message" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="06367-285">Messaggio informativo da inserire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-285">The informative message to write.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-286">Scrive un messaggio informativo nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando il messaggio specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-286">Writes an informational message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified message.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-287">Il <xref:System.Diagnostics.TraceSource.TraceInformation%2A> metodo fornisce un messaggio informativo deve essere letta da parte degli utenti e non agli strumenti.</span><span class="sxs-lookup"><span data-stu-id="06367-287">The <xref:System.Diagnostics.TraceSource.TraceInformation%2A> method provides an informational message intended to be read by users and not by tools.</span></span>  
+  
+ <span data-ttu-id="06367-288"><xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%29> chiamate di <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> (metodo), impostazione `eventType` a <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> e passando il messaggio informativo come stringa del messaggio.</span><span class="sxs-lookup"><span data-stu-id="06367-288"><xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%29> calls the <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> method, setting `eventType` to <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> and passing the informative message as the message string.</span></span> <span data-ttu-id="06367-289">Il <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> metodo chiama a sua volta il <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> metodo di ogni listener di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-289">The <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> method in turn calls the <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> method of each trace listener.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-290">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-290">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TraceInformation">
+      <MemberSignature Language="C#" Value="public void TraceInformation (string format, params object[] args);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceInformation(string format, object[] args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceInformation(System.String,System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceInformation (format As String, ParamArray args As Object())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceInformation(System::String ^ format, ... cli::array &lt;System::Object ^&gt; ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.String" />
+        <Parameter Name="args" Type="System.Object[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="06367-291">Stringa di formato composito che contiene testo combinato con zero o più elementi di formato, che corrispondono agli oggetti nella matrice <c>args</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-291">A composite format string that contains text intermixed with zero or more format items, which correspond to objects in the <c>args</c> array.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="06367-292">Matrice che contiene zero o più oggetti da formattare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-292">An array containing zero or more objects to format.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-293">Scrive un messaggio informativo nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando la matrice di oggetti e le informazioni di formattazione specificate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-293">Writes an informational message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified object array and formatting information.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-294">Per ulteriori informazioni sul `format` parametro, vedere [formattazione composita](~/docs/standard/base-types/composite-formatting.md).</span><span class="sxs-lookup"><span data-stu-id="06367-294">For more information about the `format` parameter, see [Composite Formatting](~/docs/standard/base-types/composite-formatting.md).</span></span>  
+  
+ <span data-ttu-id="06367-295">Il <xref:System.Diagnostics.TraceSource.TraceInformation%2A> metodo fornisce un messaggio informativo deve essere letta da parte degli utenti e non agli strumenti.</span><span class="sxs-lookup"><span data-stu-id="06367-295">The <xref:System.Diagnostics.TraceSource.TraceInformation%2A> method provides an informational message intended to be read by users and not by tools.</span></span>  
+  
+ <span data-ttu-id="06367-296"><xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%2CSystem.Object%5B%5D%29> chiamate di <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> (metodo), impostazione `eventType` a <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> e passando il contenuto del messaggio come matrice di oggetti con le informazioni di formattazione.</span><span class="sxs-lookup"><span data-stu-id="06367-296"><xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%2CSystem.Object%5B%5D%29> calls the <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> method, setting `eventType` to <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> and passing the message content as an object array with formatting information.</span></span> <span data-ttu-id="06367-297">Il <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> metodo chiama a sua volta il <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> metodo di ogni listener di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-297">The <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> method in turn calls the <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> method of each trace listener.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="06367-298">
+            <paramref name="format" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-298">
+              <paramref name="format" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.FormatException">
+          <span data-ttu-id="06367-299">
+            <paramref name="format" /> non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-299">
+              <paramref name="format" /> is invalid.</span>
+          </span>
+          <span data-ttu-id="06367-300">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-300">-or-</span>
+          </span>
+          <span data-ttu-id="06367-301">Il numero che indica un argomento da formattare è minore di zero oppure maggiore o uguale al numero di oggetti specificati da formattare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-301">The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ObjectDisposedException">
+          <span data-ttu-id="06367-302">È stato effettuato un tentativo di tracciare un evento durante la finalizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-302">An attempt was made to trace an event during finalization.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TraceTransfer">
+      <MemberSignature Language="C#" Value="public void TraceTransfer (int id, string message, Guid relatedActivityId);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void TraceTransfer(int32 id, string message, valuetype System.Guid relatedActivityId) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Diagnostics.TraceSource.TraceTransfer(System.Int32,System.String,System.Guid)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub TraceTransfer (id As Integer, message As String, relatedActivityId As Guid)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void TraceTransfer(int id, System::String ^ message, Guid relatedActivityId);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Diagnostics.TraceSource</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Conditional("TRACE")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="id" Type="System.Int32" />
+        <Parameter Name="message" Type="System.String" />
+        <Parameter Name="relatedActivityId" Type="System.Guid" />
+      </Parameters>
+      <Docs>
+        <param name="id">
+          <span data-ttu-id="06367-303">Identificatore numerico per l'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-303">A numeric identifier for the event.</span>
+          </span>
+        </param>
+        <param name="message">
+          <span data-ttu-id="06367-304">Messaggio di traccia da scrivere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-304">The trace message to write.</span>
+          </span>
+        </param>
+        <param name="relatedActivityId">
+          <span data-ttu-id="06367-305">Struttura che identifica l'attività correlata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-305">A structure that identifies the related activity.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="06367-306">Scrive un messaggio di traccia di trasferimento nei listener di traccia della raccolta <see cref="P:System.Diagnostics.TraceSource.Listeners" /> usando l'identificatore numerico, il messaggio e l'identificatore di attività correlata specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="06367-306">Writes a trace transfer message to the trace listeners in the <see cref="P:System.Diagnostics.TraceSource.Listeners" /> collection using the specified numeric identifier, message, and related activity identifier.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="06367-307">Il <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> chiamate al metodo di <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> metodo per ogni listener di traccia di <xref:System.Diagnostics.TraceSource.Listeners%2A> proprietà da scrivere le informazioni di traccia.</span><span class="sxs-lookup"><span data-stu-id="06367-307">The <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> method calls the <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> method of each trace listener in the <xref:System.Diagnostics.TraceSource.Listeners%2A> property to write the trace information.</span></span> <span data-ttu-id="06367-308">Il valore predefinito <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> metodo nella base <xref:System.Diagnostics.TraceListener> classe chiama il <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29?displayProperty=nameWithType> metodo per elaborare la richiesta, l'impostazione `eventType` per <xref:System.Diagnostics.TraceEventType.Transfer?displayProperty=nameWithType> e aggiungendo una rappresentazione di stringa del `relatedActivityId` GUID `message`.</span><span class="sxs-lookup"><span data-stu-id="06367-308">The default <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> method in the base <xref:System.Diagnostics.TraceListener> class calls the <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29?displayProperty=nameWithType> method to process the call, setting `eventType` to <xref:System.Diagnostics.TraceEventType.Transfer?displayProperty=nameWithType> and appending a string representation of the `relatedActivityId` GUID to `message`.</span></span>  
+  
+ <span data-ttu-id="06367-309"><xref:System.Diagnostics.TraceSource.TraceTransfer%2A> deve essere utilizzata con le operazioni logiche di un <xref:System.Diagnostics.CorrelationManager>.</span><span class="sxs-lookup"><span data-stu-id="06367-309"><xref:System.Diagnostics.TraceSource.TraceTransfer%2A> is intended to be used with the logical operations of a <xref:System.Diagnostics.CorrelationManager>.</span></span> <span data-ttu-id="06367-310">Il `relatedActivityId` parametro si riferisce al <xref:System.Diagnostics.CorrelationManager.ActivityId%2A> proprietà di un <xref:System.Diagnostics.CorrelationManager> oggetto.</span><span class="sxs-lookup"><span data-stu-id="06367-310">The `relatedActivityId` parameter relates to the <xref:System.Diagnostics.CorrelationManager.ActivityId%2A> property of a <xref:System.Diagnostics.CorrelationManager> object.</span></span> <span data-ttu-id="06367-311">Se un'operazione logica inizia in un'attività e trasferisce a un'altra, la seconda attività registra il trasferimento tramite la chiamata di <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="06367-311">If a logical operation begins in one activity and transfers to another, the second activity logs the transfer by calling the <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> method.</span></span> <span data-ttu-id="06367-312">Il <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> chiamata si riferisce l'identità dell'attività di nuovo l'identità precedente.</span><span class="sxs-lookup"><span data-stu-id="06367-312">The <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> call relates the new activity identity to the previous identity.</span></span> <span data-ttu-id="06367-313">Il consumer più probabile di questa funzionalità non è un visualizzatore di traccia che è possibile segnalare le operazioni logiche che si estendono su più attività.</span><span class="sxs-lookup"><span data-stu-id="06367-313">The most likely consumer of this functionality is a trace viewer that can report logical operations that span multiple activities.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Diagnostics.XmlWriterTraceListener" />
+        <altmember cref="T:System.Diagnostics.EventSchemaTraceListener" />
+        <altmember cref="T:System.Diagnostics.DelimitedListTraceListener" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
