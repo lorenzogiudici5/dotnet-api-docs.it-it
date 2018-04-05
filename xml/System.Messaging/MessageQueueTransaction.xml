@@ -1,0 +1,431 @@
+<Type Name="MessageQueueTransaction" FullName="System.Messaging.MessageQueueTransaction">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d2f750339c17f272f8cc360d38e3f1850a40606b" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class MessageQueueTransaction : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MessageQueueTransaction extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.Messaging.MessageQueueTransaction" />
+  <TypeSignature Language="VB.NET" Value="Public Class MessageQueueTransaction&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class MessageQueueTransaction : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Messaging</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="953b8-101">Fornisce una transazione interna di Accodamento messaggi.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="953b8-101">Provides a Message Queuing internal transaction.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-102">Per inviare o ricevere un messaggio come parte di una transazione, è possibile utilizzare il <xref:System.Messaging.MessageQueueTransaction> classe per creare una transazione e passarlo a un overload del <xref:System.Messaging.MessageQueue.Send%2A?displayProperty=nameWithType> metodo o <xref:System.Messaging.MessageQueue.Receive%2A?displayProperty=nameWithType> metodo che accetta un `transaction` parametro.</span><span class="sxs-lookup"><span data-stu-id="953b8-102">To send or receive a message as part of a transaction, you can use the <xref:System.Messaging.MessageQueueTransaction> class to create a transaction and pass it to an overload of the <xref:System.Messaging.MessageQueue.Send%2A?displayProperty=nameWithType> method or the <xref:System.Messaging.MessageQueue.Receive%2A?displayProperty=nameWithType> method that takes a `transaction` parameter.</span></span> <span data-ttu-id="953b8-103">I messaggi inviati come parte di una transazione devono essere inviati alle code transazionali.</span><span class="sxs-lookup"><span data-stu-id="953b8-103">Messages sent as part of a transaction must be sent to transactional queues.</span></span> <span data-ttu-id="953b8-104">I messaggi ricevuti dalle code transazionali devono essere ricevuti utilizzando la transazione specificata.</span><span class="sxs-lookup"><span data-stu-id="953b8-104">Messages received from transactional queues must be received using a specified transaction.</span></span>  
+  
+ <span data-ttu-id="953b8-105">Oltre al <xref:System.Messaging.MessageQueue.Receive%2A> (metodo), è possibile ricevere messaggi con un identificatore o identificatore di correlazione specificato.</span><span class="sxs-lookup"><span data-stu-id="953b8-105">In addition to the <xref:System.Messaging.MessageQueue.Receive%2A> method, you can receive messages with a specified identifier or specified correlation identifier.</span></span> <span data-ttu-id="953b8-106">Vedere il <xref:System.Messaging.MessageQueue.ReceiveById%2A> e <xref:System.Messaging.MessageQueue.ReceiveByCorrelationId%2A> metodi per ulteriori informazioni sulla ricezione in modo selettivo i messaggi dalle code transazionali.</span><span class="sxs-lookup"><span data-stu-id="953b8-106">See the <xref:System.Messaging.MessageQueue.ReceiveById%2A> and <xref:System.Messaging.MessageQueue.ReceiveByCorrelationId%2A> methods for more information about selectively receiving messages from transactional queues.</span></span>  
+  
+ <span data-ttu-id="953b8-107">Se viene eseguito il commit della transazione, i messaggi inviati alle code transazionali vengono rimosse.</span><span class="sxs-lookup"><span data-stu-id="953b8-107">Messages sent to transactional queues are removed if the transaction is committed.</span></span> <span data-ttu-id="953b8-108">Analogamente, i messaggi ricevuti dalle code transazionali vengono restituiti alla coda se viene eseguito il rollback della transazione.</span><span class="sxs-lookup"><span data-stu-id="953b8-108">Similarly, messages received from transactional queues are returned to the queue if the transaction is rolled back.</span></span>  
+  
+ <span data-ttu-id="953b8-109">Se crea un'istanza un <xref:System.Messaging.MessageQueueTransaction> e passarlo a un overload applicabile del <xref:System.Messaging.MessageQueue.Send%2A> metodo o <xref:System.Messaging.MessageQueue.Receive%2A> per inviare un messaggio a una coda non transazionale o di ricevere un messaggio da una coda non transazionale, il metodo genera un'eccezione indica "Utilizzo delle transazioni non corretto".</span><span class="sxs-lookup"><span data-stu-id="953b8-109">If you instantiate a <xref:System.Messaging.MessageQueueTransaction> and pass it to an applicable overload of the <xref:System.Messaging.MessageQueue.Send%2A> method or <xref:System.Messaging.MessageQueue.Receive%2A> method to send a message to a non-transactional queue or receive a message from a non-transactional queue, the method throws an exception that indicates "Wrong Transaction Usage."</span></span>  
+  
+ <span data-ttu-id="953b8-110"><xref:System.Messaging.MessageQueueTransaction> il threading apartment, pertanto se lo stato dell'apartment è `STA`, è possibile utilizzare la transazione in più thread.</span><span class="sxs-lookup"><span data-stu-id="953b8-110"><xref:System.Messaging.MessageQueueTransaction> is threading apartment aware, so if your apartment state is `STA`, you cannot use the transaction in multiple threads.</span></span> <span data-ttu-id="953b8-111">Visual Basic imposta lo stato del thread principale di `STA`, pertanto è necessario applicare il <xref:System.MTAThreadAttribute> nel `Main` subroutine.</span><span class="sxs-lookup"><span data-stu-id="953b8-111">Visual Basic sets the state of the main thread to `STA`, so you must apply the <xref:System.MTAThreadAttribute> in the `Main` subroutine.</span></span> <span data-ttu-id="953b8-112">In caso contrario, l'invio di un messaggio transazionale mediante un altro thread genererà un'eccezione <xref:System.Messaging.MessageQueueException>.</span><span class="sxs-lookup"><span data-stu-id="953b8-112">Otherwise, sending a transactional message using another thread throws a <xref:System.Messaging.MessageQueueException> exception.</span></span> <span data-ttu-id="953b8-113">Si applica il <xref:System.MTAThreadAttribute> utilizzando il seguente frammento.</span><span class="sxs-lookup"><span data-stu-id="953b8-113">You apply the <xref:System.MTAThreadAttribute> by using the following fragment.</span></span>  
+  
+```vb  
+<System.MTAThreadAttribute>  
+ public sub Main()  
+```  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="953b8-114">Questo tipo è thread-safe.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="953b8-114">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+    <altmember cref="P:System.Messaging.MessageQueue.Transactional" />
+    <altmember cref="M:System.Messaging.MessageQueue.Send(System.Object)" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MessageQueueTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; MessageQueueTransaction();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-115">Inizializza una nuova istanza della classe <see cref="T:System.Messaging.MessageQueueTransaction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-115">Initializes a new instance of the <see cref="T:System.Messaging.MessageQueueTransaction" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-116">Questo costruttore imposta la <xref:System.Messaging.MessageQueueTransaction.Status%2A> proprietà `Initialized`.</span><span class="sxs-lookup"><span data-stu-id="953b8-116">This constructor sets the <xref:System.Messaging.MessageQueueTransaction.Status%2A> property to `Initialized`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Abort">
+      <MemberSignature Language="C#" Value="public void Abort ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Abort() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Abort" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Abort ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Abort();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-117">Sottopone a rollback la transazione interna in sospeso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-117">Rolls back the pending internal transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-118"><xref:System.Messaging.MessageQueueTransaction.Abort%2A> Contrassegna il mancato completamento di un processo iniziato una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-118"><xref:System.Messaging.MessageQueueTransaction.Abort%2A> marks the unsuccessful completion of a process begun at a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span></span>  
+  
+ <span data-ttu-id="953b8-119">In genere, si effettua una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A> all'interno di un `Try...Catch` blocco di gestione delle eccezioni, inserire una chiamata a <xref:System.Messaging.MessageQueueTransaction.Commit%2A> nel `Try` clausola e una chiamata a <xref:System.Messaging.MessageQueueTransaction.Abort%2A> nel `Catch` clausola.</span><span class="sxs-lookup"><span data-stu-id="953b8-119">Typically, one makes a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A> within a `Try...Catch` exception-handling block, putting a call to <xref:System.Messaging.MessageQueueTransaction.Commit%2A> in the `Try` clause, and a call to <xref:System.Messaging.MessageQueueTransaction.Abort%2A> in the `Catch` clause.</span></span>  
+  
+ <span data-ttu-id="953b8-120"><xref:System.Messaging.MessageQueueTransaction.Abort%2A> eseguire il rollback dell'intera transazione.</span><span class="sxs-lookup"><span data-stu-id="953b8-120"><xref:System.Messaging.MessageQueueTransaction.Abort%2A> rolls back the entire transaction.</span></span> <span data-ttu-id="953b8-121">Sono inclusi tutti i messaggi inviati o ricevuti dopo la chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-121">This includes all messages sent or received after the call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="953b8-122">La transazione interna che si sta tentando di sottoporre a rollback non è iniziata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-122">The internal transaction you are attempting to roll back has not started.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="953b8-123">Si verifica un errore interno di Accodamento messaggi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-123">An internal Message Queuing error occurs.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Begin" />
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Commit" />
+        <altmember cref="P:System.Messaging.MessageQueue.Transactional" />
+      </Docs>
+    </Member>
+    <Member MemberName="Begin">
+      <MemberSignature Language="C#" Value="public void Begin ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Begin() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Begin" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Begin ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Begin();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-124">Inizia una nuova transazione interna di Accodamento messaggi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-124">Begins a new Message Queuing internal transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-125"><xref:System.Messaging.MessageQueueTransaction.Begin%2A> Contrassegna l'inizio dell'elaborazione che verrà eseguito il commit o rollback, a seconda dell'esito della transazione.</span><span class="sxs-lookup"><span data-stu-id="953b8-125"><xref:System.Messaging.MessageQueueTransaction.Begin%2A> marks the start of processing that will be committed or rolled back, depending on the success of the transaction.</span></span> <span data-ttu-id="953b8-126">Se si verifica un'eccezione durante l'elaborazione, viene eseguito il rollback dell'intera transazione.</span><span class="sxs-lookup"><span data-stu-id="953b8-126">If an exception occurs during processing, the entire transaction is rolled back.</span></span> <span data-ttu-id="953b8-127">Sono inclusi tutti i messaggi inviati o ricevuti dopo la chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-127">This includes all messages sent or received after the call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span></span>  
+  
+ <span data-ttu-id="953b8-128">In genere, si effettua una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A> all'interno di un `Try...Catch` blocco di gestione delle eccezioni, inserire una chiamata a <xref:System.Messaging.MessageQueueTransaction.Commit%2A> nel `Try` clausola e una chiamata a <xref:System.Messaging.MessageQueueTransaction.Abort%2A> nel `Catch` clausola.</span><span class="sxs-lookup"><span data-stu-id="953b8-128">Typically, one makes a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A> within a `Try...Catch` exception-handling block, putting a call to <xref:System.Messaging.MessageQueueTransaction.Commit%2A> in the `Try` clause, and a call to <xref:System.Messaging.MessageQueueTransaction.Abort%2A> in the `Catch` clause.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="953b8-129">La transazione è già stata avviata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-129">The transaction has already been started.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="953b8-130">Si verifica un errore interno di Accodamento messaggi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-130">An internal Message Queuing error occurs.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Abort" />
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Commit" />
+        <altmember cref="P:System.Messaging.MessageQueue.Transactional" />
+      </Docs>
+    </Member>
+    <Member MemberName="Commit">
+      <MemberSignature Language="C#" Value="public void Commit ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Commit() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Commit" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Commit ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Commit();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-131">Esegue il commit di una transazione interna in sospeso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-131">Commits a pending internal transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-132"><xref:System.Messaging.MessageQueueTransaction.Commit%2A> Contrassegna il completamento di un'elaborazione iniziata una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-132"><xref:System.Messaging.MessageQueueTransaction.Commit%2A> marks the successful completion of processing begun at a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span></span> <span data-ttu-id="953b8-133">Se si verifica un'eccezione tra la chiamata di <xref:System.Messaging.MessageQueueTransaction.Begin%2A> e la chiamata a <xref:System.Messaging.MessageQueueTransaction.Commit%2A>, viene eseguito il rollback dell'intera transazione.</span><span class="sxs-lookup"><span data-stu-id="953b8-133">If an exception occurs between the call the <xref:System.Messaging.MessageQueueTransaction.Begin%2A> and the call to <xref:System.Messaging.MessageQueueTransaction.Commit%2A>, the entire transaction is rolled back.</span></span> <span data-ttu-id="953b8-134">Sono inclusi tutti i messaggi inviati o ricevuti dopo la chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-134">This includes all messages sent or received after the call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A>.</span></span>  
+  
+ <span data-ttu-id="953b8-135">In genere, si effettua una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A> all'interno di un `Try...Catch` blocco di gestione delle eccezioni, inserire una chiamata a <xref:System.Messaging.MessageQueueTransaction.Commit%2A> nel `Try` clausola e una chiamata a <xref:System.Messaging.MessageQueueTransaction.Abort%2A> nel `Catch` clausola.</span><span class="sxs-lookup"><span data-stu-id="953b8-135">Typically, one makes a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A> within a `Try...Catch` exception-handling block, putting a call to <xref:System.Messaging.MessageQueueTransaction.Commit%2A> in the `Try` clause, and a call to <xref:System.Messaging.MessageQueueTransaction.Abort%2A> in the `Catch` clause.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="953b8-136">La transazione che si sta tentando di sottoporre a commit non è iniziata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-136">The transaction you are trying to commit has not started.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Messaging.MessageQueueException">
+          <span data-ttu-id="953b8-137">Si verifica un errore interno di Accodamento messaggi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-137">An internal Message Queuing error occurs.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Abort" />
+        <altmember cref="M:System.Messaging.MessageQueueTransaction.Begin" />
+        <altmember cref="P:System.Messaging.MessageQueue.Transactional" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-138">Rilascia le risorse usate da <see cref="T:System.Messaging.MessageQueueTransaction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-138">Releases the resources used by the <see cref="T:System.Messaging.MessageQueueTransaction" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-139">Rilascia tutte le risorse usate da <see cref="T:System.Messaging.MessageQueueTransaction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-139">Releases all resources used by the <see cref="T:System.Messaging.MessageQueueTransaction" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-140">La chiamata <xref:System.Messaging.MessageQueueTransaction.Dispose%2A> le risorse utilizzate da di <xref:System.Messaging.MessageQueueTransaction> riallocazione per altri scopi.</span><span class="sxs-lookup"><span data-stu-id="953b8-140">Calling <xref:System.Messaging.MessageQueueTransaction.Dispose%2A> allows the resources used by the <xref:System.Messaging.MessageQueueTransaction> to be reallocated for other purposes.</span></span> <span data-ttu-id="953b8-141">Per ulteriori informazioni su `Dispose`, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md).</span><span class="sxs-lookup"><span data-stu-id="953b8-141">For more information about `Dispose`, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md).</span></span>  
+  
+ <span data-ttu-id="953b8-142">Transazioni interne in sospeso il rollback <xref:System.Messaging.MessageQueueTransaction.Dispose%2A>.</span><span class="sxs-lookup"><span data-stu-id="953b8-142">Any pending internal transactions are rolled back by <xref:System.Messaging.MessageQueueTransaction.Dispose%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="953b8-143">
+            <see langword="true" /> per rilasciare sia le risorse gestite sia quelle non gestite; <see langword="false" /> per rilasciare solo le risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-143">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="953b8-144">Rilascia le risorse non gestite usate da <see cref="T:System.Messaging.MessageQueueTransaction" /> e, facoltativamente, le risorse gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-144">Releases the unmanaged resources used by the <see cref="T:System.Messaging.MessageQueueTransaction" /> and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-145">Questo metodo viene chiamato dal metodo pubblico <xref:System.Messaging.MessageQueueTransaction.Dispose%2A> (metodo) e <xref:System.Object.Finalize%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="953b8-145">This method is called by the public <xref:System.Messaging.MessageQueueTransaction.Dispose%2A> method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="953b8-146">`Dispose` richiama il metodo protetto `Dispose(Boolean)` metodo con il `disposing` parametro impostato su `true`.</span><span class="sxs-lookup"><span data-stu-id="953b8-146">`Dispose` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="953b8-147"><xref:System.Object.Finalize%2A> richiama `Dispose` con `disposing` impostato su `false`.</span><span class="sxs-lookup"><span data-stu-id="953b8-147"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="953b8-148">Se il parametro `disposing` è `true`, questo metodo rilascia tutte le risorse utilizzate dagli oggetti gestiti a cui la classe <xref:System.Messaging.MessageQueueTransaction> fa riferimento.</span><span class="sxs-lookup"><span data-stu-id="953b8-148">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.Messaging.MessageQueueTransaction> references.</span></span> <span data-ttu-id="953b8-149">Il metodo richiama il metodo `Dispose` di ciascun oggetto cui viene fatto riferimento.</span><span class="sxs-lookup"><span data-stu-id="953b8-149">This method invokes the `Dispose` method of each referenced object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="953b8-150">Il metodo <see langword="Dispose" /> può essere chiamato più volte da altri oggetti.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="953b8-150">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="953b8-151">In caso di override di <see langword="Dispose(Boolean)" />, non fare riferimento a oggetti già eliminati in una chiamata precedente a <see langword="Dispose" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="953b8-151">When overriding <see langword="Dispose(Boolean)" />, be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="953b8-152">Per ulteriori informazioni su come implementare <see langword="Dispose" />, vedere [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="953b8-152">For more information about how to implement <see langword="Dispose" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="953b8-153">Per ulteriori informazioni su <see langword="Dispose" /> e <see langword="Finalize" />, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [si esegue l'override del metodo Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="953b8-153">For more information about <see langword="Dispose" /> and <see langword="Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~MessageQueueTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Messaging.MessageQueueTransaction.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!MessageQueueTransaction ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-154">Rilascia le risorse contenute nell'istanza corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-154">Releases the resources held by the current instance.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-155">Questo metodo esegue l'override del metodo <xref:System.Object.Finalize%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="953b8-155">This method overrides <xref:System.Object.Finalize%2A?displayProperty=nameWithType>.</span></span> <span data-ttu-id="953b8-156">Il codice dell'applicazione non deve chiamare questo metodo. un oggetto <xref:System.Messaging.MessageQueueTransaction.Finalize%2A> metodo viene richiamato automaticamente durante l'operazione di garbage collection, a meno che la finalizzazione del garbage collector non è stata disabilitata da una chiamata al <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="953b8-156">Application code should not call this method; an object's <xref:System.Messaging.MessageQueueTransaction.Finalize%2A> method is automatically invoked during garbage collection, unless finalization by the garbage collector has been disabled by a call to the <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="953b8-157">Per ulteriori informazioni, vedere [metodi Finalize e distruttori](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md), e [si esegue l'override del metodo Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span><span class="sxs-lookup"><span data-stu-id="953b8-157">For more information, see [Finalize Methods and Destructors](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md), and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Status">
+      <MemberSignature Language="C#" Value="public System.Messaging.MessageQueueTransactionStatus Status { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Messaging.MessageQueueTransactionStatus Status" />
+      <MemberSignature Language="DocId" Value="P:System.Messaging.MessageQueueTransaction.Status" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Status As MessageQueueTransactionStatus" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Messaging::MessageQueueTransactionStatus Status { System::Messaging::MessageQueueTransactionStatus get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Messaging</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Messaging.MessageQueueTransactionStatus</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="953b8-158">Ottiene lo stato della transazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-158">Gets the status of the transaction.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="953b8-159">Uno dei valori <see cref="T:System.Messaging.MessageQueueTransactionStatus" /> che indica se una transazione è stata interrotta, inizializzata, sospesa o se è stata sottoposta a commit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="953b8-159">One of the <see cref="T:System.Messaging.MessageQueueTransactionStatus" /> values that indicates whether the transaction has been committed, aborted, initialized, or is pending.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="953b8-160">Quando un'istanza del <xref:System.Messaging.MessageQueueTransaction> classe è stata creata, la <xref:System.Messaging.MessageQueueTransaction.Status%2A> è impostato dal costruttore per `Initialized`.</span><span class="sxs-lookup"><span data-stu-id="953b8-160">When an instance of the <xref:System.Messaging.MessageQueueTransaction> class has been created, the <xref:System.Messaging.MessageQueueTransaction.Status%2A> is set by the constructor to `Initialized`.</span></span> <span data-ttu-id="953b8-161">Dopo una chiamata a <xref:System.Messaging.MessageQueueTransaction.Begin%2A> ma prima di chiamare <xref:System.Messaging.MessageQueueTransaction.Commit%2A> o <xref:System.Messaging.MessageQueueTransaction.Abort%2A>, <xref:System.Messaging.MessageQueueTransaction.Status%2A> è `Pending`.</span><span class="sxs-lookup"><span data-stu-id="953b8-161">After a call to <xref:System.Messaging.MessageQueueTransaction.Begin%2A> but before a call to <xref:System.Messaging.MessageQueueTransaction.Commit%2A> or <xref:System.Messaging.MessageQueueTransaction.Abort%2A>, the <xref:System.Messaging.MessageQueueTransaction.Status%2A> is `Pending`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Messaging.MessageQueueTransactionStatus" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
