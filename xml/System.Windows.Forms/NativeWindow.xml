@@ -1,0 +1,771 @@
+<Type Name="NativeWindow" FullName="System.Windows.Forms.NativeWindow">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d4a3ca7cdea7a8179f3cad217bcd84e9c7f3aad2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class NativeWindow : MarshalByRefObject, System.Windows.Forms.IWin32Window" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi NativeWindow extends System.MarshalByRefObject implements class System.Windows.Forms.IWin32Window" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Forms.NativeWindow" />
+  <TypeSignature Language="VB.NET" Value="Public Class NativeWindow&#xA;Inherits MarshalByRefObject&#xA;Implements IWin32Window" />
+  <TypeSignature Language="C++ CLI" Value="public ref class NativeWindow : MarshalByRefObject, System::Windows::Forms::IWin32Window" />
+  <AssemblyInfo>
+    <AssemblyName>System.Windows.Forms</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.MarshalByRefObject</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Windows.Forms.IWin32Window</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="3049c-101">Fornisce un'inclusione di basso livello di un handle di finestra e di una routine di finestra.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3049c-101">Provides a low-level encapsulation of a window handle and a window procedure.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-102">Questa classe gestisce automaticamente la registrazione e creazione di classi di finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-102">This class automatically manages window class creation and registration.</span></span>  
+  
+ <span data-ttu-id="3049c-103">Una finestra non è idonea per l'operazione di garbage collection quando è associato a un handle di finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-103">A window is not eligible for garbage collection when it is associated with a window handle.</span></span> <span data-ttu-id="3049c-104">Per garantire una corretta operazione di garbage collection, gli handle devono essere eliminati manualmente tramite <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A> o liberata usando <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>.</span><span class="sxs-lookup"><span data-stu-id="3049c-104">To ensure proper garbage collection, handles must either be destroyed manually using <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A> or released using <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-105">Il <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> metodo viene chiamato quando viene elaborato il messaggio WM_NCDESTROY.</span><span class="sxs-lookup"><span data-stu-id="3049c-105">The <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> method is called when the WM_NCDESTROY message is processed.</span></span> <span data-ttu-id="3049c-106">Ciò significa che esistono casi in cui non è necessario chiamare manualmente <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>, ma è consigliabile eseguire questa operazione.</span><span class="sxs-lookup"><span data-stu-id="3049c-106">This means there are cases in which when you do not need to manually call <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>, but it is good practice to do so.</span></span>  
+  
+ <span data-ttu-id="3049c-107">Il <xref:System.Windows.Forms.NativeWindow> classe fornisce le seguenti proprietà e metodi per gestire gli handle: <xref:System.Windows.Forms.NativeWindow.Handle%2A>, <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A>, <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A>, <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A>, e <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>.</span><span class="sxs-lookup"><span data-stu-id="3049c-107">The <xref:System.Windows.Forms.NativeWindow> class provides the following properties and methods to manage handles: <xref:System.Windows.Forms.NativeWindow.Handle%2A>, <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A>, <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A>, <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A>, and <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-108">Esempio di codice seguente viene illustrato l'intercettazione di messaggi di finestra del sistema operativo in una routine della finestra e creazione di una finestra con un nome di classe di finestra specifico del sistema operativo.</span><span class="sxs-lookup"><span data-stu-id="3049c-108">The following code example demonstrates intercepting operating system window messages in a window procedure, and creating a window with a specific operating system window class name.</span></span> <span data-ttu-id="3049c-109">L'esempio crea due classi che ereditano da <xref:System.Windows.Forms.NativeWindow> che eseguire questa operazione.</span><span class="sxs-lookup"><span data-stu-id="3049c-109">The example creates two classes that inherit from <xref:System.Windows.Forms.NativeWindow> that accomplish this.</span></span>  
+  
+ <span data-ttu-id="3049c-110">Il `MyNativeWindowListener` hook della routine della finestra del form passato al costruttore di classe ed esegue l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare la `WM_ACTIVATEAPP` messaggio della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-110">The `MyNativeWindowListener` class hooks into the window procedure of the form passed into the constructor, and overrides the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept the `WM_ACTIVATEAPP` window message.</span></span> <span data-ttu-id="3049c-111">La classe illustra l'uso del <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> e <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> metodi per identificare l'handle della finestra di <xref:System.Windows.Forms.NativeWindow> utilizzerà.</span><span class="sxs-lookup"><span data-stu-id="3049c-111">The class demonstrates the usage of the <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> and <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> methods to identify the window handle the <xref:System.Windows.Forms.NativeWindow> will use.</span></span> <span data-ttu-id="3049c-112">L'handle viene assegnato in base il <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> e <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> eventi.</span><span class="sxs-lookup"><span data-stu-id="3049c-112">The handle is assign based upon the <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> and <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> events.</span></span> <span data-ttu-id="3049c-113">Quando il `WM_ACTIVATEAPP` finestra di messaggio viene ricevuto, la classe chiama il `form1.ApplicationActivated` metodo.</span><span class="sxs-lookup"><span data-stu-id="3049c-113">When the `WM_ACTIVATEAPP` window message is received, the class calls the `form1.ApplicationActivated` method.</span></span>  
+  
+ <span data-ttu-id="3049c-114">Il `MyNativeWindow` classe crea una nuova finestra con il <xref:System.Windows.Forms.CreateParams.ClassName%2A> impostato su `BUTTON`.</span><span class="sxs-lookup"><span data-stu-id="3049c-114">The `MyNativeWindow` class creates a new window with the <xref:System.Windows.Forms.CreateParams.ClassName%2A> set to `BUTTON`.</span></span> <span data-ttu-id="3049c-115">Viene illustrato come utilizzare la classe di <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> metodo e si esegue l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare i messaggi di finestra ricevuti.</span><span class="sxs-lookup"><span data-stu-id="3049c-115">The class demonstrates using the <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> method and overriding the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept window messages that are received.</span></span>  
+  
+ [!code-cpp[NativeWindow#1](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#1)]
+ [!code-csharp[NativeWindow#1](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#1)]
+ [!code-vb[NativeWindow#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <permission cref="T:System.Security.Permissions.SecurityPermission">
+      <span data-ttu-id="3049c-116">per il chiamante immediato chiamare codice non gestito.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3049c-116">for the immediate caller to call unmanaged code.</span>
+      </span>
+      <span data-ttu-id="3049c-117">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3049c-117">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+      </span>
+    </permission>
+    <altmember cref="T:System.IntPtr" />
+    <altmember cref="T:System.Windows.Forms.Application" />
+    <altmember cref="T:System.Windows.Forms.AxHost" />
+    <altmember cref="T:System.Windows.Forms.Control" />
+    <altmember cref="T:System.Windows.Forms.Form" />
+    <altmember cref="T:System.Windows.Forms.IWin32Window" />
+    <altmember cref="T:System.Windows.Forms.Message" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NativeWindow ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; NativeWindow();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-118">Inizializza un'istanza della classe <see cref="T:System.Windows.Forms.NativeWindow" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-118">Initializes an instance of the <see cref="T:System.Windows.Forms.NativeWindow" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-119">Questa è l'impostazione predefinita <xref:System.Windows.Forms.NativeWindow.%23ctor%2A> costruttore fornito dal compilatore.</span><span class="sxs-lookup"><span data-stu-id="3049c-119">This is the default <xref:System.Windows.Forms.NativeWindow.%23ctor%2A> constructor provided by the compiler.</span></span> <span data-ttu-id="3049c-120">La <xref:System.Windows.Forms.NativeWindow> classe dispone anche di un costruttore statico che inizializza i gestori di messaggi a livello di dominio di applicazione e le tabelle hash.</span><span class="sxs-lookup"><span data-stu-id="3049c-120">The <xref:System.Windows.Forms.NativeWindow> class also has a static constructor that initializes application domain-wide message handlers and hash tables.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Forms.NativeWindow.Finalize" />
+        <altmember cref="T:System.AppDomain" />
+      </Docs>
+    </Member>
+    <Member MemberName="AssignHandle">
+      <MemberSignature Language="C#" Value="public void AssignHandle (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AssignHandle(native int handle) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AssignHandle (handle As IntPtr)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AssignHandle(IntPtr handle);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">
+          <span data-ttu-id="3049c-121">Handle da assegnare a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-121">The handle to assign to this window.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-122">Assegna un handle a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-122">Assigns a handle to this window.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-123"><xref:System.Windows.Forms.NativeWindow.WndProc%2A> intercetta i messaggi finestra inviati per la `handle` parametro.</span><span class="sxs-lookup"><span data-stu-id="3049c-123"><xref:System.Windows.Forms.NativeWindow.WndProc%2A> intercepts window messages sent to the `handle` parameter.</span></span> <span data-ttu-id="3049c-124">Utilizzare <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> per reimpostare la routine dell'handle finestra alla routine della finestra predefinita.</span><span class="sxs-lookup"><span data-stu-id="3049c-124">Use <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> to reset the handle's window procedure to the default window procedure.</span></span>  
+  
+ <span data-ttu-id="3049c-125">Il <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> chiamate al metodo di <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> metodo per indicare che il valore della <xref:System.Windows.Forms.NativeWindow.Handle%2A> proprietà è stata modificata.</span><span class="sxs-lookup"><span data-stu-id="3049c-125">The <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> method calls the <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> method to indicate that the value of the <xref:System.Windows.Forms.NativeWindow.Handle%2A> property has changed.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-126">Assegnare l'handle non può essere un altro processo dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="3049c-126">The handle to assign cannot be in a different application process.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-127">Esempio di codice riportato di seguito viene illustrato l'intercettazione di messaggi di finestra del sistema operativo in una routine della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-127">The following code example demonstrates intercepting operating system window messages in a window procedure.</span></span> <span data-ttu-id="3049c-128">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-128">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span>  
+  
+ <span data-ttu-id="3049c-129">Il `MyNativeWindowListener` hook della routine della finestra del form passato al costruttore di classe ed esegue l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo intercetta il `WM_ACTIVATEAPP` messaggio della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-129">The `MyNativeWindowListener` class hooks into the window procedure of the form passed into the constructor, and overrides the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercepts the `WM_ACTIVATEAPP` window message.</span></span> <span data-ttu-id="3049c-130">Viene illustrato come utilizzare la classe di <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> e <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> metodi per identificare quale finestra gestiscono il <xref:System.Windows.Forms.NativeWindow> verrà utilizzato.</span><span class="sxs-lookup"><span data-stu-id="3049c-130">The class demonstrates the use of the <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> and <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> methods to identify which window handle the <xref:System.Windows.Forms.NativeWindow> will use.</span></span> <span data-ttu-id="3049c-131">L'handle viene assegnato in base al <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> e <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> eventi.</span><span class="sxs-lookup"><span data-stu-id="3049c-131">The handle is assigned based upon the <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> and <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> events.</span></span> <span data-ttu-id="3049c-132">Quando il `WM_ACTIVATEAPP` finestra di messaggio viene ricevuto, la classe chiama il `form1.ApplicationActivated` metodo.</span><span class="sxs-lookup"><span data-stu-id="3049c-132">When the `WM_ACTIVATEAPP` window message is received, the class calls the `form1.ApplicationActivated` method.</span></span>  
+  
+ <span data-ttu-id="3049c-133">Questo codice è tratto dall'esempio illustrato nel <xref:System.Windows.Forms.NativeWindow> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="3049c-133">This code is an excerpt from the example shown in the <xref:System.Windows.Forms.NativeWindow> class overview.</span></span> <span data-ttu-id="3049c-134">Codice non viene visualizzato allo scopo di brevità.</span><span class="sxs-lookup"><span data-stu-id="3049c-134">Some code is not shown for the purpose of brevity.</span></span> <span data-ttu-id="3049c-135">Vedere <xref:System.Windows.Forms.NativeWindow> per il listato di codice completo.</span><span class="sxs-lookup"><span data-stu-id="3049c-135">See <xref:System.Windows.Forms.NativeWindow> for the whole code listing.</span></span>  
+  
+ [!code-cpp[NativeWindow#2](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#2)]
+ [!code-csharp[NativeWindow#2](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#2)]
+ [!code-vb[NativeWindow#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Exception">
+          <span data-ttu-id="3049c-136">Questa finestra dispone già di un handle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-136">This window already has a handle.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="3049c-137">Non è possibile recuperare la routine di finestra per la finestra nativa associata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-137">The windows procedure for the associated native window could not be retrieved.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.Finalize" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.OnHandleChange" />
+      </Docs>
+    </Member>
+    <Member MemberName="CreateHandle">
+      <MemberSignature Language="C#" Value="public virtual void CreateHandle (System.Windows.Forms.CreateParams cp);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CreateHandle(class System.Windows.Forms.CreateParams cp) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub CreateHandle (cp As CreateParams)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void CreateHandle(System::Windows::Forms::CreateParams ^ cp);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="cp" Type="System.Windows.Forms.CreateParams" />
+      </Parameters>
+      <Docs>
+        <param name="cp">
+          <span data-ttu-id="3049c-138">
+            <see cref="T:System.Windows.Forms.CreateParams" /> che specifica i parametri di creazione per la finestra corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-138">A <see cref="T:System.Windows.Forms.CreateParams" /> that specifies the creation parameters for this window.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-139">Crea una finestra e il relativo handle con i parametri di creazione specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-139">Creates a window and its handle with the specified creation parameters.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-140">Il `cp` parametro specifica i valori che vengono passati a Win32 nativo `CreateWindowEx` metodo per creare una finestra e il relativo handle.</span><span class="sxs-lookup"><span data-stu-id="3049c-140">The `cp` parameter specifies the values that are passed to the native Win32 `CreateWindowEx` method to create a window and its handle.</span></span>  
+  
+ <span data-ttu-id="3049c-141">Quando il <xref:System.Windows.Forms.CreateParams.ClassName%2A> campo non è `null`, l'handle di finestra appena creato eredita dalla classe specificata.</span><span class="sxs-lookup"><span data-stu-id="3049c-141">When the <xref:System.Windows.Forms.CreateParams.ClassName%2A> field is not `null`, the newly created window handle inherits from the specified class.</span></span> <span data-ttu-id="3049c-142">Ad esempio, se <xref:System.Windows.Forms.CreateParams.ClassName%2A> è impostato su `BUTTON`, la finestra appena creata è basata su Win32 `BUTTON` classe della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-142">For example, if <xref:System.Windows.Forms.CreateParams.ClassName%2A> is set to `BUTTON`, the newly created window is based on the Win32 `BUTTON` window class.</span></span> <span data-ttu-id="3049c-143">Il <xref:System.Windows.Forms.CreateParams.Param%2A> proprietà del <xref:System.Windows.Forms.CreateParams.ClassName%2A> oggetto deve essere `null` o fare riferimento a un'istanza di una classe che è stata dichiarata come una struttura.</span><span class="sxs-lookup"><span data-stu-id="3049c-143">The <xref:System.Windows.Forms.CreateParams.Param%2A> property of the <xref:System.Windows.Forms.CreateParams.ClassName%2A> object must either be `null` or reference an instance of a class that was declared as a structure.</span></span>  
+  
+ <span data-ttu-id="3049c-144">Questo codice è tratto dall'esempio illustrato nel <xref:System.Windows.Forms.NativeWindow> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="3049c-144">This code is an excerpt from the example shown in the <xref:System.Windows.Forms.NativeWindow> class overview.</span></span> <span data-ttu-id="3049c-145">Codice non viene visualizzato allo scopo di brevità.</span><span class="sxs-lookup"><span data-stu-id="3049c-145">Some code is not shown for the purpose of brevity.</span></span> <span data-ttu-id="3049c-146">Vedere <xref:System.Windows.Forms.NativeWindow> per il listato di codice completo.</span><span class="sxs-lookup"><span data-stu-id="3049c-146">See <xref:System.Windows.Forms.NativeWindow> for the whole code listing.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-147">Il nome di classe specificato è registrato con il sistema operativo.</span><span class="sxs-lookup"><span data-stu-id="3049c-147">The class name provided is registered with the operating system.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-148">Esempio di codice seguente viene illustrata la creazione di una finestra con un nome di classe di finestra specifico del sistema operativo.</span><span class="sxs-lookup"><span data-stu-id="3049c-148">The following code example demonstrates creating a window with a specific operating system window class name.</span></span> <span data-ttu-id="3049c-149">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-149">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span>  
+  
+ <span data-ttu-id="3049c-150">Il `MyNativeWindow` classe crea una nuova finestra con il <xref:System.Windows.Forms.CreateParams.ClassName%2A> impostato su `BUTTON`.</span><span class="sxs-lookup"><span data-stu-id="3049c-150">The `MyNativeWindow` class creates a new window with the <xref:System.Windows.Forms.CreateParams.ClassName%2A> set to `BUTTON`.</span></span> <span data-ttu-id="3049c-151">Crea una finestra pulsante Win32.</span><span class="sxs-lookup"><span data-stu-id="3049c-151">This creates a Win32 button window.</span></span> <span data-ttu-id="3049c-152">La posizione e le dimensioni del pulsante è impostata e si specificano gli stili di finestra aggiuntiva.</span><span class="sxs-lookup"><span data-stu-id="3049c-152">The location and size of the button is set, along with specifying additional window styles.</span></span> <span data-ttu-id="3049c-153">La classe viene illustrato come utilizzare il <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> ed eseguire l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare i messaggi di finestra ricevuti.</span><span class="sxs-lookup"><span data-stu-id="3049c-153">The class demonstrates how to use the <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> method and override the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept window messages that are received.</span></span> <span data-ttu-id="3049c-154">Nell'esempio per quanto il WM_ACTIVATEAPP, questo può essere sostituito in un'applicazione reale con i messaggi della finestra specifici del tipo creato.</span><span class="sxs-lookup"><span data-stu-id="3049c-154">Although the example looks for the WM_ACTIVATEAPP message, this can be replaced in a real program with window messages specific to the type created.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-155">Alcuni tipi di controllo di inviare i messaggi della finestra alla finestra padre anziché nella finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-155">Some control types send their window messages to the window parent instead of the window.</span></span> <span data-ttu-id="3049c-156">Windows Platform SDK per ulteriori informazioni, vedere.</span><span class="sxs-lookup"><span data-stu-id="3049c-156">See the Windows Platform SDK for more information.</span></span>  
+  
+ [!code-cpp[NativeWindow#3](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#3)]
+ [!code-csharp[NativeWindow#3](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#3)]
+ [!code-vb[NativeWindow#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.OutOfMemoryException">
+          <span data-ttu-id="3049c-157">Nel tentativo di creare la finestra nativa, il sistema operativo ha esaurito le risorse.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-157">The operating system ran out of resources when trying to create the native window.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="3049c-158">L'API Win32 nativa non è in grado di creare la finestra specificata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-158">The native Win32 API could not create the specified window.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="3049c-159">L'handle della finestra nativa corrente è già stato assegnato; in altri termini, la proprietà <see cref="P:System.Windows.Forms.NativeWindow.Handle" /> è diversa da <see cref="F:System.IntPtr.Zero" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-159">The handle of the current native window is already assigned; in explanation, the <see cref="P:System.Windows.Forms.NativeWindow.Handle" /> property is not equal to <see cref="F:System.IntPtr.Zero" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.UIPermission">
+          <span data-ttu-id="3049c-160">Per creare una finestra di primo livello.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-160">to create a top-level window.</span>
+          </span>
+          <span data-ttu-id="3049c-161">Questa autorizzazione è richiesta solo se lo stile della finestra non è un elemento figlio o se la finestra non dispone di un padre.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-161">This permission is only demanded if the window style is not a child or if the window does not have a parent.</span>
+          </span>
+          <span data-ttu-id="3049c-162">Enumerazione associata: <see cref="F:System.Security.Permissions.UIPermissionWindow.SafeTopLevelWindows" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-162">Associated enumeration: <see cref="F:System.Security.Permissions.UIPermissionWindow.SafeTopLevelWindows" /></span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Windows.Forms.CreateParams" />
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.Finalize" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+      </Docs>
+    </Member>
+    <Member MemberName="DefWndProc">
+      <MemberSignature Language="C#" Value="public void DefWndProc (ref System.Windows.Forms.Message m);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DefWndProc(valuetype System.Windows.Forms.Message&amp; m) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.DefWndProc(System.Windows.Forms.Message@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub DefWndProc (ByRef m As Message)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void DefWndProc(System::Windows::Forms::Message % m);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="m" Type="System.Windows.Forms.Message&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="m">
+          <span data-ttu-id="3049c-163">Messaggio correntemente in fase di elaborazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-163">The message that is currently being processed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-164">Richiama la routine di finestra predefinita associata a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-164">Invokes the default window procedure associated with this window.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-165">In genere, si chiama solo il <xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> metodo quando si intercettano i messaggi della finestra e usare la procedura di finestra predefinito per gestire il messaggio.</span><span class="sxs-lookup"><span data-stu-id="3049c-165">Typically, you only call the <xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> method when you are intercepting window messages and would like the default window procedure to handle the message.</span></span> <span data-ttu-id="3049c-166"><xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> non deve essere chiamato per inviare un messaggio della finestra alla finestra. chiamare Win32 `SendMessage` funzione alternativa.</span><span class="sxs-lookup"><span data-stu-id="3049c-166"><xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> should not be called to send a window message to the window; call the Win32 `SendMessage` function instead.</span></span>  
+  
+ <span data-ttu-id="3049c-167">È un errore di chiamare <xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> quando il <xref:System.Windows.Forms.NativeWindow.Handle%2A> proprietà è 0.</span><span class="sxs-lookup"><span data-stu-id="3049c-167">It is an error to call <xref:System.Windows.Forms.NativeWindow.DefWndProc%2A> when the <xref:System.Windows.Forms.NativeWindow.Handle%2A> property is 0.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="3049c-168">Eseguire l'override di questo metodo in una classe derivata per implementare la gestione per una specifica finestra nativa o un Windows Form .NET generalizzato messaggi personalizzati <see cref="T:System.Windows.Forms.Control" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-168">Override this method in a derived class to implement generalized custom message handling for a specific native window or .NET Windows Forms <see cref="T:System.Windows.Forms.Control" />.</span>
+            </span>
+            <span data-ttu-id="3049c-169">L'elaborazione personalizzata può essere eseguita prima, dopo o invece di una chiamata all'implementazione della classe di base di questo metodo, che esegue l'elaborazione dei messaggi standard.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-169">Custom processing can be performed before, after, or instead of a call to the base class implementation of this method, which performs standard message processing.</span>
+            </span>
+            <span data-ttu-id="3049c-170">Al contrario, aggiunta personalizzate per un'applicazione può essere eseguita tramite la gestione dei messaggi il <see cref="M:System.Windows.Forms.Application.AddMessageFilter(System.Windows.Forms.IMessageFilter)" /> metodo la <see cref="T:System.Windows.Forms.Application" /> classe.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-170">In contrast, adding customized message handling for an application can be accomplished through the <see cref="M:System.Windows.Forms.Application.AddMessageFilter(System.Windows.Forms.IMessageFilter)" /> method of the <see cref="T:System.Windows.Forms.Application" /> class.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="T:System.Windows.Forms.Message" />
+        <altmember cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />
+        <altmember cref="M:System.Windows.Forms.Application.AddMessageFilter(System.Windows.Forms.IMessageFilter)" />
+      </Docs>
+    </Member>
+    <Member MemberName="DestroyHandle">
+      <MemberSignature Language="C#" Value="public virtual void DestroyHandle ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DestroyHandle() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub DestroyHandle ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void DestroyHandle();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-171">Elimina la finestra e il relativo handle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-171">Destroys the window and its handle.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-172">Questo metodo elimina la finestra associata la <xref:System.Windows.Forms.NativeWindow.Handle%2A>, imposta il <xref:System.Windows.Forms.NativeWindow.Handle%2A> proprietà su 0 e chiamate di <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> metodo in modo da riflettere la modifica.</span><span class="sxs-lookup"><span data-stu-id="3049c-172">This method destroys the window associated with the <xref:System.Windows.Forms.NativeWindow.Handle%2A>, sets the <xref:System.Windows.Forms.NativeWindow.Handle%2A> property to 0, and calls the <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> method to reflect the change.</span></span> <span data-ttu-id="3049c-173">In genere, si chiama solo <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A> al termine con la finestra nativa.</span><span class="sxs-lookup"><span data-stu-id="3049c-173">Typically, you only call <xref:System.Windows.Forms.NativeWindow.DestroyHandle%2A> when you are done with the native window.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-174">La <xref:System.Windows.Forms.NativeWindow> classe verrà automaticamente distruggere la finestra associata e rilasciare le risorse in risposta a un messaggio WM_DESTROY.</span><span class="sxs-lookup"><span data-stu-id="3049c-174">The <xref:System.Windows.Forms.NativeWindow> class automatically will destroy the associated window and release its resources in response to a WM_DESTROY message.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.Finalize" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.OnHandleChange" />
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~NativeWindow ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!NativeWindow ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-175">Rilascia le risorse associate a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-175">Releases the resources associated with this window.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-176">Il <xref:System.Windows.Forms.NativeWindow.Finalize%2A> metodo rimuove la classe derivata Win32 associata all'oggetto corrente <xref:System.Windows.Forms.NativeWindow> rilascia l'handle di istanza e invia un messaggio WM_CLOSE associato alla finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-176">The <xref:System.Windows.Forms.NativeWindow.Finalize%2A> method removes the Win32 derived class associated with the current <xref:System.Windows.Forms.NativeWindow> instance, releases the handle, and posts a WM_CLOSE message to the associated window.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Forms.NativeWindow.#ctor" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+      </Docs>
+    </Member>
+    <Member MemberName="FromHandle">
+      <MemberSignature Language="C#" Value="public static System.Windows.Forms.NativeWindow FromHandle (IntPtr handle);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Forms.NativeWindow FromHandle(native int handle) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.FromHandle(System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function FromHandle (handle As IntPtr) As NativeWindow" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Forms::NativeWindow ^ FromHandle(IntPtr handle);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Forms.NativeWindow</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">
+          <span data-ttu-id="3049c-177">Handle di una finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-177">A handle to a window.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-178">Recupera la finestra associata all'handle specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-178">Retrieves the window associated with the specified handle.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3049c-179">Oggetto <see cref="T:System.Windows.Forms.NativeWindow" /> associato all'handle specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-179">The <see cref="T:System.Windows.Forms.NativeWindow" /> associated with the specified handle.</span>
+          </span>
+          <span data-ttu-id="3049c-180">Questo metodo restituisce <see langword="null" /> quando nessuna finestra è associata all'handle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-180">This method returns <see langword="null" /> when the handle does not have an associated window.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-181">Se si riceve un handle da un altro metodo, è possibile utilizzare questo metodo per recuperare la finestra associata all'handle.</span><span class="sxs-lookup"><span data-stu-id="3049c-181">If you receive a handle from another method, use this method to retrieve the window associated with the handle.</span></span> <span data-ttu-id="3049c-182">L'handle deve già essere appartenga a un altro <xref:System.Windows.Forms.NativeWindow> nell'attuale processo; in caso contrario, `null` viene restituito.</span><span class="sxs-lookup"><span data-stu-id="3049c-182">The handle must already be owned by another <xref:System.Windows.Forms.NativeWindow> in the current process; otherwise, `null` is returned.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+      </Docs>
+    </Member>
+    <Member MemberName="Handle">
+      <MemberSignature Language="C#" Value="public IntPtr Handle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int Handle" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Forms.NativeWindow.Handle" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Handle As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property IntPtr Handle { IntPtr get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Windows.Forms.IWin32Window.Handle</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-183">Ottiene l'handle di questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-183">Gets the handle for this window.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3049c-184">In caso di esito positivo, oggetto <see cref="T:System.IntPtr" /> che rappresenta l'handle associato alla finestra Win32 nativa; in caso contrario, 0 se non esistono handle associati alla finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-184">If successful, an <see cref="T:System.IntPtr" /> representing the handle to the associated native Win32 window; otherwise, 0 if no handle is associated with the window.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-185">Utilizzare questo metodo quando si chiamano metodi API di Windows che richiedono un handle per una finestra o un controllo.</span><span class="sxs-lookup"><span data-stu-id="3049c-185">Use this method when calling Windows API methods that require a handle for a window or control.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-186">Esempio di codice seguente viene illustrata la creazione di una finestra con un nome di classe di finestra specifico del sistema operativo.</span><span class="sxs-lookup"><span data-stu-id="3049c-186">The following code example demonstrates creating a window with a specific operating system window class name.</span></span> <span data-ttu-id="3049c-187">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-187">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span> <span data-ttu-id="3049c-188">Nell'esempio viene illustrato anche l'override di <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> metodo per ricevere una notifica quando il <xref:System.Windows.Forms.NativeWindow.Handle%2A> le modifiche.</span><span class="sxs-lookup"><span data-stu-id="3049c-188">The example also demonstrates overriding the <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> method to be notified when the <xref:System.Windows.Forms.NativeWindow.Handle%2A> changes.</span></span>  
+  
+ <span data-ttu-id="3049c-189">Il `MyNativeWindow` classe crea una nuova finestra con il <xref:System.Windows.Forms.CreateParams.ClassName%2A> impostato su pulsante.</span><span class="sxs-lookup"><span data-stu-id="3049c-189">The `MyNativeWindow` class creates a new window with the <xref:System.Windows.Forms.CreateParams.ClassName%2A> set to BUTTON.</span></span> <span data-ttu-id="3049c-190">Crea una finestra pulsante Win32.</span><span class="sxs-lookup"><span data-stu-id="3049c-190">This creates a Win32 button window.</span></span> <span data-ttu-id="3049c-191">La posizione e le dimensioni del pulsante è impostata e si specificano gli stili di finestra aggiuntiva.</span><span class="sxs-lookup"><span data-stu-id="3049c-191">The location and size of the button is set, along with specifying additional window styles.</span></span> <span data-ttu-id="3049c-192">La classe viene illustrato come utilizzare il <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> ed eseguire l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare i messaggi di finestra ricevuti.</span><span class="sxs-lookup"><span data-stu-id="3049c-192">The class demonstrates how to use the <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> method and override the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept window messages that are received.</span></span> <span data-ttu-id="3049c-193">Nell'esempio per quanto il WM_ACTIVATEAPP, questo potrebbe essere sostituito in un'applicazione reale con i messaggi della finestra specifici del tipo creato.</span><span class="sxs-lookup"><span data-stu-id="3049c-193">Although the example looks for the WM_ACTIVATEAPP message, this could be replaced in a real program with window messages specific to the type created.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-194">Alcuni tipi di controllo di inviare i messaggi della finestra alla finestra padre anziché nella finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-194">Some control types send their window messages to the window parent instead of the window.</span></span> <span data-ttu-id="3049c-195">Windows Platform SDK per ulteriori informazioni, vedere.</span><span class="sxs-lookup"><span data-stu-id="3049c-195">See the Windows Platform SDK for more information.</span></span>  
+  
+ [!code-cpp[NativeWindow#3](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#3)]
+ [!code-csharp[NativeWindow#3](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#3)]
+ [!code-vb[NativeWindow#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.OnHandleChange" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnHandleChange">
+      <MemberSignature Language="C#" Value="protected virtual void OnHandleChange ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnHandleChange() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.OnHandleChange" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnHandleChange ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnHandleChange();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-196">Specifica un metodo di notifica che viene chiamato quando varia l'handle di una finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-196">Specifies a notification method that is called when the handle for a window is changed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-197">Questo metodo viene richiamato quando il valore di <xref:System.Windows.Forms.NativeWindow.Handle%2A> proprietà è stata modificata.</span><span class="sxs-lookup"><span data-stu-id="3049c-197">This method is invoked when the value of the <xref:System.Windows.Forms.NativeWindow.Handle%2A> property has changed.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-198">Esempio di codice seguente viene illustrata la creazione di una finestra con un nome di classe di finestra specifico del sistema operativo.</span><span class="sxs-lookup"><span data-stu-id="3049c-198">The following code example demonstrates creating a window with a specific operating system window class name.</span></span> <span data-ttu-id="3049c-199">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-199">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span> <span data-ttu-id="3049c-200">Nell'esempio viene illustrato anche l'override di <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> metodo per ricevere una notifica quando il <xref:System.Windows.Forms.NativeWindow.Handle%2A> le modifiche.</span><span class="sxs-lookup"><span data-stu-id="3049c-200">The example also demonstrates overriding the <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> method to be notified when the <xref:System.Windows.Forms.NativeWindow.Handle%2A> changes.</span></span>  
+  
+ <span data-ttu-id="3049c-201">Il `MyNativeWindow` classe crea una nuova finestra con il <xref:System.Windows.Forms.CreateParams.ClassName%2A> impostato su `BUTTON`.</span><span class="sxs-lookup"><span data-stu-id="3049c-201">The `MyNativeWindow` class creates a new window with the <xref:System.Windows.Forms.CreateParams.ClassName%2A> set to `BUTTON`.</span></span> <span data-ttu-id="3049c-202">Crea una finestra pulsante Win32.</span><span class="sxs-lookup"><span data-stu-id="3049c-202">This creates a Win32 button window.</span></span> <span data-ttu-id="3049c-203">La posizione e le dimensioni del pulsante è impostata e si specificano gli stili di finestra aggiuntiva.</span><span class="sxs-lookup"><span data-stu-id="3049c-203">The location and size of the button is set, along with specifying additional window styles.</span></span> <span data-ttu-id="3049c-204">La classe viene illustrato come utilizzare il <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> ed eseguire l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare i messaggi di finestra ricevuti.</span><span class="sxs-lookup"><span data-stu-id="3049c-204">The class demonstrates how to use the <xref:System.Windows.Forms.NativeWindow.CreateHandle%2A> method and override the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept window messages that are received.</span></span> <span data-ttu-id="3049c-205">Nell'esempio per quanto il WM_ACTIVATEAPP, questo può essere sostituito in un'applicazione reale con i messaggi della finestra specifici del tipo creato.</span><span class="sxs-lookup"><span data-stu-id="3049c-205">Although the example looks for the WM_ACTIVATEAPP message, this can be replaced in a real program with window messages specific to the type created.</span></span>  
+  
+ <span data-ttu-id="3049c-206">Questo codice è tratto dall'esempio illustrato nel <xref:System.Windows.Forms.NativeWindow> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="3049c-206">This code is an excerpt from the example shown in the <xref:System.Windows.Forms.NativeWindow> class overview.</span></span> <span data-ttu-id="3049c-207">Codice non viene visualizzato allo scopo di brevità.</span><span class="sxs-lookup"><span data-stu-id="3049c-207">Some code is not shown for the purpose of brevity.</span></span> <span data-ttu-id="3049c-208">Vedere <xref:System.Windows.Forms.NativeWindow> per il listato di codice completo.</span><span class="sxs-lookup"><span data-stu-id="3049c-208">See <xref:System.Windows.Forms.NativeWindow> for the whole code listing.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3049c-209">Alcuni tipi di controllo di inviare i messaggi della finestra alla finestra padre anziché nella finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-209">Some control types send their window messages to the window parent instead of the window.</span></span> <span data-ttu-id="3049c-210">Windows Platform SDK per ulteriori informazioni, vedere.</span><span class="sxs-lookup"><span data-stu-id="3049c-210">See the Windows Platform SDK for more information.</span></span>  
+  
+ [!code-cpp[NativeWindow#3](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#3)]
+ [!code-csharp[NativeWindow#3](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#3)]
+ [!code-vb[NativeWindow#3](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="3049c-211">Eseguire l'override di questo metodo per rilevare le modifiche apportate all'handle di finestra.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-211">Override this method to track changes that are made to the window handle.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.WndProc(System.Windows.Forms.Message@)" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnThreadException">
+      <MemberSignature Language="C#" Value="protected virtual void OnThreadException (Exception e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnThreadException(class System.Exception e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.OnThreadException(System.Exception)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnThreadException (e As Exception)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnThreadException(Exception ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.Exception" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="3049c-212">Oggetto <see cref="T:System.Exception" /> che specifica le eccezioni di thread non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-212">An <see cref="T:System.Exception" /> that specifies the unhandled thread exception.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-213">Quando è sottoposto a override in una classe derivata, gestisce un'eccezione di thread non gestita.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-213">When overridden in a derived class, manages an unhandled thread exception.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-214">In genere, <xref:System.Windows.Forms.Application.OnThreadException%2A> gestisce le eccezioni tra thread.</span><span class="sxs-lookup"><span data-stu-id="3049c-214">Typically, <xref:System.Windows.Forms.Application.OnThreadException%2A> handles thread exceptions.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.WndProc(System.Windows.Forms.Message@)" />
+        <altmember cref="T:System.Windows.Forms.Application" />
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseHandle">
+      <MemberSignature Language="C#" Value="public virtual void ReleaseHandle ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReleaseHandle() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.ReleaseHandle" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub ReleaseHandle ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void ReleaseHandle();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3049c-215">Rilascia l'handle associato a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-215">Releases the handle associated with this window.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-216">Questo metodo non elimina l'handle di finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-216">This method does not destroy the window handle.</span></span> <span data-ttu-id="3049c-217">Imposta invece la routine dell'handle finestra alla routine della finestra predefinita.</span><span class="sxs-lookup"><span data-stu-id="3049c-217">Instead, it sets the handle's window procedure to the default window procedure.</span></span> <span data-ttu-id="3049c-218">Imposta il <xref:System.Windows.Forms.NativeWindow.Handle%2A> proprietà su 0 e chiama <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> per riflettere la modifica.</span><span class="sxs-lookup"><span data-stu-id="3049c-218">It sets the <xref:System.Windows.Forms.NativeWindow.Handle%2A> property to 0 and calls <xref:System.Windows.Forms.NativeWindow.OnHandleChange%2A> to reflect the change.</span></span>  
+  
+ <span data-ttu-id="3049c-219">Una finestra chiama automaticamente questo metodo se riceve un messaggio WM_NCDESTROY nativo Win32, che indica che Windows ha eliminato l'handle.</span><span class="sxs-lookup"><span data-stu-id="3049c-219">A window automatically calls this method if it receives a native Win32 WM_NCDESTROY message, indicating that Windows has destroyed the handle.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-220">Esempio di codice riportato di seguito viene illustrato l'intercettazione di messaggi di finestra del sistema operativo in una routine della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-220">The following code example demonstrates intercepting operating system window messages in a window procedure.</span></span> <span data-ttu-id="3049c-221">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-221">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span>  
+  
+ <span data-ttu-id="3049c-222">Il `MyNativeWindowListener` hook della routine della finestra del form passato al costruttore di classe ed esegue l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo intercetta il `WM_ACTIVATEAPP` messaggio della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-222">The `MyNativeWindowListener` class hooks into the window procedure of the form passed into the constructor, and overrides the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercepts the `WM_ACTIVATEAPP` window message.</span></span> <span data-ttu-id="3049c-223">Viene illustrato come utilizzare la classe di <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> e <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> metodi per identificare l'handle della finestra di <xref:System.Windows.Forms.NativeWindow> utilizzerà.</span><span class="sxs-lookup"><span data-stu-id="3049c-223">The class demonstrates the use of the <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> and <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> methods to identify the window handle the <xref:System.Windows.Forms.NativeWindow> will use.</span></span> <span data-ttu-id="3049c-224">L'handle viene assegnato in base il <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> e <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> eventi.</span><span class="sxs-lookup"><span data-stu-id="3049c-224">The handle is assign based upon the <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> and <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> events.</span></span> <span data-ttu-id="3049c-225">Quando il `WM_ACTIVATEAPP` finestra di messaggio viene ricevuto, la classe chiama il `form1.ApplicationActivated` metodo.</span><span class="sxs-lookup"><span data-stu-id="3049c-225">When the `WM_ACTIVATEAPP` window message is received, the class calls the `form1.ApplicationActivated` method.</span></span>  
+  
+ <span data-ttu-id="3049c-226">Questo codice è tratto dall'esempio illustrato nel <xref:System.Windows.Forms.NativeWindow> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="3049c-226">This code is an excerpt from the example shown in the <xref:System.Windows.Forms.NativeWindow> class overview.</span></span> <span data-ttu-id="3049c-227">Codice non viene visualizzato allo scopo di brevità.</span><span class="sxs-lookup"><span data-stu-id="3049c-227">Some code is not shown for the purpose of brevity.</span></span> <span data-ttu-id="3049c-228">Vedere <xref:System.Windows.Forms.NativeWindow> per il listato di codice completo.</span><span class="sxs-lookup"><span data-stu-id="3049c-228">See <xref:System.Windows.Forms.NativeWindow> for the whole code listing.</span></span>  
+  
+ [!code-cpp[NativeWindow#2](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#2)]
+ [!code-csharp[NativeWindow#2](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#2)]
+ [!code-vb[NativeWindow#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.AssignHandle(System.IntPtr)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.CreateHandle(System.Windows.Forms.CreateParams)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.DestroyHandle" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.WndProc(System.Windows.Forms.Message@)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.OnHandleChange" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.Finalize" />
+      </Docs>
+    </Member>
+    <Member MemberName="WndProc">
+      <MemberSignature Language="C#" Value="protected virtual void WndProc (ref System.Windows.Forms.Message m);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void WndProc(valuetype System.Windows.Forms.Message&amp; m) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Forms.NativeWindow.WndProc(System.Windows.Forms.Message@)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub WndProc (ByRef m As Message)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void WndProc(System::Windows::Forms::Message % m);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Windows.Forms</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="m" Type="System.Windows.Forms.Message&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="m">
+          <span data-ttu-id="3049c-229">Oggetto <see cref="T:System.Windows.Forms.Message" /> associato al messaggio corrente di Windows.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-229">A <see cref="T:System.Windows.Forms.Message" /> that is associated with the current Windows message.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3049c-230">Richiama la routine di finestra predefinita associata a questa finestra.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3049c-230">Invokes the default window procedure associated with this window.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3049c-231">Questo metodo viene chiamato quando viene inviato un messaggio della finestra per l'handle della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-231">This method is called when a window message is sent to the handle of the window.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3049c-232">Esempio di codice riportato di seguito viene illustrato l'intercettazione di messaggi di finestra del sistema operativo in una routine della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-232">The following code example demonstrates intercepting operating system window messages in a window procedure.</span></span> <span data-ttu-id="3049c-233">Nell'esempio viene creata una classe che eredita da <xref:System.Windows.Forms.NativeWindow> a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="3049c-233">The example creates a class that inherits from <xref:System.Windows.Forms.NativeWindow> to accomplish this.</span></span>  
+  
+ <span data-ttu-id="3049c-234">Il `MyNativeWindowListener` hook della routine della finestra del form passato al costruttore di classe ed esegue l'override di <xref:System.Windows.Forms.NativeWindow.WndProc%2A> metodo per intercettare la `WM_ACTIVATEAPP` messaggio della finestra.</span><span class="sxs-lookup"><span data-stu-id="3049c-234">The `MyNativeWindowListener` class hooks into the window procedure of the form passed into the constructor, and overrides the <xref:System.Windows.Forms.NativeWindow.WndProc%2A> method to intercept the `WM_ACTIVATEAPP` window message.</span></span> <span data-ttu-id="3049c-235">Viene illustrato come utilizzare la classe di <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> e <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> metodi per identificare l'handle della finestra di <xref:System.Windows.Forms.NativeWindow> utilizzerà.</span><span class="sxs-lookup"><span data-stu-id="3049c-235">The class demonstrates the use of the <xref:System.Windows.Forms.NativeWindow.AssignHandle%2A> and <xref:System.Windows.Forms.NativeWindow.ReleaseHandle%2A> methods to identify the window handle the <xref:System.Windows.Forms.NativeWindow> will use.</span></span> <span data-ttu-id="3049c-236">L'handle viene assegnato in base al <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> e <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> eventi.</span><span class="sxs-lookup"><span data-stu-id="3049c-236">The handle is assigned based upon the <xref:System.Windows.Forms.Control.HandleCreated?displayProperty=nameWithType> and <xref:System.Windows.Forms.Control.HandleDestroyed?displayProperty=nameWithType> events.</span></span> <span data-ttu-id="3049c-237">Quando il `WM_ACTIVATEAPP` finestra di messaggio viene ricevuto, la classe chiama il `form1.ApplicationActivated` metodo.</span><span class="sxs-lookup"><span data-stu-id="3049c-237">When the `WM_ACTIVATEAPP` window message is received, the class calls the `form1.ApplicationActivated` method.</span></span>  
+  
+ <span data-ttu-id="3049c-238">Questo codice è tratto dall'esempio illustrato nel <xref:System.Windows.Forms.NativeWindow> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="3049c-238">This code is an excerpt from the example shown in the <xref:System.Windows.Forms.NativeWindow> class overview.</span></span> <span data-ttu-id="3049c-239">Codice non viene visualizzato allo scopo di brevità.</span><span class="sxs-lookup"><span data-stu-id="3049c-239">Some code is not shown for the purpose of brevity.</span></span> <span data-ttu-id="3049c-240">Vedere <xref:System.Windows.Forms.NativeWindow> per il listato di codice completo.</span><span class="sxs-lookup"><span data-stu-id="3049c-240">See <xref:System.Windows.Forms.NativeWindow> for the whole code listing.</span></span>  
+  
+ [!code-cpp[NativeWindow#2](~/samples/snippets/cpp/VS_Snippets_Winforms/NativeWindow/CPP/form1.cpp#2)]
+ [!code-csharp[NativeWindow#2](~/samples/snippets/csharp/VS_Snippets_Winforms/NativeWindow/CS/form1.cs#2)]
+ [!code-vb[NativeWindow#2](~/samples/snippets/visualbasic/VS_Snippets_Winforms/NativeWindow/VB/form1.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="3049c-241">Eseguire l'override di questo metodo per implementare l'elaborazione del messaggio specifico.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-241">Override this method to implement specific message processing.</span>
+            </span>
+            <span data-ttu-id="3049c-242">Chiamare <c>base. WndProc</c> per messaggi non gestiti.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="3049c-242">Call <c>base.WndProc</c> for unhandled messages.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="P:System.Windows.Forms.NativeWindow.Handle" />
+        <altmember cref="T:System.Windows.Forms.Message" />
+        <altmember cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />
+        <altmember cref="M:System.Windows.Forms.NativeWindow.OnThreadException(System.Exception)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,2416 @@
+<Type Name="CollectionView" FullName="System.Windows.Data.CollectionView">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="8d3b9900ff3ea9a80c58df84188864118f024334" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class CollectionView : System.Windows.Threading.DispatcherObject, System.Collections.IEnumerable, System.Collections.Specialized.INotifyCollectionChanged, System.ComponentModel.ICollectionView, System.ComponentModel.INotifyPropertyChanged" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CollectionView extends System.Windows.Threading.DispatcherObject implements class System.Collections.IEnumerable, class System.Collections.Specialized.INotifyCollectionChanged, class System.ComponentModel.ICollectionView, class System.ComponentModel.INotifyPropertyChanged" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Data.CollectionView" />
+  <TypeSignature Language="VB.NET" Value="Public Class CollectionView&#xA;Inherits DispatcherObject&#xA;Implements ICollectionView, IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged" />
+  <TypeSignature Language="C++ CLI" Value="public ref class CollectionView : System::Windows::Threading::DispatcherObject, System::Collections::IEnumerable, System::Collections::Specialized::INotifyCollectionChanged, System::ComponentModel::ICollectionView, System::ComponentModel::INotifyPropertyChanged" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationFramework</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Windows.Threading.DispatcherObject</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Specialized.INotifyCollectionChanged</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.ComponentModel.ICollectionView</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.ComponentModel.INotifyPropertyChanged</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="5d326-101">Rappresenta una visualizzazione per il raggruppamento, l'ordinamento, il filtro e lo spostamento in una raccolta di dati.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="5d326-101">Represents a view for grouping, sorting, filtering, and navigating a data collection.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-102">È non deve creare oggetti di questa classe nel codice.</span><span class="sxs-lookup"><span data-stu-id="5d326-102">You should not create objects of this class in your code.</span></span> <span data-ttu-id="5d326-103">Per creare una visualizzazione di raccolta per una raccolta che implementa solo <xref:System.Collections.IEnumerable>, creare un <xref:System.Windows.Data.CollectionViewSource> , aggiungere la raccolta per il <xref:System.Windows.Data.CollectionViewSource.Source%2A> proprietà e consente di visualizzare la raccolta da ottenere la <xref:System.Windows.Data.CollectionViewSource.View%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="5d326-103">To create a collection view for a collection that only implements <xref:System.Collections.IEnumerable>, create a <xref:System.Windows.Data.CollectionViewSource> object, add your collection to the <xref:System.Windows.Data.CollectionViewSource.Source%2A> property, and get the collection view from the <xref:System.Windows.Data.CollectionViewSource.View%2A> property.</span></span>  
+  
+ <span data-ttu-id="5d326-104">È possibile pensare di una visualizzazione di raccolta come un livello superiore di una raccolta di origine di associazione che consente di esplorare e visualizzare la raccolta in base a ordinamento, filtro e query di gruppo, senza dover modificare l'insieme di origine sottostante.</span><span class="sxs-lookup"><span data-stu-id="5d326-104">You can think of a collection view as a layer on top of a binding source collection that allows you to navigate and display the collection based on sort, filter, and group queries, all without having to manipulate the underlying source collection itself.</span></span> <span data-ttu-id="5d326-105">Se la raccolta di origine implementa il <xref:System.Collections.Specialized.INotifyCollectionChanged> interfaccia, le modifiche che generano il <xref:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged> evento vengono propagate alle visualizzazioni.</span><span class="sxs-lookup"><span data-stu-id="5d326-105">If the source collection implements the <xref:System.Collections.Specialized.INotifyCollectionChanged> interface, the changes that raise the <xref:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged> event are propagated to the views.</span></span>  
+  
+ <span data-ttu-id="5d326-106">Poiché una vista non modifica la raccolta di origine sottostante, una raccolta di origine può avere più visualizzazioni associate.</span><span class="sxs-lookup"><span data-stu-id="5d326-106">Because a view does not change the underlying source collection, a source collection can have multiple views associated with it.</span></span> <span data-ttu-id="5d326-107">Utilizzando le visualizzazioni, è possibile visualizzare gli stessi dati in modi diversi.</span><span class="sxs-lookup"><span data-stu-id="5d326-107">By using views, you can display the same data in different ways.</span></span> <span data-ttu-id="5d326-108">Ad esempio, è possibile utilizzare due viste in una raccolta di `Task` oggetti da mostrare le attività ordinate in base alla priorità su una parte della pagina e raggruppati per area in un'altra parte della pagina.</span><span class="sxs-lookup"><span data-stu-id="5d326-108">For example, you can use two views on a collection of `Task` objects to show tasks sorted by priority on one part of the page and grouped by area on another part of the page.</span></span>  
+  
+ <span data-ttu-id="5d326-109">In [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] applicazioni, tutte le raccolte di dispongono di un insieme predefinito associato visualizzare.</span><span class="sxs-lookup"><span data-stu-id="5d326-109">In [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] applications, all collections have an associated default collection view.</span></span> <span data-ttu-id="5d326-110">Anziché utilizzare direttamente la raccolta, il motore di associazione accede sempre alla raccolta tramite la visualizzazione associata.</span><span class="sxs-lookup"><span data-stu-id="5d326-110">Rather than working with the collection directly, the binding engine always accesses the collection through the associated view.</span></span> <span data-ttu-id="5d326-111">Per ottenere la visualizzazione predefinita, utilizzare il <xref:System.Windows.Data.CollectionViewSource.GetDefaultView%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-111">To get the default view, use the <xref:System.Windows.Data.CollectionViewSource.GetDefaultView%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="5d326-112">Classe interna in base a <xref:System.Windows.Data.CollectionView> è la visualizzazione predefinita per le raccolte che implementano solo <xref:System.Collections.IEnumerable>.</span><span class="sxs-lookup"><span data-stu-id="5d326-112">An internal class based on <xref:System.Windows.Data.CollectionView> is the default view for collections that implement only <xref:System.Collections.IEnumerable>.</span></span> <span data-ttu-id="5d326-113"><xref:System.Windows.Data.ListCollectionView> è la visualizzazione predefinita per le raccolte che implementano <xref:System.Collections.IList>.</span><span class="sxs-lookup"><span data-stu-id="5d326-113"><xref:System.Windows.Data.ListCollectionView> is the default view for collections that implement <xref:System.Collections.IList>.</span></span> <span data-ttu-id="5d326-114"><xref:System.Windows.Data.BindingListCollectionView> è la visualizzazione predefinita per le raccolte che implementano <xref:System.ComponentModel.IBindingListView> o <xref:System.ComponentModel.IBindingList>.</span><span class="sxs-lookup"><span data-stu-id="5d326-114"><xref:System.Windows.Data.BindingListCollectionView> is the default view for collections that implement <xref:System.ComponentModel.IBindingListView> or <xref:System.ComponentModel.IBindingList>.</span></span>  
+  
+ <span data-ttu-id="5d326-115">In alternativa, è possibile creare una vista della raccolta in [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] utilizzando la <xref:System.Windows.Data.CollectionViewSource> classe e quindi associare il controllo per la visualizzazione.</span><span class="sxs-lookup"><span data-stu-id="5d326-115">Alternatively, you can create a view of your collection in [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] by using the <xref:System.Windows.Data.CollectionViewSource> class and then bind your control to that view.</span></span> <span data-ttu-id="5d326-116">Il <xref:System.Windows.Data.CollectionViewSource> classe è la [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)] rappresentazione la <xref:System.Windows.Data.CollectionView> classe.</span><span class="sxs-lookup"><span data-stu-id="5d326-116">The <xref:System.Windows.Data.CollectionViewSource> class is the [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)] representation of the <xref:System.Windows.Data.CollectionView> class.</span></span> <span data-ttu-id="5d326-117">Per un esempio, vedere [procedura: ordinare e gruppo di dati tramite una vista in XAML](~/docs/framework/wpf/data/how-to-sort-and-group-data-using-a-view-in-xaml.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-117">For an example, see [How to: Sort and Group Data Using a View in XAML](~/docs/framework/wpf/data/how-to-sort-and-group-data-using-a-view-in-xaml.md).</span></span>  
+  
+ <span data-ttu-id="5d326-118">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-118">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ <span data-ttu-id="5d326-119">Per impostare una visualizzazione in [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)], utilizzare la <xref:System.Windows.Data.CollectionViewSource> classe.</span><span class="sxs-lookup"><span data-stu-id="5d326-119">To set a view in [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)], use the <xref:System.Windows.Data.CollectionViewSource> class.</span></span> <span data-ttu-id="5d326-120"><xref:System.Windows.Data.CollectionViewSource> è il [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)] rappresentazione il <xref:System.Windows.Data.CollectionView> classe ed espone i membri di più comunemente usati la <xref:System.Windows.Data.CollectionView> classe.</span><span class="sxs-lookup"><span data-stu-id="5d326-120"><xref:System.Windows.Data.CollectionViewSource> is the [!INCLUDE[TLA2#tla_xaml](~/includes/tla2sharptla-xaml-md.md)] representation of the <xref:System.Windows.Data.CollectionView> class, and it exposes the most commonly used members of the <xref:System.Windows.Data.CollectionView> class.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CollectionView (System.Collections.IEnumerable collection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Collections.IEnumerable collection) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.#ctor(System.Collections.IEnumerable)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (collection As IEnumerable)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; CollectionView(System::Collections::IEnumerable ^ collection);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="collection" Type="System.Collections.IEnumerable" />
+      </Parameters>
+      <Docs>
+        <param name="collection">
+          <span data-ttu-id="5d326-121">Raccolta sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-121">The underlying collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-122">Inizializza un'istanza nuova della classe <see cref="T:System.Windows.Data.CollectionView" /> che rappresenta una visualizzazione dell'insieme specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-122">Initializes a new instance of the <see cref="T:System.Windows.Data.CollectionView" /> class that represents a view of the specified collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-123">L'istanza di <xref:System.Windows.Data.CollectionView> è associato il [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)] thread del dispatcher del chiamante del costruttore.</span><span class="sxs-lookup"><span data-stu-id="5d326-123">The instance of <xref:System.Windows.Data.CollectionView> is bound to the [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)] thread dispatcher of the caller of this constructor.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AllowsCrossThreadChanges">
+      <MemberSignature Language="C#" Value="protected bool AllowsCrossThreadChanges { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool AllowsCrossThreadChanges" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.AllowsCrossThreadChanges" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property AllowsCrossThreadChanges As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool AllowsCrossThreadChanges { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-124">Ottiene un valore che indica se un thread diverso da quello che ha creato <see cref="T:System.Windows.Data.CollectionView" /> può modificare <see cref="P:System.Windows.Data.CollectionView.SourceCollection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-124">Gets a value that indicates whether a thread other than the one that created the <see cref="T:System.Windows.Data.CollectionView" /> can change the <see cref="P:System.Windows.Data.CollectionView.SourceCollection" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-125">
+            <see langword="true" /> se un thread diverso da quello che ha creato <see cref="T:System.Windows.Data.CollectionView" /> può modificare <see cref="P:System.Windows.Data.CollectionView.SourceCollection" />; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-125">
+              <see langword="true" /> if a thread other than the one that created the <see cref="T:System.Windows.Data.CollectionView" /> can change the <see cref="P:System.Windows.Data.CollectionView.SourceCollection" />; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanFilter">
+      <MemberSignature Language="C#" Value="public virtual bool CanFilter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanFilter" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.CanFilter" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property CanFilter As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanFilter { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-126">Ottiene un valore che indica se la visualizzazione supporta il filtraggio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-126">Gets a value that indicates whether the view supports filtering.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-127">
+            <see langword="true" /> se la visualizzazione supporta il filtraggio; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-127">
+              <see langword="true" /> if the view supports filtering; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="5d326-128">Il valore predefinito è <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-128">The default is <see langword="true" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-129">Se questa proprietà restituisce `false`, impostando il <xref:System.Windows.Data.CollectionView.Filter%2A> proprietà genera un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="5d326-129">If this property returns `false`, setting the <xref:System.Windows.Data.CollectionView.Filter%2A> property throws an exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanGroup">
+      <MemberSignature Language="C#" Value="public virtual bool CanGroup { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanGroup" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.CanGroup" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property CanGroup As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanGroup { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-130">Ottiene un valore che indica se la visualizzazione supporta il raggruppamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-130">Gets a value that indicates whether the view supports grouping.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-131">
+            <see langword="false" /> in tutti i casi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-131">
+              <see langword="false" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-132">Utilizzare questa proprietà per verificare se la visualizzazione supporta l'ordinamento prima di aggiungere <xref:System.Windows.Data.CollectionView.GroupDescriptions%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-132">Use this property to test whether the view supports sorting before adding <xref:System.Windows.Data.CollectionView.GroupDescriptions%2A>.</span></span> <span data-ttu-id="5d326-133">Le classi derivate di eseguire l'override della proprietà per indicare se supportano il raggruppamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-133">Derived classes override this property to indicate whether they support grouping.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanSort">
+      <MemberSignature Language="C#" Value="public virtual bool CanSort { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanSort" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.CanSort" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property CanSort As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool CanSort { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-134">Ottiene un valore che indica se la visualizzazione supporta l'ordinamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-134">Gets a value that indicates whether the view supports sorting.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-135">
+            <see langword="false" /> in tutti i casi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-135">
+              <see langword="false" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-136">Utilizzare questa proprietà per verificare se la visualizzazione supporta l'ordinamento prima di aggiungere <xref:System.Windows.Data.CollectionView.SortDescriptions%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-136">Use this property to test whether the view supports sorting before adding <xref:System.Windows.Data.CollectionView.SortDescriptions%2A>.</span></span> <span data-ttu-id="5d326-137">Le classi derivate di eseguire l'override della proprietà per indicare se supportano l'ordinamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-137">Derived classes override this property to indicate whether they support sorting.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClearChangeLog">
+      <MemberSignature Language="C#" Value="protected void ClearChangeLog ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void ClearChangeLog() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.ClearChangeLog" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub ClearChangeLog ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void ClearChangeLog();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Replaced by ClearPendingChanges")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-138">Cancella qualsiasi modifica in sospeso dal registro delle modifiche.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-138">Clears any pending changes from the change log.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Data.CollectionView.OnBeginChangeLogging(System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      </Docs>
+    </Member>
+    <Member MemberName="ClearPendingChanges">
+      <MemberSignature Language="C#" Value="protected void ClearPendingChanges ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void ClearPendingChanges() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.ClearPendingChanges" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub ClearPendingChanges ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void ClearPendingChanges();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-139">Cancella le modifiche non elaborate alla raccolta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-139">Clears unprocessed changed to the collection.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CollectionChanged">
+      <MemberSignature Language="C#" Value="protected virtual event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.Data.CollectionView.CollectionChanged" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Event CollectionChanged As NotifyCollectionChangedEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual event System::Collections::Specialized::NotifyCollectionChangedEventHandler ^ CollectionChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Specialized.NotifyCollectionChangedEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-140">Si verifica quando la visualizzazione è stata modificata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-140">Occurs when the view has changed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="E:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged" />
+      </Docs>
+    </Member>
+    <Member MemberName="Comparer">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.IComparer Comparer { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.IComparer Comparer" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.Comparer" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Comparer As IComparer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::IComparer ^ Comparer { System::Collections::IComparer ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IComparer</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-141">Restituisce un oggetto che è possibile utilizzare per confrontare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-141">Returns an object that you can use to compare items in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-142">Oggetto <see cref="T:System.Collections.IComparer" /> che è possibile utilizzare per confrontare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-142">An <see cref="T:System.Collections.IComparer" /> object that you can use to compare items in the view.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Contains">
+      <MemberSignature Language="C#" Value="public virtual bool Contains (object item);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool Contains(object item) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.Contains(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function Contains (item As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool Contains(System::Object ^ item);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">
+          <span data-ttu-id="5d326-143">Oggetto da controllare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-143">The object to check.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-144">Restituisce un valore che indica se l'elemento specificato appartiene alla visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-144">Returns a value that indicates whether the specified item belongs to the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-145">
+            <see langword="true" /> se l'elemento appartiene alla visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-145">
+              <see langword="true" /> if the item belongs to the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-146">Questo metodo non supposizioni sul se l'elemento appartiene alla raccolta sottostante.</span><span class="sxs-lookup"><span data-stu-id="5d326-146">This method does not make any assumptions about whether the item belongs to the underlying collection.</span></span> <span data-ttu-id="5d326-147">Se il chiamante sa che l'elemento appartiene alla raccolta sottostante, risulta più efficiente per chiamare il <xref:System.Windows.Data.CollectionView.PassesFilter%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-147">If the caller knows that the item belongs to the underlying collection, it is more efficient to call the <xref:System.Windows.Data.CollectionView.PassesFilter%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public virtual int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.Count" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-148">Ottiene il numero di record presenti nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-148">Gets the number of records in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-149">Il numero di record nella visualizzazione, o -1 se il numero di record è sconosciuto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-149">The number of records in the view, or –1 if the number of records is unknown.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-150">Se è impostato un filtro, il valore della proprietà include solo gli elementi che passano il filtro.</span><span class="sxs-lookup"><span data-stu-id="5d326-150">If a filter is set, this property value only includes items that pass the filter.</span></span> <span data-ttu-id="5d326-151">Se la raccolta sottostante è di tipo <xref:System.Collections.IEnumerable>, si tratta di un'operazione o (n).</span><span class="sxs-lookup"><span data-stu-id="5d326-151">If the underlying collection is of type <xref:System.Collections.IEnumerable>, this is an O(N) operation.</span></span> <span data-ttu-id="5d326-152">Questo valore viene memorizzato nella cache fino alla modifica della raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-152">This value is cached until the collection changes.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-153">Quando si deriva da <see cref="T:System.Windows.Data.CollectionView" />, eseguire l'override di questa proprietà per fornire un'implementazione più efficiente.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-153">When deriving from <see cref="T:System.Windows.Data.CollectionView" />, override this property to provide a more efficient implementation.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="Culture">
+      <MemberSignature Language="C#" Value="public virtual System.Globalization.CultureInfo Culture { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Globalization.CultureInfo Culture" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.Culture" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Property Culture As CultureInfo" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Globalization::CultureInfo ^ Culture { System::Globalization::CultureInfo ^ get(); void set(System::Globalization::CultureInfo ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter(typeof(System.Windows.CultureInfoIetfLanguageTagConverter))</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Globalization.CultureInfo</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-154">Ottiene o imposta le informazioni sulle impostazioni cultura da utilizzare durante l'ordinamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-154">Gets or sets the culture information to use during sorting.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-155">Le informazioni sulle impostazioni cultura da utilizzare durante l'ordinamento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-155">The culture information to use during sorting.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentChanged">
+      <MemberSignature Language="C#" Value="public virtual event EventHandler CurrentChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler CurrentChanged" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.Data.CollectionView.CurrentChanged" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Event CurrentChanged As EventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual event EventHandler ^ CurrentChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-156">Si verifica dopo la modifica di <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-156">Occurs after the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> has changed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-157">Generare questo evento dopo avere modificato il <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-157">Raise this event after changing the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.ComponentModel.ICollectionView.CurrentChanged" />
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentChanging">
+      <MemberSignature Language="C#" Value="public virtual event System.ComponentModel.CurrentChangingEventHandler CurrentChanging;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.ComponentModel.CurrentChangingEventHandler CurrentChanging" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.Data.CollectionView.CurrentChanging" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Event CurrentChanging As CurrentChangingEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual event System::ComponentModel::CurrentChangingEventHandler ^ CurrentChanging;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.CurrentChangingEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-158">Viene generato durante la modifica di un oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-158">Occurs when the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is changing.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-159">Generare l'evento prima di modificare il <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-159">Raise this event before changing the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.ComponentModel.ICollectionView.CurrentChanging" />
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentItem">
+      <MemberSignature Language="C#" Value="public virtual object CurrentItem { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object CurrentItem" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.CurrentItem" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property CurrentItem As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ CurrentItem { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-160">Ottiene l'elemento corrente della visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-160">Gets the current item in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-161">Elemento corrente della visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-161">The current item of the view.</span>
+          </span>
+          <span data-ttu-id="5d326-162">Per impostazione predefinita, il primo elemento della raccolta inizia come elemento corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-162">By default, the first item of the collection starts as the current item.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-163">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-163">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-164">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-164">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span>  
+  
+ <span data-ttu-id="5d326-165">Si noti che spostando il puntatore del record corrente ha interagisce con l'ordinamento o filtro viene applicato alla raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-165">Note that moving the current record pointer has some interactions with any sorting or filtering that is applied to the collection.</span></span> <span data-ttu-id="5d326-166">L'ordinamento mantiene il puntatore del record corrente sull'ultimo record selezionato, ma la visualizzazione della raccolta viene ristrutturata.</span><span class="sxs-lookup"><span data-stu-id="5d326-166">Sorting preserves the current record pointer on the last record selected, but the collection view is restructured around it.</span></span> <span data-ttu-id="5d326-167">(Ad esempio in cui è stato il record selezionato all'inizio dell'elenco prima, ma ora il record selezionato potrebbe essere in qualche punto al centro). Applicazione di filtri consente di mantenere il record selezionato se la selezione rimane visualizzato dopo l'applicazione di filtri.</span><span class="sxs-lookup"><span data-stu-id="5d326-167">(Perhaps the selected record was at the beginning of the list before, but now the selected record might be somewhere in the middle.) Filtering preserves the selected record if that selection remains in view after the filtering.</span></span> <span data-ttu-id="5d326-168">In caso contrario, il puntatore del record corrente viene impostato al primo record della vista raccolta filtrata.</span><span class="sxs-lookup"><span data-stu-id="5d326-168">Otherwise, the current record pointer is set to the first record of the filtered collection view.</span></span>  
+  
+ <span data-ttu-id="5d326-169">L'elemento della raccolta corrente viene associato automaticamente se la destinazione di un'associazione è un valore singleton.</span><span class="sxs-lookup"><span data-stu-id="5d326-169">The current item of the collection is bound to automatically if the target of a binding is a singleton value.</span></span> <span data-ttu-id="5d326-170">Se la destinazione è un <xref:System.Windows.Controls.ItemsControl>, l'elemento corrente verrà sincronizzato con l'elemento selezionato.</span><span class="sxs-lookup"><span data-stu-id="5d326-170">If the target is an <xref:System.Windows.Controls.ItemsControl>, the current item is synchronized with the selected item.</span></span> <span data-ttu-id="5d326-171">Se, ad esempio, una casella di riepilogo è associata a una raccolta, il <xref:System.Windows.Data.CollectionView.CurrentItem%2A> è sincronizzato con l'elemento attualmente selezionato.</span><span class="sxs-lookup"><span data-stu-id="5d326-171">For example, if a list box is bound to a collection, the <xref:System.Windows.Data.CollectionView.CurrentItem%2A> is synchronized with the currently selected item.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-172">Solo le classi che passano che valuta la gestione delle chiamate a un altro interno <see cref="T:System.Windows.Data.CollectionView" /> oggetto deve eseguire l'override di questa proprietà; tutte le altre classi derivate devono utilizzare il <see cref="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32)" /> per aggiornare i valori correnti archiviati nella classe base.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-172">Only classes that pass currency handling calls to another internal <see cref="T:System.Windows.Data.CollectionView" /> object should override this property; all other derived classes should use the <see cref="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32)" /> method to update the current values stored in the base class.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentPosition">
+      <MemberSignature Language="C#" Value="public virtual int CurrentPosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CurrentPosition" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.CurrentPosition" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property CurrentPosition As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int CurrentPosition { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-173">Ottiene la posizione ordinale dell'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> all'interno della visualizzazione (facoltativamente ordinata e filtrata).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-173">Gets the ordinal position of the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> within the (optionally sorted and filtered) view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-174">La posizione ordinale dell'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> all'interno della visualizzazione (facoltativamente ordinata e filtrata).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-174">The ordinal position of the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> within the (optionally sorted and filtered) view.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-175">Solo le classi che passano che valuta la gestione delle chiamate a un altro interno <see cref="T:System.Windows.Data.CollectionView" /> oggetto deve eseguire l'override di questa proprietà; tutte le altre classi derivate devono utilizzare il <see cref="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32)" /> per aggiornare i valori correnti archiviati nella classe base.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-175">Only classes that pass currency handling calls to another internal <see cref="T:System.Windows.Data.CollectionView" /> object should override this property; all other derived classes should use the <see cref="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32)" /> method to update the current values stored in the base class.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="DeferRefresh">
+      <MemberSignature Language="C#" Value="public virtual IDisposable DeferRefresh ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.IDisposable DeferRefresh() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.DeferRefresh" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function DeferRefresh () As IDisposable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual IDisposable ^ DeferRefresh();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IDisposable</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-176">Immette un ciclo di rinvio che è possibile utilizzare per unire le modifiche alla visualizzazione e ritardare l'aggiornamento automatico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-176">Enters a defer cycle that you can use to merge changes to the view and delay automatic refresh.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-177">Oggetto <see cref="T:System.IDisposable" /> che è possibile usare per l'eliminazione dell'oggetto chiamante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-177">An <see cref="T:System.IDisposable" /> object that you can use to dispose of the calling object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-178">L'utilizzo tipico consiste nel creare un `using` ambito con questo metodo e quindi effettuare più chiamate di modifica visualizzazione all'interno dell'ambito.</span><span class="sxs-lookup"><span data-stu-id="5d326-178">The typical usage is to create a `using` scope with this method and then place multiple view-changing calls within the scope.</span></span> <span data-ttu-id="5d326-179">In questo modo, l'aggiornamento automatico fino a quando non è stato terminato il ciclo di rinvio.</span><span class="sxs-lookup"><span data-stu-id="5d326-179">This delays automatic refresh until the defer cycle is exited.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DetachFromSourceCollection">
+      <MemberSignature Language="C#" Value="public virtual void DetachFromSourceCollection ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void DetachFromSourceCollection() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.DetachFromSourceCollection" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub DetachFromSourceCollection ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void DetachFromSourceCollection();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-180">Rimuove il riferimento alla raccolta sottostante da <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-180">Removes the reference to the underlying collection from the <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-181">Utilizzare questo metodo per annullare la sottoscrizione agli eventi per la raccolta sottostante e consentire il <xref:System.Windows.Data.CollectionView> di garbage collection.</span><span class="sxs-lookup"><span data-stu-id="5d326-181">Use this method to unsubscribe to events on the underlying collection and allow the <xref:System.Windows.Data.CollectionView> to be garbage collected.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Filter">
+      <MemberSignature Language="C#" Value="public virtual Predicate&lt;object&gt; Filter { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Predicate`1&lt;object&gt; Filter" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.Filter" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Property Filter As Predicate(Of Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property Predicate&lt;System::Object ^&gt; ^ Filter { Predicate&lt;System::Object ^&gt; ^ get(); void set(Predicate&lt;System::Object ^&gt; ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Predicate&lt;System.Object&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-182">Ottiene o imposta un metodo usato per stabilire se un elemento è appropriato per l'inclusione nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-182">Gets or sets a method used to determine if an item is suitable for inclusion in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-183">Delegato che rappresenta il metodo usato per stabilire se un elemento è appropriato per l'inclusione nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-183">A delegate that represents the method used to determine if an item is suitable for inclusion in the view.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-184">Le implementazioni più semplici non supportano il filtraggio e generano un <xref:System.NotSupportedException>.</span><span class="sxs-lookup"><span data-stu-id="5d326-184">Simpler implementations do not support filtering and throw a <xref:System.NotSupportedException>.</span></span> <span data-ttu-id="5d326-185">Utilizzare il <xref:System.Windows.Data.CollectionView.CanFilter%2A> proprietà per verificare se il filtro è supportato prima dell'assegnazione di questa proprietà con un valore non null.</span><span class="sxs-lookup"><span data-stu-id="5d326-185">Use the <xref:System.Windows.Data.CollectionView.CanFilter%2A> property to test if filtering is supported before assigning this property with a non-null value.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="5d326-186">L'implementazione corrente non supporta il filtro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-186">The current implementation does not support filtering.</span>
+          </span>
+        </exception>
+        <altmember cref="E:System.Windows.Data.CollectionViewSource.Filter" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="protected virtual System.Collections.IEnumerator GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.Collections.IEnumerator GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Function GetEnumerator () As IEnumerator" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual System::Collections::IEnumerator ^ GetEnumerator();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-187">Restituisce un oggetto che è possibile utilizzare per enumerare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-187">Returns an object that you can use to enumerate the items in the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-188">Oggetto <see cref="T:System.Collections.IEnumerator" /> che è possibile utilizzare per enumerare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-188">An <see cref="T:System.Collections.IEnumerator" /> object that you can use to enumerate the items in the view.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetItemAt">
+      <MemberSignature Language="C#" Value="public virtual object GetItemAt (int index);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object GetItemAt(int32 index) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.GetItemAt(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetItemAt (index As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ GetItemAt(int index);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">
+          <span data-ttu-id="5d326-189">Indice in base zero dell'elemento da recuperare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-189">The zero-based index of the item to retrieve.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-190">Recupera l'elemento in corrispondenza dell'indice in base zero specificato nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-190">Retrieves the item at the specified zero-based index in the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-191">L’elemento in corrispondenza dell'indice in base zero specificato nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-191">The item at the specified zero-based index in the view.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-192">Questo metodo restituisce l'indice con qualsiasi <xref:System.Windows.Data.CollectionView.SortDescriptions%2A> o <xref:System.Windows.Data.CollectionView.Filter%2A> i valori delle proprietà impostate nella vista.</span><span class="sxs-lookup"><span data-stu-id="5d326-192">This method evaluates the index with any <xref:System.Windows.Data.CollectionView.SortDescriptions%2A> or <xref:System.Windows.Data.CollectionView.Filter%2A> property values that are set on the view.</span></span>  
+  
+ <span data-ttu-id="5d326-193">Se la raccolta sottostante è di tipo <xref:System.Collections.IEnumerable>, si tratta di un'operazione o (n).</span><span class="sxs-lookup"><span data-stu-id="5d326-193">If the underlying collection is of type <xref:System.Collections.IEnumerable>, this is an O(N) operation.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="5d326-194">
+            <paramref name="index" /> è minore di 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-194">
+              <paramref name="index" /> is less than 0.</span>
+          </span>
+        </exception>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-195">Quando si deriva da <see cref="T:System.Windows.Data.CollectionView" />, eseguire l'override di questo metodo per fornire un'implementazione più efficiente.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-195">When deriving from <see cref="T:System.Windows.Data.CollectionView" />, override this method to provide a more efficient implementation.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="GroupDescriptions">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.ObjectModel.ObservableCollection&lt;System.ComponentModel.GroupDescription&gt; GroupDescriptions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ObservableCollection`1&lt;class System.ComponentModel.GroupDescription&gt; GroupDescriptions" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.GroupDescriptions" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property GroupDescriptions As ObservableCollection(Of GroupDescription)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::ObjectModel::ObservableCollection&lt;System::ComponentModel::GroupDescription ^&gt; ^ GroupDescriptions { System::Collections::ObjectModel::ObservableCollection&lt;System::ComponentModel::GroupDescription ^&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ObjectModel.ObservableCollection&lt;System.ComponentModel.GroupDescription&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-196">Ottiene un insieme di oggetti <see cref="T:System.ComponentModel.GroupDescription" /> che descrive come sono raggruppati nella visualizzazione gli elementi dell'insieme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-196">Gets a collection of <see cref="T:System.ComponentModel.GroupDescription" /> objects that describes how the items in the collection are grouped in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-197">
+            <see langword="null" /> in tutti i casi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-197">
+              <see langword="null" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-198">Il valore di questa proprietà è sempre `null` perché la <xref:System.Windows.Data.CollectionView> classe non supporta il raggruppamento la raccolta sottostante.</span><span class="sxs-lookup"><span data-stu-id="5d326-198">The value of this property is always `null` because the <xref:System.Windows.Data.CollectionView> class does not support grouping over its underlying collection.</span></span> <span data-ttu-id="5d326-199">Le classi derivate <xref:System.Windows.Data.ListCollectionView> e <xref:System.Windows.Data.BindingListCollectionView> supportano il raggruppamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-199">The derived classes <xref:System.Windows.Data.ListCollectionView> and <xref:System.Windows.Data.BindingListCollectionView> do support grouping.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.ListCollectionView.GroupDescriptions" />
+      </Docs>
+    </Member>
+    <Member MemberName="Groups">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.ObjectModel.ReadOnlyObservableCollection&lt;object&gt; Groups { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ObjectModel.ReadOnlyObservableCollection`1&lt;object&gt; Groups" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.Groups" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Groups As ReadOnlyObservableCollection(Of Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::ObjectModel::ReadOnlyObservableCollection&lt;System::Object ^&gt; ^ Groups { System::Collections::ObjectModel::ReadOnlyObservableCollection&lt;System::Object ^&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ObjectModel.ReadOnlyObservableCollection&lt;System.Object&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-200">Ottiene un insieme dei gruppi di livello superiore costruiti in base alla proprietà <see cref="P:System.Windows.Data.CollectionView.GroupDescriptions" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-200">Gets a collection of the top-level groups that is constructed based on the <see cref="P:System.Windows.Data.CollectionView.GroupDescriptions" /> property.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-201">
+            <see langword="null" /> in tutti i casi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-201">
+              <see langword="null" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-202">Il valore di questa proprietà è sempre `null` perché la <xref:System.Windows.Data.CollectionView> classe non supporta il raggruppamento la raccolta sottostante.</span><span class="sxs-lookup"><span data-stu-id="5d326-202">The value of this property is always `null` because the <xref:System.Windows.Data.CollectionView> class does not support grouping over its underlying collection.</span></span> <span data-ttu-id="5d326-203">Le classi derivate <xref:System.Windows.Data.ListCollectionView> e <xref:System.Windows.Data.BindingListCollectionView> supportano il raggruppamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-203">The derived classes <xref:System.Windows.Data.ListCollectionView> and <xref:System.Windows.Data.BindingListCollectionView> do support grouping.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IndexOf">
+      <MemberSignature Language="C#" Value="public virtual int IndexOf (object item);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 IndexOf(object item) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.IndexOf(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function IndexOf (item As Object) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual int IndexOf(System::Object ^ item);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">
+          <span data-ttu-id="5d326-204">Elemento da trovare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-204">The item to locate.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-205">Restituisce l'indice nel quale si trova l'elemento specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-205">Returns the index at which the specified item is located.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-206">Indice in corrispondenza del quale si trova l'elemento specificato oppure -1 se l'elemento è sconosciuto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-206">The index at which the specified item is located, or –1 if the item is unknown.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-207">Se questo metodo restituisce un indice diverso da -1, deve essere sempre vero che visualizzazione [indice-1] < elemento < = vista [index], dove i confronti vengono eseguiti utilizzando il <xref:System.Collections.IComparer.Compare%2A?displayProperty=nameWithType> della visualizzazione, se presente.</span><span class="sxs-lookup"><span data-stu-id="5d326-207">If this method returns an index other than -1, it must always be true that view[index-1] < item <= view[index], where the comparisons are done using the <xref:System.Collections.IComparer.Compare%2A?displayProperty=nameWithType> method of the view, if one exists.</span></span>  
+  
+ <span data-ttu-id="5d326-208">Questo particolare comportamento del metodo viene utilizzato da alcuni <xref:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged> gestori eventi per accelerare la reazione all'inserimento e l'eliminazione.</span><span class="sxs-lookup"><span data-stu-id="5d326-208">This particular behavior of the method is used by some <xref:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged> event handlers to speed up reaction to insertion and deletion.</span></span> <span data-ttu-id="5d326-209">Se la classe derivata esegue l'override di questo metodo, un listener esegue una ricerca binaria utilizzando il <xref:System.Collections.IComparer.Compare%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-209">If the derived class does not override this method, a listener does a binary search using the <xref:System.Collections.IComparer.Compare%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsCurrentAfterLast">
+      <MemberSignature Language="C#" Value="public virtual bool IsCurrentAfterLast { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCurrentAfterLast" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsCurrentAfterLast" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property IsCurrentAfterLast As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsCurrentAfterLast { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-210">Ottiene un valore che indica se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> della visualizzazione è oltre la fine della raccolta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-210">Gets a value that indicates whether the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> of the view is beyond the end of the collection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-211">
+            <see langword="true" /> se <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> della visualizzazione è oltre la fine della raccolta; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-211">
+              <see langword="true" /> if the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> of the view is beyond the end of the collection; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-212">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-212">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-213">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-213">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentAfterLast" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsCurrentBeforeFirst">
+      <MemberSignature Language="C#" Value="public virtual bool IsCurrentBeforeFirst { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCurrentBeforeFirst" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsCurrentBeforeFirst" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property IsCurrentBeforeFirst As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsCurrentBeforeFirst { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-214">Ottiene un valore che indica se <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> della visualizzazione è prima dell'inizio dell'insieme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-214">Gets a value that indicates whether the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> of the view is before the beginning of the collection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-215">
+            <see langword="true" /> se <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> della visualizzazione è prima dell'inizio dell'insieme; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-215">
+              <see langword="true" /> if the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> of the view is before the beginning of the collection; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-216">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-216">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-217">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-217">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentAfterLast" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsCurrentInSync">
+      <MemberSignature Language="C#" Value="protected bool IsCurrentInSync { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsCurrentInSync" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsCurrentInSync" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property IsCurrentInSync As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool IsCurrentInSync { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-218">Ottiene un valore che indica se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> è nella posizione <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-218">Gets a value that indicates whether the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is at the <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-219">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> è nella visualizzazione e nella posizione <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-219">
+              <see langword="true" /> if the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is in the view and at the <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDynamic">
+      <MemberSignature Language="C#" Value="protected bool IsDynamic { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsDynamic" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsDynamic" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property IsDynamic As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool IsDynamic { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-220">Ottiene un valore che indica se l'insieme sottostante fornisce notifiche di modifica.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-220">Gets a value that indicates whether the underlying collection provides change notifications.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-221">
+            <see langword="true" /> se l'insieme sottostante fornisce notifiche di modifica; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-221">
+              <see langword="true" /> if the underlying collection provides change notifications; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsEmpty">
+      <MemberSignature Language="C#" Value="public virtual bool IsEmpty { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsEmpty" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsEmpty" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property IsEmpty As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsEmpty { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-222">Ottiene un valore che indica se la visualizzazione risultante (filtrata) è vuota.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-222">Gets a value that indicates whether the resulting (filtered) view is empty.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-223">
+            <see langword="true" /> se la visualizzazione risultante è vuota; in caso contrario <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-223">
+              <see langword="true" /> if the resulting view is empty; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsInUse">
+      <MemberSignature Language="C#" Value="public virtual bool IsInUse { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsInUse" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsInUse" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property IsInUse As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsInUse { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-224">Ottiene un valore che indica se eventuali oggetti stanno effettuando la sottoscrizione all'oggetto <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-224">Gets a value that indicates whether any object is subscribing to the events of this <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-225">
+            <see langword="true" /> se l'oggetto esegue la sottoscrizione degli eventi di questo oggetto <see cref="T:System.Windows.Data.CollectionView" />; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-225">
+              <see langword="true" /> if any object is subscribing to the events of this <see cref="T:System.Windows.Data.CollectionView" />; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsRefreshDeferred">
+      <MemberSignature Language="C#" Value="protected bool IsRefreshDeferred { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsRefreshDeferred" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.IsRefreshDeferred" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property IsRefreshDeferred As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool IsRefreshDeferred { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-226">Ottiene un valore che indica se è in uso l'oggetto <see cref="M:System.Windows.Data.CollectionView.DeferRefresh" /> in sospeso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-226">Gets a value that indicates whether there is an outstanding <see cref="M:System.Windows.Data.CollectionView.DeferRefresh" /> in use.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-227">
+            <see langword="true" /> se è in uso l'oggetto <see cref="M:System.Windows.Data.CollectionView.DeferRefresh" /> in sospeso; in caso contrario <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-227">
+              <see langword="true" /> if there is an outstanding <see cref="M:System.Windows.Data.CollectionView.DeferRefresh" /> in use; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-228">Le classi derivate devono evitare di chiamare <see cref="M:System.Windows.Data.CollectionView.Refresh" /> se <see cref="P:System.Windows.Data.CollectionView.IsRefreshDeferred" /> restituisce <see langword="true" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-228">Derived classes should avoid calling <see cref="M:System.Windows.Data.CollectionView.Refresh" /> if <see cref="P:System.Windows.Data.CollectionView.IsRefreshDeferred" /> returns <see langword="true" />.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentTo">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentTo (object item);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentTo(object item) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentTo(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentTo (item As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentTo(System::Object ^ item);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">
+          <span data-ttu-id="5d326-229">Elemento da impostare come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-229">The item to set as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-230">Imposta l'elemento specificato in modo che sia l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-230">Sets the specified item to be the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> in the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-231">
+            <see langword="true" /> se <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-231">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-232">Se l'elemento specificato non viene trovato, il metodo restituisce `false` e <xref:System.Windows.Data.CollectionView.CurrentItem%2A> è posizionato prima dell'inizio della raccolta nella vista.</span><span class="sxs-lookup"><span data-stu-id="5d326-232">If the specified item is not found, the method returns `false` and the <xref:System.Windows.Data.CollectionView.CurrentItem%2A> is positioned before the beginning of the collection in the view.</span></span>  
+  
+ <span data-ttu-id="5d326-233">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-233">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-234">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-234">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-235">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-235">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ <span data-ttu-id="5d326-236">Per ulteriori informazioni sull'elemento corrente di una vista, vedere <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-236">For more information about the current item of a view, see <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="5d326-237">Nell'esempio seguente viene illustrato l'utilizzo di questo metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-237">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[Colors#NewColor](~/samples/snippets/csharp/VS_Snippets_Wpf/Colors/CSharp/Colors.xaml.cs#newcolor)]
+ [!code-vb[Colors#NewColor](~/samples/snippets/visualbasic/VS_Snippets_Wpf/Colors/visualbasic/colors.xaml.vb#newcolor)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.CurrentItem" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentToFirst">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentToFirst ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentToFirst() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentToFirst" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentToFirst () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentToFirst();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-238">Imposta il primo elemento nella visualizzazione come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-238">Sets the first item in the view as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-239">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è un elemento all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-239">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is an item within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-240">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-240">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-241">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-241">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-242">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-242">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentBeforeFirst" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentToLast">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentToLast ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentToLast() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentToLast" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentToLast () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentToLast();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-243">Imposta l’ultimo elemento nella visualizzazione come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-243">Sets the last item in the view as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-244">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è un elemento all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-244">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is an item within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-245">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-245">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-246">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-246">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-247">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-247">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentAfterLast" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentToNext">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentToNext ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentToNext() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentToNext" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentToNext () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentToNext();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-248">Imposta l’elemento successivo a <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> nella visualizzazione come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-248">Sets the item after the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> in the view as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-249">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è un elemento all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-249">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is an item within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-250">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-250">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-251">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-251">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-252">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-252">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentAfterLast" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentToPosition">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentToPosition (int position);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentToPosition(int32 position) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentToPosition(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentToPosition (position As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentToPosition(int position);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="position" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="position">
+          <span data-ttu-id="5d326-253">Indice in corrispondenza del quale impostare l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-253">The index to set the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> to.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-254">Imposta l'elemento in corrispondenza dell'indice specificato come primo oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-254">Sets the item at the specified index to be the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> in the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-255">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è un elemento all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-255">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is an item within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-256">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-256">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-257">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-257">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-258">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-258">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MoveCurrentToPrevious">
+      <MemberSignature Language="C#" Value="public virtual bool MoveCurrentToPrevious ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveCurrentToPrevious() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.MoveCurrentToPrevious" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function MoveCurrentToPrevious () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool MoveCurrentToPrevious();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-259">Imposta l’elemento precedente a <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> nella visualizzazione come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-259">Sets the item before the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> in the view as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-260">
+            <see langword="true" /> se l'oggetto <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> risultante è un elemento all'interno della visualizzazione; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-260">
+              <see langword="true" /> if the resulting <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> is an item within the view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-261">Viste di raccolta supportano il concetto di un puntatore di record corrente.</span><span class="sxs-lookup"><span data-stu-id="5d326-261">Collection views support the concept of a current record pointer.</span></span> <span data-ttu-id="5d326-262">Durante lo spostamento tra gli oggetti in una visualizzazione di raccolta, si sta spostando un puntatore di record che consente di recuperare l'oggetto esiste in quella determinata posizione nella raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-262">As you navigate through the objects in a collection view, you are moving a record pointer that allows you to retrieve the object that exists at that particular location in the collection.</span></span> <span data-ttu-id="5d326-263">Per ulteriori informazioni, vedere "Associazione agli insiemi" in [Panoramica del Data Binding](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-263">For more information, see "Binding to Collections" in [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionView.IsCurrentBeforeFirst" />
+      </Docs>
+    </Member>
+    <Member MemberName="NeedsRefresh">
+      <MemberSignature Language="C#" Value="public virtual bool NeedsRefresh { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool NeedsRefresh" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.NeedsRefresh" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property NeedsRefresh As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool NeedsRefresh { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-264">Ottiene un valore che indica se la visualizzazione deve essere aggiornata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-264">Gets a value that indicates whether the view needs to be refreshed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-265">
+            <see langword="true" /> se la visualizzazione deve essere aggiornata; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-265">
+              <see langword="true" /> if the view needs to be refreshed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-266">Questa proprietà indica se lo stato interno della visualizzazione è stato modificato e richiede un <xref:System.Windows.Data.CollectionView.Refresh%2A> chiamata al metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-266">This property indicates if the internal state of the view has changed and requires a <xref:System.Windows.Data.CollectionView.Refresh%2A> method call.</span></span> <span data-ttu-id="5d326-267">Lo scenario tipico è se un <xref:System.ComponentModel.SortDescription> oppure simile è stata aggiunta alla visualizzazione durante la visualizzazione in un ciclo di aggiornamento posticipato (vedere <xref:System.Windows.Data.CollectionView.DeferRefresh%2A>).</span><span class="sxs-lookup"><span data-stu-id="5d326-267">The typical scenario is if a <xref:System.ComponentModel.SortDescription> or similar has been added to the view while the view is in a deferred refresh cycle (see <xref:System.Windows.Data.CollectionView.DeferRefresh%2A>).</span></span> <span data-ttu-id="5d326-268">In questo scenario, alcuna chiamata esplicita a <xref:System.Windows.Data.CollectionView.Refresh%2A> è necessaria; non appena il ciclo di aggiornamento posticipato termina, la visualizzazione chiama automaticamente l'aggiornamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-268">In this scenario, no explicit call to <xref:System.Windows.Data.CollectionView.Refresh%2A> is needed; as soon as the deferred refresh cycle ends, the view calls refresh automatically.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Data.CollectionView.Refresh" />
+        <altmember cref="M:System.Windows.Data.CollectionView.DeferRefresh" />
+      </Docs>
+    </Member>
+    <Member MemberName="NewItemPlaceholder">
+      <MemberSignature Language="C#" Value="public static object NewItemPlaceholder { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property object NewItemPlaceholder" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.NewItemPlaceholder" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property NewItemPlaceholder As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Object ^ NewItemPlaceholder { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-269">Ottiene l'oggetto che si trova nell'insieme per rappresentare un nuovo elemento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-269">Gets the object that is in the collection to represent a new item.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-270">Oggetto che si trova nell'insieme per rappresentare un nuovo elemento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-270">The object that is in the collection to represent a new item.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-271">Quando un <xref:System.Windows.Data.CollectionView> che implementa <xref:System.ComponentModel.IEditableCollectionView> è <xref:System.ComponentModel.IEditableCollectionView.NewItemPlaceholderPosition%2A> impostato su <xref:System.ComponentModel.NewItemPlaceholderPosition.AtBeginning> o <xref:System.ComponentModel.NewItemPlaceholderPosition.AtEnd>, <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> viene aggiunto alla raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-271">When a <xref:System.Windows.Data.CollectionView> that implements <xref:System.ComponentModel.IEditableCollectionView> has <xref:System.ComponentModel.IEditableCollectionView.NewItemPlaceholderPosition%2A> set to <xref:System.ComponentModel.NewItemPlaceholderPosition.AtBeginning> or <xref:System.ComponentModel.NewItemPlaceholderPosition.AtEnd>, the <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> is added to the collection.</span></span>  <span data-ttu-id="5d326-272">Il <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> viene sempre visualizzata nella raccolta; non fa parte di raggruppamento, ordinamento o filtro.</span><span class="sxs-lookup"><span data-stu-id="5d326-272">The <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> always appears in the collection; it does not participate in grouping, sorting, or filtering.</span></span>  
+  
+ <span data-ttu-id="5d326-273">Il <xref:System.Windows.Data.CollectionView.CurrentItem%2A> non può essere il <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-273">The <xref:System.Windows.Data.CollectionView.CurrentItem%2A> cannot be the <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A>.</span></span> <span data-ttu-id="5d326-274">Metodi che eseguono una navigazione relativa, ad esempio il <xref:System.Windows.Data.CollectionView.MoveCurrentToNext%2A>, ignorare il <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-274">Methods that perform relative navigation, such as the <xref:System.Windows.Data.CollectionView.MoveCurrentToNext%2A>, skip the <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A>.</span></span>  <span data-ttu-id="5d326-275"><xref:System.Windows.Data.CollectionView.MoveCurrentToFirst%2A> e <xref:System.Windows.Data.CollectionView.MoveCurrentToLast%2A> ignorare il <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> se <xref:System.ComponentModel.IEditableCollectionView.NewItemPlaceholderPosition%2A> è impostato su <xref:System.ComponentModel.NewItemPlaceholderPosition.AtBeginning> o <xref:System.ComponentModel.NewItemPlaceholderPosition.AtEnd>, rispettivamente.</span><span class="sxs-lookup"><span data-stu-id="5d326-275"><xref:System.Windows.Data.CollectionView.MoveCurrentToFirst%2A> and <xref:System.Windows.Data.CollectionView.MoveCurrentToLast%2A> skip the <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> if <xref:System.ComponentModel.IEditableCollectionView.NewItemPlaceholderPosition%2A> is set to <xref:System.ComponentModel.NewItemPlaceholderPosition.AtBeginning> or <xref:System.ComponentModel.NewItemPlaceholderPosition.AtEnd>, respectively.</span></span> <span data-ttu-id="5d326-276">I metodi che eseguono la navigazione assoluta, ad esempio <xref:System.Windows.Data.CollectionView.MoveCurrentToPosition%2A>, non eseguire alcuna operazione se il <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> sarebbe il <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-276">Methods that perform absolute navigation, such as <xref:System.Windows.Data.CollectionView.MoveCurrentToPosition%2A>, do nothing if the <xref:System.Windows.Data.CollectionView.NewItemPlaceholder%2A> would be the <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OKToChangeCurrent">
+      <MemberSignature Language="C#" Value="protected bool OKToChangeCurrent ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance bool OKToChangeCurrent() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OKToChangeCurrent" />
+      <MemberSignature Language="VB.NET" Value="Protected Function OKToChangeCurrent () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; bool OKToChangeCurrent();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-277">Restituisce un valore che indica se la visualizzazione può modificare l'elemento <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-277">Returns a value that indicates whether the view can change which item is the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-278">
+            <see langword="false" /> se un listener annulla la modifica; in caso contrario, <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-278">
+              <see langword="false" /> if a listener cancels the change; otherwise, <see langword="true" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnAllowsCrossThreadChangesChanged">
+      <MemberSignature Language="C#" Value="protected virtual void OnAllowsCrossThreadChangesChanged ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnAllowsCrossThreadChangesChanged() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnAllowsCrossThreadChangesChanged" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnAllowsCrossThreadChangesChanged ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnAllowsCrossThreadChangesChanged();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-279">Si verifica quando la proprietà <see cref="P:System.Windows.Data.CollectionView.AllowsCrossThreadChanges" /> cambia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-279">Occurs when the <see cref="P:System.Windows.Data.CollectionView.AllowsCrossThreadChanges" /> property changes.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnBeginChangeLogging">
+      <MemberSignature Language="C#" Value="protected virtual void OnBeginChangeLogging (System.Collections.Specialized.NotifyCollectionChangedEventArgs args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnBeginChangeLogging(class System.Collections.Specialized.NotifyCollectionChangedEventArgs args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnBeginChangeLogging(System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnBeginChangeLogging (args As NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnBeginChangeLogging(System::Collections::Specialized::NotifyCollectionChangedEventArgs ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Obsolete("Replaced by OnAllowsCrossThreadChangesChanged")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.Collections.Specialized.NotifyCollectionChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="args">
+          <span data-ttu-id="5d326-280">L'oggetto <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> aggiunto al registro delle modifiche.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-280">The <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> object that is added to the change log.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-281">Chiamato dalla classe di base per notificare alla classe derivata che un evento <see cref="E:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged" /> è stato inserito nella coda di messaggi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-281">Called by the base class to notify the derived class that an <see cref="E:System.Collections.Specialized.INotifyCollectionChanged.CollectionChanged" /> event has been posted to the message queue.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="5d326-282">
+            <paramref name="args" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-282">
+              <paramref name="args" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="OnCollectionChanged">
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-283">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-283">Raises the <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> event.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="OnCollectionChanged">
+      <MemberSignature Language="C#" Value="protected virtual void OnCollectionChanged (System.Collections.Specialized.NotifyCollectionChangedEventArgs args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCollectionChanged(class System.Collections.Specialized.NotifyCollectionChangedEventArgs args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnCollectionChanged (args As NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnCollectionChanged(System::Collections::Specialized::NotifyCollectionChangedEventArgs ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.Collections.Specialized.NotifyCollectionChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="args">
+          <span data-ttu-id="5d326-284">L'oggetto <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> da passare al gestore eventi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-284">The <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> object to pass to the event handler.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-285">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-285">Raises the <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> event.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-286">Eseguire qualsiasi ordinamento, filtro o criteri di raggruppamento in considerazione prima di chiamare questo metodo per generare il <xref:System.Windows.Data.CollectionView.CollectionChanged> evento.</span><span class="sxs-lookup"><span data-stu-id="5d326-286">Take any sorting, filtering, or grouping criteria into consideration before calling this method to raise the <xref:System.Windows.Data.CollectionView.CollectionChanged> event.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCollectionChanged">
+      <MemberSignature Language="C#" Value="protected void OnCollectionChanged (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void OnCollectionChanged(object sender, class System.Collections.Specialized.NotifyCollectionChangedEventArgs args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub OnCollectionChanged (sender As Object, args As NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void OnCollectionChanged(System::Object ^ sender, System::Collections::Specialized::NotifyCollectionChangedEventArgs ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sender" Type="System.Object" />
+        <Parameter Name="args" Type="System.Collections.Specialized.NotifyCollectionChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="sender">
+          <span data-ttu-id="5d326-287">Mittente dell'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-287">The sender of the event.</span>
+          </span>
+        </param>
+        <param name="args">
+          <span data-ttu-id="5d326-288">L'oggetto <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> da passare al gestore eventi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-288">The <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> object to pass to the event handler.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-289">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-289">Raises the <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> event.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-290">Questo metodo chiama <xref:System.Windows.Data.CollectionView.ProcessCollectionChanged%2A> se è presente il corretto [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] dispatcher di thread e non è mai stato aggiornato da un thread diverso o inserisce la modifica nel dispatcher per elaborarlo nel thread corretto.</span><span class="sxs-lookup"><span data-stu-id="5d326-290">This method calls <xref:System.Windows.Data.CollectionView.ProcessCollectionChanged%2A> if it is on the correct [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] thread dispatcher and has never been updated from a different thread, or posts the change to the dispatcher to process it on the correct thread.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCurrentChanged">
+      <MemberSignature Language="C#" Value="protected virtual void OnCurrentChanged ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCurrentChanged() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnCurrentChanged" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnCurrentChanged ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnCurrentChanged();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-291">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CurrentChanged" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-291">Raises the <see cref="E:System.Windows.Data.CollectionView.CurrentChanged" /> event.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="OnCurrentChanging">
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-292">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-292">Raises the <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" /> event.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="OnCurrentChanging">
+      <MemberSignature Language="C#" Value="protected void OnCurrentChanging ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void OnCurrentChanging() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnCurrentChanging" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub OnCurrentChanging ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void OnCurrentChanging();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-293">Genera un evento <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" /> che non è annullabile.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-293">Raises a <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" /> event that is not cancelable.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-294">Questo metodo imposta <xref:System.Windows.Data.CollectionView.CurrentPosition%2A> – 1.</span><span class="sxs-lookup"><span data-stu-id="5d326-294">This method sets <xref:System.Windows.Data.CollectionView.CurrentPosition%2A> to –1.</span></span> <span data-ttu-id="5d326-295">Questo metodo viene chiamato dalle modifiche di insieme che interessano il <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-295">This method is called by collection changes that affect the <xref:System.Windows.Data.CollectionView.CurrentItem%2A>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCurrentChanging">
+      <MemberSignature Language="C#" Value="protected virtual void OnCurrentChanging (System.ComponentModel.CurrentChangingEventArgs args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCurrentChanging(class System.ComponentModel.CurrentChangingEventArgs args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnCurrentChanging(System.ComponentModel.CurrentChangingEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnCurrentChanging (args As CurrentChangingEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnCurrentChanging(System::ComponentModel::CurrentChangingEventArgs ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.ComponentModel.CurrentChangingEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="args">
+          <span data-ttu-id="5d326-296">Informazioni sull'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-296">Information about the event.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-297">Genera l'evento <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" /> con gli argomenti specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-297">Raises the <see cref="E:System.Windows.Data.CollectionView.CurrentChanging" /> event with the specified arguments.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnPropertyChanged">
+      <MemberSignature Language="C#" Value="protected virtual void OnPropertyChanged (System.ComponentModel.PropertyChangedEventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnPropertyChanged(class System.ComponentModel.PropertyChangedEventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnPropertyChanged (e As PropertyChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnPropertyChanged(System::ComponentModel::PropertyChangedEventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.ComponentModel.PropertyChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="5d326-298">Argomenti dell'evento da generare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-298">Arguments of the event being raised.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-299">Genera l'evento <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged" /> mediante gli argomenti specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-299">Raises the <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged" /> event using the specified arguments.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PassesFilter">
+      <MemberSignature Language="C#" Value="public virtual bool PassesFilter (object item);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool PassesFilter(object item) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.PassesFilter(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function PassesFilter (item As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool PassesFilter(System::Object ^ item);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">
+          <span data-ttu-id="5d326-300">Elemento da controllare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-300">The item to check.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-301">Restituisce un valore che indica se l'elemento specificato nell'insieme sottostante appartiene alla visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-301">Returns a value that indicates whether the specified item in the underlying collection belongs to the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-302">
+            <see langword="true" /> se l'elemento specificato appartiene alla visualizzazione o se non c'è un filtro impostato sulla visualizzazione dell'insieme; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-302">
+              <see langword="true" /> if the specified item belongs to the view or if there is not filter set on the collection view; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-303">A differenza di <xref:System.Windows.Data.CollectionView.Contains%2A> (metodo), questo metodo presuppone che l'elemento specificato appartiene alla raccolta sottostante.</span><span class="sxs-lookup"><span data-stu-id="5d326-303">Unlike the <xref:System.Windows.Data.CollectionView.Contains%2A> method, this method assumes that the specified item belongs to the underlying collection.</span></span> <span data-ttu-id="5d326-304">Questo metodo tiene conto di filtri.</span><span class="sxs-lookup"><span data-stu-id="5d326-304">This method takes filters into account.</span></span> <span data-ttu-id="5d326-305">In genere, utilizzare questo metodo durante le notifiche di modifica della raccolta per determinare se l'elemento aggiunto o rimosso richiede l'elaborazione.</span><span class="sxs-lookup"><span data-stu-id="5d326-305">Typically, you use this method during collection-changed notifications to determine if the added or removed item requires processing.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessCollectionChanged">
+      <MemberSignature Language="C#" Value="protected virtual void ProcessCollectionChanged (System.Collections.Specialized.NotifyCollectionChangedEventArgs args);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void ProcessCollectionChanged(class System.Collections.Specialized.NotifyCollectionChangedEventArgs args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.ProcessCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub ProcessCollectionChanged (args As NotifyCollectionChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void ProcessCollectionChanged(System::Collections::Specialized::NotifyCollectionChangedEventArgs ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.Collections.Specialized.NotifyCollectionChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="args">
+          <span data-ttu-id="5d326-306">Oggetto <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> da elaborare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-306">The <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs" /> object to process.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-307">Quando è sottoposto a override in una classe derivata, elabora una sola modifica sul thread [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)].</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-307">When overridden in a derived class, processes a single change on the [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] thread.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-308">Questo metodo deve essere sottoposto a override in una classe derivata per elaborare una sola modifica nel [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] thread.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-308">This method must be overridden in a derived class to process a single change on the [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] thread.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessPendingChanges">
+      <MemberSignature Language="C#" Value="protected void ProcessPendingChanges ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void ProcessPendingChanges() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.ProcessPendingChanges" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub ProcessPendingChanges ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void ProcessPendingChanges();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-309">Verificare che tutte le modifiche in sospeso alla raccolta siano state salvate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-309">Ensures that all pending changes to the collection have been committed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PropertyChanged">
+      <MemberSignature Language="C#" Value="protected virtual event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.ComponentModel.PropertyChangedEventHandler PropertyChanged" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.Data.CollectionView.PropertyChanged" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Event PropertyChanged As PropertyChangedEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual event System::ComponentModel::PropertyChangedEventHandler ^ PropertyChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.PropertyChangedEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-310">Si verifica quando il valore di una proprietà è stato modificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-310">Occurs when a property value has changed.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged" />
+      </Docs>
+    </Member>
+    <Member MemberName="Refresh">
+      <MemberSignature Language="C#" Value="public virtual void Refresh ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Refresh() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.Refresh" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub Refresh ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Refresh();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-311">Ricrea la visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-311">Re-creates the view.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-312">Quando si imposta la <xref:System.Windows.Data.CollectionView.Filter%2A>, <xref:System.Windows.Data.CollectionView.SortDescriptions%2A>, o <xref:System.Windows.Data.CollectionView.GroupDescriptions%2A> proprietà; un aggiornamento si verifica.</span><span class="sxs-lookup"><span data-stu-id="5d326-312">When you set  the <xref:System.Windows.Data.CollectionView.Filter%2A>, <xref:System.Windows.Data.CollectionView.SortDescriptions%2A>, or <xref:System.Windows.Data.CollectionView.GroupDescriptions%2A> property; a refresh occurs.</span></span>  <span data-ttu-id="5d326-313">Non è necessario chiamare il <xref:System.Windows.Data.CollectionView.Refresh%2A> metodo immediatamente dopo aver impostato una di tali proprietà.</span><span class="sxs-lookup"><span data-stu-id="5d326-313">You do not have to call the <xref:System.Windows.Data.CollectionView.Refresh%2A> method immediately after you set one of those properties.</span></span> <span data-ttu-id="5d326-314">Per ulteriori informazioni ritardare l'aggiornamento automatico, vedere <xref:System.Windows.Data.CollectionView.DeferRefresh%2A>.</span><span class="sxs-lookup"><span data-stu-id="5d326-314">For information about how to delay automatic refresh, see <xref:System.Windows.Data.CollectionView.DeferRefresh%2A>.</span></span>  
+  
+ <span data-ttu-id="5d326-315">Le classi derivate utilizzano protetto <xref:System.Windows.Data.CollectionView.RefreshOverride%2A> metodo per sostituire il comportamento di questo metodo.</span><span class="sxs-lookup"><span data-stu-id="5d326-315">Derived classes use the protected <xref:System.Windows.Data.CollectionView.RefreshOverride%2A> method to override the behavior of this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Data.CollectionView.DeferRefresh" />
+        <altmember cref="P:System.Windows.Data.CollectionView.NeedsRefresh" />
+      </Docs>
+    </Member>
+    <Member MemberName="RefreshOrDefer">
+      <MemberSignature Language="C#" Value="protected void RefreshOrDefer ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void RefreshOrDefer() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.RefreshOrDefer" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub RefreshOrDefer ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void RefreshOrDefer();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-316">Aggiorna la visualizzazione o specifica che la visualizzazione deve essere aggiornata al termine del ciclo di rinvio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-316">Refreshes the view or specifies that the view needs to be refreshed when the defer cycle completes.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RefreshOverride">
+      <MemberSignature Language="C#" Value="protected virtual void RefreshOverride ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void RefreshOverride() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.RefreshOverride" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub RefreshOverride ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void RefreshOverride();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-317">Ricrea la visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-317">Re-creates the view.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="5d326-318">Le classi derivate devono eseguire l'override di questo metodo per modificare il comportamento del <see cref="M:System.Windows.Data.CollectionView.Refresh" /> metodo.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="5d326-318">Derived classes should override this method to change the behavior of the <see cref="M:System.Windows.Data.CollectionView.Refresh" /> method.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetCurrent">
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-319">Imposta l'elemento corrente di <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-319">Sets the current item of the <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetCurrent">
+      <MemberSignature Language="C#" Value="protected void SetCurrent (object newItem, int newPosition);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void SetCurrent(object newItem, int32 newPosition) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub SetCurrent (newItem As Object, newPosition As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void SetCurrent(System::Object ^ newItem, int newPosition);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="newItem" Type="System.Object" />
+        <Parameter Name="newPosition" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="newItem">
+          <span data-ttu-id="5d326-320">Elemento da impostare come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-320">The item to set as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </param>
+        <param name="newPosition">
+          <span data-ttu-id="5d326-321">Il valore da impostare come valore della proprietà <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-321">The value to set as the <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" /> property value.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-322">Imposta l'elemento specificato e l'indice come valori delle proprietà <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> e <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-322">Sets the specified item and index as the values of the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> and <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" /> properties.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetCurrent">
+      <MemberSignature Language="C#" Value="protected void SetCurrent (object newItem, int newPosition, int count);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void SetCurrent(object newItem, int32 newPosition, int32 count) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.SetCurrent(System.Object,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub SetCurrent (newItem As Object, newPosition As Integer, count As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void SetCurrent(System::Object ^ newItem, int newPosition, int count);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="newItem" Type="System.Object" />
+        <Parameter Name="newPosition" Type="System.Int32" />
+        <Parameter Name="count" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="newItem">
+          <span data-ttu-id="5d326-323">Elemento da impostare come <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-323">The item to set as the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" />.</span>
+          </span>
+        </param>
+        <param name="newPosition">
+          <span data-ttu-id="5d326-324">Il valore da impostare come valore della proprietà <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-324">The value to set as the <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" /> property value.</span>
+          </span>
+        </param>
+        <param name="count">
+          <span data-ttu-id="5d326-325">Numero di elementi presenti nel controllo <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-325">The number of items in the <see cref="T:System.Windows.Data.CollectionView" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="5d326-326">Imposta l'elemento specificato e l'indice come valori delle proprietà <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> e <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-326">Sets the specified item and index as the values of the <see cref="P:System.Windows.Data.CollectionView.CurrentItem" /> and <see cref="P:System.Windows.Data.CollectionView.CurrentPosition" /> properties.</span>
+          </span>
+          <span data-ttu-id="5d326-327">Questo metodo può essere richiamato da un costruttore di una classe derivata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-327">This method can be called from a constructor of a derived class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-328">Chiamare questo overload dal costruttore di una classe derivata.</span><span class="sxs-lookup"><span data-stu-id="5d326-328">Call this overload from constructor of a derived class.</span></span>  <span data-ttu-id="5d326-329">Non passare i <xref:System.Windows.Data.CollectionView.Count%2A> proprietà, che è una proprietà virtuale, come `count`.</span><span class="sxs-lookup"><span data-stu-id="5d326-329">Do not pass the <xref:System.Windows.Data.CollectionView.Count%2A> property, which is a virtual property, as `count`.</span></span> <span data-ttu-id="5d326-330">Al contrario, passare il numero di interno <xref:System.Collections.IList> che rappresenta la raccolta.</span><span class="sxs-lookup"><span data-stu-id="5d326-330">Instead, pass the count of the internal <xref:System.Collections.IList> that represents the collection.</span></span>  
+  
+ <span data-ttu-id="5d326-331"><xref:System.Windows.Data.CollectionView.SetCurrent%2A> è stato introdotto in .NET Framework versione 3.5.</span><span class="sxs-lookup"><span data-stu-id="5d326-331"><xref:System.Windows.Data.CollectionView.SetCurrent%2A> is introduced in the .NET Framework version 3.5.</span></span>  <span data-ttu-id="5d326-332">Per altre informazioni, vedere [Versioni e dipendenze](~/docs/framework/migration-guide/versions-and-dependencies.md).</span><span class="sxs-lookup"><span data-stu-id="5d326-332">For more information, see [Versions and Dependencies](~/docs/framework/migration-guide/versions-and-dependencies.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SortDescriptions">
+      <MemberSignature Language="C#" Value="public virtual System.ComponentModel.SortDescriptionCollection SortDescriptions { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ComponentModel.SortDescriptionCollection SortDescriptions" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.SortDescriptions" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property SortDescriptions As SortDescriptionCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::ComponentModel::SortDescriptionCollection ^ SortDescriptions { System::ComponentModel::SortDescriptionCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.SortDescriptionCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-333">Ottiene un insieme di oggetti <see cref="T:System.ComponentModel.SortDescription" /> che descrivono come sono ordinati nella visualizzazione gli elementi dell'insieme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-333">Gets a collection of <see cref="T:System.ComponentModel.SortDescription" /> structures that describes how the items in the collection are sorted in the view.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-334">
+            <see cref="T:System.ComponentModel.SortDescriptionCollection" /> vuoto in tutti i casi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-334">An empty <see cref="T:System.ComponentModel.SortDescriptionCollection" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="5d326-335">Non è possibile aggiungere un <xref:System.ComponentModel.SortDescription> all'insieme restituito (vuoto) perché la classe di base <xref:System.Windows.Data.CollectionView> non supporta l'ordinamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-335">You cannot add a <xref:System.ComponentModel.SortDescription> to the returned (empty) collection because the base class <xref:System.Windows.Data.CollectionView> does not support sorting.</span></span> <span data-ttu-id="5d326-336">In alternativa, utilizzare le classi derivate <xref:System.Windows.Data.ListCollectionView> e <xref:System.Windows.Data.BindingListCollectionView> che supportano l'ordinamento.</span><span class="sxs-lookup"><span data-stu-id="5d326-336">Instead, use the derived classes <xref:System.Windows.Data.ListCollectionView> and <xref:System.Windows.Data.BindingListCollectionView> that do support sorting.</span></span> <span data-ttu-id="5d326-337">Controllare inoltre il <xref:System.Windows.Data.CollectionView.CanSort%2A> proprietà prima di aggiungere o rimuovere <xref:System.ComponentModel.SortDescription> oggetti per evitare un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="5d326-337">Also, check the <xref:System.Windows.Data.CollectionView.CanSort%2A> property before adding or removing <xref:System.ComponentModel.SortDescription> objects to avoid an exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Data.CollectionViewSource.SortDescriptions" />
+      </Docs>
+    </Member>
+    <Member MemberName="SourceCollection">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.IEnumerable SourceCollection { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.IEnumerable SourceCollection" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.SourceCollection" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property SourceCollection As IEnumerable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::IEnumerable ^ SourceCollection { System::Collections::IEnumerable ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerable</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-338">Restituisce l'insieme non filtrato sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-338">Returns the underlying unfiltered collection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-339">Oggetto <see cref="T:System.Collections.IEnumerable" /> che è l'insieme sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-339">An <see cref="T:System.Collections.IEnumerable" /> object that is the underlying collection.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
+      <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Data.CollectionView.System#Collections#IEnumerable#GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Function GetEnumerator () As IEnumerator Implements IEnumerable.GetEnumerator" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Collections::IEnumerator ^ System.Collections.IEnumerable.GetEnumerator() = System::Collections::IEnumerable::GetEnumerator;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-340">Restituisce un oggetto <see cref="T:System.Collections.IEnumerator" /> che è possibile utilizzare per enumerare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-340">Returns an <see cref="T:System.Collections.IEnumerator" /> object that you can use to enumerate the items in the view.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="5d326-341">Oggetto <see cref="T:System.Collections.IEnumerator" /> che è possibile utilizzare per enumerare gli elementi nella visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-341">An <see cref="T:System.Collections.IEnumerator" /> object that you can use to enumerate the items in the view.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdatedOutsideDispatcher">
+      <MemberSignature Language="C#" Value="protected bool UpdatedOutsideDispatcher { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool UpdatedOutsideDispatcher" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Data.CollectionView.UpdatedOutsideDispatcher" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property UpdatedOutsideDispatcher As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property bool UpdatedOutsideDispatcher { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="5d326-342">Ottiene un valore che indica se è stato necessario aggiornare il registro delle modifiche perché una notifica <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> è stata ricevuta su un thread diverso senza prima inserire il dispatcher di thread della [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)].</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-342">Gets a value that indicates whether it has been necessary to update the change log because a <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> notification has been received on a different thread without first entering the [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)] thread dispatcher.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="5d326-343">
+            <see langword="true" /> se è stato necessario aggiornare il registro delle modifiche perché una notifica <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> è stata ricevuta su un thread diverso senza prima inserire il dispatcher di thread dell'[!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)]; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="5d326-343">
+              <see langword="true" /> if it has been necessary to update the change log because a <see cref="E:System.Windows.Data.CollectionView.CollectionChanged" /> notification has been received on a different thread without first entering the [!INCLUDE[TLA#tla_ui](~/includes/tlasharptla-ui-md.md)] thread dispatcher; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Data.CollectionView.OnBeginChangeLogging(System.Collections.Specialized.NotifyCollectionChangedEventArgs)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
