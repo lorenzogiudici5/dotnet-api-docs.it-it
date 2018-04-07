@@ -1,0 +1,155 @@
+<Type Name="IStreamProvider" FullName="System.Xml.IStreamProvider">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="1e968e06adde58ff690aa9a2ded2e2fcf2ea66a7" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IStreamProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IStreamProvider" />
+  <TypeSignature Language="DocId" Value="T:System.Xml.IStreamProvider" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IStreamProvider" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IStreamProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.Serialization</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.Serialization.Xml</AssemblyName>
+    <AssemblyVersion>4.1.3.0</AssemblyVersion>
+    <AssemblyVersion>4.1.4.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="ec120-101">Rappresenta un'interfaccia che può essere implementata da classi che forniscono flussi.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="ec120-101">Represents an interface that can be implemented by classes providing streams.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ec120-102">Quando si scrive in un writer XML un messaggio in uscita che contiene un corpo inviato come flusso, <xref:System.ServiceModel.Channels.Message> utilizzerà una sequenza di chiamate simili alle seguenti nell'implementazione di <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29>:</span><span class="sxs-lookup"><span data-stu-id="ec120-102">When writing an outgoing message containing a streamed body to an XML writer, the <xref:System.ServiceModel.Channels.Message> will use a sequence of calls similar to the following in its <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> implementation:</span></span>  
+  
+-   <span data-ttu-id="ec120-103">Scrivere tutte le informazioni necessarie prima del flusso (ad esempio, il tag di apertura XML).</span><span class="sxs-lookup"><span data-stu-id="ec120-103">Write any necessary information preceding the stream (For example, the opening XML tag).</span></span>  
+  
+-   <span data-ttu-id="ec120-104">Scrivere il flusso.</span><span class="sxs-lookup"><span data-stu-id="ec120-104">Write the stream.</span></span>  
+  
+-   <span data-ttu-id="ec120-105">Scrivere tutte le informazioni dopo il flusso (ad esempio, il tag di chiusura XML).</span><span class="sxs-lookup"><span data-stu-id="ec120-105">Write any information following the stream (For example, the closing XML tag).</span></span>  
+  
+ <span data-ttu-id="ec120-106">Questa procedura funziona bene con codifiche simili alla codifica XML testuale.</span><span class="sxs-lookup"><span data-stu-id="ec120-106">This works well with encodings that are similar to the textual XML encoding.</span></span> <span data-ttu-id="ec120-107">Esistono, tuttavia, alcune codifiche che non inseriscono informazioni InfoSet XML (ad esempio, i tag di inizio e fine di elementi XML) insieme ai dati contenuti all'interno di elementi.</span><span class="sxs-lookup"><span data-stu-id="ec120-107">However, there are some encodings that do not place XML infoset information (For example, tags for starting and ending XML elements) together with the data contained within elements.</span></span> <span data-ttu-id="ec120-108">Nella codifica MTOM, ad esempio, il messaggio è suddiviso in più parti.</span><span class="sxs-lookup"><span data-stu-id="ec120-108">For example, in the MTOM encoding, the message is split into multiple parts.</span></span> <span data-ttu-id="ec120-109">Una parte contiene l'InfoSet XML, che può contenere riferimenti ad altre parti per il contenuto effettivo degli elementi.</span><span class="sxs-lookup"><span data-stu-id="ec120-109">One part contains the XML infoset, which may contain references to other parts for actual element contents.</span></span> <span data-ttu-id="ec120-110">Dato che, in genere, l'InfoSet XML è di piccole dimensioni rispetto al contenuto inviato nel flusso, è consigliabile memorizzarlo nel buffer, scriverlo e quindi scrivere il contenuto in un flusso.</span><span class="sxs-lookup"><span data-stu-id="ec120-110">Since the XML infoset will normally be small compared to the streamed contents, it makes sense to buffer the infoset, write it out, and then write the contents in a streamed way.</span></span> <span data-ttu-id="ec120-111">Ciò significa che quando viene scritto il tag dell'elemento di chiusura, il flusso non dovrebbe essere stato ancora scritto.</span><span class="sxs-lookup"><span data-stu-id="ec120-111">This means that by the time the closing element tag is written, we should not have written out the stream yet.</span></span>  
+  
+ <span data-ttu-id="ec120-112">A tale fine, viene utilizzata l'interfaccia <xref:System.Xml.IStreamProvider> .</span><span class="sxs-lookup"><span data-stu-id="ec120-112">For this purpose, the <xref:System.Xml.IStreamProvider> interface is used.</span></span> <span data-ttu-id="ec120-113">L'interfaccia ha un metodo <xref:System.Xml.IStreamProvider.GetStream> che restituisce il flusso da scrivere.</span><span class="sxs-lookup"><span data-stu-id="ec120-113">The interface has a <xref:System.Xml.IStreamProvider.GetStream> method that returns the stream to be written.</span></span> <span data-ttu-id="ec120-114">La modalità corretta per scrivere il corpo di un messaggio inviato in un flusso in <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> è la seguente:</span><span class="sxs-lookup"><span data-stu-id="ec120-114">The correct way to write out a streamed message body in <xref:System.ServiceModel.Channels.Message.OnWriteBodyContents%28System.Xml.XmlDictionaryWriter%29> is as follows:</span></span>  
+  
+-   <span data-ttu-id="ec120-115">Scrivere tutte le informazioni necessarie prima del flusso (ad esempio, il tag XML di apertura)</span><span class="sxs-lookup"><span data-stu-id="ec120-115">Write any necessary information preceding the stream (For example, the opening XML tag)</span></span>  
+  
+-   <span data-ttu-id="ec120-116">Chiamare l'overload `WriteValue` in <xref:System.Xml.XmlDictionaryWriter> che prende un <xref:System.Xml.IStreamProvider>, con un'implementazione `IStreamProvider` che restituisce il flusso da scrivere.</span><span class="sxs-lookup"><span data-stu-id="ec120-116">Call the `WriteValue` overload on the <xref:System.Xml.XmlDictionaryWriter> that takes an <xref:System.Xml.IStreamProvider>, with an `IStreamProvider` implementation that returns the stream to be written.</span></span>  
+  
+-   <span data-ttu-id="ec120-117">Scrivere tutte le informazioni dopo il flusso (ad esempio, il tag di chiusura XML).</span><span class="sxs-lookup"><span data-stu-id="ec120-117">Write any information following the stream (For example, the closing XML tag)</span></span>  
+  
+ <span data-ttu-id="ec120-118">Con questo approccio, il writer XML può scegliere quando chiamare <xref:System.Xml.IStreamProvider.GetStream> e scrivere i dati inviati nel flusso.</span><span class="sxs-lookup"><span data-stu-id="ec120-118">With this approach, the XML writer has a choice of when to call <xref:System.Xml.IStreamProvider.GetStream> and write out the streamed data.</span></span> <span data-ttu-id="ec120-119">I writer XML binari e testuali, ad esempio, lo chiameranno immediatamente e scriveranno il contenuto nel flusso tra il tag di inizio e quello di fine.</span><span class="sxs-lookup"><span data-stu-id="ec120-119">For example, the textual and binary XML writers will call it immediately and write out the streamed contents in between the start and end tags.</span></span> <span data-ttu-id="ec120-120">Il writer MTOM può decidere di chiamare <xref:System.Xml.IStreamProvider.GetStream> in un secondo momento, quando è pronto per scrivere la parte appropriata del messaggio.</span><span class="sxs-lookup"><span data-stu-id="ec120-120">The MTOM writer may decide to call <xref:System.Xml.IStreamProvider.GetStream> later, when it is ready to write the appropriate part of the message.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="GetStream">
+      <MemberSignature Language="C#" Value="public System.IO.Stream GetStream ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.IO.Stream GetStream() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.IStreamProvider.GetStream" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetStream () As Stream" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::IO::Stream ^ GetStream();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Xml</AssemblyName>
+        <AssemblyVersion>4.1.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.4.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Stream</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ec120-121">Ottiene un flusso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ec120-121">Gets a stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ec120-122">Un oggetto <see cref="T:System.IO.Stream" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ec120-122">A <see cref="T:System.IO.Stream" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ec120-123">Questo metodo può essere utilizzato per restituire il flusso da scrivere.</span><span class="sxs-lookup"><span data-stu-id="ec120-123">This method can be used to return the stream to be written.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseStream">
+      <MemberSignature Language="C#" Value="public void ReleaseStream (System.IO.Stream stream);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReleaseStream(class System.IO.Stream stream) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.IStreamProvider.ReleaseStream(System.IO.Stream)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseStream(System::IO::Stream ^ stream);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Xml</AssemblyName>
+        <AssemblyVersion>4.1.3.0</AssemblyVersion>
+        <AssemblyVersion>4.1.4.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="stream" Type="System.IO.Stream" />
+      </Parameters>
+      <Docs>
+        <param name="stream">
+          <span data-ttu-id="ec120-124">Flusso rilasciato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ec120-124">The stream being released.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="ec120-125">Rilascia un flusso per l'output.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ec120-125">Releases a stream to output.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
