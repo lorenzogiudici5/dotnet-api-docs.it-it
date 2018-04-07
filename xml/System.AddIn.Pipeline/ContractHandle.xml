@@ -1,0 +1,349 @@
+<Type Name="ContractHandle" FullName="System.AddIn.Pipeline.ContractHandle">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="5565bfb6f9f3ce8255c0ca1ca8bf3a4c0c2e3bdc" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ContractHandle : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ContractHandle extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.AddIn.Pipeline.ContractHandle" />
+  <TypeSignature Language="VB.NET" Value="Public Class ContractHandle&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ContractHandle : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System.AddIn</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="01718-101">Fornisce metodi che controllano la durata di un componente aggiuntivo.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="01718-101">Provides methods that control the lifetime of an add-in.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="01718-102">Poiché il modello di componente aggiuntivo fornisce la possibilità per i componenti aggiuntivi per la comunicazione tra i domini applicazione e tra processi, è possibile basarsi sul garbage collector per recuperarli.</span><span class="sxs-lookup"><span data-stu-id="01718-102">Because the add-in model provides the ability for add-ins to communicate between application domains and between processes, it cannot rely on the garbage collector to reclaim them.</span></span> <span data-ttu-id="01718-103">Questa classe fornisce un meccanismo per il componente aggiuntivo di conteggio ottenendo un token di durata per il contratto.</span><span class="sxs-lookup"><span data-stu-id="01718-103">This class provides a reference counting mechanism for the add-in by obtaining a lifetime token to its contract.</span></span>  
+  
+ <span data-ttu-id="01718-104">Quando un <xref:System.AddIn.Pipeline.ContractHandle> oggetto viene costruito, viene chiamato il <xref:System.AddIn.Pipeline.ContractBase.AcquireLifetimeToken%2A> metodo sul contratto che viene passato al costruttore.</span><span class="sxs-lookup"><span data-stu-id="01718-104">When a <xref:System.AddIn.Pipeline.ContractHandle> object is constructed, it calls the <xref:System.AddIn.Pipeline.ContractBase.AcquireLifetimeToken%2A> method on the contract that is passed to the constructor.</span></span> <span data-ttu-id="01718-105">Quando il <xref:System.AddIn.Pipeline.ContractHandle> oggetto viene eliminato o finalizzato, viene chiamato il <xref:System.AddIn.Pipeline.ContractBase.RevokeLifetimeToken%2A> metodo nel contratto, che consente di rimuovere il contratto.</span><span class="sxs-lookup"><span data-stu-id="01718-105">When the <xref:System.AddIn.Pipeline.ContractHandle> object is disposed or finalized, it calls the <xref:System.AddIn.Pipeline.ContractBase.RevokeLifetimeToken%2A> method on the contract, which removes its hold on the contract.</span></span>  
+  
+ <span data-ttu-id="01718-106">Gli adattatori di implementare il contratto.</span><span class="sxs-lookup"><span data-stu-id="01718-106">Adapters implement the contract.</span></span> <span data-ttu-id="01718-107">La <xref:System.AddIn.Pipeline.ContractHandle> classe è progettata per essere utilizzata in un adattatore contratto-visualizzazione per consentire agli sviluppatori di pipeline di gestire la durata del contratto da adattare.</span><span class="sxs-lookup"><span data-stu-id="01718-107">The <xref:System.AddIn.Pipeline.ContractHandle> class is designed to be used in a contract-to-view adapter to help pipeline developers manage the lifetime of the contract that is being adapted.</span></span> <span data-ttu-id="01718-108">In genere, un'istanza di questa classe viene creata un'istanza durante la costruzione della classe di adattatori e viene archiviata in un campo di istanza dell'adattatore.</span><span class="sxs-lookup"><span data-stu-id="01718-108">Typically, an instance of this class is instantiated during the construction of the adapter class and is stored in an instance field of the adapter.</span></span> <span data-ttu-id="01718-109">Quando la classe dell'adattatore è sottoposto a garbage collection, il <xref:System.AddIn.Pipeline.ContractHandle> oggetto anche viene raccolto e <xref:System.AddIn.Pipeline.ContractHandle> oggetto revoca il token di durata del contratto.</span><span class="sxs-lookup"><span data-stu-id="01718-109">When the adapter class is garbage-collected, the <xref:System.AddIn.Pipeline.ContractHandle> object will also be collected and the <xref:System.AddIn.Pipeline.ContractHandle> object will revoke the lifetime token on the contract.</span></span>  
+  
+ <span data-ttu-id="01718-110">È consigliabile che le schede di visualizzazione-contratto ereditano la <xref:System.AddIn.Pipeline.ContractBase> classe.</span><span class="sxs-lookup"><span data-stu-id="01718-110">It is recommended that your view-to-contract adapters inherit from the <xref:System.AddIn.Pipeline.ContractBase> class.</span></span> <span data-ttu-id="01718-111">È quindi possibile utilizzare un'implementazione predefinita per i membri di <xref:System.AddIn.Contract.IContract>, ovvero è necessario implementare solo i membri del contratto specifico.</span><span class="sxs-lookup"><span data-stu-id="01718-111">You can then use a default implementation for the members of <xref:System.AddIn.Contract.IContract>, which means you need to implement only the members of your specific contract.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="01718-112">Nell'esempio seguente viene illustrato come impostare l'handle del token di durata in una scheda di contratto per visualizzare sul lato componente aggiuntivo di una pipeline.</span><span class="sxs-lookup"><span data-stu-id="01718-112">The following example shows how to set the lifetime token handle in a contract-to-view adapter on the add-in side of a pipeline.</span></span>  
+  
+ [!code-csharp[AddinP2HostSideAdapters#2](~/samples/snippets/csharp/VS_Snippets_CLR/AddInP2HostSideAdapters/cs/Calc2ContractToViewHostSideAdapter.cs#2)]
+ [!code-vb[AddinP2HostSideAdapters#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/AddInP2HostSideAdapters/vb/Calc2ContractToViewHostSideAdapter.vb#2)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ContractHandle (System.AddIn.Contract.IContract contract);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.AddIn.Contract.IContract contract) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.#ctor(System.AddIn.Contract.IContract)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (contract As IContract)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ContractHandle(System::AddIn::Contract::IContract ^ contract);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="contract" Type="System.AddIn.Contract.IContract" />
+      </Parameters>
+      <Docs>
+        <param name="contract">
+          <span data-ttu-id="01718-113">Contratto da utilizzare nella pipeline.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-113">The contract to use in the pipeline.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="01718-114">Inizializza una nuova istanza della classe <see cref="T:System.AddIn.Pipeline.ContractHandle" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-114">Initializes a new instance of the <see cref="T:System.AddIn.Pipeline.ContractHandle" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="01718-115">
+            <paramref name="contract" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-115">
+              <paramref name="contract" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AppDomainOwner">
+      <MemberSignature Language="C#" Value="public static System.AddIn.Contract.IContract AppDomainOwner (AppDomain domain);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.AddIn.Contract.IContract AppDomainOwner(class System.AppDomain domain) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.AppDomainOwner(System.AppDomain)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function AppDomainOwner (domain As AppDomain) As IContract" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::AddIn::Contract::IContract ^ AppDomainOwner(AppDomain ^ domain);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.AddIn.Contract.IContract</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="domain" Type="System.AppDomain" />
+      </Parameters>
+      <Docs>
+        <param name="domain">
+          <span data-ttu-id="01718-116">Dominio applicazione da verificare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-116">The application domain to check.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="01718-117">Ottiene l'istanza dell'adattatore sul lato del componente aggiuntivo relativa al momento in cui il dominio applicazione è stato creato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-117">Gets the instance of the add-in-side adapter when the application domain was created.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="01718-118">Oggetto <see cref="T:System.AddIn.Contract.IContract" /> che rappresenta il proprietario del dominio applicazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-118">An <see cref="T:System.AddIn.Contract.IContract" /> object that represents the owner of the application domain.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="01718-119">Gli adattatori del lato del componente aggiuntivo sono tipizzati come <xref:System.AddIn.Contract.IContract>.</span><span class="sxs-lookup"><span data-stu-id="01718-119">The add-in-side adapters are typed as <xref:System.AddIn.Contract.IContract>.</span></span>  
+  
+ <span data-ttu-id="01718-120">Se il dominio applicazione è stato creato in precedenza da un utente, non è presente alcun proprietario.</span><span class="sxs-lookup"><span data-stu-id="01718-120">If the application domain was previously created by a user, there is no owner.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="01718-121">
+            <paramref name="domain" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-121">
+              <paramref name="domain" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Contract">
+      <MemberSignature Language="C#" Value="public System.AddIn.Contract.IContract Contract { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.AddIn.Contract.IContract Contract" />
+      <MemberSignature Language="DocId" Value="P:System.AddIn.Pipeline.ContractHandle.Contract" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Contract As IContract" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::AddIn::Contract::IContract ^ Contract { System::AddIn::Contract::IContract ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.AddIn.Contract.IContract</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="01718-122">Ottiene il contratto utilizzato da una pipeline.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-122">Gets the contract used by a pipeline.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="01718-123">Contratto derivato dall'interfaccia <see cref="T:System.AddIn.Contract.IContract" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-123">The contract, which is derived from <see cref="T:System.AddIn.Contract.IContract" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContractOwnsAppDomain">
+      <MemberSignature Language="C#" Value="public static bool ContractOwnsAppDomain (System.AddIn.Contract.IContract contract, AppDomain domain);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContractOwnsAppDomain(class System.AddIn.Contract.IContract contract, class System.AppDomain domain) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.ContractOwnsAppDomain(System.AddIn.Contract.IContract,System.AppDomain)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContractOwnsAppDomain (contract As IContract, domain As AppDomain) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContractOwnsAppDomain(System::AddIn::Contract::IContract ^ contract, AppDomain ^ domain);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="contract" Type="System.AddIn.Contract.IContract" />
+        <Parameter Name="domain" Type="System.AppDomain" />
+      </Parameters>
+      <Docs>
+        <param name="contract">
+          <span data-ttu-id="01718-124">Contratto da verificare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-124">The contract to check.</span>
+          </span>
+        </param>
+        <param name="domain">
+          <span data-ttu-id="01718-125">Dominio applicazione da verificare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-125">The application domain to check.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="01718-126">Determina se il contratto specificato possiede un dominio applicazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-126">Determines whether an application domain is owned by the specified contract.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="01718-127">
+            <see langword="true" /> se il contratto possiede il dominio applicazione. In caso contrario <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-127">
+              <see langword="true" /> if the contract owns the application domain; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="01718-128">
+            <paramref name="contract" /> o <paramref name="domain" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-128">
+              <paramref name="contract" /> or <paramref name="domain" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="01718-129">Revoca il token di durata di un contratto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-129">Revokes the lifetime token on a contract.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="01718-130">Revoca il token di durata di un contratto, indipendentemente dall'input.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-130">Revokes the lifetime token on a contract, regardless of input.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="01718-131">
+            <see langword="true" /> per rilasciare sia le risorse gestite sia quelle non gestite; <see langword="false" /> per rilasciare solo le risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-131">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="01718-132">Revoca il token di durata del contratto indipendentemente dall'input e, facoltativamente, rilascia le risorse gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-132">Revokes the lifetime token on the contract regardless of input and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~ContractHandle ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.AddIn.Pipeline.ContractHandle.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!ContractHandle ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.AddIn</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="01718-133">Rilascia le risorse associate all'istanza di <see cref="T:System.AddIn.Pipeline.ContractHandle" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="01718-133">Releases the resources associated with the <see cref="T:System.AddIn.Pipeline.ContractHandle" /> instance.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="01718-134">Questo metodo esegue l'override del metodo <xref:System.Object.Finalize%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="01718-134">This method overrides <xref:System.Object.Finalize%2A?displayProperty=nameWithType>.</span></span> <span data-ttu-id="01718-135">Il codice dell'applicazione non deve chiamare questo metodo. un oggetto <xref:System.AddIn.Pipeline.ContractHandle.Finalize%2A> metodo viene richiamato automaticamente durante l'operazione di garbage collection, a meno che la finalizzazione del garbage collector non è stata disabilitata da una chiamata al <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="01718-135">Application code should not call this method; an object's <xref:System.AddIn.Pipeline.ContractHandle.Finalize%2A> method is automatically invoked during garbage collection, unless finalization by the garbage collector has been disabled by a call to the <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="01718-136">Quando viene chiamato da garbage collector, questo metodo chiama il <xref:System.AddIn.Pipeline.ContractHandle.Dispose%28System.Boolean%29> metodo.</span><span class="sxs-lookup"><span data-stu-id="01718-136">When called by the garbage collector, this method calls the <xref:System.AddIn.Pipeline.ContractHandle.Dispose%28System.Boolean%29> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

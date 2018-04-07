@@ -1,0 +1,975 @@
+<Type Name="MenuCommandService" FullName="System.ComponentModel.Design.MenuCommandService">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="e0516c7b006471c73e0f38f2e6a40d4566190dd2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class MenuCommandService : IDisposable, System.ComponentModel.Design.IMenuCommandService" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MenuCommandService extends System.Object implements class System.ComponentModel.Design.IMenuCommandService, class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.ComponentModel.Design.MenuCommandService" />
+  <TypeSignature Language="VB.NET" Value="Public Class MenuCommandService&#xA;Implements IDisposable, IMenuCommandService" />
+  <TypeSignature Language="C++ CLI" Value="public ref class MenuCommandService : IDisposable, System::ComponentModel::Design::IMenuCommandService" />
+  <AssemblyInfo>
+    <AssemblyName>System.Design</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.ComponentModel.Design.IMenuCommandService</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="fe6a0-101">Implementa l'interfaccia <see cref="T:System.ComponentModel.Design.IMenuCommandService" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="fe6a0-101">Implements the <see cref="T:System.ComponentModel.Design.IMenuCommandService" /> interface.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-102">Il <xref:System.ComponentModel.Design.MenuCommandService> classe implementa il <xref:System.ComponentModel.Design.IMenuCommandService> interfaccia, che rappresenta l'interfaccia gestita utilizzata per aggiungere gestori per i comandi di menu e per definire i verbi.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-102">The <xref:System.ComponentModel.Design.MenuCommandService> class implements the <xref:System.ComponentModel.Design.IMenuCommandService> interface, which is the managed interface used to add handlers for menu commands and to define verbs.</span></span>  
+  
+ <span data-ttu-id="fe6a0-103">Il <xref:System.ComponentModel.Design.MenuCommandService> classe viene fornita automaticamente dalla classe del package per rendere disponibili i comandi globali per un intero pacchetto, e viene inoltre offerta dalla `Microsoft.VisualStudio.Shell.WindowPane` classe per rendere disponibili i comandi per la finestra corrente.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-103">The <xref:System.ComponentModel.Design.MenuCommandService> class is automatically offered by the package class to offer global commands for an entire package, and it is also offered by the `Microsoft.VisualStudio.Shell.WindowPane` class to offer commands for the current window.</span></span> <span data-ttu-id="fe6a0-104">Questa offerta è eseguita sempre tramite il contenitore del servizio, quindi la derivazione dal pacchetto o classi di finestra riquadro è possono rimuovere o sostituire l'implementazione predefinita del <xref:System.ComponentModel.Design.IMenuCommandService> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-104">This offering is always done through the service container, so anyone deriving from the package or window pane classes can remove or replace the default implementation of the <xref:System.ComponentModel.Design.IMenuCommandService> interface.</span></span>  
+  
+ <span data-ttu-id="fe6a0-105">La <xref:System.ComponentModel.Design.MenuCommandService> classe utilizza diversi altri servizi.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-105">The <xref:System.ComponentModel.Design.MenuCommandService> class utilizes several other services.</span></span> <span data-ttu-id="fe6a0-106">Tutti questi servizi sono facoltativi, pertanto il comportamento del <xref:System.ComponentModel.Design.MenuCommandService> classe risulta ridotto se uno o più servizi risultano mancanti.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-106">All of these services are optional, so the behavior of the <xref:System.ComponentModel.Design.MenuCommandService> class degrades if one or more services are missing.</span></span> <span data-ttu-id="fe6a0-107">La tabella seguente illustra i servizi utilizzati e il loro scopo.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-107">The following table shows which services are used and for what purpose.</span></span>  
+  
+|<span data-ttu-id="fe6a0-108">Service</span><span class="sxs-lookup"><span data-stu-id="fe6a0-108">Service</span></span>|<span data-ttu-id="fe6a0-109">Scopo</span><span class="sxs-lookup"><span data-stu-id="fe6a0-109">Purpose</span></span>|  
+|-------------|-------------|  
+|<xref:System.ComponentModel.Design.ISelectionService>|<span data-ttu-id="fe6a0-110">Utilizzato per individuare la selezione corrente per ottenere i verbi forniti dalla finestra di progettazione attualmente selezionata.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-110">Used to discover the current selection in order to obtain verbs offered by the currently selected designer.</span></span>|  
+|<xref:System.ComponentModel.Design.IDesignerHost>|<span data-ttu-id="fe6a0-111">Utilizzato per ottenere la finestra di progettazione per il componente selezionato, se presente.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-111">Used to obtain the designer for the currently selected component, if any.</span></span>|  
+|`Microsoft.VisualStudio.Shell.Interop.IVsUIShell`|<span data-ttu-id="fe6a0-112">Utilizzato per notificare [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)] che è stato modificato lo stato del comando.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-112">Used to notify [!INCLUDE[vsprvs](~/includes/vsprvs-md.md)] that the command status has changed.</span></span>|  
+|`Microsoft.VisualStudio.Shell.Interop.IOleComponentUIManager`|<span data-ttu-id="fe6a0-113">Utilizzato per mostrare i menu di scelta rapida.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-113">Used to show context menus.</span></span>|  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+    <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+    <altmember cref="T:System.ComponentModel.Design.CommandID" />
+    <altmember cref="T:System.IServiceProvider" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MenuCommandService (IServiceProvider serviceProvider);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.IServiceProvider serviceProvider) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.#ctor(System.IServiceProvider)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (serviceProvider As IServiceProvider)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; MenuCommandService(IServiceProvider ^ serviceProvider);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="serviceProvider" Type="System.IServiceProvider" />
+      </Parameters>
+      <Docs>
+        <param name="serviceProvider">
+          <span data-ttu-id="fe6a0-114">Il provider di servizi utilizzato da questo servizio per ottenere gli altri servizi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-114">The service provider that this service uses to obtain other services.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-115">Inizializza una nuova istanza della classe <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-115">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.MenuCommandService" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-116">Se il servizio viene utilizzato con una finestra di progettazione, il `serviceProvider` parametro deve essere il provider di servizi per la finestra di progettazione, come accade con <xref:System.ComponentModel.Design.DesignSurface>.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-116">If the service is being used with a designer, the `serviceProvider` parameter should be the service provider for the designer, as is the case with <xref:System.ComponentModel.Design.DesignSurface>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddCommand">
+      <MemberSignature Language="C#" Value="public virtual void AddCommand (System.ComponentModel.Design.MenuCommand command);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddCommand(class System.ComponentModel.Design.MenuCommand command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.AddCommand(System.ComponentModel.Design.MenuCommand)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub AddCommand (command As MenuCommand)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void AddCommand(System::ComponentModel::Design::MenuCommand ^ command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.ComponentModel.Design.MenuCommand" />
+      </Parameters>
+      <Docs>
+        <param name="command">
+          <span data-ttu-id="fe6a0-117">Oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> da aggiungere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-117">The <see cref="T:System.ComponentModel.Design.MenuCommand" /> to add.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-118">Aggiunge un gestore di comandi al servizio dei comandi di menu.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-118">Adds a command handler to the menu command service.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-119">Il <xref:System.ComponentModel.Design.MenuCommandService.AddCommand%2A> metodo aggiunge un gestore del comando per il servizio di comando di menu.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-119">The <xref:System.ComponentModel.Design.MenuCommandService.AddCommand%2A> method adds a command handler to the menu command service.</span></span> <span data-ttu-id="fe6a0-120">Gestori di comandi non definisce il testo, una scelta rapida o la selezione di una voce di menu.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-120">Command handlers do not define the text, shortcut, or placement of a menu item.</span></span> <span data-ttu-id="fe6a0-121">Piuttosto, definiscono il comportamento della voce di menu se si seleziona l'elemento.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-121">Rather, they define the menu item’s behavior if the item is clicked.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fe6a0-122">
+            <paramref name="command" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-122">
+              <paramref name="command" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="fe6a0-123">Un gestore di comandi <paramref name="command" /> è già esistente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-123">A command handler <paramref name="command" /> already exists.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddVerb">
+      <MemberSignature Language="C#" Value="public virtual void AddVerb (System.ComponentModel.Design.DesignerVerb verb);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void AddVerb(class System.ComponentModel.Design.DesignerVerb verb) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.AddVerb(System.ComponentModel.Design.DesignerVerb)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub AddVerb (verb As DesignerVerb)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void AddVerb(System::ComponentModel::Design::DesignerVerb ^ verb);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="verb" Type="System.ComponentModel.Design.DesignerVerb" />
+      </Parameters>
+      <Docs>
+        <param name="verb">
+          <span data-ttu-id="fe6a0-124">Oggetto <see cref="T:System.ComponentModel.Design.DesignerVerb" /> da aggiungere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-124">The <see cref="T:System.ComponentModel.Design.DesignerVerb" /> to add.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-125">Aggiunge un verbo alla tabella dei verbi dell'oggetto <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-125">Adds a verb to the verb table of the <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-126">Il verbo è disponibile indipendentemente dalla finestra di progettazione attualmente selezionata.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-126">This verb is available regardless of what designer is currently selected.</span></span> <span data-ttu-id="fe6a0-127">A differenza dei comandi di menu, verbi possono definire il testo che viene visualizzato all'utente, ma non definiscono la posizione del comando all'interno del menu.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-127">Unlike menu commands, verbs can define the text that is displayed to the user, but they do not define the placement of the command on the actual menu.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fe6a0-128">
+            <paramref name="verb" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-128">
+              <paramref name="verb" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Dispose">
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-129">Rilascia tutte le risorse usate da <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-129">Releases all resources used by the <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-130">Rilascia tutte le risorse usate da <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-130">Releases all resources used by the <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-131">Chiamare il metodo <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> dopo aver terminato di utilizzare l'oggetto <xref:System.ComponentModel.Design.MenuCommandService>.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-131">Call <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> when you are finished using the <xref:System.ComponentModel.Design.MenuCommandService>.</span></span> <span data-ttu-id="fe6a0-132">Il metodo <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> lascia l'oggetto <xref:System.ComponentModel.Design.MenuCommandService> in una condizione di inutilizzabilità.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-132">The <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> method leaves the <xref:System.ComponentModel.Design.MenuCommandService> in an unusable state.</span></span> <span data-ttu-id="fe6a0-133">Dopo la chiamata <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A>, è necessario rilasciare tutti i riferimenti al <xref:System.ComponentModel.Design.MenuCommandService> in modo che il garbage collector può recuperare la memoria che di <xref:System.ComponentModel.Design.MenuCommandService> occupata.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-133">After calling <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A>, you must release all references to the <xref:System.ComponentModel.Design.MenuCommandService> so the garbage collector can reclaim the memory that the <xref:System.ComponentModel.Design.MenuCommandService> was occupying.</span></span> <span data-ttu-id="fe6a0-134">Per ulteriori informazioni, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span><span class="sxs-lookup"><span data-stu-id="fe6a0-134">For more information, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="fe6a0-135">Chiamare sempre il metodo <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> prima di rilasciare l'ultimo riferimento a <xref:System.ComponentModel.Design.MenuCommandService>.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-135">Always call <xref:System.ComponentModel.Design.MenuCommandService.Dispose%2A> before you release your last reference to the <xref:System.ComponentModel.Design.MenuCommandService>.</span></span> <span data-ttu-id="fe6a0-136">In caso contrario, le risorse utilizzate non verranno liberate finché il metodo <xref:System.ComponentModel.Design.MenuCommandService> dell'oggetto `Finalize` non viene richiamato dal Garbage Collector.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-136">Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref:System.ComponentModel.Design.MenuCommandService> object's `Finalize` method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="fe6a0-137">
+            <see langword="true" /> per rilasciare sia le risorse gestite sia quelle non gestite; <see langword="false" /> per rilasciare solo le risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-137">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-138">Rilascia tutte le risorse usate da <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-138">Releases all resources used by the <see cref="T:System.ComponentModel.Design.MenuCommandService" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-139">Questo metodo viene chiamato dal metodo pubblico `Dispose()` (metodo) e <xref:System.Object.Finalize%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-139">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="fe6a0-140">`Dispose()` richiama il metodo protetto `Dispose(Boolean)` metodo con il `disposing` parametro impostato su `true`.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-140">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="fe6a0-141"><xref:System.Object.Finalize%2A> richiama `Dispose` con `disposing` impostato su `false`.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-141"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="fe6a0-142">Quando il `disposing` parametro è true, questo metodo rilascia tutte le risorse utilizzate dagli oggetti gestiti da questo <xref:System.ComponentModel.Design.MenuCommandService> riferimenti.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-142">When the `disposing` parameter is true, this method releases all resources held by any managed objects that this <xref:System.ComponentModel.Design.MenuCommandService> references.</span></span> <span data-ttu-id="fe6a0-143">Il metodo richiama il metodo `Dispose()` di ciascun oggetto cui viene fatto riferimento.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-143">This method invokes the `Dispose()` method of each referenced object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="fe6a0-144">Il metodo <see langword="Dispose" /> può essere chiamato più volte da altri oggetti.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="fe6a0-144">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="fe6a0-145">Quando si esegue l'override <see langword="Dispose(Boolean)" /> prestare attenzione a non fare riferimento a oggetti che sono stati eliminati in una precedente chiamata a <see langword="Dispose" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="fe6a0-145">When overriding <see langword="Dispose(Boolean)" /> be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="fe6a0-146">Per ulteriori informazioni su come implementare <see langword="Dispose(Boolean)" />, vedere [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="fe6a0-146">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="fe6a0-147">Per ulteriori informazioni su <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [si esegue l'override del metodo Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="fe6a0-147">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="EnsureVerbs">
+      <MemberSignature Language="C#" Value="protected void EnsureVerbs ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void EnsureVerbs() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.EnsureVerbs" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub EnsureVerbs ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; void EnsureVerbs();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-148">Assicura che l'elenco dei verbi sia stato creato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-148">Ensures that the verb list has been created.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-149">Il <xref:System.ComponentModel.Design.MenuCommandService.EnsureVerbs%2A> metodo crea l'elenco dei verbi se non è già stato creato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-149">The <xref:System.ComponentModel.Design.MenuCommandService.EnsureVerbs%2A> method creates the verb list if it has not already been created.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="FindCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-150">Ricerca l'oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> associato all'ID comando indicato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-150">Searches for the <see cref="T:System.ComponentModel.Design.MenuCommand" /> associated with the given command ID.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="FindCommand">
+      <MemberSignature Language="C#" Value="public System.ComponentModel.Design.MenuCommand FindCommand (System.ComponentModel.Design.CommandID commandID);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.ComponentModel.Design.MenuCommand FindCommand(class System.ComponentModel.Design.CommandID commandID) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.FindCommand(System.ComponentModel.Design.CommandID)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::ComponentModel::Design::MenuCommand ^ FindCommand(System::ComponentModel::Design::CommandID ^ commandID);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.Design.MenuCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="commandID" Type="System.ComponentModel.Design.CommandID" />
+      </Parameters>
+      <Docs>
+        <param name="commandID">
+          <span data-ttu-id="fe6a0-151">
+            <see cref="T:System.ComponentModel.Design.CommandID" /> da trovare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-151">The <see cref="T:System.ComponentModel.Design.CommandID" /> to find.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-152">Ricerca l'oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> associato all'ID comando indicato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-152">Searches for the <see cref="T:System.ComponentModel.Design.MenuCommand" /> associated with the given command ID.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-153">L'oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> associato al comando indicato; in caso contrario, <see langword="null" /> se non è possibile trovare il comando.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-153">The <see cref="T:System.ComponentModel.Design.MenuCommand" /> associated with the given command; otherwise, <see langword="null" /> if the command is not found.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="FindCommand">
+      <MemberSignature Language="C#" Value="protected System.ComponentModel.Design.MenuCommand FindCommand (Guid guid, int id);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance class System.ComponentModel.Design.MenuCommand FindCommand(valuetype System.Guid guid, int32 id) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.FindCommand(System.Guid,System.Int32)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::ComponentModel::Design::MenuCommand ^ FindCommand(Guid guid, int id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.Design.MenuCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="guid" Type="System.Guid" />
+        <Parameter Name="id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="guid">
+          <span data-ttu-id="fe6a0-154">GUID del comando.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-154">The GUID of the command.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="fe6a0-155">ID del comando.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-155">The ID of the command.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-156">Ricerca l'oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> associato al comando indicato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-156">Searches for the <see cref="T:System.ComponentModel.Design.MenuCommand" /> associated with the given command.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-157">L'oggetto <see cref="T:System.ComponentModel.Design.MenuCommand" /> associato al comando indicato; in caso contrario, <see langword="null" /> se non è possibile trovare il comando.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-157">The <see cref="T:System.ComponentModel.Design.MenuCommand" /> associated with the given command; otherwise, <see langword="null" /> if the command is not found.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetCommandList">
+      <MemberSignature Language="C#" Value="protected System.Collections.ICollection GetCommandList (Guid guid);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance class System.Collections.ICollection GetCommandList(valuetype System.Guid guid) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.GetCommandList(System.Guid)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::Collections::ICollection ^ GetCommandList(Guid guid);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ICollection</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="guid" Type="System.Guid" />
+      </Parameters>
+      <Docs>
+        <param name="guid">
+          <span data-ttu-id="fe6a0-158">GUID dell'elenco di comandi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-158">The GUID of the command list.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-159">Ottiene l'elenco dei comandi per un determinato GUID.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-159">Gets the command list for a given GUID.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-160">Un <see cref="T:System.Collections.ICollection" /> di comandi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-160">An <see cref="T:System.Collections.ICollection" /> of commands.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetService">
+      <MemberSignature Language="C#" Value="protected object GetService (Type serviceType);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance object GetService(class System.Type serviceType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.GetService(System.Type)" />
+      <MemberSignature Language="VB.NET" Value="Protected Function GetService (serviceType As Type) As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; System::Object ^ GetService(Type ^ serviceType);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serviceType" Type="System.Type" />
+      </Parameters>
+      <Docs>
+        <param name="serviceType">
+          <span data-ttu-id="fe6a0-161">Oggetto <see cref="T:System.Type" /> del servizio da recuperare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-161">The <see cref="T:System.Type" /> of the service to retrieve.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-162">Ottiene un riferimento al servizio richiesto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-162">Gets a reference to the requested service.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-163">Riferimento a <paramref name="serviceType" />; in caso contrario, <see langword="null" /> se non è possibile trovare il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-163">A reference to <paramref name="serviceType" />; otherwise, <see langword="null" /> if the service is not found.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fe6a0-164">
+            <paramref name="serviceType" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-164">
+              <paramref name="serviceType" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GlobalInvoke">
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-165">Richiama un comando sul form locale o nell'ambiente globale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-165">Invokes a command on the local form or in the global environment.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GlobalInvoke">
+      <MemberSignature Language="C#" Value="public virtual bool GlobalInvoke (System.ComponentModel.Design.CommandID commandID);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool GlobalInvoke(class System.ComponentModel.Design.CommandID commandID) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.GlobalInvoke(System.ComponentModel.Design.CommandID)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool GlobalInvoke(System::ComponentModel::Design::CommandID ^ commandID);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="commandID" Type="System.ComponentModel.Design.CommandID" />
+      </Parameters>
+      <Docs>
+        <param name="commandID">
+          <span data-ttu-id="fe6a0-166">Comando da richiamare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-166">The command to invoke.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-167">Richiama il comando indicato sul form locale o nell'ambiente globale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-167">Invokes the given command on the local form or in the global environment.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-168">
+            <see langword="true" />, se il comando è stato trovato, <see langword="false" /> in caso contrario.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-168">
+              <see langword="true" />, if the command was found; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-169">Form locale viene innanzitutto eseguita la ricerca per l'ID di comando specificato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-169">The local form is first searched for the given command ID.</span></span> <span data-ttu-id="fe6a0-170">Se viene trovato, viene richiamato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-170">If it is found, it is invoked.</span></span> <span data-ttu-id="fe6a0-171">In caso contrario, l'ID di comando viene passato al gestore del comando ambiente globale, se disponibile.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-171">Otherwise, the command ID is passed to the global environment command handler, if one is available.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="GlobalInvoke">
+      <MemberSignature Language="C#" Value="public virtual bool GlobalInvoke (System.ComponentModel.Design.CommandID commandId, object arg);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool GlobalInvoke(class System.ComponentModel.Design.CommandID commandId, object arg) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.GlobalInvoke(System.ComponentModel.Design.CommandID,System.Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool GlobalInvoke(System::ComponentModel::Design::CommandID ^ commandId, System::Object ^ arg);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="commandId" Type="System.ComponentModel.Design.CommandID" />
+        <Parameter Name="arg" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="commandId">
+          <span data-ttu-id="fe6a0-172">Comando da richiamare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-172">The command to invoke.</span>
+          </span>
+        </param>
+        <param name="arg">
+          <span data-ttu-id="fe6a0-173">Un parametro per la chiamata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-173">A parameter for the invocation.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-174">Richiama il comando indicato con il parametro indicato sul form locale o nell'ambiente globale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-174">Invokes the given command with the given parameter on the local form or in the global environment.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="fe6a0-175">
+            <see langword="true" />, se il comando è stato trovato, <see langword="false" /> in caso contrario.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-175">
+              <see langword="true" />, if the command was found; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-176">Form locale viene innanzitutto eseguita la ricerca per l'ID di comando specificato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-176">The local form is first searched for the given command ID.</span></span> <span data-ttu-id="fe6a0-177">Se viene trovato, viene richiamato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-177">If it is found, it is invoked.</span></span> <span data-ttu-id="fe6a0-178">In caso contrario, l'ID di comando viene passato al gestore del comando ambiente globale, se disponibile.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-178">Otherwise, the command ID is passed to the global environment command handler, if one is available.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="MenuCommandsChanged">
+      <MemberSignature Language="C#" Value="public event System.ComponentModel.Design.MenuCommandsChangedEventHandler MenuCommandsChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.ComponentModel.Design.MenuCommandsChangedEventHandler MenuCommandsChanged" />
+      <MemberSignature Language="DocId" Value="E:System.ComponentModel.Design.MenuCommandService.MenuCommandsChanged" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event MenuCommandsChanged As MenuCommandsChangedEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::ComponentModel::Design::MenuCommandsChangedEventHandler ^ MenuCommandsChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.Design.MenuCommandsChangedEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-179">Viene generato quando lo stato di un comando di menu viene modificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-179">Occurs when the status of a menu command has changed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-180">Per ulteriori informazioni sulla gestione degli eventi, vedere [NIB: utilizzo degli eventi](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67).</span><span class="sxs-lookup"><span data-stu-id="fe6a0-180">For more information about handling events, see [NIB: Consuming Events](http://msdn.microsoft.com/library/01e4f1bc-e55e-413f-98c7-6588493e5f67).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCommandsChanged">
+      <MemberSignature Language="C#" Value="protected virtual void OnCommandsChanged (System.ComponentModel.Design.MenuCommandsChangedEventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCommandsChanged(class System.ComponentModel.Design.MenuCommandsChangedEventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged(System.ComponentModel.Design.MenuCommandsChangedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnCommandsChanged (e As MenuCommandsChangedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnCommandsChanged(System::ComponentModel::Design::MenuCommandsChangedEventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.ComponentModel.Design.MenuCommandsChangedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="fe6a0-181">Oggetto <see cref="T:System.ComponentModel.Design.MenuCommandsChangedEventArgs" /> che contiene i dati dell'evento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-181">A <see cref="T:System.ComponentModel.Design.MenuCommandsChangedEventArgs" /> that contains the event data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-182">Genera l'evento <see cref="E:System.ComponentModel.Design.MenuCommandService.MenuCommandsChanged" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-182">Raises the <see cref="E:System.ComponentModel.Design.MenuCommandService.MenuCommandsChanged" /> event.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-183">Il <xref:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged%2A> metodo viene chiamato da un comando di menu quando il relativo stato è stato modificato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-183">The <xref:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged%2A> method is called by a menu command when its status has changed.</span></span>  
+  
+ <span data-ttu-id="fe6a0-184">Quando viene generato un evento, il gestore dell'evento viene richiamato tramite un delegato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-184">Raising an event invokes the event handler through a delegate.</span></span> <span data-ttu-id="fe6a0-185">Per ulteriori informazioni, vedere [gestione e generazione di eventi](~/docs/standard/events/index.md).</span><span class="sxs-lookup"><span data-stu-id="fe6a0-185">For more information, see [Handling and Raising Events](~/docs/standard/events/index.md).</span></span>  
+  
+ <span data-ttu-id="fe6a0-186">Il metodo <xref:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged%2A> consente inoltre alle classi derivate di gestire l'evento senza associare un delegato.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-186">The <xref:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged%2A> method also allows derived classes to handle the event without attaching a delegate.</span></span> <span data-ttu-id="fe6a0-187">È la tecnica consigliata per la gestione dell'evento in una classe derivata.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-187">This is the preferred technique for handling the event in a derived class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="fe6a0-188">Quando si esegue l'override <see cref="M:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged(System.ComponentModel.Design.MenuCommandsChangedEventArgs)" /> in una classe derivata, assicurarsi di chiamare la classe base <see cref="M:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged(System.ComponentModel.Design.MenuCommandsChangedEventArgs)" /> metodo in modo che i delegati registrati ricevano l'evento.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="fe6a0-188">When overriding <see cref="M:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged(System.ComponentModel.Design.MenuCommandsChangedEventArgs)" /> in a derived class, be sure to call the base class’s <see cref="M:System.ComponentModel.Design.MenuCommandService.OnCommandsChanged(System.ComponentModel.Design.MenuCommandsChangedEventArgs)" /> method so that registered delegates receive the event.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveCommand">
+      <MemberSignature Language="C#" Value="public virtual void RemoveCommand (System.ComponentModel.Design.MenuCommand command);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveCommand(class System.ComponentModel.Design.MenuCommand command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.RemoveCommand(System.ComponentModel.Design.MenuCommand)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub RemoveCommand (command As MenuCommand)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void RemoveCommand(System::ComponentModel::Design::MenuCommand ^ command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.ComponentModel.Design.MenuCommand" />
+      </Parameters>
+      <Docs>
+        <param name="command">
+          <span data-ttu-id="fe6a0-189">Comando da rimuovere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-189">The command to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-190">Rimuove dal documento il comando di menu indicato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-190">Removes the given menu command from the document.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-191">Se non sono presenti altri comandi del gruppo di comando, il gruppo viene rimosso.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-191">If there are no more commands in the command group, the group is removed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fe6a0-192">
+            <paramref name="command" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-192">
+              <paramref name="command" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveVerb">
+      <MemberSignature Language="C#" Value="public virtual void RemoveVerb (System.ComponentModel.Design.DesignerVerb verb);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveVerb(class System.ComponentModel.Design.DesignerVerb verb) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.RemoveVerb(System.ComponentModel.Design.DesignerVerb)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub RemoveVerb (verb As DesignerVerb)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void RemoveVerb(System::ComponentModel::Design::DesignerVerb ^ verb);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="verb" Type="System.ComponentModel.Design.DesignerVerb" />
+      </Parameters>
+      <Docs>
+        <param name="verb">
+          <span data-ttu-id="fe6a0-193">Il verbo da rimuovere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-193">The verb to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-194">Rimuove il verbo specificato dal documento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-194">Removes the given verb from the document.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="fe6a0-195">
+            <paramref name="verb" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-195">
+              <paramref name="verb" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="ShowContextMenu">
+      <MemberSignature Language="C#" Value="public virtual void ShowContextMenu (System.ComponentModel.Design.CommandID menuID, int x, int y);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ShowContextMenu(class System.ComponentModel.Design.CommandID menuID, int32 x, int32 y) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.MenuCommandService.ShowContextMenu(System.ComponentModel.Design.CommandID,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub ShowContextMenu (menuID As CommandID, x As Integer, y As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void ShowContextMenu(System::ComponentModel::Design::CommandID ^ menuID, int x, int y);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="menuID" Type="System.ComponentModel.Design.CommandID" />
+        <Parameter Name="x" Type="System.Int32" />
+        <Parameter Name="y" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="menuID">
+          <span data-ttu-id="fe6a0-196">Il menu di scelta rapida da visualizzare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-196">The shortcut menu to display.</span>
+          </span>
+        </param>
+        <param name="x">
+          <span data-ttu-id="fe6a0-197">La coordinata x della posizione del menu di scelta rapida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-197">The x-coordinate of the shortcut menu's location.</span>
+          </span>
+        </param>
+        <param name="y">
+          <span data-ttu-id="fe6a0-198">La coordinata y della posizione del menu di scelta rapida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-198">The y-coordinate of the shortcut menu's location.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="fe6a0-199">Mostra il menu di scelta rapida con l'ID comando indicato nella posizione indicata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-199">Shows the shortcut menu with the given command ID at the given location.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-200">L'implementazione predefinita non esegue alcuna operazione.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-200">The default implementation does nothing.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+    <Member MemberName="Verbs">
+      <MemberSignature Language="C#" Value="public virtual System.ComponentModel.Design.DesignerVerbCollection Verbs { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ComponentModel.Design.DesignerVerbCollection Verbs" />
+      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Design.MenuCommandService.Verbs" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Verbs As DesignerVerbCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::ComponentModel::Design::DesignerVerbCollection ^ Verbs { System::ComponentModel::Design::DesignerVerbCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ComponentModel.Design.DesignerVerbCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="fe6a0-201">Ottiene un insieme dei verbi di progettazione attualmente disponibili.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-201">Gets a collection of the designer verbs that are currently available.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="fe6a0-202">Oggetto <see cref="T:System.ComponentModel.Design.DesignerVerbCollection" /> dei verbi di progettazione attualmente disponibili.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="fe6a0-202">A <see cref="T:System.ComponentModel.Design.DesignerVerbCollection" /> of the designer verbs that are currently available.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="fe6a0-203">Il <xref:System.ComponentModel.Design.MenuCommandService.Verbs%2A> proprietà fornisce una raccolta di verbi.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-203">The <xref:System.ComponentModel.Design.MenuCommandService.Verbs%2A> property provides a collection of verbs.</span></span> <span data-ttu-id="fe6a0-204">Questi verbi provengono da due posizioni:</span><span class="sxs-lookup"><span data-stu-id="fe6a0-204">These verbs come from two places:</span></span>  
+  
+-   <span data-ttu-id="fe6a0-205">Verbi aggiunti tramite il <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A> metodo <xref:System.ComponentModel.Design.MenuCommandService.Verbs%2A>.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-205">Verbs added through the <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A> method of <xref:System.ComponentModel.Design.MenuCommandService.Verbs%2A>.</span></span>  
+  
+-   <span data-ttu-id="fe6a0-206">Verbi forniti dalla finestra di progettazione attualmente selezionata.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-206">Verbs offered by the currently selected designer.</span></span>  
+  
+ <span data-ttu-id="fe6a0-207">Verbi aggiunti al servizio tramite il <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A> metodo sono detti verbi globali, in quanto sono globali per il servizio, ma in genere è un'istanza del servizio per ogni finestra degli strumenti o documento.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-207">Verbs added to this service through the <xref:System.ComponentModel.Design.MenuCommandService.AddVerb%2A> method are called global verbs because they are global to this service, but generally there is one instance of this service for each tool or document window.</span></span> <span data-ttu-id="fe6a0-208">Verbi di progettazione vengono ottenuti eseguendo una query nel provider di servizi <xref:System.ComponentModel.Design.IDesignerHost> e <xref:System.ComponentModel.Design.ISelectionService>.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-208">Designer verbs are obtained by querying the service provider for <xref:System.ComponentModel.Design.IDesignerHost> and <xref:System.ComponentModel.Design.ISelectionService>.</span></span> <span data-ttu-id="fe6a0-209">Se il servizio di selezione fornisce una selezione primaria ed è possibile ottenere una finestra di progettazione per la selezione da <xref:System.ComponentModel.Design.IDesignerHost>, questo elenco vengono aggiunti i verbi di progettazione.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-209">If the selection service offers a primary selection, and a designer can be obtained for that selection from <xref:System.ComponentModel.Design.IDesignerHost>, the designer’s verbs are added to this list.</span></span> <span data-ttu-id="fe6a0-210">Se il nome di un verbo globale in conflitto con il nome di un verbo di progettazione, il verbo di progettazione fornite dalla finestra di progettazione ha la precedenza.</span><span class="sxs-lookup"><span data-stu-id="fe6a0-210">If the name of a global verb conflicts with the name of a designer verb, the designer-provided designer verb takes precedence.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.ComponentModel.Design.MenuCommand" />
+        <altmember cref="T:System.ComponentModel.Design.DesignerVerb" />
+        <altmember cref="T:System.ComponentModel.Design.CommandID" />
+        <altmember cref="T:System.IServiceProvider" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
