@@ -1,0 +1,1339 @@
+<Type Name="StateBag" FullName="System.Web.UI.StateBag">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="7d6a0f98c324b308d58a123d8b41a2496d30e2fa" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class StateBag : System.Collections.IDictionary, System.Web.UI.IStateManager" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit StateBag extends System.Object implements class System.Collections.ICollection, class System.Collections.IDictionary, class System.Collections.IEnumerable, class System.Web.UI.IStateManager" />
+  <TypeSignature Language="DocId" Value="T:System.Web.UI.StateBag" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class StateBag&#xA;Implements IDictionary, IStateManager" />
+  <TypeSignature Language="C++ CLI" Value="public ref class StateBag sealed : System::Collections::IDictionary, System::Web::UI::IStateManager" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.IDictionary</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Web.UI.IStateManager</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="733cd-101">Gestisce lo stato di visualizzazione dei controlli server ASP.NET, incluse le pagine.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="733cd-101">Manages the view state of ASP.NET server controls, including pages.</span>
+      </span>
+      <span data-ttu-id="733cd-102">Questa classe non può essere ereditata.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="733cd-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-103">Lo stato di visualizzazione per un controllo o la pagina è la valori delle proprietà cumulativo, o la vista della pagina o controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-103">View state for a page or control is the cumulative property values, or view, of that page or control.</span></span> <span data-ttu-id="733cd-104">È possibile accedere a questa classe tramite il <xref:System.Web.UI.Control.ViewState%2A?displayProperty=nameWithType> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-104">You can access this class through the <xref:System.Web.UI.Control.ViewState%2A?displayProperty=nameWithType> property.</span></span> <span data-ttu-id="733cd-105">I controlli possono anche archiviare informazioni sullo stato essenziali nello stato di controllo, ma che informazioni non sono archiviati come un <xref:System.Web.UI.StateBag> oggetto.</span><span class="sxs-lookup"><span data-stu-id="733cd-105">Controls can also store essential state information in control state, but that information is not stored as a <xref:System.Web.UI.StateBag> object.</span></span>  
+  
+ <span data-ttu-id="733cd-106">Questa classe è il meccanismo di archiviazione primaria per tutti i controlli server HTML e Web.</span><span class="sxs-lookup"><span data-stu-id="733cd-106">This class is the primary storage mechanism for all HTML and Web server controls.</span></span> <span data-ttu-id="733cd-107">Archivia coppie attributo-valore come stringhe associate al controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-107">It stores attribute/value pairs as strings associated with the control.</span></span> <span data-ttu-id="733cd-108">Registra le modifiche apportate a questi attributi solo dopo che il <xref:System.Web.UI.Control.OnInit%2A> metodo viene eseguito per una richiesta di pagina e Salva le modifiche apportate allo stato di visualizzazione della pagina o del controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-108">It tracks changes to these attributes only after the <xref:System.Web.UI.Control.OnInit%2A> method is executed for a page request, and saves the changes to the page's or control's view state.</span></span>  
+  
+ <span data-ttu-id="733cd-109">Questa classe implementa un dizionario e, è possibile aggiungervi elementi o rimuovere elementi da esso, come per qualsiasi oggetto dizionario.</span><span class="sxs-lookup"><span data-stu-id="733cd-109">This class implements a dictionary, and you can add items to it or remove items from it as you would any dictionary object.</span></span> <span data-ttu-id="733cd-110">Per altre informazioni sulle raccolte di dati, ad esempio dizionari, vedere [raccolte e strutture di dati](http://msdn.microsoft.com/library/60cc581f-1db5-445b-ba04-a173396bf872).</span><span class="sxs-lookup"><span data-stu-id="733cd-110">For more information about data collections, such as dictionaries, see [Collections and Data Structures](http://msdn.microsoft.com/library/60cc581f-1db5-445b-ba04-a173396bf872).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="733cd-111">Esempio di codice riportato di seguito viene illustrato un composito `Label` controllo che ha `Text` e `FontSize` proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-111">The following code example demonstrates a composite `Label` control that has `Text` and `FontSize` properties.</span></span> <span data-ttu-id="733cd-112">Queste proprietà vengono salvate e recuperate dalla vista stato quando il <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> metodo viene chiamato sul controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-112">These properties are saved to and retrieved from view state when the <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> method is called on the control.</span></span>  
+  
+ [!code-csharp[SysWebUIControlViewState#1](~/samples/snippets/csharp/VS_Snippets_WebNet/SysWebUIControlViewState/CS/controlviewstate.cs#1)]
+ [!code-vb[SysWebUIControlViewState#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/SysWebUIControlViewState/VB/controlviewstate.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.UI.IStateManager" />
+    <altmember cref="T:System.Collections.IDictionary" />
+    <altmember cref="P:System.Web.UI.Control.ViewState" />
+    <altmember cref="T:System.Web.UI.AttributeCollection" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-113">Inizializza una nuova istanza della classe <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-113">Initializes a new instance of the <see cref="T:System.Web.UI.StateBag" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public StateBag ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; StateBag();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-114">Inizializza una nuova istanza della classe <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-114">Initializes a new instance of the <see cref="T:System.Web.UI.StateBag" /> class.</span>
+          </span>
+          <span data-ttu-id="733cd-115">È il costruttore predefinito per questa classe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-115">This is the default constructor for this class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public StateBag (bool ignoreCase);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool ignoreCase) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.#ctor(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (ignoreCase As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; StateBag(bool ignoreCase);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="ignoreCase" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="ignoreCase">
+          <span data-ttu-id="733cd-116">
+            <see langword="true" /> per ignorare la distinzione tra maiuscole e minuscole. In caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-116">
+              <see langword="true" /> to ignore case; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-117">Inizializza una nuova istanza della classe <see cref="T:System.Web.UI.StateBag" /> che consente di ignorare la distinzione tra maiuscole e minuscole per i valori di stato memorizzati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-117">Initializes a new instance of the <see cref="T:System.Web.UI.StateBag" /> class that allows stored state values to be case-insensitive.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="Add">
+      <MemberSignature Language="C#" Value="public System.Web.UI.StateItem Add (string key, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Web.UI.StateItem Add(string key, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.Add(System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Function Add (key As String, value As Object) As StateItem" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Web::UI::StateItem ^ Add(System::String ^ key, System::Object ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.StateItem</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-118">Nome dell'attributo per l'oggetto <see cref="T:System.Web.UI.StateItem" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-118">The attribute name for the <see cref="T:System.Web.UI.StateItem" />.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="733cd-119">Valore dell'elemento da aggiungere all'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-119">The value of the item to add to the <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-120">Aggiunge un nuovo oggetto <see cref="T:System.Web.UI.StateItem" /> all'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-120">Adds a new <see cref="T:System.Web.UI.StateItem" /> object to the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+          <span data-ttu-id="733cd-121">Se l'elemento è già presente nell'oggetto <see cref="T:System.Web.UI.StateBag" />, questo metodo aggiorna il valore dell'elemento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-121">If the item already exists in the <see cref="T:System.Web.UI.StateBag" /> object, this method updates the value of the item.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-122">Restituisce un oggetto <see cref="T:System.Web.UI.StateItem" /> che rappresenta l'oggetto aggiunto allo stato di visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-122">Returns a <see cref="T:System.Web.UI.StateItem" /> that represents the object added to view state.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="733cd-123">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Add%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-123">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Add%2A> method.</span></span>  
+  
+ [!code-csharp[Web.UI.StateBag#3](~/samples/snippets/csharp/VS_Snippets_WebNet/Web.UI.StateBag/CS/removecs.aspx#3)]
+ [!code-vb[Web.UI.StateBag#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Web.UI.StateBag/VB/removevb.aspx#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="733cd-124">
+            <paramref name="key" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-124">
+              <paramref name="key" /> is <see langword="null" />.</span>
+          </span>
+          <span data-ttu-id="733cd-125">\- oppure -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-125">\- or -</span>
+          </span>
+          <span data-ttu-id="733cd-126">Il numero di caratteri in <paramref name="key" /> è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-126">The number of characters in <paramref name="key" /> is 0.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.Web.UI.StateBag.Item(System.String)" />
+        <altmember cref="M:System.Web.UI.StateBag.Clear" />
+        <altmember cref="M:System.Web.UI.StateBag.Remove(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Clear">
+      <MemberSignature Language="C#" Value="public void Clear ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Clear() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.Clear" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Clear ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Clear();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IDictionary.Clear</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-127">Rimuove tutti gli elementi dall'oggetto <see cref="T:System.Web.UI.StateBag" /> corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-127">Removes all items from the current <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="733cd-128">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Clear%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-128">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Clear%2A> method.</span></span>  
+  
+ [!code-csharp[StateBag_IStateManager_Sample1#4](~/samples/snippets/csharp/VS_Snippets_WebNet/StateBag_IStateManager_Sample1/CS/ism_statebag_samples.cs#4)]
+ [!code-vb[StateBag_IStateManager_Sample1#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/StateBag_IStateManager_Sample1/VB/ism_statebag_samples.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.StateBag.Remove(System.String)" />
+        <altmember cref="M:System.Web.UI.StateBag.Add(System.String,System.Object)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.Count" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.Count</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-129">Ottiene il numero di oggetti <see cref="T:System.Web.UI.StateItem" /> presenti nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-129">Gets the number of <see cref="T:System.Web.UI.StateItem" /> objects in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-130">Numero di elementi presenti nel controllo <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-130">The number of items in the <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="733cd-131">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Count%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-131">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Count%2A> property.</span></span>  
+  
+ [!code-csharp[Web.UI.StateBag#2](~/samples/snippets/csharp/VS_Snippets_WebNet/Web.UI.StateBag/CS/gotocs.aspx#2)]
+ [!code-vb[Web.UI.StateBag#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Web.UI.StateBag/VB/gotovb.aspx#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public System.Collections.IDictionaryEnumerator GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.IDictionaryEnumerator GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetEnumerator () As IDictionaryEnumerator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Collections::IDictionaryEnumerator ^ GetEnumerator();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IDictionary.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IDictionaryEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-132">Restituisce un enumeratore che scorre tutte le coppie chiave/valore degli oggetti <see cref="T:System.Web.UI.StateItem" /> archiviati nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-132">Returns an enumerator that iterates over all the key/value pairs of the <see cref="T:System.Web.UI.StateItem" /> objects stored in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-133">L'enumeratore per scorrere il contenitore degli stati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-133">The enumerator to iterate through the state bag.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="733cd-134">Nell'esempio seguente viene illustrato l'utilizzo del metodo <xref:System.Web.UI.StateBag.GetEnumerator%2A>.</span><span class="sxs-lookup"><span data-stu-id="733cd-134">The following example demonstrates how to use the <xref:System.Web.UI.StateBag.GetEnumerator%2A> method.</span></span>  
+  
+ [!code-csharp[StateItem_Samples1#3](~/samples/snippets/csharp/VS_Snippets_WebNet/StateItem_Samples1/CS/stateitem_samples.cs.aspx#3)]
+ [!code-vb[StateItem_Samples1#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/StateItem_Samples1/VB/stateitem_samples.vb.aspx#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionaryEnumerator" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsItemDirty">
+      <MemberSignature Language="C#" Value="public bool IsItemDirty (string key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool IsItemDirty(string key) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.IsItemDirty(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Function IsItemDirty (key As String) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool IsItemDirty(System::String ^ key);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-135">Chiave dell'elemento da verificare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-135">The key of the item to check.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-136">Verifica un oggetto <see cref="T:System.Web.UI.StateItem" /> archiviato nell'oggetto <see cref="T:System.Web.UI.StateBag" /> per valutare se ha subito delle modifiche dopo la chiamata del metodo <see cref="M:System.Web.UI.Control.TrackViewState" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-136">Checks a <see cref="T:System.Web.UI.StateItem" /> object stored in the <see cref="T:System.Web.UI.StateBag" /> object to evaluate whether it has been modified since the call to <see cref="M:System.Web.UI.Control.TrackViewState" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-137">
+            <see langword="true" /> se l'elemento è stato modificato, altrimenti <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-137">
+              <see langword="true" /> if the item has been modified; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-138">Questo metodo restituisce anche `false` se il `key` non esiste nel parametro di <xref:System.Web.UI.StateBag> oggetto.</span><span class="sxs-lookup"><span data-stu-id="733cd-138">This method also returns `false` if the `key` parameter does not exist in the <xref:System.Web.UI.StateBag> object.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="733cd-139">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.IsItemDirty%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-139">The following code example demonstrates using the <xref:System.Web.UI.StateBag.IsItemDirty%2A> method.</span></span>  
+  
+ [!code-csharp[StateBag_IStateManager_Sample1#4](~/samples/snippets/csharp/VS_Snippets_WebNet/StateBag_IStateManager_Sample1/CS/ism_statebag_samples.cs#4)]
+ [!code-vb[StateBag_IStateManager_Sample1#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/StateBag_IStateManager_Sample1/VB/ism_statebag_samples.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public object this[string key] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(string)" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.Item(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Property Item(key As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ default[System::String ^] { System::Object ^ get(System::String ^ key); void set(System::String ^ key, System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-140">Chiave dell'elemento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-140">The key for the item.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-141">Ottiene o imposta il valore di un elemento memorizzato nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-141">Gets or sets the value of an item stored in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-142">L'elemento specificato nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-142">The specified item in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-143">Utilizzo di questo membro è il modo più semplice per salvare e recuperare i valori dello stato di visualizzazione per un controllo o una pagina.</span><span class="sxs-lookup"><span data-stu-id="733cd-143">Using this member is the simplest way to save and retrieve view-state values for a control or a page.</span></span>  
+  
+ <span data-ttu-id="733cd-144">Se un elemento non è già archiviato nel <xref:System.Web.UI.StateBag> oggetto quando si imposta questa proprietà, la coppia chiave/valore viene aggiunto alla raccolta.</span><span class="sxs-lookup"><span data-stu-id="733cd-144">If an item is not already stored in the <xref:System.Web.UI.StateBag> object when you set this property, its key/value pair is added to the collection.</span></span> <span data-ttu-id="733cd-145">Se si imposta questa proprietà su `null` prima di <xref:System.Web.UI.Control.TrackViewState%2A> metodo viene chiamato su un elemento, viene rimosso dal <xref:System.Web.UI.StateBag> oggetto.</span><span class="sxs-lookup"><span data-stu-id="733cd-145">If you set this property to `null` before the <xref:System.Web.UI.Control.TrackViewState%2A> method is called on an item, it is removed from the <xref:System.Web.UI.StateBag> object.</span></span> <span data-ttu-id="733cd-146">In caso contrario, quando si imposta questa proprietà su `null` la chiave viene salvata per consentire la registrazione dello stato di visualizzazione dell'elemento.</span><span class="sxs-lookup"><span data-stu-id="733cd-146">Otherwise, when you set this property to `null` the key is saved to allow tracking of the item's view state.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="733cd-147">Esempio di codice riportato di seguito viene illustrato come una proprietà che consente di salvare il nome e il valore come una coppia chiave/valore per il <xref:System.Web.UI.Control.ViewState%2A?displayProperty=nameWithType> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-147">The following code example demonstrates a property that saves its name and value as a key/value pair to the <xref:System.Web.UI.Control.ViewState%2A?displayProperty=nameWithType> property.</span></span> <span data-ttu-id="733cd-148">Il <xref:System.Web.UI.Control.ViewState%2A> proprietà è un'istanza di <xref:System.Web.UI.StateBag> classe.</span><span class="sxs-lookup"><span data-stu-id="733cd-148">The <xref:System.Web.UI.Control.ViewState%2A> property is an instance of the <xref:System.Web.UI.StateBag> class.</span></span>  
+  
+ [!code-csharp[SysWebUIControlViewState#2](~/samples/snippets/csharp/VS_Snippets_WebNet/SysWebUIControlViewState/CS/controlviewstate.cs#2)]
+ [!code-vb[SysWebUIControlViewState#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/SysWebUIControlViewState/VB/controlviewstate.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.StateBag.Add(System.String,System.Object)" />
+        <altmember cref="M:System.Web.UI.StateBag.Remove(System.String)" />
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="Keys">
+      <MemberSignature Language="C#" Value="public System.Collections.ICollection Keys { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ICollection Keys" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.Keys" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Keys As ICollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ICollection ^ Keys { System::Collections::ICollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IDictionary.Keys</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ICollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-149">Ottiene un insieme di chiavi che rappresentano gli elementi nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-149">Gets a collection of keys representing the items in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-150">Raccolta di chiavi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-150">The collection of keys.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-151">Queste chiavi sono i nomi delle proprietà del controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-151">These keys are the names of the control properties.</span></span> <span data-ttu-id="733cd-152">Ad esempio, se è stato creato un `BGColor` proprietà in un `Table` controllo è personalizzato, un `BGColor` voce viene creata nella raccolta che rappresenta tale proprietà sul `Table` controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-152">For example, if you created a `BGColor` property on a `Table` control that you customized, a `BGColor` entry is created in this collection representing that property on your `Table` control.</span></span>  
+  
+ <span data-ttu-id="733cd-153">Queste chiavi corrispondono ai nomi del <xref:System.Web.UI.StateItem> gli oggetti archiviati nel <xref:System.Web.UI.StateBag> raccolta per il controllo server o di pagina corrente.</span><span class="sxs-lookup"><span data-stu-id="733cd-153">These keys correspond to the names of the <xref:System.Web.UI.StateItem> objects stored in the <xref:System.Web.UI.StateBag> collection for the current page or server control.</span></span>  
+  
+ <span data-ttu-id="733cd-154">È possibile scorrere la raccolta tramite il <xref:System.Web.UI.StateBag.GetEnumerator%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-154">You can iterate over this collection using the <xref:System.Web.UI.StateBag.GetEnumerator%2A?displayProperty=nameWithType> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="733cd-155">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Keys%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-155">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Keys%2A> property.</span></span>  
+  
+ [!code-csharp[Web.UI.StateBag#2](~/samples/snippets/csharp/VS_Snippets_WebNet/Web.UI.StateBag/CS/gotocs.aspx#2)]
+ [!code-vb[Web.UI.StateBag#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Web.UI.StateBag/VB/gotovb.aspx#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.ICollection" />
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="Remove">
+      <MemberSignature Language="C#" Value="public void Remove (string key);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Remove(string key) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.Remove(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Remove (key As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Remove(System::String ^ key);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-156">Elemento da rimuovere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-156">The item to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-157">Rimuove la coppia chiave/valore specificata dall'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-157">Removes the specified key/value pair from the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="733cd-158">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Remove%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-158">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Remove%2A> method.</span></span>  
+  
+ [!code-csharp[Web.UI.StateBag#3](~/samples/snippets/csharp/VS_Snippets_WebNet/Web.UI.StateBag/CS/removecs.aspx#3)]
+ [!code-vb[Web.UI.StateBag#3](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Web.UI.StateBag/VB/removevb.aspx#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+        <altmember cref="M:System.Web.UI.StateBag.Clear" />
+        <altmember cref="P:System.Web.UI.StateBag.Item(System.String)" />
+        <altmember cref="M:System.Web.UI.StateBag.Add(System.String,System.Object)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetDirty">
+      <MemberSignature Language="C#" Value="public void SetDirty (bool dirty);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetDirty(bool dirty) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.SetDirty(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetDirty (dirty As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetDirty(bool dirty);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dirty" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="dirty">
+          <span data-ttu-id="733cd-159">
+            <see langword="true" /> per contrassegnare lo stato della raccolta e dei relativi elementi come modificato; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-159">
+              <see langword="true" /> to mark the state of the collection and its items as modified; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-160">Imposta lo stato dell'oggetto <see cref="T:System.Web.UI.StateBag" />, nonché la proprietà <see cref="P:System.Web.SessionState.ISessionStateItemCollection.Dirty" /> di ciascuno degli oggetti <see cref="T:System.Web.UI.StateItem" /> in esso contenuti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-160">Sets the state of the <see cref="T:System.Web.UI.StateBag" /> object as well as the <see cref="P:System.Web.SessionState.ISessionStateItemCollection.Dirty" /> property of each of the <see cref="T:System.Web.UI.StateItem" /> objects contained by it.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-161">Il <xref:System.Web.UI.StateBag.SetDirty%2A> metodo viene utilizzato per forzare la raccolta e il relativo contenuto da serializzare durante una chiamata al <xref:System.Web.UI.StateBag.System%23Web%23UI%23IStateManager%23SaveViewState%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-161">The <xref:System.Web.UI.StateBag.SetDirty%2A> method is used to force the collection and its contents to be serialized during a call to the <xref:System.Web.UI.StateBag.System%23Web%23UI%23IStateManager%23SaveViewState%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.StateBag.SetItemDirty(System.String,System.Boolean)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetItemDirty">
+      <MemberSignature Language="C#" Value="public void SetItemDirty (string key, bool dirty);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetItemDirty(string key, bool dirty) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.SetItemDirty(System.String,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetItemDirty (key As String, dirty As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetItemDirty(System::String ^ key, bool dirty);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.String" />
+        <Parameter Name="dirty" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-162">Chiave che identifica l'oggetto <see cref="T:System.Web.UI.StateItem" /> presente nell'oggetto <see cref="T:System.Web.UI.StateBag" /> da impostare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-162">The key that identifies which <see cref="T:System.Web.UI.StateItem" /> in the <see cref="T:System.Web.UI.StateBag" /> to set.</span>
+          </span>
+        </param>
+        <param name="dirty">
+          <span data-ttu-id="733cd-163">
+            <see langword="true" /> per contrassegnare lo stato dell'elemento in modo da indicare che è stato modificato, altrimenti <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-163">
+              <see langword="true" /> to mark the state of the item as modified; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-164">Imposta la proprietà <see cref="P:System.Web.SessionState.ISessionStateItemCollection.Dirty" /> per l'oggetto <see cref="T:System.Web.UI.StateItem" /> specificato contenuto nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-164">Sets the <see cref="P:System.Web.SessionState.ISessionStateItemCollection.Dirty" /> property for the specified <see cref="T:System.Web.UI.StateItem" /> object in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-165">Il <xref:System.Web.UI.StateBag.SetItemDirty%2A> consente di impedire o forzare la gestione dello stato di proprietà specifiche, rappresentate da <xref:System.Web.UI.StateItem> gli oggetti di <xref:System.Web.UI.StateBag> insieme.</span><span class="sxs-lookup"><span data-stu-id="733cd-165">The <xref:System.Web.UI.StateBag.SetItemDirty%2A> method is used to prevent or force state management of specific properties, represented by <xref:System.Web.UI.StateItem> objects in the <xref:System.Web.UI.StateBag> collection.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.StateBag.SetDirty(System.Boolean)" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.ICollection.CopyTo">
+      <MemberSignature Language="C#" Value="void ICollection.CopyTo (Array array, int index);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Collections.ICollection.CopyTo(class System.Array array, int32 index) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Collections#ICollection#CopyTo(System.Array,System.Int32)" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Collections.ICollection.CopyTo(Array ^ array, int index) = System::Collections::ICollection::CopyTo;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="array" Type="System.Array" />
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="array">
+          <span data-ttu-id="733cd-166">Oggetto <see cref="T:System.Array" /> unidimensionale che rappresenta la destinazione degli elementi copiati dall'oggetto <see cref="T:System.Collections.ICollection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-166">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="T:System.Collections.ICollection" />.</span>
+          </span>
+          <span data-ttu-id="733cd-167">L'indicizzazione di <see cref="T:System.Array" /> deve essere in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-167">The <see cref="T:System.Array" /> must have zero-based indexing.</span>
+          </span>
+        </param>
+        <param name="index">
+          <span data-ttu-id="733cd-168">Indice in base zero in <c>array</c> in corrispondenza del quale ha inizio la copia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-168">The zero-based index in <c>array</c> at which copying begins.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-169">Per una descrizione di questo membro, vedere <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-169">For a description of this member, see <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-170">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-170">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-171">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.ICollection>.</span><span class="sxs-lookup"><span data-stu-id="733cd-171">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.ICollection> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.ICollection" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.ICollection.IsSynchronized">
+      <MemberSignature Language="C#" Value="bool System.Collections.ICollection.IsSynchronized { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.ICollection.IsSynchronized" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Collections#ICollection#IsSynchronized" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsSynchronized As Boolean Implements ICollection.IsSynchronized" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.Collections.ICollection.IsSynchronized { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.IsSynchronized</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-172">Per una descrizione di questo membro, vedere <see cref="P:System.Collections.ICollection.IsSynchronized" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-172">For a description of this member, see <see cref="P:System.Collections.ICollection.IsSynchronized" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-173">
+            <see langword="true" /> se l'accesso a <see cref="T:System.Collections.ICollection" /> è sincronizzato (thread-safe); in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-173">
+              <see langword="true" /> if access to the <see cref="T:System.Collections.ICollection" /> is synchronized (thread safe); otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-174">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-174">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-175">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.ICollection>.</span><span class="sxs-lookup"><span data-stu-id="733cd-175">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.ICollection> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.ICollection" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.ICollection.SyncRoot">
+      <MemberSignature Language="C#" Value="object System.Collections.ICollection.SyncRoot { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.ICollection.SyncRoot" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Collections#ICollection#SyncRoot" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property SyncRoot As Object Implements ICollection.SyncRoot" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System.Collections.ICollection.SyncRoot { System::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.ICollection.SyncRoot</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-176">Per una descrizione di questo membro, vedere <see cref="P:System.Collections.ICollection.SyncRoot" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-176">For a description of this member, see <see cref="P:System.Collections.ICollection.SyncRoot" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-177">Oggetto che può essere usato per sincronizzare l'accesso a <see cref="T:System.Collections.ICollection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-177">An object that can be used to synchronize access to the <see cref="T:System.Collections.ICollection" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-178">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-178">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-179">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.ICollection>.</span><span class="sxs-lookup"><span data-stu-id="733cd-179">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.ICollection> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.ICollection" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.Add">
+      <MemberSignature Language="C#" Value="void IDictionary.Add (object key, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Collections.IDictionary.Add(object key, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Collections#IDictionary#Add(System.Object,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Sub Add (key As Object, value As Object) Implements IDictionary.Add" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Collections.IDictionary.Add(System::Object ^ key, System::Object ^ value) = System::Collections::IDictionary::Add;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IDictionary.Add(System.Object,System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.Object" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-180">Oggetto <see cref="T:System.Object" /> da usare come chiave dell'elemento da aggiungere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-180">The <see cref="T:System.Object" /> to use as the key of the element to add.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="733cd-181">Oggetto <see cref="T:System.Object" /> da usare come valore dell'elemento da aggiungere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-181">The <see cref="T:System.Object" /> to use as the value of the element to add.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-182">Per una descrizione di questo membro, vedere <see cref="M:System.Collections.IDictionary.Add(System.Object,System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-182">For a description of this member, see <see cref="M:System.Collections.IDictionary.Add(System.Object,System.Object)" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-183">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-183">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-184">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-184">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.Contains">
+      <MemberSignature Language="C#" Value="bool IDictionary.Contains (object key);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance bool System.Collections.IDictionary.Contains(object key) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Collections#IDictionary#Contains(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Function Contains (key As Object) As Boolean Implements IDictionary.Contains" />
+      <MemberSignature Language="C++ CLI" Value=" virtual bool System.Collections.IDictionary.Contains(System::Object ^ key) = System::Collections::IDictionary::Contains;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IDictionary.Contains(System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-185">Chiave da individuare nell'oggetto <see cref="T:System.Collections.IDictionary" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-185">The key to locate in the <see cref="T:System.Collections.IDictionary" /> object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-186">Per una descrizione di questo membro, vedere <see cref="M:System.Collections.IDictionary.Contains(System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-186">For a description of this member, see <see cref="M:System.Collections.IDictionary.Contains(System.Object)" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-187">
+            <see langword="true" /> se <see cref="T:System.Collections.IDictionary" /> contiene un elemento con la chiave; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-187">
+              <see langword="true" /> if the <see cref="T:System.Collections.IDictionary" /> contains an element with the key; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-188">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-188">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-189">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-189">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.IsFixedSize">
+      <MemberSignature Language="C#" Value="bool System.Collections.IDictionary.IsFixedSize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.IDictionary.IsFixedSize" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Collections#IDictionary#IsFixedSize" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsFixedSize As Boolean Implements IDictionary.IsFixedSize" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.Collections.IDictionary.IsFixedSize { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IDictionary.IsFixedSize</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-190">Per una descrizione di questo membro, vedere <see cref="P:System.Collections.IDictionary.IsFixedSize" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-190">For a description of this member, see <see cref="P:System.Collections.IDictionary.IsFixedSize" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-191">
+            <see langword="true" /> se le dimensioni dell'oggetto <see cref="T:System.Collections.IDictionary" /> sono fisse; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-191">
+              <see langword="true" /> if the <see cref="T:System.Collections.IDictionary" /> object has a fixed size; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-192">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-192">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-193">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-193">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.IsReadOnly">
+      <MemberSignature Language="C#" Value="bool System.Collections.IDictionary.IsReadOnly { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.IDictionary.IsReadOnly" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Collections#IDictionary#IsReadOnly" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsReadOnly As Boolean Implements IDictionary.IsReadOnly" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.Collections.IDictionary.IsReadOnly { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IDictionary.IsReadOnly</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-194">Per una descrizione di questo membro, vedere <see cref="P:System.Collections.IDictionary.IsReadOnly" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-194">For a description of this member, see <see cref="P:System.Collections.IDictionary.IsReadOnly" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-195">
+            <see langword="true" /> se l'oggetto <see cref="T:System.Collections.IDictionary" /> è di sola lettura; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-195">
+              <see langword="true" /> if the <see cref="T:System.Collections.IDictionary" /> object is read-only; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-196">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-196">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-197">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-197">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.Item">
+      <MemberSignature Language="C#" Value="object System.Collections.IDictionary.Item[object key] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.IDictionary.Item(object)" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Collections#IDictionary#Item(System.Object)" />
+      <MemberSignature Language="VB.NET" Value=" Property Item(key As Object) As Object Implements IDictionary.Item" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System.Collections.IDictionary.Item[System::Object ^] { System::Object ^ get(System::Object ^ key); void set(System::Object ^ key, System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IDictionary.Item(System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-198">Chiave dell'elemento da ottenere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-198">The key of the element to get.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-199">Per una descrizione di questo membro, vedere <see cref="P:System.Collections.IDictionary.Item(System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-199">For a description of this member, see <see cref="P:System.Collections.IDictionary.Item(System.Object)" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-200">L'elemento con il parametro <paramref name="key" /> specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-200">The element with the specified <paramref name="key" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-201">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-201">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-202">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-202">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IDictionary.Remove">
+      <MemberSignature Language="C#" Value="void IDictionary.Remove (object key);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Collections.IDictionary.Remove(object key) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Collections#IDictionary#Remove(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Sub Remove (key As Object) Implements IDictionary.Remove" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Collections.IDictionary.Remove(System::Object ^ key) = System::Collections::IDictionary::Remove;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IDictionary.Remove(System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="key" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="key">
+          <span data-ttu-id="733cd-203">Chiave dell'elemento da rimuovere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-203">The key of the element to remove.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-204">Per una descrizione di questo membro, vedere <see cref="M:System.Collections.IDictionary.Remove(System.Object)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-204">For a description of this member, see <see cref="M:System.Collections.IDictionary.Remove(System.Object)" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-205">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-205">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-206">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IDictionary>.</span><span class="sxs-lookup"><span data-stu-id="733cd-206">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IDictionary> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IDictionary" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
+      <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Collections#IEnumerable#GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Function GetEnumerator () As IEnumerator Implements IEnumerable.GetEnumerator" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Collections::IEnumerator ^ System.Collections.IEnumerable.GetEnumerator() = System::Collections::IEnumerable::GetEnumerator;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-207">Per una descrizione di questo membro, vedere <see cref="M:System.Collections.IEnumerable.GetEnumerator" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-207">For a description of this member, see <see cref="M:System.Collections.IEnumerable.GetEnumerator" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-208">Oggetto <see cref="T:System.Collections.IEnumerator" /> che può essere usato per eseguire l'iterazione della raccolta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-208">An <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the collection.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-209">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="733cd-209">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="733cd-210">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Web.UI.StateBag> a un'interfaccia <xref:System.Collections.IEnumerable>.</span><span class="sxs-lookup"><span data-stu-id="733cd-210">It can be used only when the <xref:System.Web.UI.StateBag> instance is cast to an <xref:System.Collections.IEnumerable> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IEnumerable" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.UI.IStateManager.IsTrackingViewState">
+      <MemberSignature Language="C#" Value="bool System.Web.UI.IStateManager.IsTrackingViewState { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool System.Web.UI.IStateManager.IsTrackingViewState" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.System#Web#UI#IStateManager#IsTrackingViewState" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsTrackingViewState As Boolean Implements IStateManager.IsTrackingViewState" />
+      <MemberSignature Language="C++ CLI" Value="property bool System.Web.UI.IStateManager.IsTrackingViewState { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Web.UI.IStateManager.IsTrackingViewState</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-211">Ottiene un valore che indica se viene tenuta traccia delle modifiche apportate allo stato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-211">Gets a value indicating whether state changes are being tracked.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-212">
+            <see langword="true" /> se l'oggetto <see cref="T:System.Web.UI.StateBag" /> è contrassegnato per il salvataggio delle modifiche apportate allo stato; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-212">
+              <see langword="true" /> if the <see cref="T:System.Web.UI.StateBag" /> is marked to save changes to its state; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#LoadViewState(System.Object)" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#SaveViewState" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#TrackViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.UI.IStateManager.LoadViewState">
+      <MemberSignature Language="C#" Value="void IStateManager.LoadViewState (object state);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Web.UI.IStateManager.LoadViewState(object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#LoadViewState(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Sub LoadViewState (state As Object) Implements IStateManager.LoadViewState" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Web.UI.IStateManager.LoadViewState(System::Object ^ state) = System::Web::UI::IStateManager::LoadViewState;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Web.UI.IStateManager.LoadViewState(System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="state">
+          <span data-ttu-id="733cd-213">Oggetto che rappresenta lo stato <see cref="T:System.Web.UI.StateBag" /> da ripristinare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-213">An object that represents the <see cref="T:System.Web.UI.StateBag" /> state to restore.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="733cd-214">Ripristina lo stato di visualizzazione precedentemente salvato dell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-214">Restores the previously saved view state of the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-215">Questo metodo ripristina le informazioni sullo stato di visualizzazione per il <xref:System.Web.UI.StateBag> oggetto da una richiesta di pagina precedente salvata dal <xref:System.Web.UI.StateBag.System%23Web%23UI%23IStateManager%23SaveViewState%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-215">This method restores view-state information for the <xref:System.Web.UI.StateBag> object from a previous page request that was saved by the <xref:System.Web.UI.StateBag.System%23Web%23UI%23IStateManager%23SaveViewState%2A> method.</span></span>  
+  
+ <span data-ttu-id="733cd-216">Il metodo viene utilizzato principalmente dagli sviluppatori di controlli.</span><span class="sxs-lookup"><span data-stu-id="733cd-216">This method is primarily used by control developers.</span></span> <span data-ttu-id="733cd-217">È possibile eseguire l'override di questo metodo per controllare come un controllo server personalizzato ripristina lo stato di visualizzazione.</span><span class="sxs-lookup"><span data-stu-id="733cd-217">You can override this method to control how a custom server control restores its view state.</span></span> <span data-ttu-id="733cd-218">Per ulteriori informazioni, vedere [Cenni preliminari sulla gestione dello stato di ASP.NET](http://msdn.microsoft.com/library/0218d965-5d30-445b-b6a6-8870e70e63ce).</span><span class="sxs-lookup"><span data-stu-id="733cd-218">For more information, see [ASP.NET State Management Overview](http://msdn.microsoft.com/library/0218d965-5d30-445b-b6a6-8870e70e63ce).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#LoadViewState(System.Object)" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.UI.IStateManager.SaveViewState">
+      <MemberSignature Language="C#" Value="object IStateManager.SaveViewState ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance object System.Web.UI.IStateManager.SaveViewState() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#SaveViewState" />
+      <MemberSignature Language="VB.NET" Value="Function SaveViewState () As Object Implements IStateManager.SaveViewState" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Object ^ System.Web.UI.IStateManager.SaveViewState() = System::Web::UI::IStateManager::SaveViewState;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Web.UI.IStateManager.SaveViewState</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-219">Salva le modifiche apportate all'oggetto <see cref="T:System.Web.UI.StateBag" /> dal momento in cui è stato eseguito il postback della pagina al server.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-219">Saves the changes to the <see cref="T:System.Web.UI.StateBag" /> object since the time the page was posted back to the server.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="733cd-220">Oggetto che contiene le modifiche allo stato di visualizzazione dell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-220">The object that contains the changes to the view state of the <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+          <span data-ttu-id="733cd-221">Se non sono state apportate modifiche o se <see cref="T:System.Web.UI.StateBag" /> non contiene alcun elemento <see cref="T:System.Web.UI.StateItem" />, questo metodo restituisce <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-221">If there are no changes, or there are no <see cref="T:System.Web.UI.StateItem" /> elements in the <see cref="T:System.Web.UI.StateBag" />, this method returns <see langword="null" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-222">Il metodo viene utilizzato principalmente dagli sviluppatori di controlli.</span><span class="sxs-lookup"><span data-stu-id="733cd-222">This method is primarily used by control developers.</span></span>  
+  
+ <span data-ttu-id="733cd-223">Lo stato di visualizzazione è costituito da tutti i valori delle proprietà di un controllo server.</span><span class="sxs-lookup"><span data-stu-id="733cd-223">View state is the accumulation of the values of a server control's properties.</span></span> <span data-ttu-id="733cd-224">Questi valori vengono inseriti automaticamente nel controllo del server <xref:System.Web.UI.Control.ViewState%2A> proprietà, che è un'istanza del <xref:System.Web.UI.StateBag> classe.</span><span class="sxs-lookup"><span data-stu-id="733cd-224">These values are automatically placed in the server control's <xref:System.Web.UI.Control.ViewState%2A> property, which is an instance of the <xref:System.Web.UI.StateBag> class.</span></span> <span data-ttu-id="733cd-225">Valore di questa proprietà viene quindi inserito in un oggetto stringa dopo il salvataggio dello stato fase del ciclo di vita del controllo server.</span><span class="sxs-lookup"><span data-stu-id="733cd-225">This property's value is then persisted to a string object after the save state stage of the server control life cycle.</span></span> <span data-ttu-id="733cd-226">Per ulteriori informazioni, vedere [NIB: i controlli Server Web ASP.NET](http://msdn.microsoft.com/library/e18eb2f2-cf00-47ae-b1a1-dfc188a6dea1).</span><span class="sxs-lookup"><span data-stu-id="733cd-226">For more information, see [NIB: ASP.NET Web Server Controls](http://msdn.microsoft.com/library/e18eb2f2-cf00-47ae-b1a1-dfc188a6dea1).</span></span>  
+  
+ <span data-ttu-id="733cd-227">Quando viene salvato lo stato di visualizzazione, l'oggetto stringa viene restituito al client come una variabile che viene archiviata in un elemento HTML `Hidden` elemento.</span><span class="sxs-lookup"><span data-stu-id="733cd-227">When view state is saved, this string object is returned to the client as a variable that is stored in an HTML `Hidden` element.</span></span> <span data-ttu-id="733cd-228">Quando si creano controlli server personalizzati, è possibile migliorare l'efficienza eseguendo l'override di questo metodo e la modifica del controllo server <xref:System.Web.UI.Control.ViewState%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-228">When you author custom server controls, you can improve efficiency by overriding this method and modifying your server control's <xref:System.Web.UI.Control.ViewState%2A> property.</span></span> <span data-ttu-id="733cd-229">Per ulteriori informazioni, vedere [NIB: i controlli Server Web ASP.NET](http://msdn.microsoft.com/library/e18eb2f2-cf00-47ae-b1a1-dfc188a6dea1) e [Cenni preliminari sulla gestione dello stato di ASP.NET](http://msdn.microsoft.com/library/0218d965-5d30-445b-b6a6-8870e70e63ce).</span><span class="sxs-lookup"><span data-stu-id="733cd-229">For more information, see [NIB: ASP.NET Web Server Controls](http://msdn.microsoft.com/library/e18eb2f2-cf00-47ae-b1a1-dfc188a6dea1) and [ASP.NET State Management Overview](http://msdn.microsoft.com/library/0218d965-5d30-445b-b6a6-8870e70e63ce).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Web.UI.StateBag.System#Web#UI#IStateManager#IsTrackingViewState" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#LoadViewState(System.Object)" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#TrackViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.Web.UI.IStateManager.TrackViewState">
+      <MemberSignature Language="C#" Value="void IStateManager.TrackViewState ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Web.UI.IStateManager.TrackViewState() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#TrackViewState" />
+      <MemberSignature Language="VB.NET" Value="Sub TrackViewState () Implements IStateManager.TrackViewState" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.Web.UI.IStateManager.TrackViewState() = System::Web::UI::IStateManager::TrackViewState;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Web.UI.IStateManager.TrackViewState</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-230">Determina il rilevamento delle modifiche allo stato da parte dell'oggetto <see cref="T:System.Web.UI.StateBag" /> in modo che possano essere rese persistenti in tutte le richieste.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-230">Causes the <see cref="T:System.Web.UI.StateBag" /> object to track changes to its state so that it can be persisted across requests.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="P:System.Web.UI.StateBag.System#Web#UI#IStateManager#IsTrackingViewState" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#LoadViewState(System.Object)" />
+        <altmember cref="M:System.Web.UI.StateBag.System#Web#UI#IStateManager#SaveViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="Values">
+      <MemberSignature Language="C#" Value="public System.Collections.ICollection Values { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.ICollection Values" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.StateBag.Values" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Values As ICollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Collections::ICollection ^ Values { System::Collections::ICollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IDictionary.Values</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.ICollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="733cd-231">Ottiene un insieme dei valori dello stato di visualizzazione memorizzati nell'oggetto <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-231">Gets a collection of the view-state values stored in the <see cref="T:System.Web.UI.StateBag" /> object.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="733cd-232">L'insieme dei valori dello stato di visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="733cd-232">The collection of view-state values.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="733cd-233">Si tratta di una raccolta che contiene i valori per tutte le <xref:System.Web.UI.StateItem> oggetti nella pagina specificata o nel controllo.</span><span class="sxs-lookup"><span data-stu-id="733cd-233">This is a collection that contains the values for all the <xref:System.Web.UI.StateItem> objects in the specified page or control.</span></span> <span data-ttu-id="733cd-234">È possibile scorrere i valori utilizzando il <xref:System.Web.UI.StateBag.GetEnumerator%2A?displayProperty=nameWithType> metodo.</span><span class="sxs-lookup"><span data-stu-id="733cd-234">You can iterate through these values by using the <xref:System.Web.UI.StateBag.GetEnumerator%2A?displayProperty=nameWithType> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="733cd-235">Esempio di codice seguente viene illustrato l'utilizzo di <xref:System.Web.UI.StateBag.Values%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="733cd-235">The following code example demonstrates using the <xref:System.Web.UI.StateBag.Values%2A> property.</span></span>  
+  
+ [!code-csharp[Web.UI.StateBag#2](~/samples/snippets/csharp/VS_Snippets_WebNet/Web.UI.StateBag/CS/gotocs.aspx#2)]
+ [!code-vb[Web.UI.StateBag#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/Web.UI.StateBag/VB/gotovb.aspx#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.ICollection" />
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,2210 @@
+<Type Name="ServiceController" FullName="System.ServiceProcess.ServiceController">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="9a3b28ab31ae22be9c5d05c1e032e4a25945f287" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ServiceController : System.ComponentModel.Component" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ServiceController extends System.ComponentModel.Component" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceProcess.ServiceController" />
+  <TypeSignature Language="VB.NET" Value="Public Class ServiceController&#xA;Inherits Component" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ServiceController : System::ComponentModel::Component" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceProcess</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-4.5">System.ComponentModel.Component</BaseTypeName>
+  </Base>
+  <Interfaces></Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.ComponentModel.Designer("System.ServiceProcess.Design.ServiceControllerDesigner, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.ServiceProcess.ServiceProcessDescription("ServiceControllerDesc")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="f0ba6-101">Rappresenta un servizio Windows e consente di connettersi a un servizio in esecuzione o arrestato, manipolarlo o ottenere informazioni al riguardo.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f0ba6-101">Represents a Windows service and allows you to connect to a running or stopped service, manipulate it, or get information about it.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-102">È possibile utilizzare la <xref:System.ServiceProcess.ServiceController> classe per connettersi e controllare il comportamento dei servizi esistenti.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-102">You can use the <xref:System.ServiceProcess.ServiceController> class to connect to and control the behavior of existing services.</span></span> <span data-ttu-id="f0ba6-103">Quando si crea un'istanza di <xref:System.ServiceProcess.ServiceController> (classe), impostarne le proprietà in modo che interagiscano con uno specifico servizio Windows.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-103">When you create an instance of the <xref:System.ServiceProcess.ServiceController> class, you set its properties so it interacts with a specific Windows service.</span></span> <span data-ttu-id="f0ba6-104">È quindi possibile utilizzare la classe per avviare, arrestare e in caso contrario modificare il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-104">You can then use the class to start, stop, and otherwise manipulate the service.</span></span>  
+  
+ <span data-ttu-id="f0ba6-105">Probabilmente si utilizzerà il <xref:System.ServiceProcess.ServiceController> componente in una funzione amministrativa.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-105">You will most likely use the <xref:System.ServiceProcess.ServiceController> component in an administrative capacity.</span></span> <span data-ttu-id="f0ba6-106">Ad esempio, è possibile creare un Windows o applicazione Web che invia personalizzati i comandi a un servizio mediante il <xref:System.ServiceProcess.ServiceController> istanza.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-106">For example, you could create a Windows or Web application that sends custom commands to a service through the <xref:System.ServiceProcess.ServiceController> instance.</span></span> <span data-ttu-id="f0ba6-107">Potrebbe essere utile, perché lo snap-in Microsoft Management Console di Gestione controllo servizi (SCM) non supporta i comandi personalizzati.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-107">This would be useful, because the Service Control Manager (SCM) Microsoft Management Console snap-in does not support custom commands.</span></span>  
+  
+ <span data-ttu-id="f0ba6-108">Dopo aver creato un'istanza di <xref:System.ServiceProcess.ServiceController>, è necessario impostare due proprietà in modo da identificare il servizio con cui interagisce: il nome del computer e il nome del servizio che si desidera controllare.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-108">After you create an instance of <xref:System.ServiceProcess.ServiceController>, you must set two properties on it to identify the service with which it interacts: the computer name and the name of the service you want to control.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f0ba6-109">Per impostazione predefinita, <xref:System.ServiceProcess.ServiceController.MachineName%2A> è impostata nel computer locale, pertanto non è necessario modificarla a meno che non si desidera impostare l'istanza in modo che punti a un altro computer.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-109">By default, <xref:System.ServiceProcess.ServiceController.MachineName%2A> is set to the local computer, so you do not need to change it unless you want to set the instance to point to another computer.</span></span>  
+  
+ <span data-ttu-id="f0ba6-110">In genere, l'autore del servizio scrive codice che consente di personalizzare l'azione associata a un comando specifico.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-110">Generally, the service author writes code that customizes the action associated with a specific command.</span></span> <span data-ttu-id="f0ba6-111">Ad esempio, un servizio può contenere codice per rispondere a un <xref:System.ServiceProcess.ServiceBase.OnPause%2A?displayProperty=nameWithType> comando.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-111">For example, a service can contain code to respond to an <xref:System.ServiceProcess.ServiceBase.OnPause%2A?displayProperty=nameWithType> command.</span></span> <span data-ttu-id="f0ba6-112">In questo caso, l'elaborazione personalizzata per il <xref:System.ServiceProcess.ServiceController.Pause%2A> attività viene eseguito prima che il sistema sospende il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-112">In that case, the custom processing for the <xref:System.ServiceProcess.ServiceController.Pause%2A> task runs before the system pauses the service.</span></span>  
+  
+ <span data-ttu-id="f0ba6-113">Il set di comandi di che un servizio può elaborare dipende dalla proprietà; ad esempio, è possibile impostare il <xref:System.ServiceProcess.ServiceController.CanStop%2A> proprietà per un servizio `false`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-113">The set of commands a service can process depends on its properties; for example, you can set the <xref:System.ServiceProcess.ServiceController.CanStop%2A> property for a service to `false`.</span></span> <span data-ttu-id="f0ba6-114">Questa impostazione consente di visualizzare il `Stop` comando disponibile su un particolare servizio; impedisce l'interruzione del servizio da Gestione controllo servizi disattivando il pulsante necessario.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-114">This setting renders the `Stop` command unavailable on that particular service; it prevents you from stopping the service from the SCM by disabling the necessary button.</span></span> <span data-ttu-id="f0ba6-115">Se si tenta di arrestare il servizio dal codice, il sistema genera un errore e viene visualizzato il messaggio di errore "Impossibile arrestare `servicename`."</span><span class="sxs-lookup"><span data-stu-id="f0ba6-115">If you try to stop the service from your code, the system raises an error and displays the error message "Failed to stop `servicename`."</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-116">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController> classe per controllare il `SimpleService` esempio di servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-116">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController> class to control the `SimpleService` service example.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#1](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#1)]
+ [!code-vb[ServiceControllerClass#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.ServiceProcess.ServiceBase" />
+    <altmember cref="T:System.ServiceProcess.ServiceControllerStatus" />
+    <altmember cref="T:System.ServiceProcess.ServiceType" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-117">Inizializza una nuova istanza della classe <see cref="T:System.ServiceProcess.ServiceController" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-117">Initializes a new instance of the <see cref="T:System.ServiceProcess.ServiceController" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceController ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceController();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-118">Inizializza una nuova istanza della classe <see cref="T:System.ServiceProcess.ServiceController" /> non associata a un servizio specifico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-118">Initializes a new instance of the <see cref="T:System.ServiceProcess.ServiceController" /> class that is not associated with a specific service.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceController (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceController(System::String ^ name);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="f0ba6-119">Nome che identifica il servizio nel sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-119">The name that identifies the service to the system.</span>
+          </span>
+          <span data-ttu-id="f0ba6-120">Può anche essere il nome visualizzato per il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-120">This can also be the display name for the service.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-121">Inizializza una nuova istanza della classe <see cref="T:System.ServiceProcess.ServiceController" /> associata a un servizio esistente sul computer locale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-121">Initializes a new instance of the <see cref="T:System.ServiceProcess.ServiceController" /> class that is associated with an existing service on the local computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f0ba6-122">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.%23ctor%28System.String%29?displayProperty=nameWithType> costruttore per creare un <xref:System.ServiceProcess.ServiceController> oggetto utilizzato per controllare un servizio di esempio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-122">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.%23ctor%28System.String%29?displayProperty=nameWithType> constructor to create a <xref:System.ServiceProcess.ServiceController> object that is used to control a sample service.</span></span> <span data-ttu-id="f0ba6-123">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-123">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#2)]
+ [!code-vb[ServiceControllerClass#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-124">
+            <paramref name="name" /> non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-124">
+              <paramref name="name" /> is invalid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ServiceController (string name, string machineName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, string machineName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.#ctor(System.String,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, machineName As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ServiceController(System::String ^ name, System::String ^ machineName);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="machineName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="f0ba6-125">Nome che identifica il servizio nel sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-125">The name that identifies the service to the system.</span>
+          </span>
+          <span data-ttu-id="f0ba6-126">Può anche essere il nome visualizzato per il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-126">This can also be the display name for the service.</span>
+          </span>
+        </param>
+        <param name="machineName">
+          <span data-ttu-id="f0ba6-127">Computer in cui si trova il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-127">The computer on which the service resides.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-128">Inizializza una nuova istanza della classe <see cref="T:System.ServiceProcess.ServiceController" /> associata a un servizio esistente sul computer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-128">Initializes a new instance of the <see cref="T:System.ServiceProcess.ServiceController" /> class that is associated with an existing service on the specified computer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-129">Per il `machineName` parametro, è possibile utilizzare "." per rappresentare il computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-129">For the `machineName` parameter, you can use "." to represent the local computer.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-130">
+            <paramref name="name" /> non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-130">
+              <paramref name="name" /> is invalid.</span>
+          </span>
+          <span data-ttu-id="f0ba6-131">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-131">-or-</span>
+          </span>
+          <span data-ttu-id="f0ba6-132">
+            <paramref name="machineName" /> non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-132">
+              <paramref name="machineName" /> is invalid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CanPauseAndContinue">
+      <MemberSignature Language="C#" Value="public bool CanPauseAndContinue { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanPauseAndContinue" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.CanPauseAndContinue" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CanPauseAndContinue As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool CanPauseAndContinue { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPCanPauseAndContinue")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-133">Ottiene un valore che indica se il servizio può essere sospeso e riattivato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-133">Gets a value indicating whether the service can be paused and resumed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-134">
+            <see langword="true" /> se il servizio può essere sospeso; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-134">
+              <see langword="true" /> if the service can be paused; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f0ba6-135">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.CanPauseAndContinue%2A> proprietà per determinare se un servizio è possibile sospendere e continuare.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-135">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.CanPauseAndContinue%2A> property to determine whether a service can pause and continue.</span></span> <span data-ttu-id="f0ba6-136">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-136">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#2)]
+ [!code-vb[ServiceControllerClass#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-137">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-137">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-138">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-138">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CanShutdown">
+      <MemberSignature Language="C#" Value="public bool CanShutdown { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanShutdown" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.CanShutdown" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CanShutdown As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool CanShutdown { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPCanShutdown")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-139">Ottiene un valore che indica se è necessario che il servizio riceva una notifica quando il sistema è in fase di arresto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-139">Gets a value indicating whether the service should be notified when the system is shutting down.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-140">
+            <see langword="true" /> se è necessario che il servizio riceva una notifica quando il sistema è in fase di arresto; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-140">
+              <see langword="true" /> if the service should be notified when the system is shutting down; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f0ba6-141">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.CanShutdown%2A> proprietà per determinare se il servizio fornisce un gestore per un evento di arresto.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-141">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.CanShutdown%2A> property to determine whether a service provides a handler for a shutdown event.</span></span> <span data-ttu-id="f0ba6-142">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-142">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#2)]
+ [!code-vb[ServiceControllerClass#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-143">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-143">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-144">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-144">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CanStop">
+      <MemberSignature Language="C#" Value="public bool CanStop { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool CanStop" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.CanStop" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CanStop As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool CanStop { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPCanStop")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-145">Ottiene un valore che indica se il servizio, una volta avviato, può essere arrestato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-145">Gets a value indicating whether the service can be stopped after it has started.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-146">
+            <see langword="true" /> se il servizio può essere arrestato e se può essere chiamato il metodo <see cref="M:System.ServiceProcess.ServiceBase.OnStop" />; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-146">
+              <see langword="true" /> if the service can be stopped and the <see cref="M:System.ServiceProcess.ServiceBase.OnStop" /> method called; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f0ba6-147">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.CanStop%2A> proprietà per determinare se il servizio fornisce un gestore per un evento di arresto.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-147">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.CanStop%2A> property to determine whether a service provides a handler for a stop event.</span></span> <span data-ttu-id="f0ba6-148">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-148">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#2)]
+ [!code-vb[ServiceControllerClass#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-149">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-149">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-150">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-150">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-151">Disconnette l'istanza di questo oggetto <see cref="T:System.ServiceProcess.ServiceController" /> dal servizio e libera tutte le risorse allocate dall'istanza.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-151">Disconnects this <see cref="T:System.ServiceProcess.ServiceController" /> instance from the service and frees all the resources that the instance allocated.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-152"><xref:System.ServiceProcess.ServiceController.Close%2A> Rilascia tutti gli handle associati il <xref:System.ServiceProcess.ServiceController> istanza.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-152"><xref:System.ServiceProcess.ServiceController.Close%2A> releases all the handles associated with the <xref:System.ServiceProcess.ServiceController> instance.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Continue">
+      <MemberSignature Language="C#" Value="public void Continue ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Continue() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Continue" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Continue ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Continue();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-153">Riprende un servizio dopo che è stato sospeso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-153">Continues a service after it has been paused.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-154">Quando si chiama <xref:System.ServiceProcess.ServiceController.Continue%2A> per un servizio, lo stato viene modificato prima di `ContinuePending` e quindi, quando il <xref:System.ServiceProcess.ServiceController.Continue%2A> metodo viene restituito, verrà modificata a `Running`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-154">When you call <xref:System.ServiceProcess.ServiceController.Continue%2A> for a service, its status is first changed to `ContinuePending` and then, when the <xref:System.ServiceProcess.ServiceController.Continue%2A> method returns, it is changed to `Running`.</span></span>  
+  
+ <span data-ttu-id="f0ba6-155">Non è possibile chiamare <xref:System.ServiceProcess.ServiceController.Continue%2A> per il servizio fino a quando lo stato del servizio controller è `Paused`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-155">You cannot call <xref:System.ServiceProcess.ServiceController.Continue%2A> for the service until the service controller status is `Paused`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-156">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.Continue%2A> metodo continuare un servizio sospeso.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-156">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.Continue%2A> method to continue a paused service.</span></span> <span data-ttu-id="f0ba6-157">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-157">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#5](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#5)]
+ [!code-vb[ServiceControllerClass#5](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-158">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-158">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-159">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-159">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-160">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-160">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-161">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-161">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-162">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-162">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-163">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-163">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="P:System.ServiceProcess.ServiceController.CanPauseAndContinue" />
+        <altmember cref="M:System.ServiceProcess.ServiceController.Pause" />
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <Member MemberName="DependentServices">
+      <MemberSignature Language="C#" Value="public System.ServiceProcess.ServiceController[] DependentServices { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ServiceProcess.ServiceController[] DependentServices" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.DependentServices" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property DependentServices As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ DependentServices { cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPDependentServices")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-164">Ottiene il set di servizi che dipende dal servizio associato a questa istanza di <see cref="T:System.ServiceProcess.ServiceController" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-164">Gets the set of services that depends on the service associated with this <see cref="T:System.ServiceProcess.ServiceController" /> instance.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-165">Matrice di istanze di <see cref="T:System.ServiceProcess.ServiceController" />, ciascuna delle quali è associata a un servizio che dipende dal servizio corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-165">An array of <see cref="T:System.ServiceProcess.ServiceController" /> instances, each of which is associated with a service that depends on this service.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-166">Il <xref:System.ServiceProcess.ServiceController.DependentServices%2A> matrice rappresenta i servizi arrestati dal sistema se l'applicazione chiama <xref:System.ServiceProcess.ServiceController.Stop%2A> per questo servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-166">The <xref:System.ServiceProcess.ServiceController.DependentServices%2A> array represents the services that the system stops if your application calls <xref:System.ServiceProcess.ServiceController.Stop%2A> for this service.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-167">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare il set di servizi che dipendono dal servizio Registro eventi.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-167">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the set of services that are dependent on the Event Log service.</span></span>  
+  
+ [!code-cpp[ServiceController#3](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#3)]
+ [!code-csharp[ServiceController#3](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#3)]
+ [!code-vb[ServiceController#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-168">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-168">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-169">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-169">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-170">per la connessione ai servizi esistenti nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-170">for connecting to existing services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-171">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-171">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="DisplayName">
+      <MemberSignature Language="C#" Value="public string DisplayName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DisplayName" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.DisplayName" />
+      <MemberSignature Language="VB.NET" Value="Public Property DisplayName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ DisplayName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.ReadOnly(true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPDisplayName")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-172">Ottiene o imposta un nome descrittivo per il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-172">Gets or sets a friendly name for the service.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-173">Nome descrittivo del servizio, che può essere usato per identificare il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-173">The friendly name of the service, which can be used to identify the service.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-174">È possibile impostare il <xref:System.ServiceProcess.ServiceController.DisplayName%2A> su una stringa vuota (""), ma impostando la proprietà su `null` genera un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-174">You can set the <xref:System.ServiceProcess.ServiceController.DisplayName%2A> to an empty string (""), but setting the property to `null` throws an exception.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-175">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare il set di servizi che dipendono dal servizio Registro eventi.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-175">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the set of services that are dependent on the Event Log service.</span></span>  
+  
+ [!code-cpp[ServiceController#3](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#3)]
+ [!code-csharp[ServiceController#3](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#3)]
+ [!code-vb[ServiceController#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="f0ba6-176">L'elemento <see cref="P:System.ServiceProcess.ServiceController.DisplayName" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-176">The <see cref="P:System.ServiceProcess.ServiceController.DisplayName" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-177">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-177">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-178">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-178">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="f0ba6-179">
+            <see langword="true" /> per rilasciare sia le risorse gestite sia quelle non gestite; <see langword="false" /> per rilasciare solo le risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-179">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-180">Rilascia le risorse non gestite usate da <see cref="T:System.ServiceProcess.ServiceController" /> e, facoltativamente, le risorse gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-180">Releases the unmanaged resources used by the <see cref="T:System.ServiceProcess.ServiceController" /> and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-181">Questo metodo viene chiamato dal metodo pubblico `Dispose()` (metodo) e <xref:System.Object.Finalize%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-181">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="f0ba6-182">`Dispose()` richiama il metodo protetto `Dispose(Boolean)` metodo con il `disposing` parametro impostato su `true`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-182">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="f0ba6-183"><xref:System.Object.Finalize%2A> richiama `Dispose` con `disposing` impostato su `false`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-183"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="f0ba6-184">Quando il `disposing` parametro è true, questo metodo rilascia tutte le risorse utilizzate dagli oggetti gestiti da questo <xref:System.ServiceProcess.ServiceController> riferimenti.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-184">When the `disposing` parameter is true, this method releases all resources held by any managed objects that this <xref:System.ServiceProcess.ServiceController> references.</span></span> <span data-ttu-id="f0ba6-185">Il metodo richiama il metodo `Dispose()` di ciascun oggetto cui viene fatto riferimento.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-185">This method invokes the `Dispose()` method of each referenced object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="f0ba6-186">Il metodo <see langword="Dispose" /> può essere chiamato più volte da altri oggetti.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="f0ba6-186">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="f0ba6-187">Quando si esegue l'override <see langword="Dispose(Boolean)" /> prestare attenzione a non fare riferimento a oggetti che sono stati eliminati in una precedente chiamata a <see langword="Dispose" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="f0ba6-187">When overriding <see langword="Dispose(Boolean)" /> be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="f0ba6-188">Per ulteriori informazioni su come implementare <see langword="Dispose(Boolean)" />, vedere [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="f0ba6-188">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="f0ba6-189">Per ulteriori informazioni su <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [si esegue l'override del metodo Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="f0ba6-189">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="ExecuteCommand">
+      <MemberSignature Language="C#" Value="public void ExecuteCommand (int command);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ExecuteCommand(int32 command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.ExecuteCommand(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ExecuteCommand (command As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExecuteCommand(int command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="command">
+          <span data-ttu-id="f0ba6-190">Flag di comando definito dall'applicazione che indica quale comando personalizzato eseguire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-190">An application-defined command flag that indicates which custom command to execute.</span>
+          </span>
+          <span data-ttu-id="f0ba6-191">Il valore deve essere tra compreso tra 128 e 256, inclusi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-191">The value must be between 128 and 256, inclusive.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-192">Esegue un comando personalizzato sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-192">Executes a custom command on the service.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-193">Quando si chiama <xref:System.ServiceProcess.ServiceController.ExecuteCommand%2A>, non modifica lo stato del servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-193">When you call <xref:System.ServiceProcess.ServiceController.ExecuteCommand%2A>, the status of the service does not change.</span></span> <span data-ttu-id="f0ba6-194">Se il servizio è stato avviato, lo stato rimane `Running`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-194">If the service was started, the status remains `Running`.</span></span> <span data-ttu-id="f0ba6-195">Se il servizio è stato arrestato, lo stato rimane `Stopped`e così via.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-195">If the service was stopped, the status remains `Stopped`, and so on.</span></span> <span data-ttu-id="f0ba6-196">Per elaborare il comando personalizzato, il servizio è necessario eseguire l'override di <xref:System.ServiceProcess.ServiceBase.OnCustomCommand%2A> metodo e fornire un gestore per il comando identificato dal `command` parametro.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-196">To process the custom command, the service must override the <xref:System.ServiceProcess.ServiceBase.OnCustomCommand%2A> method and provide a handler for the command identified by the `command` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-197">Esempio di codice seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.ExecuteCommand%28System.Int32%29?displayProperty=nameWithType> l'esecuzione di comandi personalizzati nel metodo di `SimpleService` esempio di servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-197">The following code example shows the use of the <xref:System.ServiceProcess.ServiceController.ExecuteCommand%28System.Int32%29?displayProperty=nameWithType> method to execute custom commands in the `SimpleService` service example.</span></span>  
+  
+ [!code-csharp[ServiceContoller_ExecuteCommand#1](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceContoller_ExecuteCommand/CS/program.cs#1)]
+ [!code-vb[ServiceContoller_ExecuteCommand#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceContoller_ExecuteCommand/VB/module1.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-198">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-198">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-199">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-199">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-200">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-200">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-201">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-201">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-202">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-202">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-203">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-203">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.ServiceProcess.ServiceBase.OnCustomCommand(System.Int32)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetDevices">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-204">Recupera tutti i servizi del driver di dispositivo su un computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-204">Retrieves the device driver services on a computer.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetDevices">
+      <MemberSignature Language="C#" Value="public static System.ServiceProcess.ServiceController[] GetDevices ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.ServiceProcess.ServiceController[] GetDevices() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.GetDevices" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDevices () As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ GetDevices();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-205">Recupera tutti i servizi del driver di dispositivo sul computer locale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-205">Retrieves the device driver services on the local computer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f0ba6-206">Matrice di tipo <see cref="T:System.ServiceProcess.ServiceController" />, nella quale ciascun elemento è associato a un servizio di driver di dispositivo sul computer locale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-206">An array of type <see cref="T:System.ServiceProcess.ServiceController" /> in which each element is associated with a device driver service on the local computer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-207"><xref:System.ServiceProcess.ServiceController.GetDevices%2A> Restituisce solo il dispositivo di servizi del driver dal computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-207"><xref:System.ServiceProcess.ServiceController.GetDevices%2A> returns only the device driver services from the local computer.</span></span> <span data-ttu-id="f0ba6-208">Per recuperare i servizi del driver non di dispositivo o i servizi che non sono driver, chiamare il <xref:System.ServiceProcess.ServiceController.GetServices%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-208">To retrieve the non-device driver services or services that are not drivers, call the <xref:System.ServiceProcess.ServiceController.GetServices%2A> method.</span></span> <span data-ttu-id="f0ba6-209">Insieme, i due metodi forniscono accesso a tutti i servizi in un computer.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-209">Together, the two methods provide access to all the services on a computer.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-210">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare i servizi del driver di dispositivo nel computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-210">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the device driver services on the local computer.</span></span>  
+  
+ [!code-cpp[ServiceController#5](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#5)]
+ [!code-csharp[ServiceController#5](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#5)]
+ [!code-vb[ServiceController#5](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-211">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-211">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.ServiceProcess.ServiceController.GetServices" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetDevices">
+      <MemberSignature Language="C#" Value="public static System.ServiceProcess.ServiceController[] GetDevices (string machineName);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.ServiceProcess.ServiceController[] GetDevices(string machineName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.GetDevices(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDevices (machineName As String) As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ GetDevices(System::String ^ machineName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="machineName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="machineName">
+          <span data-ttu-id="f0ba6-212">Computer da cui recuperare i servizi dei driver di dispositivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-212">The computer from which to retrieve the device driver services.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-213">Recupera i servizi del driver di dispositivo sul computer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-213">Retrieves the device driver services on the specified computer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f0ba6-214">Matrice di tipo <see cref="T:System.ServiceProcess.ServiceController" />, nella quale ciascun elemento è associato a un servizio di driver di dispositivo sul computer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-214">An array of type <see cref="T:System.ServiceProcess.ServiceController" /> in which each element is associated with a device driver service on the specified computer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-215"><xref:System.ServiceProcess.ServiceController.GetDevices%2A> Restituisce solo il dispositivo di servizi del driver dal computer specificato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-215"><xref:System.ServiceProcess.ServiceController.GetDevices%2A> returns only the device driver services from the specified computer.</span></span> <span data-ttu-id="f0ba6-216">Per recuperare i servizi del driver non di dispositivo o i servizi che non sono driver, chiamare il <xref:System.ServiceProcess.ServiceController.GetServices%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-216">To retrieve the non-device driver services or services that are not drivers, call the <xref:System.ServiceProcess.ServiceController.GetServices%2A> method.</span></span> <span data-ttu-id="f0ba6-217">Insieme, i due metodi forniscono accesso a tutti i servizi in un computer.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-217">Together, the two methods provide access to all the services on a computer.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-218">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-218">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-219">La sintassi del parametro <paramref name="machineName" /> non è valida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-219">The <paramref name="machineName" /> parameter has invalid syntax.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.ServiceProcess.ServiceController.GetServices" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetServices">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-220">Recupera tutti i servizi del driver non di dispositivo su un computer e quelli che non sono driver.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-220">Retrieves the non-device driver services on a computer, and those that are not drivers.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetServices">
+      <MemberSignature Language="C#" Value="public static System.ServiceProcess.ServiceController[] GetServices ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.ServiceProcess.ServiceController[] GetServices() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.GetServices" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetServices () As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ GetServices();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-221">Recupera tutti i servizi sul computer locale, fatta eccezione per i servizi del driver di dispositivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-221">Retrieves all the services on the local computer, except for the device driver services.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f0ba6-222">Matrice di tipo <see cref="T:System.ServiceProcess.ServiceController" />, nella quale ciascun elemento è associato a un servizio sul computer locale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-222">An array of type <see cref="T:System.ServiceProcess.ServiceController" /> in which each element is associated with a service on the local computer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-223"><xref:System.ServiceProcess.ServiceController.GetServices%2A> Restituisce solo i servizi del driver non di dispositivo e i servizi che non sono driver dal computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-223"><xref:System.ServiceProcess.ServiceController.GetServices%2A> returns only the non-device driver services and the services that are not drivers from the local computer.</span></span> <span data-ttu-id="f0ba6-224">Per recuperare i servizi del driver di dispositivo, chiamare il <xref:System.ServiceProcess.ServiceController.GetDevices%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-224">To retrieve device driver services, call the <xref:System.ServiceProcess.ServiceController.GetDevices%2A> method.</span></span> <span data-ttu-id="f0ba6-225">Insieme, i due metodi forniscono accesso a tutti i servizi in un computer.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-225">Together, the two methods provide access to all the services on a computer.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-226">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare i servizi sono in esecuzione nel computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-226">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the services that are running on the local computer.</span></span>  
+  
+ [!code-cpp[ServiceController#6](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#6)]
+ [!code-csharp[ServiceController#6](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#6)]
+ [!code-vb[ServiceController#6](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-227">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-227">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.ServiceProcess.ServiceController.GetDevices" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetServices">
+      <MemberSignature Language="C#" Value="public static System.ServiceProcess.ServiceController[] GetServices (string machineName);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.ServiceProcess.ServiceController[] GetServices(string machineName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.GetServices(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetServices (machineName As String) As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ GetServices(System::String ^ machineName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="machineName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="machineName">
+          <span data-ttu-id="f0ba6-228">Il computer da cui recuperare i servizi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-228">The computer from which to retrieve the services.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-229">Recupera tutti i servizi sul computer specificato, fatta eccezione per i servizi del driver di dispositivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-229">Retrieves all the services on the specified computer, except for the device driver services.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f0ba6-230">Matrice di tipo <see cref="T:System.ServiceProcess.ServiceController" />, nella quale ciascun elemento è associato a un servizio sul computer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-230">An array of type <see cref="T:System.ServiceProcess.ServiceController" /> in which each element is associated with a service on the specified computer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-231"><xref:System.ServiceProcess.ServiceController.GetServices%2A> Restituisce solo i servizi del driver non di dispositivo e i servizi che non sono driver dal computer specificato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-231"><xref:System.ServiceProcess.ServiceController.GetServices%2A> returns only the non-device driver services and the services that are not drivers from the specified computer.</span></span> <span data-ttu-id="f0ba6-232">Per recuperare i servizi del driver di dispositivo, chiamare il <xref:System.ServiceProcess.ServiceController.GetDevices%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-232">To retrieve device driver services, call the <xref:System.ServiceProcess.ServiceController.GetDevices%2A> method.</span></span> <span data-ttu-id="f0ba6-233">Insieme, i due metodi forniscono accesso a tutti i servizi in un computer.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-233">Together, the two methods provide access to all the services on a computer.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-234">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-234">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-235">La sintassi del parametro <paramref name="machineName" /> non è valida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-235">The <paramref name="machineName" /> parameter has invalid syntax.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.ServiceProcess.ServiceController.GetDevices" />
+      </Docs>
+    </Member>
+    <Member MemberName="MachineName">
+      <MemberSignature Language="C#" Value="public string MachineName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string MachineName" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.MachineName" />
+      <MemberSignature Language="VB.NET" Value="Public Property MachineName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ MachineName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(".")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.SettingsBindable(true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPMachineName")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-236">Ottiene o imposta il nome del computer su cui si trova il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-236">Gets or sets the name of the computer on which this service resides.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-237">Nome del computer sul quale è in esecuzione il servizio associato a questa istanza di <see cref="T:System.ServiceProcess.ServiceController" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-237">The name of the computer that is running the service associated with this <see cref="T:System.ServiceProcess.ServiceController" /> instance.</span>
+          </span>
+          <span data-ttu-id="f0ba6-238">Il valore predefinito è il computer locale (".").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-238">The default is the local computer (".").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-239">Il nome del computer è il nome del server in cui è in esecuzione il servizio, non i caratteri di barra rovesciata precedente (\\\\).</span><span class="sxs-lookup"><span data-stu-id="f0ba6-239">The computer name is the name of the server that is running this service, without the preceding backslash characters (\\\\).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-240">La sintassi della proprietà <see cref="P:System.ServiceProcess.ServiceController.MachineName" /> non è valida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-240">The <see cref="P:System.ServiceProcess.ServiceController.MachineName" /> syntax is invalid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Pause">
+      <MemberSignature Language="C#" Value="public void Pause ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Pause() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Pause" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Pause ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Pause();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-241">Sospende il funzionamento di un servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-241">Suspends a service's operation.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-242">Non è possibile chiamare <xref:System.ServiceProcess.ServiceController.Continue%2A> per il servizio fino a quando lo stato del servizio controller è `Paused`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-242">You cannot call <xref:System.ServiceProcess.ServiceController.Continue%2A> for the service until the service controller status is `Paused`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-243">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.Pause%2A> metodo per sospendere un servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-243">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.Pause%2A> method to pause a service.</span></span> <span data-ttu-id="f0ba6-244">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-244">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#4](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#4)]
+ [!code-vb[ServiceControllerClass#4](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-245">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-245">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-246">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-246">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-247">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-247">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-248">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-248">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-249">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-249">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-250">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-250">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="P:System.ServiceProcess.ServiceController.CanPauseAndContinue" />
+        <altmember cref="M:System.ServiceProcess.ServiceController.Continue" />
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <Member MemberName="Refresh">
+      <MemberSignature Language="C#" Value="public void Refresh ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Refresh() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Refresh" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Refresh ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Refresh();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-251">Aggiorna i valori delle proprietà reimpostando le proprietà sui valori correnti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-251">Refreshes property values by resetting the properties to their current values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-252">Il <xref:System.ServiceProcess.ServiceController.Refresh%2A> metodo provoca il <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A>, <xref:System.ServiceProcess.ServiceController.DependentServices%2A>, e <xref:System.ServiceProcess.ServiceController.Status%2A> proprietà da reimpostare sui valori correnti quando successivamente viene fatto riferimento.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-252">The <xref:System.ServiceProcess.ServiceController.Refresh%2A> method causes the <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A>, <xref:System.ServiceProcess.ServiceController.DependentServices%2A>, and <xref:System.ServiceProcess.ServiceController.Status%2A> properties to be reset to their current values when they are next referenced.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-253">Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.ServiceProcess.ServiceController.Refresh%2A> per ottenere lo stato di un servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-253">The following example demonstrates the use of the <xref:System.ServiceProcess.ServiceController.Refresh%2A> method to obtain the status of a service.</span></span> <span data-ttu-id="f0ba6-254">Il codice indica un servizio in pausa, quindi attende che lo stato in modo da riflettere la modifica.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-254">The code instructs a service to pause, and then waits for the status to reflect the change.</span></span> <span data-ttu-id="f0ba6-255">Questo esempio fa parte di un esempio più ampio fornito per il <xref:System.ServiceProcess.ServiceController> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-255">This example is part of a larger example that is provided for the <xref:System.ServiceProcess.ServiceController> class.</span></span>  
+  
+ [!code-csharp[ServiceControllerClass#4](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceControllerClass/CS/program.cs#4)]
+ [!code-vb[ServiceControllerClass#4](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceControllerClass/VB/program.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ServiceHandle">
+      <MemberSignature Language="C#" Value="public System.Runtime.InteropServices.SafeHandle ServiceHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.InteropServices.SafeHandle ServiceHandle" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.ServiceHandle" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ServiceHandle As SafeHandle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::InteropServices::SafeHandle ^ ServiceHandle { System::Runtime::InteropServices::SafeHandle ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Runtime.InteropServices.SafeHandle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-256">Ottiene l'handle del servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-256">Gets the handle for the service.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-257">Oggetto <see cref="T:System.Runtime.InteropServices.SafeHandle" /> contenente l'handle del servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-257">A <see cref="T:System.Runtime.InteropServices.SafeHandle" /> that contains the handle for the service.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-258">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-258">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-259">Per accedere al codice non gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-259">for access to unmanaged code.</span>
+          </span>
+          <span data-ttu-id="f0ba6-260">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-260">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="ServiceName">
+      <MemberSignature Language="C#" Value="public string ServiceName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ServiceName" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.ServiceName" />
+      <MemberSignature Language="VB.NET" Value="Public Property ServiceName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ServiceName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.ReadOnly(true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.SettingsBindable(true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter(typeof(System.ServiceProcess.Design.ServiceNameConverter))</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPServiceName")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-261">Ottiene o imposta il nome che identifica il servizio a cui l'istanza fa riferimento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-261">Gets or sets the name that identifies the service that this instance references.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-262">Nome che identifica il servizio a cui l'istanza di <see cref="T:System.ServiceProcess.ServiceController" /> fa riferimento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-262">The name that identifies the service that this <see cref="T:System.ServiceProcess.ServiceController" /> instance references.</span>
+          </span>
+          <span data-ttu-id="f0ba6-263">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-263">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-264">Il <xref:System.ServiceProcess.ServiceController.ServiceName%2A> identifica il servizio di Gestione controllo servizi.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-264">The <xref:System.ServiceProcess.ServiceController.ServiceName%2A> identifies the service to the Service Control Manager.</span></span> <span data-ttu-id="f0ba6-265">Se si modifica questa proprietà, il <xref:System.ServiceProcess.ServiceController> istanza per associare a un altro servizio, non viene modificato quali Gestione controllo servizi di Microsoft Management Console snap-in consente di visualizzare.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-265">Changing this property causes the <xref:System.ServiceProcess.ServiceController> instance to bind to another service, it does not change what the Service Control Manager's Microsoft Management Console snap-in displays.</span></span>  
+  
+ <span data-ttu-id="f0ba6-266">Quando si implementa un servizio personalizzato, il valore di questa proprietà deve essere identico al nome registrato per il servizio di <xref:System.ServiceProcess.ServiceInstaller.ServiceName%2A> proprietà dell'oggetto corrispondente <xref:System.ServiceProcess.ServiceInstaller> classe.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-266">When you are implementing a custom service, the value of this property must be identical to the name recorded for the service in the <xref:System.ServiceProcess.ServiceInstaller.ServiceName%2A> property of the corresponding <xref:System.ServiceProcess.ServiceInstaller> class.</span></span> <span data-ttu-id="f0ba6-267">Nel codice, il <xref:System.ServiceProcess.ServiceController.ServiceName%2A> viene generalmente impostata nella `main()` funzione del file eseguibile.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-267">In code, the <xref:System.ServiceProcess.ServiceController.ServiceName%2A> is usually set in the `main()` function of the executable.</span></span>  
+  
+ <span data-ttu-id="f0ba6-268">Quando si reimposta il <xref:System.ServiceProcess.ServiceController.ServiceName%2A> proprietà, il metodo che imposta la proprietà di questa istanza imposta <xref:System.ServiceProcess.ServiceController.DisplayName%2A> su una stringa vuota ("").</span><span class="sxs-lookup"><span data-stu-id="f0ba6-268">When you reset the <xref:System.ServiceProcess.ServiceController.ServiceName%2A> property, the method that sets the property sets this instance's <xref:System.ServiceProcess.ServiceController.DisplayName%2A> to an empty string ("").</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="f0ba6-269">L'elemento <see cref="P:System.ServiceProcess.ServiceController.ServiceName" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-269">The <see cref="P:System.ServiceProcess.ServiceController.ServiceName" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="f0ba6-270">La sintassi della proprietà <see cref="P:System.ServiceProcess.ServiceController.ServiceName" /> non è valida.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-270">The syntax of the <see cref="P:System.ServiceProcess.ServiceController.ServiceName" /> property is invalid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-271">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-271">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ServicesDependedOn">
+      <MemberSignature Language="C#" Value="public System.ServiceProcess.ServiceController[] ServicesDependedOn { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ServiceProcess.ServiceController[] ServicesDependedOn" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.ServicesDependedOn" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ServicesDependedOn As ServiceController()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ ServicesDependedOn { cli::array &lt;System::ServiceProcess::ServiceController ^&gt; ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPServicesDependedOn")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceController[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-272">Set di servizi da cui dipende questo servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-272">The set of services that this service depends on.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-273">Matrice di istanze di <see cref="T:System.ServiceProcess.ServiceController" />, ciascuna delle quali è associata a un servizio che è necessario che sia in esecuzione affinché questo servizio lo sia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-273">An array of <see cref="T:System.ServiceProcess.ServiceController" /> instances, each of which is associated with a service that must be running for this service to run.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-274">Se uno dei servizi nel <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A> matrice non è in esecuzione, non sarà in grado di avviare il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-274">If any service in the <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A> array is not running, you will not be able to start this service.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-275">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare il set di servizi da cui dipende il servizio Messenger.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-275">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the set of services that the Messenger service is dependent on.</span></span>  
+  
+ [!code-cpp[ServiceController#4](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#4)]
+ [!code-csharp[ServiceController#4](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#4)]
+ [!code-vb[ServiceController#4](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-276">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-276">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-277">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-277">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-278">per la connessione ai servizi esistenti nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-278">for connecting to existing services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-279">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-279">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="ServiceType">
+      <MemberSignature Language="C#" Value="public System.ServiceProcess.ServiceType ServiceType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.ServiceProcess.ServiceType ServiceType" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.ServiceType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ServiceType As ServiceType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ServiceProcess::ServiceType ServiceType { System::ServiceProcess::ServiceType get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPServiceType")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-280">Ottiene il tipo di servizio a cui fa riferimento questo oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-280">Gets the type of service that this object references.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-281">Uno dei tre valori di <see cref="T:System.ServiceProcess.ServiceType" /> utilizzati per indicare il tipo di servizio di rete.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-281">One of the <see cref="T:System.ServiceProcess.ServiceType" /> values, used to indicate the network service type.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-282">Il tipo di servizio indica la modalità con cui il servizio viene utilizzato dal sistema.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-282">The service type indicates how the service is used by the system.</span></span> <span data-ttu-id="f0ba6-283">Il valore di <xref:System.ServiceProcess.ServiceController.ServiceType%2A> proprietà rappresenta un set di flag combinati utilizzando l'operatore OR bit per bit.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-283">The value of the <xref:System.ServiceProcess.ServiceController.ServiceType%2A> property represents a set of flags combined using the bitwise OR operator.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-284">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per visualizzare i servizi del driver di dispositivo nel computer locale.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-284">The following example uses the <xref:System.ServiceProcess.ServiceController> class to display the device driver services on the local computer.</span></span>  
+  
+ [!code-cpp[ServiceController#5](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#5)]
+ [!code-csharp[ServiceController#5](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#5)]
+ [!code-vb[ServiceController#5](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-285">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-285">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-286">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-286">The service was not found.</span>
+          </span>
+        </exception>
+        <altmember cref="T:System.ServiceProcess.ServiceType" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Start">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-287">Avvia il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-287">Starts the service.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Start">
+      <MemberSignature Language="C#" Value="public void Start ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Start() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Start" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Start ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Start();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-288">Avvia il servizio, senza passare argomenti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-288">Starts the service, passing no arguments.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-289">Non è possibile chiamare <xref:System.ServiceProcess.ServiceController.Stop%2A> per il servizio fino a quando lo stato del servizio controller è `Running`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-289">You cannot call <xref:System.ServiceProcess.ServiceController.Stop%2A> for the service until the service controller status is `Running`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-290">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per controllare se il servizio avvisi viene arrestato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-290">The following example uses the <xref:System.ServiceProcess.ServiceController> class to check whether the Alerter service is stopped.</span></span> <span data-ttu-id="f0ba6-291">Se il servizio viene arrestato, l'esempio avvia il servizio e attende fino a quando lo stato del servizio è impostato su <xref:System.ServiceProcess.ServiceControllerStatus.Running>.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-291">If the service is stopped, the example starts the service and waits until the service status is set to <xref:System.ServiceProcess.ServiceControllerStatus.Running>.</span></span>  
+  
+ [!code-cpp[ServiceController#1](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#1)]
+ [!code-csharp[ServiceController#1](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#1)]
+ [!code-vb[ServiceController#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-292">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-292">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-293">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-293">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-294">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-294">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-295">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-295">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-296">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-296">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-297">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-297">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.ServiceProcess.ServiceController.Stop" />
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <Member MemberName="Start">
+      <MemberSignature Language="C#" Value="public void Start (string[] args);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Start(string[] args) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Start(System.String[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Start (args As String())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Start(cli::array &lt;System::String ^&gt; ^ args);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="args" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="args">
+          <span data-ttu-id="f0ba6-298">Matrice di argomenti da passare al servizio quando viene avviato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-298">An array of arguments to pass to the service when it starts.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-299">Avvia il servizio, passando gli argomenti specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-299">Starts a service, passing the specified arguments.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-300">Non è possibile chiamare <xref:System.ServiceProcess.ServiceController.Stop%2A> per il servizio fino a quando lo stato del servizio controller è `Running`.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-300">You cannot call <xref:System.ServiceProcess.ServiceController.Stop%2A> for the service until the service controller status is `Running`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-301">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-301">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-302">Il servizio non può essere avviato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-302">The service cannot be started.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="f0ba6-303">
+            <paramref name="args" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-303">
+              <paramref name="args" /> is <see langword="null" />.</span>
+          </span>
+          <span data-ttu-id="f0ba6-304">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-304">-or-</span>
+          </span>
+          <span data-ttu-id="f0ba6-305">Un membro della matrice è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-305">A member of the array is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-306">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-306">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-307">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-307">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-308">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-308">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-309">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-309">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.ServiceProcess.ServiceController.Stop" />
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <Member MemberName="StartType">
+      <MemberSignature Language="C#" Value="public System.ServiceProcess.ServiceStartMode StartType { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.ServiceProcess.ServiceStartMode StartType" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.StartType" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property StartType As ServiceStartMode" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ServiceProcess::ServiceStartMode StartType { System::ServiceProcess::ServiceStartMode get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPStartType")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceStartMode</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-310">Ottiene un valore che indica come viene avviato il servizio rappresentato dall'oggetto <see cref="T:System.ServiceProcess.ServiceController" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-310">Gets a value that indicates how the service represented by the <see cref="T:System.ServiceProcess.ServiceController" /> object starts.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-311">Valore che indica come viene avviato il servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-311">A value that indicates how the service starts.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-312">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-312">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-313">per l'esplorazione dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-313">for browsing services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-314">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-314">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Browse" />.</span>
+          </span>
+        </permission>
+        <altmember cref="T:System.ServiceProcess.ServiceStartMode" />
+      </Docs>
+    </Member>
+    <Member MemberName="Status">
+      <MemberSignature Language="C#" Value="public System.ServiceProcess.ServiceControllerStatus Status { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.ServiceProcess.ServiceControllerStatus Status" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceProcess.ServiceController.Status" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Status As ServiceControllerStatus" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ServiceProcess::ServiceControllerStatus Status { System::ServiceProcess::ServiceControllerStatus get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ServiceProcess.ServiceProcessDescription("SPStatus")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.ServiceProcess.ServiceControllerStatus</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-315">Ottiene lo stato del servizio a cui questa istanza fa riferimento.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-315">Gets the status of the service that is referenced by this instance.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f0ba6-316">Uno dei valori di <see cref="T:System.ServiceProcess.ServiceControllerStatus" /> che indica se il servizio è in esecuzione, arrestato o sospeso oppure se è in sospeso un comando di avvio, arresto, pausa o continuazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-316">One of the <see cref="T:System.ServiceProcess.ServiceControllerStatus" /> values that indicates whether the service is running, stopped, or paused, or whether a start, stop, pause, or continue command is pending.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-317">Lo stato indica lo stato corrente del servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-317">The status indicates the current state of the service.</span></span> <span data-ttu-id="f0ba6-318">Il set di valori possibili sono inclusi diversi che indicano se un comando di modifica di stato è in sospeso.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-318">The set of possible values includes several that indicate whether a state-changing command is pending.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-319">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per controllare lo stato corrente del servizio Telnet.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-319">The following example uses the <xref:System.ServiceProcess.ServiceController> class to check the current status of the Telnet service.</span></span> <span data-ttu-id="f0ba6-320">Se il servizio viene arrestato, viene avviato il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-320">If the service is stopped, the example starts the service.</span></span> <span data-ttu-id="f0ba6-321">Se il servizio è in esecuzione, nell'esempio viene arrestato il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-321">If the service is running, the example stops the service.</span></span>  
+  
+ [!code-cpp[ServiceController#2](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#2)]
+ [!code-csharp[ServiceController#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#2)]
+ [!code-vb[ServiceController#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-322">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-322">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-323">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-323">The service was not found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Stop">
+      <MemberSignature Language="C#" Value="public void Stop ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Stop() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.Stop" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Stop ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Stop();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-324">Arresta questo servizio e tutti i servizi da esso dipendenti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-324">Stops this service and any services that are dependent on this service.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-325">Se tutti i servizi dipendono da questo servizio per l'operazione, verrà arrestati prima di questo servizio viene arrestato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-325">If any services depend on this service for their operation, they will be stopped before this service is stopped.</span></span> <span data-ttu-id="f0ba6-326">Il <xref:System.ServiceProcess.ServiceController.DependentServices%2A> proprietà contiene il set di servizi che dipendono da esso.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-326">The <xref:System.ServiceProcess.ServiceController.DependentServices%2A> property contains the set of services that depend on this one.</span></span>  
+  
+ <span data-ttu-id="f0ba6-327">Se si arresta un servizio che dipende questo servizio, chiamare il <xref:System.ServiceProcess.ServiceController.Stop%2A> metodo su questo servizio all'interno di <xref:System.ServiceProcess.ServiceController.Stop%2A> metodo del servizio padre.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-327">If you stop a service that this service depends on, call the <xref:System.ServiceProcess.ServiceController.Stop%2A> method on this service within the <xref:System.ServiceProcess.ServiceController.Stop%2A> method of the parent service.</span></span> <span data-ttu-id="f0ba6-328">Il <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A> proprietà contiene i servizi da cui dipende questo servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-328">The <xref:System.ServiceProcess.ServiceController.ServicesDependedOn%2A> property contains the services that this service depends on.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-329">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per controllare lo stato corrente del servizio Telnet.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-329">The following example uses the <xref:System.ServiceProcess.ServiceController> class to check the current status of the Telnet service.</span></span> <span data-ttu-id="f0ba6-330">Se il servizio viene arrestato, viene avviato il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-330">If the service is stopped, the example starts the service.</span></span> <span data-ttu-id="f0ba6-331">Se il servizio è in esecuzione, nell'esempio viene arrestato il servizio.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-331">If the service is running, the example stops the service.</span></span>  
+  
+ [!code-cpp[ServiceController#2](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#2)]
+ [!code-csharp[ServiceController#2](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#2)]
+ [!code-vb[ServiceController#2](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.Win32Exception">
+          <span data-ttu-id="f0ba6-332">Si è verificato un errore durante l'accesso a un'API di sistema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-332">An error occurred when accessing a system API.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="f0ba6-333">Servizio non trovato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-333">The service was not found.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.ServiceProcess.ServiceControllerPermission">
+          <span data-ttu-id="f0ba6-334">per il controllo dei servizi nel computer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-334">for controlling services on the computer.</span>
+          </span>
+          <span data-ttu-id="f0ba6-335">Enumerazione associata: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-335">Associated enumeration: <see cref="F:System.ServiceProcess.ServiceControllerPermissionAccess.Control" /></span>
+          </span>
+        </permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="f0ba6-336">per l'accesso illimitato alle informazioni sul servizio.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-336">for unrestricted access to service information.</span>
+          </span>
+          <span data-ttu-id="f0ba6-337">Enumerazione associata: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-337">Associated enumeration: <see cref="F:System.Security.Permissions.PermissionState.Unrestricted" /></span>
+          </span>
+        </permission>
+        <altmember cref="P:System.ServiceProcess.ServiceController.CanStop" />
+        <altmember cref="M:System.ServiceProcess.ServiceController.Start" />
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="WaitForStatus">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f0ba6-338">Attende che il servizio raggiunga lo stato specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-338">Waits for the service to reach the specified status.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="WaitForStatus">
+      <MemberSignature Language="C#" Value="public void WaitForStatus (System.ServiceProcess.ServiceControllerStatus desiredStatus);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WaitForStatus(valuetype System.ServiceProcess.ServiceControllerStatus desiredStatus) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.WaitForStatus(System.ServiceProcess.ServiceControllerStatus)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WaitForStatus (desiredStatus As ServiceControllerStatus)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WaitForStatus(System::ServiceProcess::ServiceControllerStatus desiredStatus);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="desiredStatus" Type="System.ServiceProcess.ServiceControllerStatus" />
+      </Parameters>
+      <Docs>
+        <param name="desiredStatus">
+          <span data-ttu-id="f0ba6-339">Stato da attendere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-339">The status to wait for.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-340">Attende che il servizio raggiunga lo stato specificato senza limiti di tempo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-340">Infinitely waits for the service to reach the specified status.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-341">Utilizzare <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> per sospendere un'applicazione di elaborazione della fino a quando il servizio ha raggiunto lo stato richiesto.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-341">Use <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> to suspend an application's processing until the service has reached the required status.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f0ba6-342">Il <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> metodo attende circa 250 millisecondi tra ogni controllo dello stato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-342">The <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> method waits approximately 250 milliseconds between each status check.</span></span>  <span data-ttu-id="f0ba6-343"><xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> non è in grado di rilevare il caso di modifica per il servizio osservato i `desiredStatus` e quindi immediatamente in un altro stato in tale intervallo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-343"><xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> cannot detect the case of the observed service changing to the `desiredStatus` and then immediately to another status in that interval.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f0ba6-344">Nell'esempio seguente viene utilizzata la <xref:System.ServiceProcess.ServiceController> classe per controllare se il servizio avvisi viene arrestato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-344">The following example uses the <xref:System.ServiceProcess.ServiceController> class to check whether the Alerter service is stopped.</span></span> <span data-ttu-id="f0ba6-345">Se il servizio viene arrestato, l'esempio avvia il servizio e attende fino a quando lo stato del servizio è impostato su <xref:System.ServiceProcess.ServiceControllerStatus.Running>.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-345">If the service is stopped, the example starts the service and waits until the service status is set to <xref:System.ServiceProcess.ServiceControllerStatus.Running>.</span></span>  
+  
+ [!code-cpp[ServiceController#1](~/samples/snippets/cpp/VS_Snippets_CLR/ServiceController/CPP/servicecontroller.cpp#1)]
+ [!code-csharp[ServiceController#1](~/samples/snippets/csharp/VS_Snippets_CLR/ServiceController/CS/servicecontroller.cs#1)]
+ [!code-vb[ServiceController#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ServiceController/VB/servicecontroller.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="f0ba6-346">Il parametro <paramref name="desiredStatus" /> non corrisponde a nessuno dei valori definiti nell'enumerazione <see cref="T:System.ServiceProcess.ServiceControllerStatus" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-346">The <paramref name="desiredStatus" /> parameter is not any of the values defined in the <see cref="T:System.ServiceProcess.ServiceControllerStatus" /> enumeration.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+    <Member MemberName="WaitForStatus">
+      <MemberSignature Language="C#" Value="public void WaitForStatus (System.ServiceProcess.ServiceControllerStatus desiredStatus, TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WaitForStatus(valuetype System.ServiceProcess.ServiceControllerStatus desiredStatus, valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceProcess.ServiceController.WaitForStatus(System.ServiceProcess.ServiceControllerStatus,System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WaitForStatus (desiredStatus As ServiceControllerStatus, timeout As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WaitForStatus(System::ServiceProcess::ServiceControllerStatus desiredStatus, TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess.ServiceController</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceProcess</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="desiredStatus" Type="System.ServiceProcess.ServiceControllerStatus" />
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="desiredStatus">
+          <span data-ttu-id="f0ba6-347">Stato da attendere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-347">The status to wait for.</span>
+          </span>
+        </param>
+        <param name="timeout">
+          <span data-ttu-id="f0ba6-348">Oggetto <see cref="T:System.TimeSpan" /> che specifica il tempo di attesa prima che il servizio raggiunga lo stato specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-348">A <see cref="T:System.TimeSpan" /> object specifying the amount of time to wait for the service to reach the specified status.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f0ba6-349">Attende che il servizio raggiunga lo stato specificato oppure la scadenza del timeout specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-349">Waits for the service to reach the specified status or for the specified time-out to expire.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f0ba6-350">Utilizzare <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> per sospendere un'applicazione di elaborazione della fino a quando il servizio ha raggiunto lo stato richiesto.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-350">Use <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> to suspend an application's processing until the service has reached the required status.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f0ba6-351">Il <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> metodo attende circa 250 millisecondi tra ogni controllo dello stato.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-351">The <xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> method waits approximately 250 milliseconds between each status check.</span></span>  <span data-ttu-id="f0ba6-352"><xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> non è in grado di rilevare il caso di modifica per il servizio osservato i `desiredStatus` e quindi immediatamente in un altro stato in tale intervallo.</span><span class="sxs-lookup"><span data-stu-id="f0ba6-352"><xref:System.ServiceProcess.ServiceController.WaitForStatus%2A> cannot detect the case of the observed service changing to the `desiredStatus` and then immediately to another status in that interval.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="f0ba6-353">Il parametro <paramref name="desiredStatus" /> non corrisponde a nessuno dei valori definiti nell'enumerazione <see cref="T:System.ServiceProcess.ServiceControllerStatus" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-353">The <paramref name="desiredStatus" /> parameter is not any of the values defined in the <see cref="T:System.ServiceProcess.ServiceControllerStatus" /> enumeration.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ServiceProcess.TimeoutException">
+          <span data-ttu-id="f0ba6-354">Il valore specificato per il parametro <paramref name="timeout" /> ha una scadenza.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f0ba6-354">The value specified for the <paramref name="timeout" /> parameter expires.</span>
+          </span>
+        </exception>
+        <altmember cref="P:System.ServiceProcess.ServiceController.Status" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

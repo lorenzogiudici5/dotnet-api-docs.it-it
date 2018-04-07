@@ -1,0 +1,892 @@
+<Type Name="SessionStateStoreProviderBase" FullName="System.Web.SessionState.SessionStateStoreProviderBase">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="eb76d941854b8efa56af7434c73ffd2d4e7d6500" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class SessionStateStoreProviderBase : System.Configuration.Provider.ProviderBase" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SessionStateStoreProviderBase extends System.Configuration.Provider.ProviderBase" />
+  <TypeSignature Language="DocId" Value="T:System.Web.SessionState.SessionStateStoreProviderBase" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class SessionStateStoreProviderBase&#xA;Inherits ProviderBase" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SessionStateStoreProviderBase abstract : System::Configuration::Provider::ProviderBase" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Configuration.Provider.ProviderBase</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="c96f3-101">Definisce i membri necessari di un provider dello stato sessione per un archivio dati.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="c96f3-101">Defines the required members of a session-state provider for a data store.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-102">Stato della sessione ASP.NET legge e scrive provider dell'archivio dei dati della sessione in un archivio di dati tramite una sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-102">ASP.NET session state reads and writes session data from and to a data store using a session-state store provider.</span></span> <span data-ttu-id="c96f3-103">Un provider dell'archivio dello stato sessione è una classe che eredita il <xref:System.Web.SessionState.SessionStateStoreProviderBase> astratta ed esegue l'override dei membri con implementazioni specifiche per i dati di archiviano.</span><span class="sxs-lookup"><span data-stu-id="c96f3-103">A session-state store provider is a class that inherits the <xref:System.Web.SessionState.SessionStateStoreProviderBase> abstract class and overrides its members with implementations specific to the data store.</span></span> <span data-ttu-id="c96f3-104">Il provider dell'archivio dello stato della sessione viene chiamato dalla <xref:System.Web.SessionState.SessionStateModule> classe durante l'elaborazione di una pagina ASP.NET per comunicare con l'archivio dati per l'archiviazione e recupero delle variabili di sessione e informazioni sulla sessione correlate, ad esempio il valore di timeout.</span><span class="sxs-lookup"><span data-stu-id="c96f3-104">The session-state store provider is called by the <xref:System.Web.SessionState.SessionStateModule> class during the processing of an ASP.NET page to communicate with the data store for the storage and retrieval of session variables and related session information such as the time-out value.</span></span>  
+  
+ <span data-ttu-id="c96f3-105">Dati di sessione all'interno di ogni applicazione ASP.NET vengono archiviati separatamente per ogni <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="c96f3-105">Session data within each ASP.NET application is stored separately for each <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> property.</span></span> <span data-ttu-id="c96f3-106">Applicazioni ASP.NET non condivide dati della sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-106">ASP.NET applications do not share session data.</span></span>  
+  
+ <span data-ttu-id="c96f3-107">È possibile specificare un oggetto personalizzato <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementazione di un'applicazione ASP.NET impostando il `mode` attributo del `sessionState` elemento di configurazione <xref:System.Web.SessionState.SessionStateMode.Custom> e `customProvider` attributo sul nome del provider personalizzato, come Nell'esempio di questo argomento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-107">You can specify a custom <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementation for an ASP.NET application by setting the `mode` attribute of the `sessionState` configuration element to <xref:System.Web.SessionState.SessionStateMode.Custom> and the `customProvider` attribute to the name of the custom provider, as shown in the example for this topic.</span></span>  
+  
+## <a name="locking-session-store-data"></a><span data-ttu-id="c96f3-108">Blocco dei dati di archivio della sessione</span><span class="sxs-lookup"><span data-stu-id="c96f3-108">Locking Session Store Data</span></span>  
+ <span data-ttu-id="c96f3-109">Poiché le applicazioni ASP.NET sono multithreading e supportano la risposta a richieste simultanee, è possibile che le richieste simultanee potrebbero tentare di accedere alle stesse informazioni di sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-109">Because ASP.NET applications are multithreaded to support responding to concurrent requests, it is possible that concurrent requests might attempt to access the same session information.</span></span> <span data-ttu-id="c96f3-110">Si consideri uno scenario in cui più frame in un set di frame accedono alla stessa applicazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-110">Consider a scenario where multiple frames in a frameset all access the same application.</span></span> <span data-ttu-id="c96f3-111">Le singole richieste per ogni frame incluso nel set possono essere eseguite nel server Web contemporaneamente in thread diversi.</span><span class="sxs-lookup"><span data-stu-id="c96f3-111">The separate requests for each frame in the frameset can be executed on the Web server concurrently on different threads.</span></span> <span data-ttu-id="c96f3-112">Se le pagine ASP.NET per ogni origine di frame di accedere alle variabili di sessione, quindi è possibile che più thread accedono contemporaneamente l'archivio di sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-112">If the ASP.NET pages for each frame source access session-state variables, then you could have multiple threads accessing the session store concurrently.</span></span>  
+  
+ <span data-ttu-id="c96f3-113">Per evitare conflitti di dati di archivio della sessione e un comportamento imprevisto dello stato della sessione, il <xref:System.Web.SessionState.SessionStateModule> e <xref:System.Web.SessionState.SessionStateStoreProviderBase> classi includono funzionalità di blocco che blocca l'elemento presente nell'archivio esclusivamente per una particolare sessione per la durata del esecuzione di una pagina ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="c96f3-113">To avoid data collisions at the session store and unexpected session-state behavior, the <xref:System.Web.SessionState.SessionStateModule> and <xref:System.Web.SessionState.SessionStateStoreProviderBase> classes include lock functionality that exclusively locks the session store item for a particular session for the duration of the execution of an ASP.NET page.</span></span> <span data-ttu-id="c96f3-114">Si noti che, anche se il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è contrassegnato come `ReadOnly`, altre pagine ASP.NET nella stessa applicazione potrebbero essere in grado di scrivere nell'archivio di sessione, è possibile che una richiesta di sessione di sola lettura dati dall'archivio potrebbe essere ancora in attesa di blocco di dati da liberato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-114">Note that even if the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is marked as `ReadOnly`, other ASP.NET pages in the same application might be able to write to the session store, so a request for read-only session data from the store might still end up waiting for locked data to be freed.</span></span>  
+  
+ <span data-ttu-id="c96f3-115">Viene impostato un blocco sui dati dell'archivio di sessione all'inizio della richiesta, nella chiamata al <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-115">A lock is set on session-store data at the beginning of the request, in the call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method.</span></span> <span data-ttu-id="c96f3-116">Al completamento della richiesta, il blocco viene rilasciato durante la chiamata di <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-116">When the request completes, the lock is released during the call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method.</span></span>  
+  
+ <span data-ttu-id="c96f3-117">Se il <xref:System.Web.SessionState.SessionStateModule> oggetto rileva i dati della sessione bloccata durante la chiamata a uno di <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> o <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> (metodo), richiederà nuovamente i dati della sessione a intervalli di mezzo secondo fino a quando viene rilasciato il blocco o la quantità di tempo che il i dati della sessione sono stati bloccati supera il valore di <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="c96f3-117">If the <xref:System.Web.SessionState.SessionStateModule> object encounters locked session data during the call to either the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> or the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method, it will re-request the session data at half-second intervals until either the lock is released or the amount of time that the session data has been locked exceeds the value of the <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> property.</span></span> <span data-ttu-id="c96f3-118">Se viene superato il timeout di esecuzione, il <xref:System.Web.SessionState.SessionStateModule> oggetto chiamerà il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo per sbloccare i dati dell'archivio di sessione e richiedere i dati dell'archivio di sessione in quel momento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-118">If the execution time out is exceeded, the <xref:System.Web.SessionState.SessionStateModule> object will call the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method to free the session-store data and request the session-store data at that time.</span></span>  
+  
+ <span data-ttu-id="c96f3-119">Poiché dell'archivio di sessione dati potrebbero essere stati sbloccati da una chiamata al <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo in un thread separato prima della chiamata al <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> metodo per la risposta corrente, è stato effettuato un tentativo di impostare e rilasciare i dati dell'archivio dello stato della sessione che ha già rilasciati e modificati da un'altra sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-119">Because locked session-store data might have been freed by a call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method on a separate thread before the call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method for the current response, an attempt could be made to set and release session-state store data that has already been released and modified by another session.</span></span> <span data-ttu-id="c96f3-120">Per evitare questa situazione, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> e <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> i metodi restituiscono un identificatore di blocco.</span><span class="sxs-lookup"><span data-stu-id="c96f3-120">To avoid this situation, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> and <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> methods return a lock identifier.</span></span> <span data-ttu-id="c96f3-121">Questo identificatore deve essere incluso in ciascuna richiesta di modifica di dati bloccati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-121">This lock identifier must be included with each request to modify locked session-store data.</span></span> <span data-ttu-id="c96f3-122">Dell'archivio dati vengono modificati solo se l'identificatore di blocco nell'archivio dati corrisponde all'identificatore di blocco fornito per il <xref:System.Web.SessionState.SessionStateModule>.</span><span class="sxs-lookup"><span data-stu-id="c96f3-122">Session-store data is modified only if the lock identifier in the data store matches the lock identifier supplied by the <xref:System.Web.SessionState.SessionStateModule>.</span></span>  
+  
+## <a name="deleting-expired-session-store-data"></a><span data-ttu-id="c96f3-123">Eliminazione di dati archivio sessione scaduti</span><span class="sxs-lookup"><span data-stu-id="c96f3-123">Deleting Expired Session Store Data</span></span>  
+ <span data-ttu-id="c96f3-124">Quando il <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> metodo viene chiamato per una determinata sessione, i dati per la sessione vengono eliminati dall'archivio dati utilizzando il <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> metodo; in caso contrario, i dati rimarranno nell'archivio dati della sessione alle richieste future server per la sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-124">When the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method is called for a particular session, the data for that session is deleted from the data store using the <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> method; otherwise, the data will remain in the session data store to server future requests for the session.</span></span> <span data-ttu-id="c96f3-125">È il <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementazione per eliminare i dati di sessione scaduti.</span><span class="sxs-lookup"><span data-stu-id="c96f3-125">It is up to the <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementation to delete expired session data.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-126">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-126">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ <span data-ttu-id="c96f3-127">Esempio di codice seguente viene illustrato il file Web. config per un'applicazione ASP.NET che è configurato per utilizzare un provider dell'archivio dello stato sessione personalizzato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-127">The following code example shows the Web.config file for an ASP.NET application that is configured to use a custom session-state store provider.</span></span>  
+  
+```  
+<configuration>  
+  <connectionStrings>  
+    <add name="OdbcSessionServices" connectionString="DSN=SessionState;" />  
+  </connectionStrings>  
+  
+  <system.web>  
+    <sessionState   
+      mode="Custom"  
+      customProvider="OdbcSessionProvider">  
+      <providers>  
+        <add name="OdbcSessionProvider"  
+             type="Samples.AspNet.Session.OdbcSessionStateStore"  
+             connectionStringName="OdbcSessionServices" />  
+      </providers>  
+    </sessionState>  
+  </system.web>  
+</configuration>  
+```  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected SessionStateStoreProviderBase ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; SessionStateStoreProviderBase();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96f3-128">Inizializza una nuova istanza della classe <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-128">Initializes a new instance of the <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-129">Non è necessario implementare un costruttore per una classe che eredita la <xref:System.Web.SessionState.SessionStateStoreProviderBase> classe astratta.</span><span class="sxs-lookup"><span data-stu-id="c96f3-129">You are not required to implement a constructor for a class that inherits the <xref:System.Web.SessionState.SessionStateStoreProviderBase> abstract class.</span></span> <span data-ttu-id="c96f3-130">Valori di inizializzazione per un <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementazione vengono passati al <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> implementazione del metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-130">Initialization values for a <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementation are passed to the <xref:System.Configuration.Provider.ProviderBase.Initialize%2A> method implementation.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-131">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-131">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateNewStoreData">
+      <MemberSignature Language="C#" Value="public abstract System.Web.SessionState.SessionStateStoreData CreateNewStoreData (System.Web.HttpContext context, int timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Web.SessionState.SessionStateStoreData CreateNewStoreData(class System.Web.HttpContext context, int32 timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData(System.Web.HttpContext,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function CreateNewStoreData (context As HttpContext, timeout As Integer) As SessionStateStoreData" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Web::SessionState::SessionStateStoreData ^ CreateNewStoreData(System::Web::HttpContext ^ context, int timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.SessionState.SessionStateStoreData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="timeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-132">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-132">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="timeout">
+          <span data-ttu-id="c96f3-133">Valore della proprietà <see cref="P:System.Web.SessionState.HttpSessionState.Timeout" /> dello stato sessione per il nuovo oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-133">The session-state <see cref="P:System.Web.SessionState.HttpSessionState.Timeout" /> value for the new <see cref="T:System.Web.SessionState.SessionStateStoreData" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-134">Crea un nuovo oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> da utilizzare per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-134">Creates a new <see cref="T:System.Web.SessionState.SessionStateStoreData" /> object to be used for the current request.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96f3-135">Un nuovo oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-135">A new <see cref="T:System.Web.SessionState.SessionStateStoreData" /> for the current request.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-136">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> metodo all'inizio di una richiesta per una pagina ASP.NET, durante il <xref:System.Web.HttpApplication.AcquireRequestState> evento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-136">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> method at the beginning of a request for an ASP.NET page, during the <xref:System.Web.HttpApplication.AcquireRequestState> event.</span></span> <span data-ttu-id="c96f3-137">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> metodo viene chiamato se:</span><span class="sxs-lookup"><span data-stu-id="c96f3-137">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> method is called if:</span></span>  
+  
+-   <span data-ttu-id="c96f3-138">la richiesta in ingresso non esiste alcun ID di sessione, o</span><span class="sxs-lookup"><span data-stu-id="c96f3-138">the incoming request has no session ID, or</span></span>  
+  
+-   <span data-ttu-id="c96f3-139">la richiesta in ingresso presenta un ID di sessione, ma la sessione non viene trovata nell'archivio dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-139">the incoming request has a session ID, but the session is not found in the data store.</span></span>  
+  
+ <span data-ttu-id="c96f3-140">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> crea un nuovo metodo <xref:System.Web.SessionState.SessionStateStoreData> oggetto con un oggetto vuoto <xref:System.Web.SessionState.ISessionStateItemCollection> oggetto, un <xref:System.Web.HttpStaticObjectsCollection> insieme e il valore specificato `timeout` valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-140">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> method creates a new <xref:System.Web.SessionState.SessionStateStoreData> object with an empty <xref:System.Web.SessionState.ISessionStateItemCollection> object, an <xref:System.Web.HttpStaticObjectsCollection> collection, and the specified `timeout` value.</span></span> <span data-ttu-id="c96f3-141">Il <xref:System.Web.HttpStaticObjectsCollection> raccolta per l'applicazione ASP.NET può essere recuperato tramite il <xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-141">The <xref:System.Web.HttpStaticObjectsCollection> collection for the ASP.NET application can be retrieved using the <xref:System.Web.SessionState.SessionStateUtility.GetSessionStaticObjects%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-142">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-142">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateUninitializedItem">
+      <MemberSignature Language="C#" Value="public abstract void CreateUninitializedItem (System.Web.HttpContext context, string id, int timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CreateUninitializedItem(class System.Web.HttpContext context, string id, int32 timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem(System.Web.HttpContext,System.String,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub CreateUninitializedItem (context As HttpContext, id As String, timeout As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void CreateUninitializedItem(System::Web::HttpContext ^ context, System::String ^ id, int timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="timeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-143">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-143">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-144">Oggetto <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-144">The <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="timeout">
+          <span data-ttu-id="c96f3-145">Proprietà <see cref="P:System.Web.SessionState.HttpSessionState.Timeout" /> della sessione per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-145">The session <see cref="P:System.Web.SessionState.HttpSessionState.Timeout" /> for the current request.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-146">Aggiunge un nuovo elemento di stato sessione all'archivio dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-146">Adds a new session-state item to the data store.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-147">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> metodo viene utilizzato con sessioni quando il `cookieless` e `regenerateExpiredSessionId` gli attributi sono entrambi `true`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-147">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> method is used with sessions when the `cookieless` and `regenerateExpiredSessionId` attributes are both `true`.</span></span> <span data-ttu-id="c96f3-148">Con il `regenerateExpiredSessionId attribute` impostato su `true` provoca il <xref:System.Web.SessionState.SessionStateModule> oggetto per generare un nuovo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore se scaduto <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> viene rilevato un valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-148">Having the `regenerateExpiredSessionId attribute` set to `true` causes the <xref:System.Web.SessionState.SessionStateModule> object to generate a new <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value when an expired <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value is encountered.</span></span>  
+  
+ <span data-ttu-id="c96f3-149">Il processo di generazione di un nuovo <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore richiede il reindirizzamento del browser a un URL contenente appena generato <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-149">The process of generating a new <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value requires redirecting the browser to a URL that contains the newly generated <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value.</span></span> <span data-ttu-id="c96f3-150">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> metodo viene chiamato durante la richiesta iniziale contenente scaduta <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-150">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> method is called during the initial request that contains an expired <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value.</span></span> <span data-ttu-id="c96f3-151">Dopo il <xref:System.Web.SessionState.SessionStateModule> acquisisce un nuovo oggetto <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore per sostituire il valore scaduto, viene chiamato il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> metodo per aggiungere una voce non inizializzata all'archivio dati dello stato della sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-151">After the <xref:System.Web.SessionState.SessionStateModule> object acquires a new <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value to replace the expired value, it calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> method to add an uninitialized entry to the session-state data store.</span></span> <span data-ttu-id="c96f3-152">Il browser viene quindi reindirizzato all'URL contenente appena generato <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-152">The browser is then redirected to the URL containing the newly generated <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value.</span></span> <span data-ttu-id="c96f3-153">L'esistenza della voce nell'archivio dati della sessione non inizializzata garantisce che la richiesta reindirizzata che include appena generato <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore non venga scambiata per una richiesta di una sessione scaduta e trattata come una nuova sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-153">The existence of the uninitialized entry in the session data store ensures that the redirected request that includes the newly generated <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value is not mistaken for a request for an expired session and is, instead, treated as a new session.</span></span>  
+  
+ <span data-ttu-id="c96f3-154">La voce non inizializzata nell'archivio dati della sessione è associata a appena generato <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> valore e contiene solo i valori predefiniti, tra cui la data di scadenza e l'ora e un valore che corrisponde alla `actionFlags` parametro del <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A>e <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="c96f3-154">The uninitialized entry in the session data store is associated with the newly generated <xref:System.Web.SessionState.HttpSessionState.SessionID%2A> value and contains only default values, including an expiration date and time and a value that corresponds to the `actionFlags` parameter of the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> and <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> methods.</span></span> <span data-ttu-id="c96f3-155">La voce non inizializzata nell'archivio dello stato sessione deve includere un `actionFlags` uguale al valore di <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valore di enumerazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-155">The uninitialized entry in the session-state store should include an `actionFlags` value equal to the <xref:System.Web.SessionState.SessionStateActions.InitializeItem> enumeration value.</span></span> <span data-ttu-id="c96f3-156">Questo valore viene passato per il <xref:System.Web.SessionState.SessionStateModule> dell'oggetto dal <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> e <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodi e informa il <xref:System.Web.SessionState.SessionStateModule> che la sessione corrente è un nuovo tipo, ma non inizializzato sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-156">This value is passed to the <xref:System.Web.SessionState.SessionStateModule> object by the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> and <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> methods, and informs the <xref:System.Web.SessionState.SessionStateModule> object that the current session is a new but uninitialized session.</span></span> <span data-ttu-id="c96f3-157">Il <xref:System.Web.SessionState.SessionStateModule> oggetto quindi inizializzare la nuova sessione e genererà il `Session_OnStart` evento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-157">The <xref:System.Web.SessionState.SessionStateModule> object will then initialize the new session and raise the `Session_OnStart` event.</span></span>  
+  
+ <span data-ttu-id="c96f3-158">Per ulteriori informazioni sulle sessioni senza cookie, vedere il <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="c96f3-158">For more information about cookieless sessions, see the <xref:System.Web.SessionState.HttpSessionState.IsCookieless%2A> property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-159">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-159">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="public abstract void Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.Dispose" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub Dispose ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void Dispose();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96f3-160">Rilascia tutte le risorse utilizzate dall'implementazione dell'oggetto <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-160">Releases all resources used by the <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" /> implementation.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-161">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType> metodo viene chiamato quando il <xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType> il metodo viene eseguito alla chiusura del dominio dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-161">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.Dispose%2A?displayProperty=nameWithType> method is called when the <xref:System.Web.SessionState.SessionStateModule.Dispose%2A?displayProperty=nameWithType> method executes at the closing of the application domain.</span></span> <span data-ttu-id="c96f3-162">Le classi che ereditano la <xref:System.Web.SessionState.SessionStateStoreProviderBase> classe è possibile utilizzare questo metodo per liberare le risorse non è più in uso.</span><span class="sxs-lookup"><span data-stu-id="c96f3-162">Classes that inherit the <xref:System.Web.SessionState.SessionStateStoreProviderBase> class can use this method to free any resources no longer in use.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-163">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-163">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndRequest">
+      <MemberSignature Language="C#" Value="public abstract void EndRequest (System.Web.HttpContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void EndRequest(class System.Web.HttpContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest(System.Web.HttpContext)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub EndRequest (context As HttpContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void EndRequest(System::Web::HttpContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-164">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-164">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-165">Chiamato dall'oggetto <see cref="T:System.Web.SessionState.SessionStateModule" /> al termine di una richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-165">Called by the <see cref="T:System.Web.SessionState.SessionStateModule" /> object at the end of a request.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-166">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> metodo alla fine di una richiesta per una pagina ASP.NET, durante il <xref:System.Web.HttpApplication.EndRequest> evento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-166">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> method at the end of a request for an ASP.NET page, during the <xref:System.Web.HttpApplication.EndRequest> event.</span></span> <span data-ttu-id="c96f3-167">È possibile utilizzare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> metodo per eseguire le operazioni di pulitura per ogni richiesta richiesti dal provider dell'archivio dello stato di sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-167">You can use the <xref:System.Web.SessionState.SessionStateStoreProviderBase.EndRequest%2A> method to perform any per-request cleanup required by your session-state store provider.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-168">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-168">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetItem">
+      <MemberSignature Language="C#" Value="public abstract System.Web.SessionState.SessionStateStoreData GetItem (System.Web.HttpContext context, string id, out bool locked, out TimeSpan lockAge, out object lockId, out System.Web.SessionState.SessionStateActions actions);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Web.SessionState.SessionStateStoreData GetItem(class System.Web.HttpContext context, string id, [out] bool&amp; locked, [out] valuetype System.TimeSpan&amp; lockAge, [out] object&amp; lockId, [out] valuetype System.Web.SessionState.SessionStateActions&amp; actions) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.GetItem(System.Web.HttpContext,System.String,System.Boolean@,System.TimeSpan@,System.Object@,System.Web.SessionState.SessionStateActions@)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetItem (context As HttpContext, id As String, ByRef locked As Boolean, ByRef lockAge As TimeSpan, ByRef lockId As Object, ByRef actions As SessionStateActions) As SessionStateStoreData" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Web::SessionState::SessionStateStoreData ^ GetItem(System::Web::HttpContext ^ context, System::String ^ id, [Runtime::InteropServices::Out] bool % locked, [Runtime::InteropServices::Out] TimeSpan % lockAge, [Runtime::InteropServices::Out] System::Object ^ % lockId, [Runtime::InteropServices::Out] System::Web::SessionState::SessionStateActions % actions);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.SessionState.SessionStateStoreData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="locked" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="lockAge" Type="System.TimeSpan&amp;" RefType="out" />
+        <Parameter Name="lockId" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="actions" Type="System.Web.SessionState.SessionStateActions&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-169">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-169">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-170">Oggetto <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-170">The <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="locked">
+          <span data-ttu-id="c96f3-171">Quando termina, questo metodo contiene un valore booleano impostato su <see langword="true" /> se l'elemento di sessione richiesto è bloccato nell'archivio dati della sessione, altrimenti contiene il valore <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-171">When this method returns, contains a Boolean value that is set to <see langword="true" /> if the requested session item is locked at the session data store; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <param name="lockAge">
+          <span data-ttu-id="c96f3-172">Quando termina, questo metodo contiene un oggetto <see cref="T:System.TimeSpan" /> impostato sull'intervallo di tempo durante il quale un elemento dell'archivio dati della sessione risulta bloccato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-172">When this method returns, contains a <see cref="T:System.TimeSpan" /> object that is set to the amount of time that an item in the session data store has been locked.</span>
+          </span>
+        </param>
+        <param name="lockId">
+          <span data-ttu-id="c96f3-173">Quando termina, questo metodo contiene un oggetto impostato sull'identificatore di blocco per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-173">When this method returns, contains an object that is set to the lock identifier for the current request.</span>
+          </span>
+          <span data-ttu-id="c96f3-174">Per informazioni dettagliate sull'identificatore di blocco, vedere "Blocco dei dati dell'archivio di sessione" nel riepilogo della classe <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-174">For details on the lock identifier, see "Locking Session-Store Data" in the <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" /> class summary.</span>
+          </span>
+        </param>
+        <param name="actions">
+          <span data-ttu-id="c96f3-175">Quando termina, questo metodo contiene uno dei valori dell'oggetto <see cref="T:System.Web.SessionState.SessionStateActions" /> che indica se la sessione corrente è una sessione senza cookie non inizializzata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-175">When this method returns, contains one of the <see cref="T:System.Web.SessionState.SessionStateActions" /> values, indicating whether the current session is an uninitialized, cookieless session.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-176">Restituisce dati di sola lettura relativi allo stato sessione dall'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-176">Returns read-only session-state data from the session data store.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96f3-177">Oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> nel quale vengono inseriti i valori e le informazioni sulla sessione contenuti nell'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-177">A <see cref="T:System.Web.SessionState.SessionStateStoreData" /> populated with session values and information from the session data store.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-178">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo all'inizio di una richiesta, durante il <xref:System.Web.HttpApplication.AcquireRequestState> evento, quando il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è impostato su `ReadOnly`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-178">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method at the beginning of a request, during the <xref:System.Web.HttpApplication.AcquireRequestState> event, when the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is set to `ReadOnly`.</span></span> <span data-ttu-id="c96f3-179">Se il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è impostato su `true`, <xref:System.Web.SessionState.SessionStateModule> chiamate invece dell'oggetto di <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> (metodo).</span><span class="sxs-lookup"><span data-stu-id="c96f3-179">If the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is set to `true`, the <xref:System.Web.SessionState.SessionStateModule> object instead calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method.</span></span>  
+  
+ <span data-ttu-id="c96f3-180">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo restituisce un <xref:System.Web.SessionState.SessionStateStoreData> oggetto popolato con informazioni di sessione dall'archivio dati e aggiorna la data di scadenza dei dati della sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-180">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method returns a <xref:System.Web.SessionState.SessionStateStoreData> object populated with session information from the data store and updates the expiration date of the session data.</span></span> <span data-ttu-id="c96f3-181">Se viene trovato alcun dato di elemento di sessione nell'archivio dati, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo imposta la `locked` `out` parametro `false` e restituisce `null`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-181">If no session-item data is found at the data store, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method sets the `locked` `out` parameter to `false` and returns `null`.</span></span> <span data-ttu-id="c96f3-182">In questo modo il <xref:System.Web.SessionState.SessionStateModule> oggetto su cui chiamare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> metodo per creare un nuovo elemento di sessione nell'archivio dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-182">This causes the <xref:System.Web.SessionState.SessionStateModule> object to call the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> method to create a new session item in the data store.</span></span>  
+  
+ <span data-ttu-id="c96f3-183">Se dell'elemento di sessione dati sono stati trovati nell'archivio dati ma i dati sono bloccati, la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo imposta il `locked` `out` parametro `true`, imposta il `lockAge` `out` parametro per la data e ora correnti meno la data e l'ora quando l'elemento è stato bloccato (che viene recuperato dall'archivio dati), imposta il `lockId` `out` parametro per l'identificatore di blocco recuperato dall'archivio dati e restituisce `null`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-183">If session-item data is found at the data store but the data is locked, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method sets the `locked` `out` parameter to `true`, sets the `lockAge` `out` parameter to the current date and time minus the date and time when the item was locked (which is retrieved from the data store), sets the `lockId` `out` parameter to the lock identifier retrieved from the data store, and returns `null`.</span></span> <span data-ttu-id="c96f3-184">In questo modo il <xref:System.Web.SessionState.SessionStateModule> oggetto su cui chiamare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo dopo un intervallo di mezzo secondo per tentare di recuperare le informazioni sull'elemento di sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-184">This causes the <xref:System.Web.SessionState.SessionStateModule> object to call the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method again after a half-second interval to attempt to retrieve the session-item information.</span></span>  
+  
+ <span data-ttu-id="c96f3-185">Se il valore che il `lockAge` `out` parametro è impostato su superano il <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valore, il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo per eliminare il blocco per i dati dell'elemento di sessione e quindi chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> nuovo metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-185">If the value that the `lockAge` `out` parameter is set to exceed the <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> value, then the <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method to clear the lock on the session-item data, and then calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method again.</span></span>  
+  
+ <span data-ttu-id="c96f3-186">Il `actionFlags` parametro viene utilizzato quando sia il `cookieless` e `regenerateExpiredSessionId` gli attributi sono impostati `true`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-186">The `actionFlags` parameter is used when both the `cookieless` and `regenerateExpiredSessionId` attributes are set to `true`.</span></span> <span data-ttu-id="c96f3-187">Un `actionFlags` valore impostato su <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica che la voce nell'archivio dati della sessione è una nuova sessione che richiede l'inizializzazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-187">An `actionFlags` value set to <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indicates that the entry in the session data store is a new session that requires initialization.</span></span> <span data-ttu-id="c96f3-188">Le voci non inizializzate nell'archivio dati della sessione vengono create da una chiamata al <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-188">Uninitialized entries in the session data store are created by a call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> method.</span></span> <span data-ttu-id="c96f3-189">Se l'elemento dall'archivio dati della sessione non è un elemento non inizializzato, il `actionFlags` parametro verrà impostato su zero.</span><span class="sxs-lookup"><span data-stu-id="c96f3-189">If the item from the session data store is not an uninitialized item, the `actionFlags` parameter will be set to zero.</span></span>  
+  
+ <span data-ttu-id="c96f3-190">I responsabili dell'implementazione dell'archivio dello stato sessione personalizzato che supporta sessioni senza cookie deve impostare la `actionFlags` `out` parametro sul valore restituito dall'archivio dati della sessione per l'elemento corrente.</span><span class="sxs-lookup"><span data-stu-id="c96f3-190">Custom session-state store implementers that support cookieless sessions should set the `actionFlags` `out` parameter to the value returned from the session data store for the current item.</span></span> <span data-ttu-id="c96f3-191">Se il `actionFlags` elemento valore del parametro per archiviare la sessione richiesta è uguale al <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valore di enumerazione, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> metodo deve impostare il valore nell'archivio dati a zero dopo l'impostazione di `actionFlags` `out` parametro.</span><span class="sxs-lookup"><span data-stu-id="c96f3-191">If the `actionFlags` parameter value for the requested session-store item equals the <xref:System.Web.SessionState.SessionStateActions.InitializeItem> enumeration value, then the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method should set the value in the data store to zero after setting the `actionFlags` `out` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-192">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-192">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetItemExclusive">
+      <MemberSignature Language="C#" Value="public abstract System.Web.SessionState.SessionStateStoreData GetItemExclusive (System.Web.HttpContext context, string id, out bool locked, out TimeSpan lockAge, out object lockId, out System.Web.SessionState.SessionStateActions actions);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Web.SessionState.SessionStateStoreData GetItemExclusive(class System.Web.HttpContext context, string id, [out] bool&amp; locked, [out] valuetype System.TimeSpan&amp; lockAge, [out] object&amp; lockId, [out] valuetype System.Web.SessionState.SessionStateActions&amp; actions) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive(System.Web.HttpContext,System.String,System.Boolean@,System.TimeSpan@,System.Object@,System.Web.SessionState.SessionStateActions@)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetItemExclusive (context As HttpContext, id As String, ByRef locked As Boolean, ByRef lockAge As TimeSpan, ByRef lockId As Object, ByRef actions As SessionStateActions) As SessionStateStoreData" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Web::SessionState::SessionStateStoreData ^ GetItemExclusive(System::Web::HttpContext ^ context, System::String ^ id, [Runtime::InteropServices::Out] bool % locked, [Runtime::InteropServices::Out] TimeSpan % lockAge, [Runtime::InteropServices::Out] System::Object ^ % lockId, [Runtime::InteropServices::Out] System::Web::SessionState::SessionStateActions % actions);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.SessionState.SessionStateStoreData</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="locked" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="lockAge" Type="System.TimeSpan&amp;" RefType="out" />
+        <Parameter Name="lockId" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="actions" Type="System.Web.SessionState.SessionStateActions&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-193">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-193">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-194">Oggetto <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-194">The <see cref="P:System.Web.SessionState.HttpSessionState.SessionID" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="locked">
+          <span data-ttu-id="c96f3-195">Quando termina, questo metodo contiene un valore booleano impostato su <see langword="true" /> se è stato ottenuto un blocco, altrimenti contiene il valore <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-195">When this method returns, contains a Boolean value that is set to <see langword="true" /> if a lock is successfully obtained; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <param name="lockAge">
+          <span data-ttu-id="c96f3-196">Quando termina, questo metodo contiene un oggetto <see cref="T:System.TimeSpan" /> impostato sull'intervallo di tempo durante il quale un elemento dell'archivio dati della sessione risulta bloccato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-196">When this method returns, contains a <see cref="T:System.TimeSpan" /> object that is set to the amount of time that an item in the session data store has been locked.</span>
+          </span>
+        </param>
+        <param name="lockId">
+          <span data-ttu-id="c96f3-197">Quando termina, questo metodo contiene un oggetto impostato sull'identificatore di blocco per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-197">When this method returns, contains an object that is set to the lock identifier for the current request.</span>
+          </span>
+          <span data-ttu-id="c96f3-198">Per informazioni dettagliate sull'identificatore di blocco, vedere "Blocco dei dati dell'archivio di sessione" nel riepilogo della classe <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-198">For details on the lock identifier, see "Locking Session-Store Data" in the <see cref="T:System.Web.SessionState.SessionStateStoreProviderBase" /> class summary.</span>
+          </span>
+        </param>
+        <param name="actions">
+          <span data-ttu-id="c96f3-199">Quando termina, questo metodo contiene uno dei valori dell'oggetto <see cref="T:System.Web.SessionState.SessionStateActions" /> che indica se la sessione corrente è una sessione senza cookie non inizializzata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-199">When this method returns, contains one of the <see cref="T:System.Web.SessionState.SessionStateActions" /> values, indicating whether the current session is an uninitialized, cookieless session.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-200">Restituisce dati di sola lettura relativi allo stato sessione dall'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-200">Returns read-only session-state data from the session data store.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96f3-201">Oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> nel quale vengono inseriti i valori e le informazioni sulla sessione contenuti nell'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-201">A <see cref="T:System.Web.SessionState.SessionStateStoreData" /> populated with session values and information from the session data store.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-202">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo all'inizio di una richiesta, durante il <xref:System.Web.HttpApplication.AcquireRequestState> evento, quando il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è impostato su `true`, ovvero l'impostazione predefinita.</span><span class="sxs-lookup"><span data-stu-id="c96f3-202">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method at the beginning of a request, during the <xref:System.Web.HttpApplication.AcquireRequestState> event, when the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is set to `true`, which is the default.</span></span> <span data-ttu-id="c96f3-203">Se il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è impostato su `ReadOnly`, <xref:System.Web.SessionState.SessionStateModule> chiamate invece dell'oggetto di <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> (metodo).</span><span class="sxs-lookup"><span data-stu-id="c96f3-203">If the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is set to `ReadOnly`, the <xref:System.Web.SessionState.SessionStateModule> object instead calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItem%2A> method.</span></span>  
+  
+ <span data-ttu-id="c96f3-204">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo restituisce un <xref:System.Web.SessionState.SessionStateStoreData> oggetto popolato con informazioni di sessione dall'archivio dati, aggiorna la data di scadenza dei dati archiviati e blocca i dati dell'elemento di sessione nell'archivio dati per la durata della richiesta.</span><span class="sxs-lookup"><span data-stu-id="c96f3-204">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method returns a <xref:System.Web.SessionState.SessionStateStoreData> object populated with session information from the data store, updates the expiration date of the stored data, and locks the session-item data at the data store for the duration of the request.</span></span> <span data-ttu-id="c96f3-205">Se viene trovato alcun dato di elemento di sessione nell'archivio dati, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo imposta la `locked` `out` parametro `false` e restituisce `null`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-205">If no session-item data is found at the data store, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method sets the `locked` `out` parameter to `false` and returns `null`.</span></span> <span data-ttu-id="c96f3-206">In questo modo il <xref:System.Web.SessionState.SessionStateModule> oggetto su cui chiamare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> metodo per creare un nuovo elemento di sessione nell'archivio dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-206">This causes the <xref:System.Web.SessionState.SessionStateModule> object to call the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateNewStoreData%2A> method to create a new session item in the data store.</span></span> <span data-ttu-id="c96f3-207">Se dell'elemento di sessione dati sono stati trovati nell'archivio dati ma i dati sono bloccati, la <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo imposta il `locked` `out` parametro `true`, imposta il `lockAge` `out` parametro per la data e ora correnti meno la data e l'ora quando l'elemento è stato bloccato (che viene recuperato dall'archivio dati), imposta il `lockId` `out` parametro per l'identificatore di blocco recuperato dall'archivio dati e restituisce `null`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-207">If session-item data is found at the data store but the data is locked, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method sets the `locked` `out` parameter to `true`, sets the `lockAge` `out` parameter to the current date and time minus the date and time when the item was locked (which is retrieved from the data store), sets the `lockId` `out` parameter to the lock identifier retrieved from the data store, and returns `null`.</span></span> <span data-ttu-id="c96f3-208">In questo modo il <xref:System.Web.SessionState.SessionStateModule> oggetto su cui chiamare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo nuovamente dopo un intervallo di mezzo secondo tentativo di recuperare le informazioni dell'elemento di sessione e ottenere un blocco sui dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-208">This causes the <xref:System.Web.SessionState.SessionStateModule> object to call the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method again after a half-second interval to attempt to retrieve the session-item information and obtain a lock on the data.</span></span> <span data-ttu-id="c96f3-209">Se il valore che il `lockAge` `out` parametro è impostato su supera il <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valore, il <xref:System.Web.SessionState.SessionStateModule> chiamate di <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo per eliminare il blocco per i dati dell'elemento di sessione e quindi chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> nuovo metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-209">If the value that the `lockAge` `out` parameter is set to exceeds the <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> value, then the <xref:System.Web.SessionState.SessionStateModule> calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method to clear the lock on the session-item data, and then calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method again.</span></span>  
+  
+ <span data-ttu-id="c96f3-210">Il `actionFlags` parametro viene utilizzato quando il `cookieless` e `regenerateExpiredSessionId` gli attributi sono impostati entrambi su `true`.</span><span class="sxs-lookup"><span data-stu-id="c96f3-210">The `actionFlags` parameter is used when the `cookieless` and `regenerateExpiredSessionId` attributes are both set to `true`.</span></span> <span data-ttu-id="c96f3-211">Un `actionFlags` valore impostato su <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indica che la voce nell'archivio dati della sessione è una nuova sessione che richiede l'inizializzazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-211">An `actionFlags` value set to <xref:System.Web.SessionState.SessionStateActions.InitializeItem> indicates that the entry in the session data store is a new session that requires initialization.</span></span> <span data-ttu-id="c96f3-212">Le voci non inizializzate nell'archivio dati della sessione vengono create da una chiamata al <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-212">Uninitialized entries in the session data store are created by a call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.CreateUninitializedItem%2A> method.</span></span> <span data-ttu-id="c96f3-213">Se l'elemento dall'archivio dati della sessione non è un elemento non inizializzato, il `actionFlags` parametro verrà impostato su zero.</span><span class="sxs-lookup"><span data-stu-id="c96f3-213">If the item from the session data store is not an uninitialized item, the `actionFlags` parameter will be set to zero.</span></span>  
+  
+ <span data-ttu-id="c96f3-214">I responsabili dell'implementazione dell'archivio dello stato sessione personalizzato che supporta sessioni senza cookie deve impostare la `actionFlags` `out` parametro sul valore restituito dall'archivio dati della sessione per l'elemento corrente.</span><span class="sxs-lookup"><span data-stu-id="c96f3-214">Custom session-state store implementers that support cookieless sessions should set the `actionFlags` `out` parameter to the value returned from the session data store for the current item.</span></span> <span data-ttu-id="c96f3-215">Se il `actionFlags` elemento valore del parametro per archiviare la sessione richiesta è uguale al <xref:System.Web.SessionState.SessionStateActions.InitializeItem> valore di enumerazione, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> metodo deve impostare il valore nell'archivio dati a zero dopo l'impostazione di `actionFlags` `out` parametro.</span><span class="sxs-lookup"><span data-stu-id="c96f3-215">If the `actionFlags` parameter value for the requested session-store item equals the <xref:System.Web.SessionState.SessionStateActions.InitializeItem> enumeration value, then the <xref:System.Web.SessionState.SessionStateStoreProviderBase.GetItemExclusive%2A> method should set the value in the data store to zero after setting the `actionFlags` `out` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-216">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-216">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InitializeRequest">
+      <MemberSignature Language="C#" Value="public abstract void InitializeRequest (System.Web.HttpContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InitializeRequest(class System.Web.HttpContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest(System.Web.HttpContext)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub InitializeRequest (context As HttpContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void InitializeRequest(System::Web::HttpContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-217">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-217">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-218">Chiamato dall'oggetto <see cref="T:System.Web.SessionState.SessionStateModule" /> per l'inizializzazione delle singole richieste.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-218">Called by the <see cref="T:System.Web.SessionState.SessionStateModule" /> object for per-request initialization.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-219">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> prima di chiamare qualsiasi altra <xref:System.Web.SessionState.SessionStateStoreProviderBase> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-219">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> method before calling any other <xref:System.Web.SessionState.SessionStateStoreProviderBase> method.</span></span> <span data-ttu-id="c96f3-220">È possibile utilizzare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> metodo per eseguire qualsiasi inizializzazione richiesta richiesti dal provider dell'archivio dello stato di sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-220">You can use the <xref:System.Web.SessionState.SessionStateStoreProviderBase.InitializeRequest%2A> method to perform any per-request initialization required by your session-state store provider.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-221">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-221">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseItemExclusive">
+      <MemberSignature Language="C#" Value="public abstract void ReleaseItemExclusive (System.Web.HttpContext context, string id, object lockId);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReleaseItemExclusive(class System.Web.HttpContext context, string id, object lockId) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive(System.Web.HttpContext,System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub ReleaseItemExclusive (context As HttpContext, id As String, lockId As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void ReleaseItemExclusive(System::Web::HttpContext ^ context, System::String ^ id, System::Object ^ lockId);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="lockId" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-222">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-222">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-223">Identificatore di sessione per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-223">The session identifier for the current request.</span>
+          </span>
+        </param>
+        <param name="lockId">
+          <span data-ttu-id="c96f3-224">Identificatore di blocco per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-224">The lock identifier for the current request.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-225">Rilascia un blocco applicato su un elemento dell'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-225">Releases a lock on an item in the session data store.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-226">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo per aggiornare la data di scadenza e rilasciare un blocco su un elemento nell'archivio dati della sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-226">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method to update the expiration date and release a lock on an item in the session data store.</span></span> <span data-ttu-id="c96f3-227">Viene chiamato alla fine di una richiesta, durante il <xref:System.Web.HttpApplication.ReleaseRequestState> evento, se i valori della sessione non sono cambiati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-227">It is called at the end of a request, during the <xref:System.Web.HttpApplication.ReleaseRequestState> event, if session values are unchanged.</span></span> <span data-ttu-id="c96f3-228">Se sono stati modificati i valori della sessione, il <xref:System.Web.SessionState.SessionStateModule> oggetto invece chiamate di <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96f3-228">If session values have been modified, the <xref:System.Web.SessionState.SessionStateModule> object instead calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method.</span></span>  
+  
+ <span data-ttu-id="c96f3-229">Il <xref:System.Web.SessionState.SessionStateModule> oggetto chiama anche il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo quando un blocco su un elemento nell'archivio dati della sessione ha superato il <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-229">The <xref:System.Web.SessionState.SessionStateModule> object also calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method when a lock on an item in the session data store has exceeded the <xref:System.Web.Configuration.HttpRuntimeSection.ExecutionTimeout%2A> value.</span></span> <span data-ttu-id="c96f3-230">Per ulteriori informazioni sul blocco e i dettagli relativi all'identificatore di blocco, vedere "Blocco dei dati dell'archivio di sessione" nel <xref:System.Web.SessionState.SessionStateStoreProviderBase> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="c96f3-230">For more information about locking and details about the lock identifier, see "Locking Session-Store Data" in the <xref:System.Web.SessionState.SessionStateStoreProviderBase> class overview.</span></span>  
+  
+ <span data-ttu-id="c96f3-231">Il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo rimuove solo il blocco da un elemento nell'archivio dati della sessione per l'applicazione corrente che corrisponde a sessione fornito `id` e `lockId` valori.</span><span class="sxs-lookup"><span data-stu-id="c96f3-231">The <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method only removes the lock from an item in the session data store for the current application that matches the supplied session `id` and `lockId` values.</span></span> <span data-ttu-id="c96f3-232">Se il `lockId` non corrisponde a quello nell'archivio dati, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo non esegue alcuna operazione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-232">If the `lockId` does not match the one in the data store, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method does nothing.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-233">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-233">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RemoveItem">
+      <MemberSignature Language="C#" Value="public abstract void RemoveItem (System.Web.HttpContext context, string id, object lockId, System.Web.SessionState.SessionStateStoreData item);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void RemoveItem(class System.Web.HttpContext context, string id, object lockId, class System.Web.SessionState.SessionStateStoreData item) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem(System.Web.HttpContext,System.String,System.Object,System.Web.SessionState.SessionStateStoreData)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub RemoveItem (context As HttpContext, id As String, lockId As Object, item As SessionStateStoreData)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void RemoveItem(System::Web::HttpContext ^ context, System::String ^ id, System::Object ^ lockId, System::Web::SessionState::SessionStateStoreData ^ item);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="lockId" Type="System.Object" />
+        <Parameter Name="item" Type="System.Web.SessionState.SessionStateStoreData" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-234">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-234">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-235">Identificatore di sessione per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-235">The session identifier for the current request.</span>
+          </span>
+        </param>
+        <param name="lockId">
+          <span data-ttu-id="c96f3-236">Identificatore di blocco per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-236">The lock identifier for the current request.</span>
+          </span>
+        </param>
+        <param name="item">
+          <span data-ttu-id="c96f3-237">Oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> che rappresenta l'elemento da eliminare dall'archivio dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-237">The <see cref="T:System.Web.SessionState.SessionStateStoreData" /> that represents the item to delete from the data store.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-238">Elimina dall'archivio dati della sessione i dati relativi agli elementi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-238">Deletes item data from the session data store.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-239">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> metodo alla fine di una richiesta, durante il <xref:System.Web.HttpApplication.ReleaseRequestState> evento, per eliminare i dati per un elemento di sessione dall'archivio dati della sessione se il <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> metodo è stato chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-239">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> method at the end of a request, during the <xref:System.Web.HttpApplication.ReleaseRequestState> event, to delete the data for a session item from the session data store if the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method has been called.</span></span> <span data-ttu-id="c96f3-240">Solo i dati di sessione per l'applicazione corrente che corrisponde a sessione fornito `id` e `lockId` valori viene eliminato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-240">Only session data for the current application that matches the supplied session `id` and `lockId` values is deleted.</span></span> <span data-ttu-id="c96f3-241">Per ulteriori informazioni sul blocco e i dettagli relativi all'identificatore di blocco, vedere "Blocco dei dati dell'archivio di sessione" nel <xref:System.Web.SessionState.SessionStateStoreProviderBase> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="c96f3-241">For more information about locking and details about the lock identifier, see "Locking Session-Store Data" in the <xref:System.Web.SessionState.SessionStateStoreProviderBase> class overview.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-242">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-242">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResetItemTimeout">
+      <MemberSignature Language="C#" Value="public abstract void ResetItemTimeout (System.Web.HttpContext context, string id);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ResetItemTimeout(class System.Web.HttpContext context, string id) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout(System.Web.HttpContext,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub ResetItemTimeout (context As HttpContext, id As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void ResetItemTimeout(System::Web::HttpContext ^ context, System::String ^ id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-243">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-243">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-244">Identificatore di sessione per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-244">The session identifier for the current request.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-245">Aggiorna l'ora e la data di scadenza di un elemento contenuto nell'archivio dati della sessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-245">Updates the expiration date and time of an item in the session data store.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-246">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> per aggiornare la data di scadenza e l'ora per una sessione per la data corrente, ora e la sessione <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> valore quando entrambi:</span><span class="sxs-lookup"><span data-stu-id="c96f3-246">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> method to update the expiration date and time for a session to the current date and time plus the session <xref:System.Web.SessionState.HttpSessionState.Timeout%2A> value when either:</span></span>  
+  
+-   <span data-ttu-id="c96f3-247">il <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo `true`, o</span><span class="sxs-lookup"><span data-stu-id="c96f3-247">the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is `true`, or</span></span>  
+  
+-   <span data-ttu-id="c96f3-248">la richiesta non è stato generato il <xref:System.Web.HttpApplication.AcquireRequestState> e <xref:System.Web.HttpApplication.ReleaseRequestState> eventi a causa di un errore.</span><span class="sxs-lookup"><span data-stu-id="c96f3-248">the request did not raise the <xref:System.Web.HttpApplication.AcquireRequestState> and <xref:System.Web.HttpApplication.ReleaseRequestState> events due to an error.</span></span>  
+  
+ <span data-ttu-id="c96f3-249">Se è richiesta una pagina ASP.NET e <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attributo è impostato su `false`, <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> chiamato per aggiornare la data di scadenza e l'ora dei dati nell'archivio dati della sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-249">If an ASP.NET page is requested and the <xref:System.Web.Configuration.PagesSection.EnableSessionState%2A> attribute is set to `false`, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ResetItemTimeout%2A> method is still called to update the expiration date and time of the data in the session data store.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-250">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-250">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetAndReleaseItemExclusive">
+      <MemberSignature Language="C#" Value="public abstract void SetAndReleaseItemExclusive (System.Web.HttpContext context, string id, System.Web.SessionState.SessionStateStoreData item, object lockId, bool newItem);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetAndReleaseItemExclusive(class System.Web.HttpContext context, string id, class System.Web.SessionState.SessionStateStoreData item, object lockId, bool newItem) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive(System.Web.HttpContext,System.String,System.Web.SessionState.SessionStateStoreData,System.Object,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Sub SetAndReleaseItemExclusive (context As HttpContext, id As String, item As SessionStateStoreData, lockId As Object, newItem As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void SetAndReleaseItemExclusive(System::Web::HttpContext ^ context, System::String ^ id, System::Web::SessionState::SessionStateStoreData ^ item, System::Object ^ lockId, bool newItem);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Web.HttpContext" />
+        <Parameter Name="id" Type="System.String" />
+        <Parameter Name="item" Type="System.Web.SessionState.SessionStateStoreData" />
+        <Parameter Name="lockId" Type="System.Object" />
+        <Parameter Name="newItem" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="c96f3-251">Oggetto <see cref="T:System.Web.HttpContext" /> per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-251">The <see cref="T:System.Web.HttpContext" /> for the current request.</span>
+          </span>
+        </param>
+        <param name="id">
+          <span data-ttu-id="c96f3-252">Identificatore di sessione per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-252">The session identifier for the current request.</span>
+          </span>
+        </param>
+        <param name="item">
+          <span data-ttu-id="c96f3-253">Oggetto <see cref="T:System.Web.SessionState.SessionStateStoreData" /> che contiene i valori della sessione corrente da archiviare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-253">The <see cref="T:System.Web.SessionState.SessionStateStoreData" /> object that contains the current session values to be stored.</span>
+          </span>
+        </param>
+        <param name="lockId">
+          <span data-ttu-id="c96f3-254">Identificatore di blocco per la richiesta corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-254">The lock identifier for the current request.</span>
+          </span>
+        </param>
+        <param name="newItem">
+          <span data-ttu-id="c96f3-255">
+            <see langword="true" /> per identificare l'elemento di sessione come nuovo elemento, <see langword="false" /> per identificare l'elemento di sessione come elemento esistente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-255">
+              <see langword="true" /> to identify the session item as a new item; <see langword="false" /> to identify the session item as an existing item.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-256">Aggiorna le informazioni relative all'elemento di sessione presente nell'archivio dati dello stato sessione in base ai valori della richiesta corrente e annulla il blocco applicato sui dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-256">Updates the session-item information in the session-state data store with values from the current request, and clears the lock on the data.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-257">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> metodo alla fine di una richiesta, durante il <xref:System.Web.HttpApplication.ReleaseRequestState> evento, per inserire informazioni relative all'elemento di sessione corrente nell'archivio dati o aggiornare le informazioni dell'elemento di sessione esistenti nell'archivio dati con i valori correnti, Per aggiornare l'ora di scadenza per l'elemento e per rilasciare il blocco sui dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-257">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method at the end of a request, during the <xref:System.Web.HttpApplication.ReleaseRequestState> event, to insert current session-item information into the data store or update existing session-item information in the data store with current values, to update the expiration time on the item, and to release the lock on the data.</span></span> <span data-ttu-id="c96f3-258">Solo i dati di sessione per l'applicazione corrente che corrisponde a sessione fornito `id` e `lockId` valori viene aggiornato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-258">Only session data for the current application that matches the supplied session `id` and `lockId` values is updated.</span></span> <span data-ttu-id="c96f3-259">Per ulteriori informazioni sui blocchi, vedere "Blocco di dati di archivio di sessione" nel <xref:System.Web.SessionState.SessionStateStoreProviderBase> Cenni preliminari sulla classe.</span><span class="sxs-lookup"><span data-stu-id="c96f3-259">For more information about locking, see "Locking Session Store Data" in the <xref:System.Web.SessionState.SessionStateStoreProviderBase> class overview.</span></span>  
+  
+ <span data-ttu-id="c96f3-260">Se i valori della sessione per la richiesta corrente non sono stati modificati, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> non viene chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-260">If the session values for the current request have not been modified, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method is not called.</span></span> <span data-ttu-id="c96f3-261">Al contrario, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> metodo viene chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-261">Instead, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.ReleaseItemExclusive%2A> method is called.</span></span>  
+  
+ <span data-ttu-id="c96f3-262">Se il <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> metodo è stato chiamato, il <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> non viene chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-262">If the <xref:System.Web.SessionState.HttpSessionState.Abandon%2A> method has been called, the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetAndReleaseItemExclusive%2A> method is not called.</span></span> <span data-ttu-id="c96f3-263">Al contrario, il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> metodo per eliminare i dati dell'elemento di sessione dall'origine dati.</span><span class="sxs-lookup"><span data-stu-id="c96f3-263">Instead, the <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> method to delete session-item data from the data source.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-264">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-264">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetItemExpireCallback">
+      <MemberSignature Language="C#" Value="public abstract bool SetItemExpireCallback (System.Web.SessionState.SessionStateItemExpireCallback expireCallback);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool SetItemExpireCallback(class System.Web.SessionState.SessionStateItemExpireCallback expireCallback) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback(System.Web.SessionState.SessionStateItemExpireCallback)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function SetItemExpireCallback (expireCallback As SessionStateItemExpireCallback) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract bool SetItemExpireCallback(System::Web::SessionState::SessionStateItemExpireCallback ^ expireCallback);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="expireCallback" Type="System.Web.SessionState.SessionStateItemExpireCallback" />
+      </Parameters>
+      <Docs>
+        <param name="expireCallback">
+          <span data-ttu-id="c96f3-265">Delegato <see cref="T:System.Web.SessionState.SessionStateItemExpireCallback" /> dell'evento <see langword="Session_OnEnd" /> definito nel file Global.asax.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-265">The <see cref="T:System.Web.SessionState.SessionStateItemExpireCallback" /> delegate for the <see langword="Session_OnEnd" /> event defined in the Global.asax file.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96f3-266">Imposta un riferimento sul delegato <see cref="T:System.Web.SessionState.SessionStateItemExpireCallback" /> dell'evento <see langword="Session_OnEnd" /> definito nel file Global.asax.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-266">Sets a reference to the <see cref="T:System.Web.SessionState.SessionStateItemExpireCallback" /> delegate for the <see langword="Session_OnEnd" /> event defined in the Global.asax file.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96f3-267">
+            <see langword="true" /> se il provider dell'archivio dello stato sessione supporta la chiamata dell'evento <see langword="Session_OnEnd" /> e <see langword="false" /> altrimenti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96f3-267">
+              <see langword="true" /> if the session-state store provider supports calling the <see langword="Session_OnEnd" /> event; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96f3-268">Il <xref:System.Web.SessionState.SessionStateModule> chiama il <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> metodo quando viene inizializzato il modulo per determinare se le chiamate al `Session_OnEnd` eventi supportati dal <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementazione e associare il <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegato con il `Session_OnEnd` evento.</span><span class="sxs-lookup"><span data-stu-id="c96f3-268">The <xref:System.Web.SessionState.SessionStateModule> object calls the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> method when the module is initialized to determine whether calls to the `Session_OnEnd` event are supported by the <xref:System.Web.SessionState.SessionStateStoreProviderBase> implementation and to associate the <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegate with the `Session_OnEnd` event.</span></span>  
+  
+ <span data-ttu-id="c96f3-269">Gli implementatori di provider dell'archivio dello stato sessione personalizzato devono utilizzare il <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> metodo per informare il <xref:System.Web.SessionState.SessionStateModule> oggetto se le chiamate al `Session_OnEnd` evento sono supportati e per impostare un riferimento locale il <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegato fornito dal `expireCallback` parametro.</span><span class="sxs-lookup"><span data-stu-id="c96f3-269">Custom session-state store provider implementers should use the <xref:System.Web.SessionState.SessionStateStoreProviderBase.SetItemExpireCallback%2A> method to inform the <xref:System.Web.SessionState.SessionStateModule> object whether calls to the `Session_OnEnd` event are supported and to set a local reference to the <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegate supplied by the `expireCallback` parameter.</span></span> <span data-ttu-id="c96f3-270">L'implementazione personalizzata è necessario decidere quando locale <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegato verrà chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96f3-270">The custom implementation must decide when the local <xref:System.Web.SessionState.SessionStateItemExpireCallback> delegate will be called.</span></span> <span data-ttu-id="c96f3-271">Ad esempio, è possibile chiamare il delegato durante la chiamata di <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> metodo, che viene chiamato quando una sessione.</span><span class="sxs-lookup"><span data-stu-id="c96f3-271">For example, the delegate could be called during the call to the <xref:System.Web.SessionState.SessionStateStoreProviderBase.RemoveItem%2A> method, which is called when a session is abandoned.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c96f3-272">Per un esempio di implementazione di un provider di archivio dello stato sessione, vedere [implementando un Provider di archiviazione dello stato sessione](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span><span class="sxs-lookup"><span data-stu-id="c96f3-272">For an example of a session-state store provider implementation, see [Implementing a Session-State Store Provider](http://msdn.microsoft.com/library/baadfec5-c881-468a-9681-7d8796b05a66).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

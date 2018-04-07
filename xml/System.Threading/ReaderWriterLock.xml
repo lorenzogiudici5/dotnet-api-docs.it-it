@@ -1,0 +1,1352 @@
+<Type Name="ReaderWriterLock" FullName="System.Threading.ReaderWriterLock">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="fc1a0c88765040869d8ad919aeb575e304c71bde" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class ReaderWriterLock : System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReaderWriterLock extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.ReaderWriterLock" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ReaderWriterLock&#xA;Inherits CriticalFinalizerObject" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ReaderWriterLock sealed : System::Runtime::ConstrainedExecution::CriticalFinalizerObject" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Threading</AssemblyName>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Runtime.ConstrainedExecution.CriticalFinalizerObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="c48b6-101">Definisce un blocco che supporta writer singoli e lettori multipli.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="c48b6-101">Defines a lock that supports single writers and multiple readers.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c48b6-102">[!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] include due blocchi in lettura/scrittura, ovvero <xref:System.Threading.ReaderWriterLockSlim> e <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-102">The [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] has two reader-writer locks, <xref:System.Threading.ReaderWriterLockSlim> and <xref:System.Threading.ReaderWriterLock>.</span></span> <span data-ttu-id="c48b6-103"><xref:System.Threading.ReaderWriterLockSlim> è consigliato per tutte le nuove fasi di sviluppo.</span><span class="sxs-lookup"><span data-stu-id="c48b6-103"><xref:System.Threading.ReaderWriterLockSlim> is recommended for all new development.</span></span> <span data-ttu-id="c48b6-104"><xref:System.Threading.ReaderWriterLockSlim> è simile a <xref:System.Threading.ReaderWriterLock>, ma include regole semplificate per la ricorsione e per l'aggiornamento e il downgrade dello stato del blocco.</span><span class="sxs-lookup"><span data-stu-id="c48b6-104"><xref:System.Threading.ReaderWriterLockSlim> is similar to <xref:System.Threading.ReaderWriterLock>, but it has simplified rules for recursion and for upgrading and downgrading lock state.</span></span> <span data-ttu-id="c48b6-105"><xref:System.Threading.ReaderWriterLockSlim> evita molti casi di deadlock potenziale.</span><span class="sxs-lookup"><span data-stu-id="c48b6-105"><xref:System.Threading.ReaderWriterLockSlim> avoids many cases of potential deadlock.</span></span> <span data-ttu-id="c48b6-106">Inoltre, le prestazioni di <xref:System.Threading.ReaderWriterLockSlim> sono significativamente migliori di <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-106">In addition, the performance of <xref:System.Threading.ReaderWriterLockSlim> is significantly better than <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+ <span data-ttu-id="c48b6-107"><xref:System.Threading.ReaderWriterLock> viene utilizzato per sincronizzare l'accesso a una risorsa.</span><span class="sxs-lookup"><span data-stu-id="c48b6-107"><xref:System.Threading.ReaderWriterLock> is used to synchronize access to a resource.</span></span> <span data-ttu-id="c48b6-108">In qualsiasi momento, consente l'accesso in lettura simultanea di più thread o l'accesso in scrittura per un singolo thread.</span><span class="sxs-lookup"><span data-stu-id="c48b6-108">At any given time, it allows either concurrent read access for multiple threads, or write access for a single thread.</span></span> <span data-ttu-id="c48b6-109">In una situazione in cui una risorsa modificata raramente, un `ReaderWriterLock` fornisce una migliore velocità effettiva rispetto a un semplice blocco uno alla volta, ad esempio <xref:System.Threading.Monitor>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-109">In a situation where a resource is changed infrequently, a `ReaderWriterLock` provides better throughput than a simple one-at-a-time lock, such as <xref:System.Threading.Monitor>.</span></span>  
+  
+ <span data-ttu-id="c48b6-110">`ReaderWriterLock` più adatto in cui la maggior parte degli accessi sono operazioni di lettura, in operazioni di scrittura sono poco frequenti e di breve durata.</span><span class="sxs-lookup"><span data-stu-id="c48b6-110">`ReaderWriterLock` works best where most accesses are reads, while writes are infrequent and of short duration.</span></span> <span data-ttu-id="c48b6-111">Più lettori alternano con i writer singoli, in modo che i lettori né i writer vengono bloccati per lunghi periodi di tempo.</span><span class="sxs-lookup"><span data-stu-id="c48b6-111">Multiple readers alternate with single writers, so that neither readers nor writers are blocked for long periods.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-112">Mantenimento di blocchi di lettura o scrittura per lunghi periodi di tempo è dannoso per gli altri thread.</span><span class="sxs-lookup"><span data-stu-id="c48b6-112">Holding reader locks or writer locks for long periods will starve other threads.</span></span> <span data-ttu-id="c48b6-113">Per prestazioni ottimali, provare a ristrutturare l'applicazione per ridurre al minimo la durata delle operazioni di scrittura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-113">For best performance, consider restructuring your application to minimize the duration of writes.</span></span>  
+  
+ <span data-ttu-id="c48b6-114">Un thread può contenere un lettore di blocco o un blocco del writer, ma non entrambi contemporaneamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-114">A thread can hold a reader lock or a writer lock, but not both at the same time.</span></span> <span data-ttu-id="c48b6-115">Anziché rilasciare un blocco del lettore per acquisire il blocco del writer, è possibile utilizzare <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> e <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-115">Instead of releasing a reader lock in order to acquire the writer lock, you can use <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> and <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.</span></span>  
+  
+ <span data-ttu-id="c48b6-116">Le richieste di blocco ricorsiva aumentano il conteggio dei blocchi in un blocco.</span><span class="sxs-lookup"><span data-stu-id="c48b6-116">Recursive lock requests increase the lock count on a lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-117">Lettori e writer vengono accodati separatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-117">Readers and writers are queued separately.</span></span> <span data-ttu-id="c48b6-118">Quando un thread rilascia il blocco del writer, tutti i thread in attesa nella coda di lettura in quel preciso momento vengono concessi i blocchi di lettura. Quando tutti i blocchi di lettura sono stati rilasciati, il thread successivo in attesa il writer della coda, se presente, viene concesso il blocco del writer e così via.</span><span class="sxs-lookup"><span data-stu-id="c48b6-118">When a thread releases the writer lock, all threads waiting in the reader queue at that instant are granted reader locks; when all of those reader locks have been released, the next thread waiting in the writer queue, if any, is granted the writer lock, and so on.</span></span> <span data-ttu-id="c48b6-119">In altre parole, `ReaderWriterLock` Alterna tra un insieme di lettori e un writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-119">In other words, `ReaderWriterLock` alternates between a collection of readers, and one writer.</span></span>  
+  
+ <span data-ttu-id="c48b6-120">Durante l'attesa di un thread nella coda di scrittura per il rilascio di blocchi di lettura attivi, thread che richiedono nuovi blocchi di lettura si accumulano nella coda di lettura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-120">While a thread in the writer queue is waiting for active reader locks to be released, threads requesting new reader locks accumulate in the reader queue.</span></span> <span data-ttu-id="c48b6-121">Le richieste non vengono soddisfatte, anche se condividono Impossibile accesso simultaneo con titolari del blocco esistente; Ciò consente di proteggere i writer sul blocco indefinito dai lettori.</span><span class="sxs-lookup"><span data-stu-id="c48b6-121">Their requests are not granted, even though they could share concurrent access with existing reader-lock holders; this helps protect writers against indefinite blockage by readers.</span></span>  
+  
+ <span data-ttu-id="c48b6-122">La maggior parte dei metodi per acquisire blocchi su un `ReaderWriterLock` accettano valori di timeout.</span><span class="sxs-lookup"><span data-stu-id="c48b6-122">Most methods for acquiring locks on a `ReaderWriterLock` accept time-out values.</span></span> <span data-ttu-id="c48b6-123">Utilizzare i timeout per evitare deadlock nell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="c48b6-123">Use time-outs to avoid deadlocks in your application.</span></span> <span data-ttu-id="c48b6-124">Ad esempio, un thread può acquisire il blocco del writer in una risorsa e quindi richiedere un blocco di lettura su una seconda risorsa. Nel frattempo, un altro thread può acquisire il blocco del writer dalla seconda risorsa e richiedere un blocco del lettore sul primo.</span><span class="sxs-lookup"><span data-stu-id="c48b6-124">For example, a thread might acquire the writer lock on one resource and then request a reader lock on a second resource; in the meantime, another thread might acquire the writer lock on the second resource, and request a reader lock on the first.</span></span> <span data-ttu-id="c48b6-125">A meno che non vengono utilizzati i valori di timeout, il deadlock di thread.</span><span class="sxs-lookup"><span data-stu-id="c48b6-125">Unless time-outs are used, the threads deadlock.</span></span>  
+  
+ <span data-ttu-id="c48b6-126">Se l'intervallo di timeout scade e non è stata concessa la richiesta di blocco, il metodo restituisce il controllo al thread chiamante generando un <xref:System.ApplicationException>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-126">If the time-out interval expires and the lock request has not been granted, the method returns control to the calling thread by throwing an <xref:System.ApplicationException>.</span></span> <span data-ttu-id="c48b6-127">Un thread può rilevare questa eccezione e determinare l'azione da intraprendere in seguito.</span><span class="sxs-lookup"><span data-stu-id="c48b6-127">A thread can catch this exception and determine what action to take next.</span></span>  
+  
+ <span data-ttu-id="c48b6-128">I timeout sono espressi in millisecondi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-128">Time-outs are expressed in milliseconds.</span></span> <span data-ttu-id="c48b6-129">Se si utilizza un <xref:System.TimeSpan?displayProperty=nameWithType> per specificare il timeout, il valore utilizzato è il numero totale di millisecondi interi rappresentato dal <xref:System.TimeSpan>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-129">If you use a <xref:System.TimeSpan?displayProperty=nameWithType> to specify the time-out, the value used is the total number of whole milliseconds represented by the <xref:System.TimeSpan>.</span></span> <span data-ttu-id="c48b6-130">Nella tabella seguente vengono illustrati i valori di timeout valido in millisecondi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-130">The following table shows the valid time-out values in milliseconds.</span></span>  
+  
+|<span data-ttu-id="c48b6-131">Valore</span><span class="sxs-lookup"><span data-stu-id="c48b6-131">Value</span></span>|<span data-ttu-id="c48b6-132">Descrizione</span><span class="sxs-lookup"><span data-stu-id="c48b6-132">Description</span></span>|  
+|-----------|-----------------|  
+|<span data-ttu-id="c48b6-133">-1</span><span class="sxs-lookup"><span data-stu-id="c48b6-133">-1</span></span>|<span data-ttu-id="c48b6-134">Il thread attende fino a quando non viene acquisito il blocco, indipendentemente dal tempo necessario.</span><span class="sxs-lookup"><span data-stu-id="c48b6-134">The thread waits until the lock is acquired, regardless of how long it takes.</span></span> <span data-ttu-id="c48b6-135">Per i metodi che specificano i timeout intero, la costante <xref:System.Threading.Timeout.Infinite> può essere utilizzato.</span><span class="sxs-lookup"><span data-stu-id="c48b6-135">For methods that specify integer time-outs, the constant <xref:System.Threading.Timeout.Infinite> can be used.</span></span>|  
+|<span data-ttu-id="c48b6-136">0</span><span class="sxs-lookup"><span data-stu-id="c48b6-136">0</span></span>|<span data-ttu-id="c48b6-137">Il thread non viene attesa di acquisire il blocco.</span><span class="sxs-lookup"><span data-stu-id="c48b6-137">The thread does not wait to acquire the lock.</span></span> <span data-ttu-id="c48b6-138">Se non è possibile acquisire il blocco immediatamente, il metodo restituisce.</span><span class="sxs-lookup"><span data-stu-id="c48b6-138">If the lock cannot be acquired immediately, the method returns.</span></span>|  
+|<span data-ttu-id="c48b6-139">>0</span><span class="sxs-lookup"><span data-stu-id="c48b6-139">>0</span></span>|<span data-ttu-id="c48b6-140">Numero di millisecondi di attesa.</span><span class="sxs-lookup"><span data-stu-id="c48b6-140">The number of milliseconds to wait.</span></span>|  
+  
+ <span data-ttu-id="c48b6-141">Fatta eccezione per -1, i valori di timeout negativi non sono consentiti.</span><span class="sxs-lookup"><span data-stu-id="c48b6-141">With the exception of -1, negative time-out values are not allowed.</span></span> <span data-ttu-id="c48b6-142">Se si specifica un numero intero negativo diverso da -1, viene invece utilizzato un valore di timeout pari a zero.</span><span class="sxs-lookup"><span data-stu-id="c48b6-142">If you specify a negative integer other than -1, a time-out value of zero is used instead.</span></span> <span data-ttu-id="c48b6-143">(Ovvero, il metodo restituisce senza attendere, se non è possibile acquisire il blocco immediatamente.) Se si specifica un <xref:System.TimeSpan> che rappresenta un numero negativo di millisecondi diverso da -1, <xref:System.ArgumentOutOfRangeException> viene generata un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="c48b6-143">(That is, the method returns without waiting, if the lock cannot be acquired immediately.) If you specify a <xref:System.TimeSpan> that represents a negative number of milliseconds other than -1, <xref:System.ArgumentOutOfRangeException> is thrown.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-144">Nell'esempio seguente viene illustrato come utilizzare un <xref:System.Threading.ReaderWriterLock> per proteggere una risorsa condivisa, un valore intero denominato `resource`, vale a dire contemporaneamente letti e scritti in modo esclusivo da più thread.</span><span class="sxs-lookup"><span data-stu-id="c48b6-144">The following example demonstrates how to use a <xref:System.Threading.ReaderWriterLock> to protect a shared resource, an integer value named `resource`, that is read concurrently and written exclusively by multiple threads.</span></span> <span data-ttu-id="c48b6-145">Si noti che il <xref:System.Threading.ReaderWriterLock> viene dichiarato a livello di classe in modo che sia visibile a tutti i thread.</span><span class="sxs-lookup"><span data-stu-id="c48b6-145">Note that the <xref:System.Threading.ReaderWriterLock> is declared at the class level so that it is visible to all threads.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#1)]
+ [!code-csharp[System.Threading.ReaderWriterLock#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLock#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="c48b6-146">Questo tipo è thread-safe.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="c48b6-146">This type is thread safe.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ReaderWriterLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ReaderWriterLock();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-147">Inizializza una nuova istanza della classe <see cref="T:System.Threading.ReaderWriterLock" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-147">Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLock" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="c48b6-148">Nell'esempio di codice riportato di seguito viene illustrato come creare una nuova istanza della classe <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-148">The following code example demonstrates how to create a new instance of the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ <span data-ttu-id="c48b6-149">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-149">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="AcquireReaderLock">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-150">Acquisisce un blocco del lettore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-150">Acquires a reader lock.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="AcquireReaderLock">
+      <MemberSignature Language="C#" Value="public void AcquireReaderLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AcquireReaderLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireReaderLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AcquireReaderLock (millisecondsTimeout As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireReaderLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="c48b6-151">Timeout in millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-151">The time-out in milliseconds.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-152">Acquisisce un blocco del lettore, usando un valore <see cref="T:System.Int32" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-152">Acquires a reader lock, using an <see cref="T:System.Int32" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-153"><xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread ha il blocco del writer, o se almeno un thread è in attesa del blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-153"><xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocks if a different thread has the writer lock, or if at least one thread is waiting for the writer lock.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-154">Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco di lettura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-154">If the current thread already has the writer lock, no reader lock is acquired.</span></span> <span data-ttu-id="c48b6-155">Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-155">Instead, the lock count on the writer lock is incremented.</span></span> <span data-ttu-id="c48b6-156">Ciò impedisce che un thread blocchi nel proprio blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-156">This prevents a thread from blocking on its own writer lock.</span></span> <span data-ttu-id="c48b6-157">Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando il rilascio del blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-157">The result is exactly the same as calling <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, and an additional call to <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> is required when releasing the writer lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-158">`AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-158">`AcquireReaderLock` supports recursive reader-lock requests.</span></span> <span data-ttu-id="c48b6-159">Ovvero, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-159">That is, a thread can call AcquireReaderLock multiple times, which increments the lock count each time.</span></span> <span data-ttu-id="c48b6-160">È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-160">You must call <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> once for each time you call `AcquireReaderLock`.</span></span> <span data-ttu-id="c48b6-161">In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-161">Alternatively, you can call <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> to reduce the lock count to zero immediately.</span></span>  
+  
+ <span data-ttu-id="c48b6-162">Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda di lettura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-162">Recursive lock requests are always granted immediately, without placing the requesting thread in the reader queue.</span></span> <span data-ttu-id="c48b6-163">Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-163">Use recursive locks with caution, to avoid blocking writer-lock requests for long periods.</span></span>  
+  
+ <span data-ttu-id="c48b6-164">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-164">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-165">Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del lettore e come gestire l'eccezione generata quando scade una richiesta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-165">The following code example shows how to acquire and release a reader lock, and how to handle the exception thrown when a request times out.</span></span>  
+  
+ <span data-ttu-id="c48b6-166">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-166">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#3)]
+[!code-csharp[System.Threading.ReaderWriterLock#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#3)]
+[!code-vb[System.Threading.ReaderWriterLock#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#3)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-167">L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-167">
+              <paramref name="millisecondsTimeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AcquireReaderLock">
+      <MemberSignature Language="C#" Value="public void AcquireReaderLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AcquireReaderLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireReaderLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AcquireReaderLock (timeout As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireReaderLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="c48b6-168">Parametro <see langword="TimeSpan" /> che specifica il periodo di timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-168">A <see langword="TimeSpan" /> specifying the time-out period.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-169">Acquisisce un blocco del lettore, usando un valore <see cref="T:System.TimeSpan" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-169">Acquires a reader lock, using a <see cref="T:System.TimeSpan" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-170"><xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread ha il blocco del writer, o se almeno un thread è in attesa del blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-170"><xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocks if a different thread has the writer lock, or if at least one thread is waiting for the writer lock.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-171">Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco di lettura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-171">If the current thread already has the writer lock, no reader lock is acquired.</span></span> <span data-ttu-id="c48b6-172">Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-172">Instead, the lock count on the writer lock is incremented.</span></span> <span data-ttu-id="c48b6-173">Ciò impedisce che un thread blocchi nel proprio blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-173">This prevents a thread from blocking on its own writer lock.</span></span> <span data-ttu-id="c48b6-174">Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando il rilascio del blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-174">The result is exactly the same as calling <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, and an additional call to <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> is required when releasing the writer lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-175">`AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-175">`AcquireReaderLock` supports recursive reader-lock requests.</span></span> <span data-ttu-id="c48b6-176">Ovvero, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-176">That is, a thread can call AcquireReaderLock multiple times, which increments the lock count each time.</span></span> <span data-ttu-id="c48b6-177">È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-177">You must call <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> once for each time you call `AcquireReaderLock`.</span></span> <span data-ttu-id="c48b6-178">In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-178">Alternatively, you can call <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> to reduce the lock count to zero immediately.</span></span>  
+  
+ <span data-ttu-id="c48b6-179">Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda di lettura.</span><span class="sxs-lookup"><span data-stu-id="c48b6-179">Recursive lock requests are always granted immediately, without placing the requesting thread in the reader queue.</span></span> <span data-ttu-id="c48b6-180">Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-180">Use recursive locks with caution, to avoid blocking writer-lock requests for long periods.</span></span>  
+  
+ <span data-ttu-id="c48b6-181">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-181">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-182">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-182">
+              <paramref name="timeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="c48b6-183">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-183">
+              <paramref name="timeout" /> specifies a negative value other than -1 milliseconds.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="AcquireWriterLock">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-184">Acquisisce un blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-184">Acquires the writer lock.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="AcquireWriterLock">
+      <MemberSignature Language="C#" Value="public void AcquireWriterLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AcquireWriterLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireWriterLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AcquireWriterLock (millisecondsTimeout As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireWriterLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="c48b6-185">Timeout in millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-185">The time-out in milliseconds.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-186">Acquisisce un blocco del writer, usando un valore <see cref="T:System.Int32" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-186">Acquires the writer lock, using an <see cref="T:System.Int32" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-187">Questo metodo si blocca se un altro thread ha un blocco di lettura o di un blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-187">This method blocks if another thread has a reader lock or writer lock.</span></span> <span data-ttu-id="c48b6-188">Per una descrizione del modo in cui il blocco del writer si alterna con più blocchi di lettura simultanei, vedere la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-188">For a description of the way the writer lock alternates with multiple concurrent reader locks, see the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ <span data-ttu-id="c48b6-189">Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco di lettura prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-189">A thread that already has a reader lock can acquire the writer lock in one of two ways: by releasing the reader lock before calling <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, or by calling <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="c48b6-190">Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock.</span><span class="sxs-lookup"><span data-stu-id="c48b6-190">If a thread calls `AcquireWriterLock` while it still has a reader lock, it will block on its own reader lock; if an infinite time-out is specified, the thread will deadlock.</span></span> <span data-ttu-id="c48b6-191">Per evitare questi deadlock, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-191">To avoid such deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> to determine whether the current thread already has a reader lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-192">`AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva.</span><span class="sxs-lookup"><span data-stu-id="c48b6-192">`AcquireWriterLock` supports recursive writer-lock requests.</span></span> <span data-ttu-id="c48b6-193">Ovvero, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-193">That is, a thread can call `AcquireWriterLock` multiple times, which increments the lock count each time.</span></span> <span data-ttu-id="c48b6-194">È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-194">You must call <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> once for each time you call `AcquireWriterLock`.</span></span> <span data-ttu-id="c48b6-195">In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-195">Alternatively, you can call <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> to reduce the lock count to zero immediately.</span></span>  
+  
+ <span data-ttu-id="c48b6-196">Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-196">Recursive lock requests are always granted immediately, without placing the requesting thread in the writer queue.</span></span>  
+  
+ <span data-ttu-id="c48b6-197">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-197">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-198">Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del writer e come gestire l'eccezione generata quando scade una richiesta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-198">The following code example shows how to acquire and release a writer lock, and how to handle the exception thrown when a request times out.</span></span>  
+  
+ <span data-ttu-id="c48b6-199">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-199">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#4](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#4)]
+[!code-csharp[System.Threading.ReaderWriterLock#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#4)]
+[!code-vb[System.Threading.ReaderWriterLock#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#4)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-200">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-200">
+              <paramref name="timeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AcquireWriterLock">
+      <MemberSignature Language="C#" Value="public void AcquireWriterLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AcquireWriterLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireWriterLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AcquireWriterLock (timeout As TimeSpan)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireWriterLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="c48b6-201">Parametro <see langword="TimeSpan" /> che specifica il periodo di timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-201">The <see langword="TimeSpan" /> specifying the time-out period.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-202">Acquisisce un blocco del writer, usando un valore <see cref="T:System.TimeSpan" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-202">Acquires the writer lock, using a <see cref="T:System.TimeSpan" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-203">Questo metodo si blocca se un altro thread ha un blocco di lettura o di un blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-203">This method blocks if another thread has a reader lock or writer lock.</span></span> <span data-ttu-id="c48b6-204">Per una descrizione del modo in cui il blocco del writer si alterna con più blocchi di lettura simultanei, vedere la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-204">For a description of the way the writer lock alternates with multiple concurrent reader locks, see the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ <span data-ttu-id="c48b6-205">Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco di lettura prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-205">A thread that already has a reader lock can acquire the writer lock in one of two ways: by releasing the reader lock before calling <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, or by calling <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="c48b6-206">Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock.</span><span class="sxs-lookup"><span data-stu-id="c48b6-206">If a thread calls `AcquireWriterLock` while it still has a reader lock, it will block on its own reader lock; if an infinite time-out is specified, the thread will deadlock.</span></span> <span data-ttu-id="c48b6-207">Per evitare questi deadlock, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-207">To avoid such deadlocks, use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> to determine whether the current thread already has a reader lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-208">`AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva.</span><span class="sxs-lookup"><span data-stu-id="c48b6-208">`AcquireWriterLock` supports recursive writer-lock requests.</span></span> <span data-ttu-id="c48b6-209">Ovvero, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-209">That is, a thread can call `AcquireWriterLock` multiple times, which increments the lock count each time.</span></span> <span data-ttu-id="c48b6-210">È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-210">You must call <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> once for each time you call `AcquireWriterLock`.</span></span> <span data-ttu-id="c48b6-211">In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-211">Alternatively, you can call <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> to reduce the lock count to zero immediately.</span></span>  
+  
+ <span data-ttu-id="c48b6-212">Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-212">Recursive lock requests are always granted immediately, without placing the requesting thread in the writer queue.</span></span>  
+  
+ <span data-ttu-id="c48b6-213">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-213">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-214">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-214">
+              <paramref name="timeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="c48b6-215">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-215">
+              <paramref name="timeout" /> specifies a negative value other than -1 milliseconds.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="AnyWritersSince">
+      <MemberSignature Language="C#" Value="public bool AnyWritersSince (int seqNum);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool AnyWritersSince(int32 seqNum) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AnyWritersSince(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function AnyWritersSince (seqNum As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool AnyWritersSince(int seqNum);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="seqNum" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="seqNum">
+          <span data-ttu-id="c48b6-216">Numero di sequenza.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-216">The sequence number.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-217">Indica se sono stati concessi blocchi del writer a uno o più thread da quando è stato ottenuto il numero di sequenza.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-217">Indicates whether the writer lock has been granted to any thread since the sequence number was obtained.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c48b6-218">
+            <see langword="true" /> se sono stati concessi blocchi del writer a uno o più thread da quando è stato ottenuto il numero di sequenza; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-218">
+              <see langword="true" /> if the writer lock has been granted to any thread since the sequence number was obtained; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-219">È possibile utilizzare <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> e `AnyWritersSince` per migliorare le prestazioni dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="c48b6-219">You can use <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> and `AnyWritersSince` to improve application performance.</span></span> <span data-ttu-id="c48b6-220">Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene mentre è attivo un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-220">For example, a thread might cache the information it obtains while holding a reader lock.</span></span> <span data-ttu-id="c48b6-221">Dopo il rilascio e la successiva riacquisizione del blocco, il thread è possibile utilizzare `AnyWritersSince` per determinare se altri thread è scritti per la risorsa nel frattempo; in caso contrario, è possono utilizzare le informazioni memorizzate nella cache.</span><span class="sxs-lookup"><span data-stu-id="c48b6-221">After releasing and later reacquiring the lock, the thread can use `AnyWritersSince` to determine whether other threads have written to the resource in the interim; if not, the cached information can be used.</span></span> <span data-ttu-id="c48b6-222">Questa tecnica è utile in cui la lettura delle informazioni protette dal blocco è costosa; ad esempio, eseguire una query sul database.</span><span class="sxs-lookup"><span data-stu-id="c48b6-222">This technique is useful where reading the information protected by the lock is expensive; for example, running a database query.</span></span>  
+  
+ <span data-ttu-id="c48b6-223">Il chiamante deve contenere un blocco di lettura o di un blocco del writer affinché il numero di sequenza essere utile.</span><span class="sxs-lookup"><span data-stu-id="c48b6-223">The caller must be holding a reader lock or a writer lock in order for the sequence number to be useful.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-224">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> (metodo) e <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente rimane ultimo blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-224">The following code example shows how to use the <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> method and the <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> property to determine whether another thread acquired the writer lock on the protected resource since the current thread last held the writer lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-225">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-225">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#6](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#6)]
+[!code-csharp[System.Threading.ReaderWriterLock#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLock#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#6)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DowngradeFromWriterLock">
+      <MemberSignature Language="C#" Value="public void DowngradeFromWriterLock (ref System.Threading.LockCookie lockCookie);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DowngradeFromWriterLock(valuetype System.Threading.LockCookie&amp; lockCookie) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.DowngradeFromWriterLock(System.Threading.LockCookie@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub DowngradeFromWriterLock (ByRef lockCookie As LockCookie)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void DowngradeFromWriterLock(System::Threading::LockCookie % lockCookie);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="lockCookie" Type="System.Threading.LockCookie&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="lockCookie">
+          <span data-ttu-id="c48b6-226">Oggetto <see cref="T:System.Threading.LockCookie" /> restituito dal metodo <see cref="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-226">A <see cref="T:System.Threading.LockCookie" /> returned by <see cref="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-227">Ripristina lo stato del blocco del thread in vigore prima della chiamata al metodo <see cref="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-227">Restores the lock status of the thread to what it was before <see cref="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" /> was called.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-228"><xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> rilascia il blocco del writer, indipendentemente dal conteggio dei blocchi di ricorsivi e ripristina il blocco del lettore che è stato mantenuto dal thread prima dell'aggiornamento al blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-228"><xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> releases the writer lock, regardless of the recursive lock count, and restores the reader lock that was held by the thread before upgrading to the writer lock.</span></span> <span data-ttu-id="c48b6-229">Viene ripristinato il conteggio dei blocchi nel blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-229">The lock count on the reader lock is restored.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-230">`DowngradeFromWriterLock` accetta un <xref:System.Threading.LockCookie> ottenuto chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-230">`DowngradeFromWriterLock` accepts a <xref:System.Threading.LockCookie> obtained by calling <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span></span> <span data-ttu-id="c48b6-231">Non utilizzare un `LockCookie` restituito da <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-231">Do not use a `LockCookie` returned by <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.</span></span>  
+  
+ <span data-ttu-id="c48b6-232">Un thread si blocca quando si esegue il downgrade da blocchi del writer, anche se altri thread in attesa del blocco del writer, perché tutte le richieste di blocco di lettura vengono concesse quando viene rilasciato il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-232">A thread does not block when downgrading from the writer lock, even if other threads are waiting for the writer lock, because all reader-lock requests are granted when the writer lock is released.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-233">Esempio di codice seguente viene illustrato come richiedere un blocco del lettore, aggiornare il blocco di lettura a un blocco del writer e di effettuare il downgrade a un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-233">The following code example shows how to request a reader lock, upgrade the reader lock to a writer lock, and downgrade to a reader lock again.</span></span>  
+  
+ <span data-ttu-id="c48b6-234">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-234">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#5](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#5)]
+[!code-csharp[System.Threading.ReaderWriterLock#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#5)]
+[!code-vb[System.Threading.ReaderWriterLock#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#5)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-235">Il thread non è responsabile del blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-235">The thread does not have the writer lock.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="c48b6-236">L'indirizzo di <paramref name="lockCookie" /> è un puntatore Null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-236">The address of <paramref name="lockCookie" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~ReaderWriterLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!ReaderWriterLock ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-237">Garantisce che le risorse vengano liberate e che vengano eseguite le altre operazioni di pulizia quando l'oggetto <see cref="T:System.Threading.ReaderWriterLock" /> viene recuperato da Garbage Collector.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-237">Ensures that resources are freed and other cleanup operations are performed when the garbage collector reclaims the <see cref="T:System.Threading.ReaderWriterLock" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-238">Il garbage collector chiama <xref:System.Threading.ReaderWriterLock.Finalize%2A> quando corrente <xref:System.Threading.ReaderWriterLock> oggetto è pronto per essere completato.</span><span class="sxs-lookup"><span data-stu-id="c48b6-238">The garbage collector calls <xref:System.Threading.ReaderWriterLock.Finalize%2A> when the current <xref:System.Threading.ReaderWriterLock> object is ready to be finalized.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsReaderLockHeld">
+      <MemberSignature Language="C#" Value="public bool IsReaderLockHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsReaderLockHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.IsReaderLockHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsReaderLockHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsReaderLockHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-239">Ottiene un valore che indica se il thread corrente è responsabile di un blocco del lettore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-239">Gets a value indicating whether the current thread holds a reader lock.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c48b6-240">
+            <see langword="true" /> se il thread corrente è responsabile del blocco del lettore; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-240">
+              <see langword="true" /> if the current thread holds a reader lock; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="c48b6-241">Esempio di codice seguente viene illustrato come utilizzare `IsReaderLockHeld` per evitare i deadlock.</span><span class="sxs-lookup"><span data-stu-id="c48b6-241">The following code example demonstrates how to use `IsReaderLockHeld` to avoid deadlocks.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
+ [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsWriterLockHeld">
+      <MemberSignature Language="C#" Value="public bool IsWriterLockHeld { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsWriterLockHeld" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.IsWriterLockHeld" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsWriterLockHeld As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsWriterLockHeld { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-242">Viene fornito un valore che indica se il thread corrente è responsabile del blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-242">Gets a value indicating whether the current thread holds the writer lock.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c48b6-243">
+            <see langword="true" /> se il thread corrente è responsabile del blocco del writer; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-243">
+              <see langword="true" /> if the current thread holds the writer lock; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="c48b6-244">Esempio di codice seguente viene dimostrato che quando viene effettuato un tentativo di acquisire un blocco del lettore su un thread che dispone di un blocco del writer, `ReaderWriterLock` non concede il blocco di lettura, ma aumenta il conteggio dei blocchi nel blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-244">The following code example demonstrates that when an attempt is made to acquire a reader lock on a thread that has a writer lock, `ReaderWriterLock` does not grant the reader lock but instead increments the lock count on the writer lock.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
+ [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
+ [!code-vb[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseLock">
+      <MemberSignature Language="C#" Value="public System.Threading.LockCookie ReleaseLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Threading.LockCookie ReleaseLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseLock" />
+      <MemberSignature Language="VB.NET" Value="Public Function ReleaseLock () As LockCookie" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie ReleaseLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.LockCookie</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-245">Consente il rilascio del blocco indipendentemente dal numero di acquisizioni del blocco da parte del thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-245">Releases the lock, regardless of the number of times the thread acquired the lock.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c48b6-246">Valore <see cref="T:System.Threading.LockCookie" /> che rappresenta il blocco rilasciato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-246">A <see cref="T:System.Threading.LockCookie" /> value representing the released lock.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-247"><xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> rilascia il blocco del lettore o writer, indipendentemente dal conteggio dei blocchi ricorsivi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-247"><xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> releases the reader lock or writer lock, regardless of the recursive lock count.</span></span> <span data-ttu-id="c48b6-248">Per ripristinare lo stato del blocco, incluso il conteggio dei blocchi, passare il <xref:System.Threading.LockCookie> a <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-248">To restore the state of the lock, including the lock count, pass the <xref:System.Threading.LockCookie> to <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-249">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte viene acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.</span><span class="sxs-lookup"><span data-stu-id="c48b6-249">The following code example shows how to use the <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> method to release the lock, regardless of how many times it has been acquired by the thread, and how to restore the state of the lock later.</span></span>  
+  
+ <span data-ttu-id="c48b6-250">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-250">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#6](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#6)]
+[!code-csharp[System.Threading.ReaderWriterLock#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLock#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#6)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseReaderLock">
+      <MemberSignature Language="C#" Value="public void ReleaseReaderLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseReaderLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseReaderLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseReaderLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseReaderLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-251">Consente di diminuire il conteggio dei blocchi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-251">Decrements the lock count.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-252"><xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> Decrementa il conteggio dei blocchi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-252"><xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> decrements the lock count.</span></span> <span data-ttu-id="c48b6-253">Quando il conteggio raggiunge lo zero, il blocco viene rilasciato.</span><span class="sxs-lookup"><span data-stu-id="c48b6-253">When the count reaches zero, the lock is released.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-254">Se un thread del blocco del writer, la chiamata `ReleaseReaderLock` ha lo stesso effetto della chiamata <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-254">If a thread has the writer lock, calling `ReleaseReaderLock` has the same effect as calling <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>.</span></span> <span data-ttu-id="c48b6-255">Se un thread non dispone di alcun blocco, la chiamata `ReleaseReaderLock` genera un <xref:System.ApplicationException>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-255">If a thread has no locks, calling `ReleaseReaderLock` throws an <xref:System.ApplicationException>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-256">Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del lettore e come gestire l'eccezione generata quando scade una richiesta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-256">The following code example shows how to acquire and release a reader lock, and how to handle the exception thrown when a request times out.</span></span>  
+  
+ <span data-ttu-id="c48b6-257">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-257">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#3)]
+[!code-csharp[System.Threading.ReaderWriterLock#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#3)]
+[!code-vb[System.Threading.ReaderWriterLock#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#3)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-258">Il thread non è responsabile di blocchi di lettura o del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-258">The thread does not have any reader or writer locks.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseWriterLock">
+      <MemberSignature Language="C#" Value="public void ReleaseWriterLock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ReleaseWriterLock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseWriterLock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ReleaseWriterLock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseWriterLock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-259">Consente di diminuire il conteggio dei blocchi nel blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-259">Decrements the lock count on the writer lock.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-260"><xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> Decrementa conteggio del blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-260"><xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> decrements the writer lock count.</span></span> <span data-ttu-id="c48b6-261">Quando il conteggio raggiunge lo zero, viene rilasciato il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-261">When the count reaches zero, the writer lock is released.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="c48b6-262">Se un thread dispone di un blocco del lettore o alcun blocco, la chiamata `ReleaseWriterLock` genera un <xref:System.ApplicationException>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-262">If a thread has a reader lock, or no locks, calling `ReleaseWriterLock` throws an <xref:System.ApplicationException>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-263">Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del writer e come gestire l'eccezione generata quando scade una richiesta.</span><span class="sxs-lookup"><span data-stu-id="c48b6-263">The following code example shows how to acquire and release a writer lock, and how to handle the exception thrown when a request times out.</span></span>  
+  
+ <span data-ttu-id="c48b6-264">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-264">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#4](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#4)]
+[!code-csharp[System.Threading.ReaderWriterLock#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#4)]
+[!code-vb[System.Threading.ReaderWriterLock#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#4)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-265">Il thread non è responsabile del blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-265">The thread does not have the writer lock.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="RestoreLock">
+      <MemberSignature Language="C#" Value="public void RestoreLock (ref System.Threading.LockCookie lockCookie);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RestoreLock(valuetype System.Threading.LockCookie&amp; lockCookie) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.RestoreLock(System.Threading.LockCookie@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RestoreLock (ByRef lockCookie As LockCookie)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RestoreLock(System::Threading::LockCookie % lockCookie);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="lockCookie" Type="System.Threading.LockCookie&amp;" RefType="ref" />
+      </Parameters>
+      <Docs>
+        <param name="lockCookie">
+          <span data-ttu-id="c48b6-266">Oggetto <see cref="T:System.Threading.LockCookie" /> restituito dal metodo <see cref="M:System.Threading.ReaderWriterLock.ReleaseLock" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-266">A <see cref="T:System.Threading.LockCookie" /> returned by <see cref="M:System.Threading.ReaderWriterLock.ReleaseLock" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-267">Ripristina lo stato del blocco del thread in vigore prima della chiamata a <see cref="M:System.Threading.ReaderWriterLock.ReleaseLock" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-267">Restores the lock status of the thread to what it was before calling <see cref="M:System.Threading.ReaderWriterLock.ReleaseLock" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-268">Lo stato ripristinato da `RestoreLock` include il conteggio dei blocchi ricorsivi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-268">The state restored by `RestoreLock` includes the recursive lock count.</span></span>  
+  
+ <span data-ttu-id="c48b6-269">Un thread si blocca se tenta di ripristinare un blocco del lettore dopo che un altro thread ha acquisito il blocco del writer, o se tenta di ripristinare il blocco del writer dopo che un altro thread ha acquisito un blocco di lettura o di un blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-269">A thread blocks if it tries to restore a reader lock after another thread has acquired the writer lock, or if it tries to restore the writer lock after another thread has acquired a reader lock or writer lock.</span></span> <span data-ttu-id="c48b6-270">Poiché `RestoreLock` non accetta un timeout, è necessario prestare attenzione per evitare possibili deadlock.</span><span class="sxs-lookup"><span data-stu-id="c48b6-270">Because `RestoreLock` does not accept a time-out, you should take care to avoid possible deadlocks.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="c48b6-271">Prima di chiamare `RestoreLock`, assicurarsi che sia stata rilasciata tutti i blocchi acquisiti dopo la chiamata a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-271">Before calling `RestoreLock`, make sure you have released all locks acquired since the call to <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.</span></span> <span data-ttu-id="c48b6-272">Ad esempio, un thread deadlock se acquisisce un blocco del lettore e quindi tenta di ripristinare un blocco del writer precedenti.</span><span class="sxs-lookup"><span data-stu-id="c48b6-272">For example, a thread deadlocks if it acquires a reader lock, and then attempts to restore an earlier writer lock.</span></span> <span data-ttu-id="c48b6-273">Utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> e <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> per rilevare tali blocchi aggiuntivi.</span><span class="sxs-lookup"><span data-stu-id="c48b6-273">Use <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> and <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> to detect such additional locks.</span></span>  
+  
+ <span data-ttu-id="c48b6-274">Non utilizzare un <xref:System.Threading.LockCookie> restituito da <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-274">Do not use a <xref:System.Threading.LockCookie> returned from <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-275">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte viene acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.</span><span class="sxs-lookup"><span data-stu-id="c48b6-275">The following code example shows how to use the <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> method to release the lock, regardless of how many times it has been acquired by the thread, and how to restore the state of the lock later.</span></span>  
+  
+ <span data-ttu-id="c48b6-276">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-276">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#6](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#6)]
+[!code-csharp[System.Threading.ReaderWriterLock#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLock#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#6)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NullReferenceException">
+          <span data-ttu-id="c48b6-277">L'indirizzo di <paramref name="lockCookie" /> è un puntatore Null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-277">The address of <paramref name="lockCookie" /> is a null pointer.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="UpgradeToWriterLock">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-278">Consente l'aggiornamento da un blocco del lettore al blocco del writer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-278">Upgrades a reader lock to the writer lock.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="UpgradeToWriterLock">
+      <MemberSignature Language="C#" Value="public System.Threading.LockCookie UpgradeToWriterLock (int millisecondsTimeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Threading.LockCookie UpgradeToWriterLock(int32 millisecondsTimeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function UpgradeToWriterLock (millisecondsTimeout As Integer) As LockCookie" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie UpgradeToWriterLock(int millisecondsTimeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.LockCookie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="millisecondsTimeout">
+          <span data-ttu-id="c48b6-279">Timeout in millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-279">The time-out in milliseconds.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-280">Aggiorna un blocco del lettore al blocco del writer, usando un valore <see langword="Int32" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-280">Upgrades a reader lock to the writer lock, using an <see langword="Int32" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c48b6-281">Valore <see cref="T:System.Threading.LockCookie" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-281">A <see cref="T:System.Threading.LockCookie" /> value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-282">Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco di lettura, indipendentemente dal numero di blocchi, e il thread viene spostato alla fine della coda per il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-282">When a thread calls `UpgradeToWriterLock` the reader lock is released, regardless of the lock count, and the thread goes to the end of the queue for the writer lock.</span></span> <span data-ttu-id="c48b6-283">In questo modo, altri thread possono scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-283">Thus, other threads might write to the resource before the thread that requested the upgrade is granted the writer lock.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c48b6-284">Thread che ha chiamato non viene generata l'eccezione di timeout di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo riacquisire il blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-284">The time-out exception is not thrown until the thread that called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method can reacquire the reader lock.</span></span> <span data-ttu-id="c48b6-285">Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-285">If there are no other threads waiting for the writer lock, this happens immediately.</span></span> <span data-ttu-id="c48b6-286">Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato il <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non può riacquisire il blocco di lettura fino a quando tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-286">However, if another thread is queued for the writer lock, the thread that called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method cannot reacquire the reader lock until all current readers have released their locks, and one thread has acquired and released the writer lock.</span></span> <span data-ttu-id="c48b6-287">Questo vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c48b6-287">This is true even if the other thread that requested the writer lock requested it after the current thread called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method.</span></span>  
+  
+ <span data-ttu-id="c48b6-288">Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-288">To restore the lock state, call <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> using the <xref:System.Threading.LockCookie> returned by `UpgradeToWriterLock`.</span></span> <span data-ttu-id="c48b6-289">Non utilizzare questo `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-289">Do not use this `LockCookie` with <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span></span>  
+  
+ <span data-ttu-id="c48b6-290">Quando un thread non ha alcun blocco di lettura, non utilizzare `UpgradeToWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-290">When a thread has no reader lock, do not use `UpgradeToWriterLock`.</span></span> <span data-ttu-id="c48b6-291">In alternativa, usare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-291">Use <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> instead.</span></span>  
+  
+ <span data-ttu-id="c48b6-292">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-292">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-293">Esempio di codice seguente viene illustrato come richiedere un blocco del lettore, aggiornare il blocco di lettura a un blocco del writer e di effettuare il downgrade a un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-293">The following code example shows how to request a reader lock, upgrade the reader lock to a writer lock, and downgrade to a reader lock again.</span></span>  
+  
+ <span data-ttu-id="c48b6-294">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-294">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#5](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#5)]
+[!code-csharp[System.Threading.ReaderWriterLock#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#5)]
+[!code-vb[System.Threading.ReaderWriterLock#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#5)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-295">L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-295">
+              <paramref name="millisecondsTimeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="UpgradeToWriterLock">
+      <MemberSignature Language="C#" Value="public System.Threading.LockCookie UpgradeToWriterLock (TimeSpan timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Threading.LockCookie UpgradeToWriterLock(valuetype System.TimeSpan timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.TimeSpan)" />
+      <MemberSignature Language="VB.NET" Value="Public Function UpgradeToWriterLock (timeout As TimeSpan) As LockCookie" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie UpgradeToWriterLock(TimeSpan timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.LockCookie</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.TimeSpan" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="c48b6-296">Parametro <see langword="TimeSpan" /> che specifica il periodo di timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-296">The <see langword="TimeSpan" /> specifying the time-out period.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c48b6-297">Aggiorna un blocco del lettore al blocco del writer, usando un valore <see langword="TimeSpan" /> per il timeout.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-297">Upgrades a reader lock to the writer lock, using a <see langword="TimeSpan" /> value for the time-out.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c48b6-298">Valore <see cref="T:System.Threading.LockCookie" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-298">A <see cref="T:System.Threading.LockCookie" /> value.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-299">Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco di lettura, indipendentemente dal numero di blocchi, e il thread viene spostato alla fine della coda per il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-299">When a thread calls `UpgradeToWriterLock` the reader lock is released, regardless of the lock count, and the thread goes to the end of the queue for the writer lock.</span></span> <span data-ttu-id="c48b6-300">In questo modo, altri thread possono scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-300">Thus, other threads might write to the resource before the thread that requested the upgrade is granted the writer lock.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c48b6-301">Thread che ha chiamato non viene generata l'eccezione di timeout di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo riacquisire il blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-301">The time-out exception is not thrown until the thread that called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method can reacquire the reader lock.</span></span> <span data-ttu-id="c48b6-302">Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente.</span><span class="sxs-lookup"><span data-stu-id="c48b6-302">If there are no other threads waiting for the writer lock, this happens immediately.</span></span> <span data-ttu-id="c48b6-303">Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato il <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non può riacquisire il blocco di lettura fino a quando tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-303">However, if another thread is queued for the writer lock, the thread that called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method cannot reacquire the reader lock until all current readers have released their locks, and one thread has acquired and released the writer lock.</span></span> <span data-ttu-id="c48b6-304">Questo vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c48b6-304">This is true even if the other thread that requested the writer lock requested it after the current thread called the <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> method.</span></span>  
+  
+ <span data-ttu-id="c48b6-305">Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-305">To restore the lock state, call <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> using the <xref:System.Threading.LockCookie> returned by `UpgradeToWriterLock`.</span></span> <span data-ttu-id="c48b6-306">Non utilizzare questo `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-306">Do not use this `LockCookie` with <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.</span></span>  
+  
+ <span data-ttu-id="c48b6-307">Quando un thread non ha alcun blocco di lettura, non utilizzare `UpgradeToWriterLock`.</span><span class="sxs-lookup"><span data-stu-id="c48b6-307">When a thread has no reader lock, do not use `UpgradeToWriterLock`.</span></span> <span data-ttu-id="c48b6-308">In alternativa, usare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-308">Use <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A> instead.</span></span>  
+  
+ <span data-ttu-id="c48b6-309">Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.</span><span class="sxs-lookup"><span data-stu-id="c48b6-309">For valid time-out values, see <xref:System.Threading.ReaderWriterLock>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ApplicationException">
+          <span data-ttu-id="c48b6-310">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-310">
+              <paramref name="timeout" /> expires before the lock request is granted.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="c48b6-311">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-311">
+              <paramref name="timeout" /> specifies a negative value other than -1 milliseconds.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="WriterSeqNum">
+      <MemberSignature Language="C#" Value="public int WriterSeqNum { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 WriterSeqNum" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.WriterSeqNum" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WriterSeqNum As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WriterSeqNum { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c48b6-312">Viene fornito il numero di sequenza corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-312">Gets the current sequence number.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c48b6-313">Numero di sequenza corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c48b6-313">The current sequence number.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c48b6-314">Il numero di sequenza aumenta ogni volta che un thread acquisisce un blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-314">The sequence number increases whenever a thread acquires the writer lock.</span></span> <span data-ttu-id="c48b6-315">È possibile salvare il numero di sequenza e passarlo a <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> in un secondo momento, se si desidera determinare se nel frattempo altri thread hanno acquisito il blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-315">You can save the sequence number and pass it to <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> at a later time, if you want to determine whether other threads have acquired the writer lock in the meantime.</span></span>  
+  
+ <span data-ttu-id="c48b6-316">È possibile utilizzare `WriterSeqNum` per migliorare le prestazioni dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="c48b6-316">You can use `WriterSeqNum` to improve application performance.</span></span> <span data-ttu-id="c48b6-317">Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene mentre è attivo un blocco del lettore.</span><span class="sxs-lookup"><span data-stu-id="c48b6-317">For example, a thread might cache the information it obtains while holding a reader lock.</span></span> <span data-ttu-id="c48b6-318">Dopo il rilascio e la successiva riacquisizione del blocco, il thread può determinare se altri thread è scritte per la risorsa chiamando `AnyWritersSince`; se non è possibile utilizzare le informazioni memorizzate nella cache.</span><span class="sxs-lookup"><span data-stu-id="c48b6-318">After releasing and later reacquiring the lock, the thread can determine whether other threads have written to the resource by calling `AnyWritersSince`; if not, the cached information can be used.</span></span> <span data-ttu-id="c48b6-319">Questa tecnica è utile quando la lettura delle informazioni protette dal blocco è dispendiosa; ad esempio, eseguire una query sul database.</span><span class="sxs-lookup"><span data-stu-id="c48b6-319">This technique is useful when reading the information protected by the lock is expensive; for example, running a database query.</span></span>  
+  
+ <span data-ttu-id="c48b6-320">Il chiamante deve contenere un blocco di lettura o di un blocco del writer affinché il numero di sequenza essere utile.</span><span class="sxs-lookup"><span data-stu-id="c48b6-320">The caller must be holding a reader lock or a writer lock in order for the sequence number to be useful.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="c48b6-321">Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà e <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> metodo per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente viene mantenuto ultimo blocco del writer.</span><span class="sxs-lookup"><span data-stu-id="c48b6-321">The following code example shows how to use the <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> property and the <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> method to determine whether another thread acquired the writer lock on the protected resource since the current thread last held the writer lock.</span></span>  
+  
+ <span data-ttu-id="c48b6-322">Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.</span><span class="sxs-lookup"><span data-stu-id="c48b6-322">This code is part of a larger example provided for the <xref:System.Threading.ReaderWriterLock> class.</span></span>  
+  
+ [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
+ [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
+ [!code-vb[System.Threading.ReaderWriterLock#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#2)]  
+[!code-cpp[System.Threading.ReaderWriterLock#6](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#6)]
+[!code-csharp[System.Threading.ReaderWriterLock#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#6)]
+[!code-vb[System.Threading.ReaderWriterLock#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#6)]  
+[!code-cpp[System.Threading.ReaderWriterLock#7](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#7)]
+[!code-csharp[System.Threading.ReaderWriterLock#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#7)]
+[!code-vb[System.Threading.ReaderWriterLock#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/VB/source.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

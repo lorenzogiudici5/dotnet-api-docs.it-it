@@ -1,0 +1,311 @@
+<Type Name="WebThreadInformation" FullName="System.Web.Management.WebThreadInformation">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="bd0a1e1db24b039457901125154d3e1f62fd61e2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class WebThreadInformation" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WebThreadInformation extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Management.WebThreadInformation" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class WebThreadInformation" />
+  <TypeSignature Language="C++ CLI" Value="public ref class WebThreadInformation sealed" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="cc637-101">Fornisce informazioni sullo stato di un thread in un processo ASP.NET.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="cc637-101">Provides information about the state of a thread in an ASP.NET process.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="cc637-102">Il monitoraggio dello stato ASP.NET consente di produzione e lo staff operativo per la gestione di applicazioni Web distribuite.</span><span class="sxs-lookup"><span data-stu-id="cc637-102">ASP.NET health monitoring allows production and operations staff to manage deployed Web applications.</span></span> <span data-ttu-id="cc637-103">Il <xref:System.Web.Management> dello spazio dei nomi contiene i tipi di evento di stato responsabili per comprimere i dati di stato di integrità dell'applicazione e i tipi di provider responsabili dell'elaborazione dei dati.</span><span class="sxs-lookup"><span data-stu-id="cc637-103">The <xref:System.Web.Management> namespace contains the health-event types responsible for packaging application health-status data and the provider types responsible for processing this data.</span></span> <span data-ttu-id="cc637-104">Contiene inoltre i tipi di supporto che semplificano la gestione degli eventi di integrità.</span><span class="sxs-lookup"><span data-stu-id="cc637-104">It also contains supporting types that help during the management of health events.</span></span>  
+  
+ <span data-ttu-id="cc637-105">Le istanze del <xref:System.Web.Management.WebThreadInformation> classe contengono informazioni ottenute tramite il <xref:System.Web.Management.WebErrorEvent> tipo o <xref:System.Web.Management.WebRequestErrorEvent> tipo.</span><span class="sxs-lookup"><span data-stu-id="cc637-105">Instances of the <xref:System.Web.Management.WebThreadInformation> class contain information that is obtained using either the <xref:System.Web.Management.WebErrorEvent> type or the <xref:System.Web.Management.WebRequestErrorEvent> type.</span></span>  
+  
+ <span data-ttu-id="cc637-106">L'applicazione richiede le autorizzazioni appropriate per accedere a informazioni protette fornite da questo tipo.</span><span class="sxs-lookup"><span data-stu-id="cc637-106">Your application needs the appropriate permissions to access protected information provided by this type.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="cc637-107">Nella maggior parte dei casi sarà possibile utilizzare i tipi di monitoraggio dello stato ASP.NET, come implementato e controllare il sistema di monitoraggio dello stato specificando i valori di `healthMonitoring` sezione di configurazione.</span><span class="sxs-lookup"><span data-stu-id="cc637-107">In most cases you will be able to use the ASP.NET health-monitoring types as implemented, and you will control the health-monitoring system by specifying values in the `healthMonitoring` configuration section.</span></span> <span data-ttu-id="cc637-108">È anche possibile derivare da tipi di monitoraggio dello stato per creare eventi personalizzati e i provider.</span><span class="sxs-lookup"><span data-stu-id="cc637-108">You can also derive from the health-monitoring types to create your own custom events and providers.</span></span> <span data-ttu-id="cc637-109">Per un esempio di creazione di una classe di evento personalizzato, vedere l'esempio fornito in questo argomento.</span><span class="sxs-lookup"><span data-stu-id="cc637-109">For an example of creating a custom event class, see the example provided in this topic.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="cc637-110">Esempio di codice seguente presenta due parti.</span><span class="sxs-lookup"><span data-stu-id="cc637-110">The following code example has two parts.</span></span> <span data-ttu-id="cc637-111">Il primo è un estratto del file di configurazione che consente ad ASP.NET di utilizzare un evento personalizzato che utilizza il <xref:System.Web.Management.WebThreadInformation> tipo.</span><span class="sxs-lookup"><span data-stu-id="cc637-111">The first is an excerpt of a configuration file that enables ASP.NET to use a custom event that uses the <xref:System.Web.Management.WebThreadInformation> type.</span></span> <span data-ttu-id="cc637-112">La seconda viene illustrato come implementare l'evento personalizzato che utilizza il <xref:System.Web.Management.WebThreadInformation> tipo.</span><span class="sxs-lookup"><span data-stu-id="cc637-112">The second shows how to implement the custom event that uses the <xref:System.Web.Management.WebThreadInformation> type.</span></span>  
+  
+ <span data-ttu-id="cc637-113">Verificare che l'evento personalizzato viene generato al momento opportuno, vale a dire quando verrà generato l'evento di integrità di sistema equivalenti che sostituisce.</span><span class="sxs-lookup"><span data-stu-id="cc637-113">Ensure that your custom event is raised at the proper time, that is, when the equivalent system health event it replaces would be raised.</span></span>  
+  
+```  
+<healthMonitoring  
+    heartBeatInterval="0" enabled="true">  
+  
+  <profiles>  
+    <add name="Custom"   
+      minInstances="1"   
+      maxLimit="Infinite"   
+      minInterval="00:00:00" />  
+  </profiles>  
+  
+  <eventMappings>  
+  
+    <add   
+      name="SampleWebThreadInformation"   
+type="SamplesAspNet.SampleWebThreadInformation,webthreadinformation, Version=1.0.1782.29648, Culture=neutral, PublicKeyToken=b3283a2de7dd3f27, processorArchitecture=MSIL" />  
+  
+  </eventMappings>  
+  
+  <rules>  
+  
+    <add name="Custom Web Thread Info Event"   
+      eventName="SampleWebThreadInformation"   
+      provider="EventLogProvider"  
+      profile="Custom" />  
+  
+  </rules>  
+  
+</healthMonitoring>  
+```  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#1)]
+ [!code-vb[System.Web.Management.WebThreadInformation#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.Management.WebErrorEvent" />
+    <altmember cref="T:System.Web.Management.WebRequestErrorEvent" />
+    <altmember cref="T:System.Web.Management.WebManagementEvent" />
+  </Docs>
+  <Members>
+    <Member MemberName="FormatToString">
+      <MemberSignature Language="C#" Value="public void FormatToString (System.Web.Management.WebEventFormatter formatter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void FormatToString(class System.Web.Management.WebEventFormatter formatter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebThreadInformation.FormatToString(System.Web.Management.WebEventFormatter)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub FormatToString (formatter As WebEventFormatter)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void FormatToString(System::Web::Management::WebEventFormatter ^ formatter);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="formatter" Type="System.Web.Management.WebEventFormatter" />
+      </Parameters>
+      <Docs>
+        <param name="formatter">
+          <span data-ttu-id="cc637-114">Oggetto <see cref="T:System.Web.Management.WebEventFormatter" /> che contiene le impostazioni di tabulazione e rientro usate per formattare le informazioni relative a eventi di integrità Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-114">The <see cref="T:System.Web.Management.WebEventFormatter" /> that contains the tab and indentation settings used to format the Web health event information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="cc637-115">Formatta le informazioni relative al thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-115">Formats thread-related information.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="cc637-116">Il <xref:System.Web.Management.WebThreadInformation.FormatToString%2A> metodo fornisce un modello uniforme per informazioni sugli eventi, che risulta utile se i dati dell'evento devono essere registrati e successivamente presentati all'utente.</span><span class="sxs-lookup"><span data-stu-id="cc637-116">The <xref:System.Web.Management.WebThreadInformation.FormatToString%2A> method provides a uniform format for event information, which is useful if the event data must be logged and later presented to the user.</span></span> <span data-ttu-id="cc637-117">Viene chiamato internamente quando il provider richiama uno del <xref:System.Web.Management.WebBaseEvent.ToString%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="cc637-117">It is called internally when the provider invokes one of the <xref:System.Web.Management.WebBaseEvent.ToString%2A> methods.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="cc637-118">Esempio di codice seguente viene illustrato come formattare le informazioni personalizzate.</span><span class="sxs-lookup"><span data-stu-id="cc637-118">The following code example shows how to format custom information.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#8](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#8)]
+ [!code-vb[System.Web.Management.WebThreadInformation#8](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#8)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsImpersonating">
+      <MemberSignature Language="C#" Value="public bool IsImpersonating { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsImpersonating" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebThreadInformation.IsImpersonating" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsImpersonating As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsImpersonating { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="cc637-119">Ottiene la modalità di rappresentazione del thread corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-119">Gets the current thread-impersonation mode.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="cc637-120">
+            <see langword="true" /> se il thread viene eseguito in modalità di rappresentazione. In caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-120">
+              <see langword="true" /> if the thread is executing in impersonation mode; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="cc637-121">Esempio di codice seguente viene illustrato come ottenere la modalità di rappresentazione di thread.</span><span class="sxs-lookup"><span data-stu-id="cc637-121">The following code example shows how to get the thread-impersonation mode.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#4](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#4)]
+ [!code-vb[System.Web.Management.WebThreadInformation#4](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#4)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="StackTrace">
+      <MemberSignature Language="C#" Value="public string StackTrace { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string StackTrace" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebThreadInformation.StackTrace" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property StackTrace As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ StackTrace { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="cc637-122">Ottiene la traccia dello stack gestita dal thread corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-122">Gets the current thread-managed stack trace.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="cc637-123">Traccia dello stack gestita dal thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-123">The thread-managed stack trace.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="cc637-124">Esempio di codice seguente viene illustrato come ottenere la traccia dello stack di thread.</span><span class="sxs-lookup"><span data-stu-id="cc637-124">The following code example shows how to get the thread stack trace.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#5](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#5)]
+ [!code-vb[System.Web.Management.WebThreadInformation#5](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ThreadAccountName">
+      <MemberSignature Language="C#" Value="public string ThreadAccountName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ThreadAccountName" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebThreadInformation.ThreadAccountName" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ThreadAccountName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ ThreadAccountName { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="cc637-125">Ottiene il nome dell'account del thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-125">Gets the thread account name.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="cc637-126">Nome dell'account del thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-126">The thread account name.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="cc637-127">L'account restituita da questa proprietà potrebbe essere non autorizzato se il thread è in esecuzione in modalità di rappresentazione.</span><span class="sxs-lookup"><span data-stu-id="cc637-127">The account returned by this property might be arbitrary if the thread is executing in impersonation mode.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="cc637-128">Esempio di codice seguente viene illustrato come ottenere il nome dell'account.</span><span class="sxs-lookup"><span data-stu-id="cc637-128">The following code example shows how to get the thread account name.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#6](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#6)]
+ [!code-vb[System.Web.Management.WebThreadInformation#6](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ThreadID">
+      <MemberSignature Language="C#" Value="public int ThreadID { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ThreadID" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebThreadInformation.ThreadID" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ThreadID As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int ThreadID { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="cc637-129">Ottiene l'identificatore del thread attuale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-129">Gets the current thread identifier.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="cc637-130">Identificatore del thread attuale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cc637-130">The current thread identifier.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="cc637-131">Anche se i thread gestiti potrebbero non disporre di un mapping diretto per i thread del sistema operativo, per il debug, è sempre utile isolare un thread specifico in cui potrebbero verificarsi problemi.</span><span class="sxs-lookup"><span data-stu-id="cc637-131">Even if managed threads might not have direct mapping to the OS threads, for debugging purposes, it is always useful to isolate a specific thread where problems might exist.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="cc637-132">Esempio di codice seguente viene illustrato come ottenere l'identificatore del thread.</span><span class="sxs-lookup"><span data-stu-id="cc637-132">The following code example shows how to get the thread identifier.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebThreadInformation#7](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/CS/webthreadinformation.cs#7)]
+ [!code-vb[System.Web.Management.WebThreadInformation#7](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebThreadInformation/VB/webthreadinformation.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

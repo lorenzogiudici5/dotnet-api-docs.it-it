@@ -1,0 +1,548 @@
+<Type Name="WebProcessStatistics" FullName="System.Web.Management.WebProcessStatistics">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="7e018f93e39014da51020a0cbc90c0edc6bd85ed" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class WebProcessStatistics" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi WebProcessStatistics extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Management.WebProcessStatistics" />
+  <TypeSignature Language="VB.NET" Value="Public Class WebProcessStatistics" />
+  <TypeSignature Language="C++ CLI" Value="public ref class WebProcessStatistics" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="f1ee3-101">Fornisce informazioni per la valutazione dello stato di un processo in esecuzione.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f1ee3-101">Provides information for assessing the health of a running process.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-102">Il monitoraggio dello stato ASP.NET consente di produzione e lo staff operativo per la gestione di applicazioni Web distribuite.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-102">ASP.NET health monitoring allows production and operations staff to manage deployed Web applications.</span></span> <span data-ttu-id="f1ee3-103">Il <xref:System.Web.Management> dello spazio dei nomi contiene i tipi di evento di stato responsabili per comprimere i dati di stato di integrità dell'applicazione e i tipi di provider responsabili dell'elaborazione dei dati.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-103">The <xref:System.Web.Management> namespace contains the health-event types responsible for packaging application health-status data and the provider types responsible for processing this data.</span></span> <span data-ttu-id="f1ee3-104">Contiene inoltre i tipi di supporto che semplificano la gestione degli eventi di integrità.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-104">It also contains supporting types that help during the management of health events.</span></span>  
+  
+ <span data-ttu-id="f1ee3-105">Le istanze del <xref:System.Web.Management.WebProcessStatistics> classe contengono informazioni ottenute tramite il <xref:System.Web.Management.WebHeartbeatEvent> tipo.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-105">Instances of the <xref:System.Web.Management.WebProcessStatistics> class contain information that is obtained using the <xref:System.Web.Management.WebHeartbeatEvent> type.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="f1ee3-106">Nella maggior parte dei casi sarà possibile utilizzare i tipi di monitoraggio dello stato ASP.NET, come implementato e controllare il sistema di monitoraggio dello stato specificando i valori di `healthMonitoring` sezione di configurazione.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-106">In most cases you will be able to use the ASP.NET health-monitoring types as implemented, and you will control the health-monitoring system by specifying values in the `healthMonitoring` configuration section.</span></span> <span data-ttu-id="f1ee3-107">È anche possibile derivare da tipi di monitoraggio dello stato per creare eventi personalizzati e i provider.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-107">You can also derive from the health-monitoring types to create your own custom events and providers.</span></span> <span data-ttu-id="f1ee3-108">Per un esempio di creazione di una classe di evento personalizzato, vedere l'esempio fornito in questo argomento.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-108">For an example of creating a custom event class, see the example provided in this topic.</span></span>  
+  
+ <span data-ttu-id="f1ee3-109">Di seguito è una porzione di un file di configurazione che è possibile utilizzare per abilitare ASP.NET per registrare gli eventi di heartbeat che contengono le statistiche di processo.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-109">The following is an excerpt of a configuration file you could use to enable ASP.NET to log heartbeat events that contain process statistics.</span></span>  
+  
+```  
+<healthMonitoring   
+  enabled="true" heartBeatInterval="100">  
+  
+    <rules>  
+      <add   
+        name="Process Statistics"  
+        eventName="Heartbeats"   
+        provider="EventLogProvider"    
+        profile="Default"/>  
+    </rules>  
+  
+</healthMonitoring>  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-110">Esempio di codice seguente presenta due parti.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-110">The following code example has two parts.</span></span> <span data-ttu-id="f1ee3-111">Il primo è un estratto del file di configurazione che consente ad ASP.NET di utilizzare un evento personalizzato che utilizza il <xref:System.Web.Management.WebProcessStatistics> tipo.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-111">The first is an excerpt of the configuration file that enables ASP.NET to use a custom event that uses the <xref:System.Web.Management.WebProcessStatistics> type.</span></span> <span data-ttu-id="f1ee3-112">Nella seconda viene illustrato come implementare questo evento personalizzato...</span><span class="sxs-lookup"><span data-stu-id="f1ee3-112">The second shows how to implement this custom event..</span></span>  
+  
+ <span data-ttu-id="f1ee3-113">Verificare che l'evento personalizzato viene generato al momento opportuno, vale a dire quando verrà generato l'evento di integrità di sistema equivalenti che sostituisce.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-113">Ensure that your custom event is raised at the proper time, that is, when the equivalent system health event it replaces would be raised.</span></span>  
+  
+```  
+<healthMonitoring   
+  enabled="true" heartBeatInterval="0">  
+  
+    <eventMappings>  
+      <add  name="SampleProcessStatistics" type="SamplesAspNet.SampleWebProcessStatistics, webprocessstatistics, Version=1.0.1585.27289, Culture=neutral, PublicKeyToken=3648e5c763a8239f, processorArchitecture=MSIL"/>  
+    </eventMappings>  
+  
+    <rules>  
+      <add   
+        name="Custom Process Statistics"  
+        eventName="SampleProcessStatistics"   
+        provider="EventLogProvider"    
+        profile="Default"/>  
+    </rules>  
+  
+</healthMonitoring>  
+```  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#1)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Web.Management.WebHeartbeatEvent" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WebProcessStatistics ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebProcessStatistics.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; WebProcessStatistics();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-114">Inizializza una nuova istanza della classe <see cref="T:System.Web.Management.WebProcessStatistics" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-114">Initializes a new instance of the <see cref="T:System.Web.Management.WebProcessStatistics" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AppDomainCount">
+      <MemberSignature Language="C#" Value="public int AppDomainCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 AppDomainCount" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.AppDomainCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property AppDomainCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int AppDomainCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-115">Ottiene il numero di domini applicazioni nel processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-115">Gets the number of application domains in the process.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-116">Numero di domini applicazioni.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-116">The number of application domains.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-117">Questa proprietà è in genere si riferisce al numero di applicazioni ASP.NET nel processo, incluso il dominio predefinito.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-117">This property usually refers to the number of ASP.NET applications in the process, including the default domain.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-118">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.AppDomainCount%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-118">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.AppDomainCount%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#5](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#5)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#5](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#5)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FormatToString">
+      <MemberSignature Language="C#" Value="public virtual void FormatToString (System.Web.Management.WebEventFormatter formatter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void FormatToString(class System.Web.Management.WebEventFormatter formatter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Management.WebProcessStatistics.FormatToString(System.Web.Management.WebEventFormatter)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub FormatToString (formatter As WebEventFormatter)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void FormatToString(System::Web::Management::WebEventFormatter ^ formatter);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="formatter" Type="System.Web.Management.WebEventFormatter" />
+      </Parameters>
+      <Docs>
+        <param name="formatter">
+          <span data-ttu-id="f1ee3-119">Oggetto <see cref="T:System.Web.Management.WebEventFormatter" /> che contiene le impostazioni di tabulazione e rientro usate per formattare le informazioni relative a eventi di integrità Web.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-119">The <see cref="T:System.Web.Management.WebEventFormatter" /> that contains the tab and indentation settings used to format the Web health event information.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f1ee3-120">Formatta le statistiche del processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-120">Formats the process statistics.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-121">Il <xref:System.Web.Management.WebProcessStatistics.FormatToString%2A> metodo fornisce un modello uniforme per informazioni sugli eventi, che risulta utile se i dati dell'evento devono essere registrati e successivamente presentati all'utente.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-121">The <xref:System.Web.Management.WebProcessStatistics.FormatToString%2A> method provides a uniform format for event information, which is useful if the event data must be logged and later presented to the user.</span></span> <span data-ttu-id="f1ee3-122">Viene chiamato internamente quando il provider richiama uno del <xref:System.Web.Management.WebBaseEvent.ToString%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-122">It is called internally when the provider invokes one of the <xref:System.Web.Management.WebBaseEvent.ToString%2A> methods.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-123">Esempio di codice seguente viene illustrato come formattare le informazioni personalizzate.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-123">The following code example shows how to format custom information.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#14](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#14)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#14](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#14)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ManagedHeapSize">
+      <MemberSignature Language="C#" Value="public long ManagedHeapSize { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 ManagedHeapSize" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.ManagedHeapSize" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ManagedHeapSize As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long ManagedHeapSize { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-124">Ottiene la dimensione dell'heap gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-124">Gets the size of the managed heap.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-125">Dimensione dell'heap gestito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-125">The size of the managed heap.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f1ee3-126">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.ManagedHeapSize%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-126">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.ManagedHeapSize%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#6](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#6)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#6](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#6)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PeakWorkingSet">
+      <MemberSignature Language="C#" Value="public long PeakWorkingSet { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 PeakWorkingSet" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.PeakWorkingSet" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PeakWorkingSet As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long PeakWorkingSet { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-127">Ottiene il working set massimo per la durata del processo fino al momento attuale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-127">Gets the peak working set for the lifetime of the process to date.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-128">Working set massimo del processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-128">The peak working set of the process.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f1ee3-129">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.PeakWorkingSet%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-129">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.PeakWorkingSet%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#7](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#7)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#7](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#7)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ProcessStartTime">
+      <MemberSignature Language="C#" Value="public DateTime ProcessStartTime { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.DateTime ProcessStartTime" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.ProcessStartTime" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ProcessStartTime As DateTime" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property DateTime ProcessStartTime { DateTime get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.DateTime</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-130">Ottiene la data e l'ora in cui è stato avviato il processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-130">Gets the time when the process started.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-131">
+            <see cref="T:System.DateTime" /> in cui è stato avviato il processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-131">The <see cref="T:System.DateTime" /> when the process started.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f1ee3-132">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.ProcessStartTime%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-132">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.ProcessStartTime%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#8](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#8)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#8](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#8)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestsExecuting">
+      <MemberSignature Language="C#" Value="public int RequestsExecuting { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RequestsExecuting" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.RequestsExecuting" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RequestsExecuting As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RequestsExecuting { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-133">Ottiene il numero di richieste attualmente in esecuzione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-133">Gets the number of requests currently executing.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-134">Numero di richieste attualmente in esecuzione nel processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-134">The number of requests that the process is currently executing.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-135">Il <xref:System.Web.Management.WebProcessStatistics.RequestsExecuting%2A> valore è un indicatore utile del carico.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-135">The <xref:System.Web.Management.WebProcessStatistics.RequestsExecuting%2A> value is a useful load indicator.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-136">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.RequestsExecuting%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-136">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.RequestsExecuting%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#9](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#9)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#9](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#9)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestsQueued">
+      <MemberSignature Language="C#" Value="public int RequestsQueued { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RequestsQueued" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.RequestsQueued" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RequestsQueued As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RequestsQueued { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-137">Ottiene il numero di richieste in attesa di elaborazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-137">Gets the number of requests waiting to be processed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-138">Numero di richieste in attesa di elaborazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-138">The number of requests waiting to be processed.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-139">Il <xref:System.Web.Management.WebProcessStatistics.RequestsQueued%2A> valore è un indicatore utile del carico.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-139">The <xref:System.Web.Management.WebProcessStatistics.RequestsQueued%2A> value is a useful load indicator.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-140">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.RequestsQueued%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-140">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.RequestsQueued%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#10](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#10)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#10](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#10)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RequestsRejected">
+      <MemberSignature Language="C#" Value="public int RequestsRejected { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RequestsRejected" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.RequestsRejected" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RequestsRejected As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RequestsRejected { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-141">Ottiene il numero delle richieste rifiutate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-141">Gets the number of rejected requests.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-142">Numero delle richieste rifiutate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-142">The number of rejected requests.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-143">Questo <xref:System.Web.Management.WebProcessStatistics.RequestsRejected%2A> valore è un indicatore utile di un sistema sovraccarico o non funziona correttamente.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-143">This <xref:System.Web.Management.WebProcessStatistics.RequestsRejected%2A> value is a useful indicator of an overloaded or malfunctioning system.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-144">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.RequestsRejected%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-144">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.RequestsRejected%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#11](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#11)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#11](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#11)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ThreadCount">
+      <MemberSignature Language="C#" Value="public int ThreadCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ThreadCount" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.ThreadCount" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ThreadCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int ThreadCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-145">Ottiene il conteggio totale dei thread di processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-145">Gets the total count of the process threads.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-146">Conteggio totale dei thread di processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-146">The total count of the process threads.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f1ee3-147">Il conteggio fa riferimento per i thread gestiti e non gestiti.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-147">The count refers to the managed and unmanaged threads.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f1ee3-148">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.ThreadCount%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-148">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.ThreadCount%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#12](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#12)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#12](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#12)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="WorkingSet">
+      <MemberSignature Language="C#" Value="public long WorkingSet { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int64 WorkingSet" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Management.WebProcessStatistics.WorkingSet" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WorkingSet As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property long WorkingSet { long get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f1ee3-149">Ottiene il working set del processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-149">Gets the working set for the process.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f1ee3-150">Working set del processo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f1ee3-150">The working set for the process.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f1ee3-151">Esempio di codice seguente viene illustrato come ottenere il <xref:System.Web.Management.WebProcessStatistics.WorkingSet%2A> valore.</span><span class="sxs-lookup"><span data-stu-id="f1ee3-151">The following code example shows how to get the <xref:System.Web.Management.WebProcessStatistics.WorkingSet%2A> value.</span></span>  
+  
+ [!code-csharp[System.Web.Management.WebProcessStatistics#13](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/CS/webprocessstatisticsevent.cs#13)]
+ [!code-vb[System.Web.Management.WebProcessStatistics#13](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Management.WebProcessStatistics/VB/webprocessstatisticsevent.vb#13)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
