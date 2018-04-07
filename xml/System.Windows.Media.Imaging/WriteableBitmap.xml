@@ -1,0 +1,1395 @@
+<Type Name="WriteableBitmap" FullName="System.Windows.Media.Imaging.WriteableBitmap">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="d8faee124c2155a6b75d903b393c805332cebd28" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class WriteableBitmap : System.Windows.Media.Imaging.BitmapSource" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WriteableBitmap extends System.Windows.Media.Imaging.BitmapSource" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Media.Imaging.WriteableBitmap" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class WriteableBitmap&#xA;Inherits BitmapSource" />
+  <TypeSignature Language="C++ CLI" Value="public ref class WriteableBitmap sealed : System::Windows::Media::Imaging::BitmapSource" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Windows.Media.Imaging.BitmapSource</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="a4842-101">Fornisce un <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> che può essere scritto e aggiornato.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="a4842-101">Provides a <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> that can be written to and updated.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-102">Utilizzare la <xref:System.Windows.Media.Imaging.WriteableBitmap> classe per aggiornare ed eseguire il rendering di una bitmap con cadenza per frame.</span><span class="sxs-lookup"><span data-stu-id="a4842-102">Use the <xref:System.Windows.Media.Imaging.WriteableBitmap> class to update and render a bitmap on a per-frame basis.</span></span> <span data-ttu-id="a4842-103">Ciò è utile per la generazione del contenuto algoritmico, ad esempio un'immagine frattale e di visualizzazione dei dati, ad esempio un visualizzatore musicale.</span><span class="sxs-lookup"><span data-stu-id="a4842-103">This is useful for generating algorithmic content, such as a fractal image, and for data visualization, such as a music visualizer.</span></span>  
+  
+ <span data-ttu-id="a4842-104">La <xref:System.Windows.Media.Imaging.WriteableBitmap> classe utilizza due buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-104">The <xref:System.Windows.Media.Imaging.WriteableBitmap> class uses two buffers.</span></span> <span data-ttu-id="a4842-105">Il *buffer nascosto* allocata nella memoria di sistema e accumula il contenuto non è attualmente visualizzato.</span><span class="sxs-lookup"><span data-stu-id="a4842-105">The *back buffer* is allocated in system memory and accumulates content that is not currently displayed.</span></span> <span data-ttu-id="a4842-106">Il *buffer anteriore* allocata nella memoria di sistema e il contenuto che è attualmente visualizzato.</span><span class="sxs-lookup"><span data-stu-id="a4842-106">The *front buffer* is allocated in system memory and contains the content that is currently displayed.</span></span> <span data-ttu-id="a4842-107">Il sistema di rendering copia front buffer di memoria video per la visualizzazione.</span><span class="sxs-lookup"><span data-stu-id="a4842-107">The rendering system copies the front buffer to video memory for display.</span></span>  
+  
+ <span data-ttu-id="a4842-108">Due thread utilizzano questi buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-108">Two threads use these buffers.</span></span> <span data-ttu-id="a4842-109">Il *thread dell'interfaccia utente* genera l'interfaccia utente ma non viene visualizzata sullo schermo.</span><span class="sxs-lookup"><span data-stu-id="a4842-109">The *user interface (UI) thread* generates the UI but does not present it to the screen.</span></span> <span data-ttu-id="a4842-110">Il thread dell'interfaccia utente risponde per l'input dell'utente, timer e altri eventi.</span><span class="sxs-lookup"><span data-stu-id="a4842-110">The UI thread responds to user input, timers, and other events.</span></span> <span data-ttu-id="a4842-111">Un'applicazione può disporre di più thread dell'interfaccia utente.</span><span class="sxs-lookup"><span data-stu-id="a4842-111">An application can have multiple UI threads.</span></span> <span data-ttu-id="a4842-112">Il *thread di rendering* compone e visualizza le modifiche effettuate dal thread dell'interfaccia utente.</span><span class="sxs-lookup"><span data-stu-id="a4842-112">The *render thread* composes and renders changes from the UI thread.</span></span> <span data-ttu-id="a4842-113">È il rendering di un solo thread per ogni applicazione.</span><span class="sxs-lookup"><span data-stu-id="a4842-113">There is only one render thread per application.</span></span>  
+  
+ <span data-ttu-id="a4842-114">Il thread UI scrive il contenuto al buffer nascosto.</span><span class="sxs-lookup"><span data-stu-id="a4842-114">The UI thread writes content to the back buffer.</span></span> <span data-ttu-id="a4842-115">Il thread di rendering legge il contenuto dal front buffer e lo copia in memoria video.</span><span class="sxs-lookup"><span data-stu-id="a4842-115">The render thread reads content from the front buffer and copies it to video memory.</span></span> <span data-ttu-id="a4842-116">Le modifiche al buffer nascosto vengono rilevate con aree rettangolari modificate.</span><span class="sxs-lookup"><span data-stu-id="a4842-116">Changes to the back buffer are tracked with changed rectangular regions.</span></span>  
+  
+ <span data-ttu-id="a4842-117">Chiamare uno del <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overload per aggiornare e visualizzare automaticamente il contenuto del buffer nascosto.</span><span class="sxs-lookup"><span data-stu-id="a4842-117">Call one of the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overloads to update and display content in the back buffer automatically.</span></span>  
+  
+ <span data-ttu-id="a4842-118">Per un maggiore controllo sugli aggiornamenti e per l'accesso al buffer nascosto a thread multipli, utilizzare il seguente flusso di lavoro.</span><span class="sxs-lookup"><span data-stu-id="a4842-118">For greater control over updates, and for multi-threaded access to the back buffer, use the following workflow.</span></span>  
+  
+1.  <span data-ttu-id="a4842-119">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo riservare il buffer nascosto per gli aggiornamenti.</span><span class="sxs-lookup"><span data-stu-id="a4842-119">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method to reserve the back buffer for updates.</span></span>  
+  
+2.  <span data-ttu-id="a4842-120">Ottenere un puntatore al buffer nascosto accedendo il <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="a4842-120">Obtain a pointer to the back buffer by accessing the <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> property.</span></span>  
+  
+3.  <span data-ttu-id="a4842-121">Scrivere le modifiche al buffer nascosto.</span><span class="sxs-lookup"><span data-stu-id="a4842-121">Write changes to the back buffer.</span></span> <span data-ttu-id="a4842-122">Altri thread può scrivere modifiche sul buffer nascosto quando il <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato.</span><span class="sxs-lookup"><span data-stu-id="a4842-122">Other threads may write changes to the back buffer when the <xref:System.Windows.Media.Imaging.WriteableBitmap> is locked.</span></span>  
+  
+4.  <span data-ttu-id="a4842-123">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo per indicare le aree che sono stati modificati.</span><span class="sxs-lookup"><span data-stu-id="a4842-123">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method to indicate areas that have changed.</span></span>  
+  
+5.  <span data-ttu-id="a4842-124">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo per rilasciare il buffer nascosto e consentire la visualizzazione sullo schermo.</span><span class="sxs-lookup"><span data-stu-id="a4842-124">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method to release the back buffer and allow presentation to the screen.</span></span>  
+  
+ <span data-ttu-id="a4842-125">Quando gli aggiornamenti vengono inviati al thread di rendering, il thread di rendering copia i rettangoli modificati dal buffer nascosto front buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-125">When updates are sent to the rendering thread, the rendering thread copies the changed rectangles from the back buffer to the front buffer.</span></span> <span data-ttu-id="a4842-126">Il sistema di rendering controlla questo scambio per evitare i deadlock e ridisegnare elementi, ad esempio "interruzione".</span><span class="sxs-lookup"><span data-stu-id="a4842-126">The rendering system controls this exchange to avoid deadlocks and redraw artifacts, such as "tearing".</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="a4842-127">Nell'esempio seguente viene illustrato come un <xref:System.Windows.Media.Imaging.WriteableBitmap> può essere utilizzato come origine di un <xref:System.Windows.Controls.Image> per disegnare pixel quando il mouse viene spostato.</span><span class="sxs-lookup"><span data-stu-id="a4842-127">The following example demonstrates how a <xref:System.Windows.Media.Imaging.WriteableBitmap> can be used as the source of an <xref:System.Windows.Controls.Image> to draw pixels when the mouse moves.</span></span>  
+  
+ [!code-csharp[WriteableBitmap2#WriteableBitmapFullPage](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#writeablebitmapfullpage)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Windows.Media.Imaging.BitmapSource" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-128">Inizializza una nuova istanza della classe <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-128">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WriteableBitmap (System.Windows.Media.Imaging.BitmapSource source);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Windows.Media.Imaging.BitmapSource source) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Windows.Media.Imaging.BitmapSource)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (source As BitmapSource)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; WriteableBitmap(System::Windows::Media::Imaging::BitmapSource ^ source);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="source" Type="System.Windows.Media.Imaging.BitmapSource" />
+      </Parameters>
+      <Docs>
+        <param name="source">
+          <span data-ttu-id="a4842-129">Interfaccia <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> da utilizzare per l’inizializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-129">The <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> to use for initialization.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-130">Inizializza una nuova istanza della classe <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> utilizzando l'oggetto <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-130">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class using the given <see cref="T:System.Windows.Media.Imaging.BitmapSource" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-131">Il <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> costruttore è preferita rispetto all'utilizzo di questo costruttore.</span><span class="sxs-lookup"><span data-stu-id="a4842-131">The <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> constructor is preferred over using this constructor.</span></span>  
+  
+ <span data-ttu-id="a4842-132">Se `source` non utilizza un formato di bitmap supportato in modo nativo, vengono applicate le conversioni per ogni aggiornamento frame, riducendo le prestazioni di formato.</span><span class="sxs-lookup"><span data-stu-id="a4842-132">If `source` does not use a natively supported bitmap format, format conversions are applied for each frame update, which reduces performance.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-133">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-133">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-134">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-134">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-135">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-135">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public WriteableBitmap (int pixelWidth, int pixelHeight, double dpiX, double dpiY, System.Windows.Media.PixelFormat pixelFormat, System.Windows.Media.Imaging.BitmapPalette palette);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(int32 pixelWidth, int32 pixelHeight, float64 dpiX, float64 dpiY, valuetype System.Windows.Media.PixelFormat pixelFormat, class System.Windows.Media.Imaging.BitmapPalette palette) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.#ctor(System.Int32,System.Int32,System.Double,System.Double,System.Windows.Media.PixelFormat,System.Windows.Media.Imaging.BitmapPalette)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; WriteableBitmap(int pixelWidth, int pixelHeight, double dpiX, double dpiY, System::Windows::Media::PixelFormat pixelFormat, System::Windows::Media::Imaging::BitmapPalette ^ palette);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="pixelWidth" Type="System.Int32" />
+        <Parameter Name="pixelHeight" Type="System.Int32" />
+        <Parameter Name="dpiX" Type="System.Double" />
+        <Parameter Name="dpiY" Type="System.Double" />
+        <Parameter Name="pixelFormat" Type="System.Windows.Media.PixelFormat" />
+        <Parameter Name="palette" Type="System.Windows.Media.Imaging.BitmapPalette" />
+      </Parameters>
+      <Docs>
+        <param name="pixelWidth">
+          <span data-ttu-id="a4842-136">Larghezza desiderata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-136">The desired width of the bitmap.</span>
+          </span>
+        </param>
+        <param name="pixelHeight">
+          <span data-ttu-id="a4842-137">Altezza desiderata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-137">The desired height of the bitmap.</span>
+          </span>
+        </param>
+        <param name="dpiX">
+          <span data-ttu-id="a4842-138">La [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] orizzontale della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-138">The horizontal [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] of the bitmap.</span>
+          </span>
+        </param>
+        <param name="dpiY">
+          <span data-ttu-id="a4842-139">Il [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] verticale della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-139">The vertical [!INCLUDE[TLA#tla_dpi](~/includes/tlasharptla-dpi-md.md)] of the bitmap.</span>
+          </span>
+        </param>
+        <param name="pixelFormat">
+          <span data-ttu-id="a4842-140">Il <see cref="T:System.Windows.Media.PixelFormat" /> della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-140">The <see cref="T:System.Windows.Media.PixelFormat" /> of the bitmap.</span>
+          </span>
+        </param>
+        <param name="palette">
+          <span data-ttu-id="a4842-141">Il <see cref="T:System.Windows.Media.Imaging.BitmapPalette" /> della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-141">The <see cref="T:System.Windows.Media.Imaging.BitmapPalette" /> of the bitmap.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-142">Inizializza una nuova istanza della classe <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> con i parametri specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-142">Initializes a new instance of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> class with the specified parameters.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-143">I valori preferiti per `pixelFormat` sono <xref:System.Windows.Media.PixelFormats.Bgr32%2A> e <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>.</span><span class="sxs-lookup"><span data-stu-id="a4842-143">The preferred values for `pixelFormat` are <xref:System.Windows.Media.PixelFormats.Bgr32%2A> and <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>.</span></span> <span data-ttu-id="a4842-144">Questi formati sono supportati in modo nativo e non richiedono una conversione di formato.</span><span class="sxs-lookup"><span data-stu-id="a4842-144">These formats are natively supported and do not require a format conversion.</span></span> <span data-ttu-id="a4842-145">Altri `pixelFormat` valori richiedono una conversione di formato per ogni aggiornamento frame, riducendo le prestazioni.</span><span class="sxs-lookup"><span data-stu-id="a4842-145">Other `pixelFormat` values require a format conversion for each frame update, which reduces performance.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-146">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-146">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-147">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-147">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-148">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-148">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="AddDirtyRect">
+      <MemberSignature Language="C#" Value="public void AddDirtyRect (System.Windows.Int32Rect dirtyRect);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddDirtyRect(valuetype System.Windows.Int32Rect dirtyRect) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AddDirtyRect (dirtyRect As Int32Rect)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddDirtyRect(System::Windows::Int32Rect dirtyRect);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dirtyRect" Type="System.Windows.Int32Rect" />
+      </Parameters>
+      <Docs>
+        <param name="dirtyRect">
+          <span data-ttu-id="a4842-149">Un oggetto di tipo <see cref="T:System.Windows.Int32Rect" /> che rappresenta l’area che ha subito modifiche.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-149">An <see cref="T:System.Windows.Int32Rect" /> representing the area that changed.</span>
+          </span>
+          <span data-ttu-id="a4842-150">Le dimensioni sono espresse in pixel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-150">Dimensions are in pixels.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-151">Specifica l'area della bitmap che ha subito modifiche.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-151">Specifies the area of the bitmap that changed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-152">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo per indicare le modifiche apportate dal codice al buffer nascosto.</span><span class="sxs-lookup"><span data-stu-id="a4842-152">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method to indicate changes your code has made to the back buffer.</span></span>  
+  
+ <span data-ttu-id="a4842-153">Quando si chiama questo metodo più volte, le aree modificate vengono accumulate in una rappresentazione sufficiente, ma non necessariamente minima.</span><span class="sxs-lookup"><span data-stu-id="a4842-153">When you call this method multiple times, the changed areas are accumulated in a sufficient, but not necessarily minimal, representation.</span></span> <span data-ttu-id="a4842-154">Per motivi di efficienza, solo le aree che sono contrassegnate come dirty sono necessariamente essere copiate nel front buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-154">For efficiency, only the areas that are marked as dirty are guaranteed to be copied forward to the front buffer.</span></span> <span data-ttu-id="a4842-155">Tuttavia, qualsiasi parte della bitmap può essere copiati in avanti, è necessario assicurarsi che il buffer nascosto sia sempre valido.</span><span class="sxs-lookup"><span data-stu-id="a4842-155">However, any portion of the bitmap may be copied forward, so you must ensure that the entire back buffer is always valid.</span></span>  
+  
+ <span data-ttu-id="a4842-156">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo solo tra le chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi, come descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.</span><span class="sxs-lookup"><span data-stu-id="a4842-156">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods, as described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="a4842-157">Esempio di codice seguente viene illustrato come specificare l'area del back buffer modificata utilizzando il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-157">The following code example shows how to specify the area of the back buffer that changed by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method.</span></span>  
+  
+ [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="a4842-158">La bitmap non è stata bloccata tramite una chiamata al metodo <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> o <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-158">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-159">
+            <paramref name="dirtyRect" /> non rientra nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-159">
+              <paramref name="dirtyRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-160">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-160">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-161">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-161">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-162">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-162">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="BackBuffer">
+      <MemberSignature Language="C#" Value="public IntPtr BackBuffer { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int BackBuffer" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BackBuffer As IntPtr" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property IntPtr BackBuffer { IntPtr get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-163">Ottiene un puntatore al buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-163">Gets a pointer to the back buffer.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="a4842-164">Oggetto di tipo <see cref="T:System.IntPtr" /> che punta all’indirizzo di base del buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-164">An <see cref="T:System.IntPtr" /> that points to the base address of the back buffer.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-165">Il buffer contiene il contenuto della bitmap in formato di pixel richiesto dall'utente.</span><span class="sxs-lookup"><span data-stu-id="a4842-165">The back buffer contains the bitmap contents in the pixel format requested by the user.</span></span>  
+  
+ <span data-ttu-id="a4842-166">Aggiornare il buffer nascosto solo tra le chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="a4842-166">Update the back buffer only between calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> methods.</span></span> <span data-ttu-id="a4842-167">Se non si esegue il flusso di lavoro di blocco/sblocco descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe comportamenti imprevedibili, ad esempio di rimozione, possono verificarsi.</span><span class="sxs-lookup"><span data-stu-id="a4842-167">If you do not follow the Lock/Unlock workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks, undefined behaviors, such as tearing, can occur.</span></span>  
+  
+ <span data-ttu-id="a4842-168">L'indirizzo del buffer nascosto non cambia.</span><span class="sxs-lookup"><span data-stu-id="a4842-168">The address of the back buffer does not change.</span></span>  
+  
+## <a name="thread-safety"></a><span data-ttu-id="a4842-169">Thread safety</span><span class="sxs-lookup"><span data-stu-id="a4842-169">Thread Safety</span></span>  
+ <span data-ttu-id="a4842-170">È possibile passare il <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> puntatore a componenti esterni e di altri thread per l'elaborazione, ma in caso contrario, è necessario implementare una coordinamento dei thread personalizzati.</span><span class="sxs-lookup"><span data-stu-id="a4842-170">You can pass the <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> pointer to external components and other threads for processing, but if you do, you must provide you own thread coordination.</span></span> <span data-ttu-id="a4842-171">In particolare, è necessario assicurarsi che il thread dell'interfaccia utente specifica aree modificate tramite la chiamata di <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo e sblocchi il buffer chiamando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-171">In particular, you must ensure that the UI thread specifies changed areas by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method, and that the UI thread unlocks the buffer by calling the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BackBufferStride">
+      <MemberSignature Language="C#" Value="public int BackBufferStride { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 BackBufferStride" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Media.Imaging.WriteableBitmap.BackBufferStride" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property BackBufferStride As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int BackBufferStride { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-172">Ottiene un valore che indica il numero di byte in una singola riga di dati pixel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-172">Gets a value indicating the number of bytes in a single row of pixel data.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="a4842-173">Un intero che indica il numero di byte in una singola riga di dati pixel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-173">An integer indicating the number of bytes in a single row of pixel data.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Clone">
+      <MemberSignature Language="C#" Value="public System.Windows.Media.Imaging.WriteableBitmap Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Media.Imaging.WriteableBitmap Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Clone" />
+      <MemberSignature Language="VB.NET" Value="Public Function Clone () As WriteableBitmap" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Media::Imaging::WriteableBitmap ^ Clone();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Imaging.WriteableBitmap</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-174">Crea un clone modificabile di questo oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />, eseguendo copie complete dei valori dell'oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-174">Creates a modifiable clone of this <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />, making deep copies of this object's values.</span>
+          </span>
+          <span data-ttu-id="a4842-175">Durante la copia delle proprietà di dipendenza, questo metodo copia i riferimenti alle risorse e i data binding (che potrebbero non essere più risolti), ma non le animazioni né i relativi valori correnti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-175">When copying dependency properties, this method copies resource references and data bindings (but they might no longer resolve) but not animations or their current values.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="a4842-176">Clone modificabile dell'oggetto corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-176">A modifiable clone of the current object.</span>
+          </span>
+          <span data-ttu-id="a4842-177">La proprietà <see cref="P:System.Windows.Freezable.IsFrozen" /> dell'oggetto clonato sarà <see langword="false" />, anche se la proprietà <see cref="P:System.Windows.Freezable.IsFrozen" /> dell'oggetto di origine è <see langword="true." />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-177">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true." /></span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-178">Questo metodo viene utilizzato per produrre copie modificabili di bloccata <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto).</span><span class="sxs-lookup"><span data-stu-id="a4842-178">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="a4842-179">Per comodità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.</span><span class="sxs-lookup"><span data-stu-id="a4842-179">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
+  
+ <span data-ttu-id="a4842-180">Per ulteriori informazioni, vedere <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="a4842-180">For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCore">
+      <MemberSignature Language="C#" Value="protected override void CloneCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCurrentValue">
+      <MemberSignature Language="C#" Value="public System.Windows.Media.Imaging.WriteableBitmap CloneCurrentValue ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Media.Imaging.WriteableBitmap CloneCurrentValue() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValue" />
+      <MemberSignature Language="VB.NET" Value="Public Function CloneCurrentValue () As WriteableBitmap" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Media::Imaging::WriteableBitmap ^ CloneCurrentValue();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Imaging.WriteableBitmap</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-181">Crea un clone modificabile dell'oggetto <see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" />, eseguendo copie complete dei valori correnti di tale oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-181">Creates a modifiable clone of this <see cref="T:System.Windows.Media.Animation.ByteAnimationUsingKeyFrames" /> object, making deep copies of this object's current values.</span>
+          </span>
+          <span data-ttu-id="a4842-182">I riferimenti alle risorse, i data binding e le animazioni non vengono copiati, ma vengono copiati i relativi valori correnti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-182">Resource references, data bindings, and animations are not copied, but their current values are.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="a4842-183">Clone modificabile dell'oggetto corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-183">A modifiable clone of the current object.</span>
+          </span>
+          <span data-ttu-id="a4842-184">La proprietà <see cref="P:System.Windows.Freezable.IsFrozen" /> dell'oggetto clonato sarà <see langword="false" />, anche se la proprietà <see cref="P:System.Windows.Freezable.IsFrozen" /> dell'oggetto di origine è <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-184">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-185">Questo metodo viene utilizzato per produrre copie modificabili di bloccata <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto).</span><span class="sxs-lookup"><span data-stu-id="a4842-185">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="a4842-186">Per comodità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.</span><span class="sxs-lookup"><span data-stu-id="a4842-186">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
+  
+ <span data-ttu-id="a4842-187">Per ulteriori informazioni, vedere <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="a4842-187">For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCurrentValueCore">
+      <MemberSignature Language="C#" Value="protected override void CloneCurrentValueCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCurrentValueCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CloneCurrentValueCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCurrentValueCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCurrentValueCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateInstanceCore">
+      <MemberSignature Language="C#" Value="protected override System.Windows.Freezable CreateInstanceCore ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Windows.Freezable CreateInstanceCore() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.CreateInstanceCore" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateInstanceCore () As Freezable" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Windows::Freezable ^ CreateInstanceCore();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Freezable</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FreezeCore">
+      <MemberSignature Language="C#" Value="protected override bool FreezeCore (bool isChecking);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance bool FreezeCore(bool isChecking) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.FreezeCore(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function FreezeCore (isChecking As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override bool FreezeCore(bool isChecking);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="isChecking" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="isChecking">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAsFrozenCore">
+      <MemberSignature Language="C#" Value="protected override void GetAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.GetAsFrozenCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetAsFrozenCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetCurrentValueAsFrozenCore">
+      <MemberSignature Language="C#" Value="protected override void GetCurrentValueAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetCurrentValueAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetCurrentValueAsFrozenCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetCurrentValueAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Lock">
+      <MemberSignature Language="C#" Value="public void Lock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Lock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Lock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Lock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-188">Riserva il buffer nascosto per aggiornamenti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-188">Reserves the back buffer for updates.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-189">Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo incrementa il conteggio dei blocchi.</span><span class="sxs-lookup"><span data-stu-id="a4842-189">The <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method increments the lock count.</span></span> <span data-ttu-id="a4842-190">Quando un <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato, il sistema di rendering non invia gli aggiornamenti fino al <xref:System.Windows.Media.Imaging.WriteableBitmap> viene sbloccato completamente dalle chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-190">When a <xref:System.Windows.Media.Imaging.WriteableBitmap> is locked, the rendering system does not send updates until the <xref:System.Windows.Media.Imaging.WriteableBitmap> is fully unlocked by calls to the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
+  
+ <span data-ttu-id="a4842-191">È possibile utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo per supportare le implementazioni a thread multipli.</span><span class="sxs-lookup"><span data-stu-id="a4842-191">You can use the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method to support multi-threaded implementations.</span></span> <span data-ttu-id="a4842-192">In questi scenari, il thread dell'interfaccia utente blocca la bitmap ed espone il buffer nascosto agli altri thread.</span><span class="sxs-lookup"><span data-stu-id="a4842-192">In these scenarios, the UI thread locks the bitmap and exposes the back buffer to other threads.</span></span> <span data-ttu-id="a4842-193">Quando il thread di lavoro ha completato un frame, il thread UI aggiunge rettangoli modificati e sblocca il buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-193">When the worker thread has finished a frame, the UI thread adds changed rectangles and unlocks the buffer.</span></span>  
+  
+ <span data-ttu-id="a4842-194">Il thread dell'interfaccia utente può bloccare quando il thread di rendering acquisisce un blocco per il buffer nascosto per copiarne il front buffer.</span><span class="sxs-lookup"><span data-stu-id="a4842-194">The UI thread can block when the render thread acquires a lock on the back buffer to copy it forward to the front buffer.</span></span> <span data-ttu-id="a4842-195">Se la latenza di tale blocco è troppo lunga, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo per un breve periodo di tempo di attesa e sbloccare il thread dell'interfaccia utente per eseguire altre attività quando il buffer è bloccato.</span><span class="sxs-lookup"><span data-stu-id="a4842-195">If the latency from this block is too long, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> method to wait for a short time and then unblock the UI thread to perform other tasks while the back buffer is locked.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="a4842-196">Esempio di codice seguente viene illustrato come riservare il buffer nascosto tramite il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-196">The following code example shows how to reserve the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method.</span></span>  
+  
+ [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
+      </Docs>
+    </Member>
+    <Member MemberName="TryLock">
+      <MemberSignature Language="C#" Value="public bool TryLock (System.Windows.Duration timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryLock(valuetype System.Windows.Duration timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryLock (timeout As Duration) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryLock(System::Windows::Duration timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.Windows.Duration" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="a4842-197">Oggetto <see cref="T:System.Windows.Duration" /> che rappresenta la durata del tempo di attesa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-197">A <see cref="T:System.Windows.Duration" /> that represents the length of time to wait.</span>
+          </span>
+          <span data-ttu-id="a4842-198">Un valore uguale a 0 produce un ritorno immediato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-198">A value of 0 returns immediately.</span>
+          </span>
+          <span data-ttu-id="a4842-199">Un valore di <see cref="P:System.Windows.Duration.Forever" /> blocca la bitmap per un periodo di tempo indefinito.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-199">A value of <see cref="P:System.Windows.Duration.Forever" /> blocks indefinitely.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-200">Esegue un tentativo di bloccare la bitmap, attendendo un periodo non superiore al tempo di attesa specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-200">Attempts to lock the bitmap, waiting for no longer than the specified length of time.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="a4842-201">
+            <see langword="true" /> se il blocco è stato acquisito; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-201">
+              <see langword="true" /> if the lock was acquired; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-202">Quando viene acquisito un blocco, il comportamento del <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo è lo stesso come il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> (metodo).</span><span class="sxs-lookup"><span data-stu-id="a4842-202">When a lock is acquired, the behavior of the <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> method is the same as the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-203">
+            <paramref name="timeout" /> è impostato su <see cref="P:System.Windows.Duration.Automatic" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-203">
+              <paramref name="timeout" /> is set to <see cref="P:System.Windows.Duration.Automatic" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-204">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-204">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-205">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-205">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-206">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-206">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
+      </Docs>
+    </Member>
+    <Member MemberName="Unlock">
+      <MemberSignature Language="C#" Value="public void Unlock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Unlock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.Unlock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Unlock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Unlock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-207">Rilascia il buffer nascosto rendendolo disponibile per la visualizzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-207">Releases the back buffer to make it available for display.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-208">Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo decrementa il conteggio dei blocchi.</span><span class="sxs-lookup"><span data-stu-id="a4842-208">The <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method decrements the lock count.</span></span> <span data-ttu-id="a4842-209">Quando il conteggio dei blocchi raggiunge 0, viene richiesto un passaggio di rendering, se il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo è stato chiamato.</span><span class="sxs-lookup"><span data-stu-id="a4842-209">When the lock count reaches 0, a render pass is requested if the <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> method has been called.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="a4842-210">Esempio di codice seguente viene illustrato come rilasciare il buffer nascosto tramite il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-210">The following code example shows how to release the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> method.</span></span>  
+  
+ [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="a4842-211">La bitmap non è stata bloccata tramite una chiamata al metodo <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> o <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-211">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" /> or <see cref="M:System.Windows.Media.Imaging.WriteableBitmap.TryLock(System.Windows.Duration)" /> methods.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-212">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-212">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-213">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-213">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-214">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-214">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.Lock" />
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect(System.Windows.Int32Rect)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="WritePixels">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="a4842-215">Aggiorna i pixel della bitmap scrivibile.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-215">Updates the pixels of the writeable bitmap.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="WritePixels">
+      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, Array pixels, int stride, int offset);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, class System.Array pixels, int32 stride, int32 offset) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, pixels As Array, stride As Integer, offset As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, Array ^ pixels, int stride, int offset);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
+        <Parameter Name="pixels" Type="System.Array" />
+        <Parameter Name="stride" Type="System.Int32" />
+        <Parameter Name="offset" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="sourceRect">
+          <span data-ttu-id="a4842-216">Il rettangolo dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> da aggiornare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-216">The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> to update.</span>
+          </span>
+        </param>
+        <param name="pixels">
+          <span data-ttu-id="a4842-217">La matrice di pixel utilizzata per aggiornare la bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-217">The pixel array used to update the bitmap.</span>
+          </span>
+        </param>
+        <param name="stride">
+          <span data-ttu-id="a4842-218">Stride dell'area di aggiornamento in <c>pixels</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-218">The stride of the update region in <c>pixels</c>.</span>
+          </span>
+        </param>
+        <param name="offset">
+          <span data-ttu-id="a4842-219">Offset del buffer di input.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-219">The input buffer offset.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-220">Aggiorna i pixel nella regione specificata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-220">Updates the pixels in the specified region of the bitmap.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-221">Il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> e <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload vengono preferiti all'utilizzo di questo metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-221">The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="a4842-222">In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.</span><span class="sxs-lookup"><span data-stu-id="a4842-222">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="a4842-223">Esempio di codice seguente viene illustrato come aggiornare un pixel nel buffer nascosto tramite il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-223">The following code example shows how to update a pixel in the back buffer by using the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method.</span></span>  
+  
+ [!code-csharp[WriteableBitmap2#3](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-224">Una o più delle condizioni seguenti sono vere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-224">One or more of the following conditions is true.</span>
+          </span>
+          <span data-ttu-id="a4842-225">
+            <paramref name="sourceRect" /> non rientra nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-225">
+              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-226">
+            <paramref name="stride" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-226">
+              <paramref name="stride" /> &lt; 1</span>
+          </span>
+          <span data-ttu-id="a4842-227">
+            <paramref name="offset" /> &lt; 0</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-227">
+              <paramref name="offset" /> &lt; 0</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="a4842-228">
+            <paramref name="pixels" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-228">
+              <paramref name="pixels" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="a4842-229">L’oggetto <paramref name="pixels" /> ha rango diverso da 1 o 2, o una lunghezza minore o uguale a 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-229">
+              <paramref name="pixels" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-230">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-230">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-231">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-231">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-232">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-232">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="WritePixels">
+      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr buffer, int bufferSize, int stride);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, native int buffer, int32 bufferSize, int32 stride) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, buffer As IntPtr, bufferSize As Integer, stride As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, IntPtr buffer, int bufferSize, int stride);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
+        <Parameter Name="buffer" Type="System.IntPtr" />
+        <Parameter Name="bufferSize" Type="System.Int32" />
+        <Parameter Name="stride" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="sourceRect">
+          <span data-ttu-id="a4842-233">Il rettangolo dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> da aggiornare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-233">The rectangle of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" /> to update.</span>
+          </span>
+        </param>
+        <param name="buffer">
+          <span data-ttu-id="a4842-234">Buffer di input utilizzato per aggiornare la bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-234">The input buffer used to update the bitmap.</span>
+          </span>
+        </param>
+        <param name="bufferSize">
+          <span data-ttu-id="a4842-235">Dimensione del buffer di input.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-235">The size of the input buffer.</span>
+          </span>
+        </param>
+        <param name="stride">
+          <span data-ttu-id="a4842-236">Stride dell'area di aggiornamento in <c>buffer</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-236">The stride of the update region in <c>buffer</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-237">Aggiorna i pixel nella regione specificata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-237">Updates the pixels in the specified region of the bitmap.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-238">Il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> e <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload vengono preferiti all'utilizzo di questo metodo.</span><span class="sxs-lookup"><span data-stu-id="a4842-238">The <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> and <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overloads are preferred over using this method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="a4842-239">In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.</span><span class="sxs-lookup"><span data-stu-id="a4842-239">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-240">Una o più delle condizioni seguenti sono vere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-240">One or more of the following conditions is true.</span>
+          </span>
+          <span data-ttu-id="a4842-241">
+            <paramref name="sourceRect" /> non rientra nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-241">
+              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-242">
+            <paramref name="bufferSize" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-242">
+              <paramref name="bufferSize" /> &lt; 1</span>
+          </span>
+          <span data-ttu-id="a4842-243">
+            <paramref name="stride" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-243">
+              <paramref name="stride" /> &lt; 1</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="a4842-244">
+            <paramref name="buffer" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-244">
+              <paramref name="buffer" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-245">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-245">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-246">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-246">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-247">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-247">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="WritePixels">
+      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, Array sourceBuffer, int sourceBufferStride, int destinationX, int destinationY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, class System.Array sourceBuffer, int32 sourceBufferStride, int32 destinationX, int32 destinationY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, sourceBuffer As Array, sourceBufferStride As Integer, destinationX As Integer, destinationY As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, Array ^ sourceBuffer, int sourceBufferStride, int destinationX, int destinationY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
+        <Parameter Name="sourceBuffer" Type="System.Array" />
+        <Parameter Name="sourceBufferStride" Type="System.Int32" />
+        <Parameter Name="destinationX" Type="System.Int32" />
+        <Parameter Name="destinationY" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="sourceRect">
+          <span data-ttu-id="a4842-248">Rettangolo in <c>sourceBuffer</c> da copiare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-248">The rectangle in <c>sourceBuffer</c> to copy.</span>
+          </span>
+        </param>
+        <param name="sourceBuffer">
+          <span data-ttu-id="a4842-249">Buffer di input utilizzato per aggiornare la bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-249">The input buffer used to update the bitmap.</span>
+          </span>
+        </param>
+        <param name="sourceBufferStride">
+          <span data-ttu-id="a4842-250">Lo stride del buffer di input, in byte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-250">The stride of the input buffer, in bytes.</span>
+          </span>
+        </param>
+        <param name="destinationX">
+          <span data-ttu-id="a4842-251">Coordinata x di destinazione del pixel più a sinistra nel buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-251">The destination x-coordinate of the left-most pixel in the back buffer.</span>
+          </span>
+        </param>
+        <param name="destinationY">
+          <span data-ttu-id="a4842-252">Coordinata y di destinazione del pixel più in alto nel buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-252">The destination y-coordinate of the top-most pixel in the back buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-253">Aggiorna i pixel nella regione specificata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-253">Updates the pixels in the specified region of the bitmap.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-254">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`.</span><span class="sxs-lookup"><span data-stu-id="a4842-254">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of `sourceBuffer`.</span></span> <span data-ttu-id="a4842-255">Chiamare questo metodo è equivalente all'opzione di <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.</span><span class="sxs-lookup"><span data-stu-id="a4842-255">Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="a4842-256">Utilizzare questo overload in attendibilità parziale.</span><span class="sxs-lookup"><span data-stu-id="a4842-256">Use this overload in partial trust.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-257">Una o più delle condizioni seguenti sono vere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-257">One or more of the following conditions is true.</span>
+          </span>
+          <span data-ttu-id="a4842-258">
+            <paramref name="sourceRect" /> non rientra nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-258">
+              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-259">
+            <paramref name="destinationX" /> o <paramref name="destinationY" /> non rientrano nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-259">
+              <paramref name="destinationX" /> or <paramref name="destinationY" /> is outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-260">
+            <paramref name="sourceBufferStride" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-260">
+              <paramref name="sourceBufferStride" /> &lt; 1</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="a4842-261">
+            <paramref name="sourceBuffer" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-261">
+              <paramref name="sourceBuffer" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="a4842-262">L’oggetto <paramref name="sourceBuffer" /> ha rango diverso da 1 o 2, o una lunghezza minore o uguale a 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-262">
+              <paramref name="sourceBuffer" /> has a rank other than 1 or 2, or its length is less than or equal to 0.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-263">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-263">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-264">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-264">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-265">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-265">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)" />
+      </Docs>
+    </Member>
+    <Member MemberName="WritePixels">
+      <MemberSignature Language="C#" Value="public void WritePixels (System.Windows.Int32Rect sourceRect, IntPtr sourceBuffer, int sourceBufferSize, int sourceBufferStride, int destinationX, int destinationY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void WritePixels(valuetype System.Windows.Int32Rect sourceRect, native int sourceBuffer, int32 sourceBufferSize, int32 sourceBufferStride, int32 destinationX, int32 destinationY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub WritePixels (sourceRect As Int32Rect, sourceBuffer As IntPtr, sourceBufferSize As Integer, sourceBufferStride As Integer, destinationX As Integer, destinationY As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void WritePixels(System::Windows::Int32Rect sourceRect, IntPtr sourceBuffer, int sourceBufferSize, int sourceBufferStride, int destinationX, int destinationY);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceRect" Type="System.Windows.Int32Rect" />
+        <Parameter Name="sourceBuffer" Type="System.IntPtr" />
+        <Parameter Name="sourceBufferSize" Type="System.Int32" />
+        <Parameter Name="sourceBufferStride" Type="System.Int32" />
+        <Parameter Name="destinationX" Type="System.Int32" />
+        <Parameter Name="destinationY" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="sourceRect">
+          <span data-ttu-id="a4842-266">Rettangolo in <c>sourceBuffer</c> da copiare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-266">The rectangle in <c>sourceBuffer</c> to copy.</span>
+          </span>
+        </param>
+        <param name="sourceBuffer">
+          <span data-ttu-id="a4842-267">Buffer di input utilizzato per aggiornare la bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-267">The input buffer used to update the bitmap.</span>
+          </span>
+        </param>
+        <param name="sourceBufferSize">
+          <span data-ttu-id="a4842-268">Dimensione del buffer di input.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-268">The size of the input buffer.</span>
+          </span>
+        </param>
+        <param name="sourceBufferStride">
+          <span data-ttu-id="a4842-269">Lo stride del buffer di input, in byte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-269">The stride of the input buffer, in bytes.</span>
+          </span>
+        </param>
+        <param name="destinationX">
+          <span data-ttu-id="a4842-270">Coordinata x di destinazione del pixel più a sinistra nel buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-270">The destination x-coordinate of the left-most pixel in the back buffer.</span>
+          </span>
+        </param>
+        <param name="destinationY">
+          <span data-ttu-id="a4842-271">Coordinata y di destinazione del pixel più in alto nel buffer nascosto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-271">The destination y-coordinate of the top-most pixel in the back buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="a4842-272">Aggiorna i pixel nella regione specificata della bitmap.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-272">Updates the pixels in the specified region of the bitmap.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="a4842-273">Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`.</span><span class="sxs-lookup"><span data-stu-id="a4842-273">Call the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> method to update the <xref:System.Windows.Media.Imaging.WriteableBitmap> automatically with the contents of `sourceBuffer`.</span></span> <span data-ttu-id="a4842-274">Chiamare questo metodo è equivalente all'opzione di <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.</span><span class="sxs-lookup"><span data-stu-id="a4842-274">Calling this method is the equivalent of using the <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> and <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> workflow described in the <xref:System.Windows.Media.Imaging.WriteableBitmap> class remarks.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="a4842-275">In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.</span><span class="sxs-lookup"><span data-stu-id="a4842-275">In partial trust, use the <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="a4842-276">Una o più delle condizioni seguenti sono vere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-276">One or more of the following conditions is true.</span>
+          </span>
+          <span data-ttu-id="a4842-277">
+            <paramref name="sourceRect" /> non rientra nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-277">
+              <paramref name="sourceRect" /> falls outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-278">
+            <paramref name="destinationX" /> o <paramref name="destinationY" /> non rientrano nei limiti dell’oggetto <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-278">
+              <paramref name="destinationX" /> or <paramref name="destinationY" /> is outside the bounds of the <see cref="T:System.Windows.Media.Imaging.WriteableBitmap" />.</span>
+          </span>
+          <span data-ttu-id="a4842-279">
+            <paramref name="sourceBufferSize" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-279">
+              <paramref name="sourceBufferSize" /> &lt; 1</span>
+          </span>
+          <span data-ttu-id="a4842-280">
+            <paramref name="sourceBufferStride" /> &lt; 1</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-280">
+              <paramref name="sourceBufferStride" /> &lt; 1</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="a4842-281">
+            <paramref name="sourceBuffer" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-281">
+              <paramref name="sourceBuffer" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="a4842-282">Per accedere alle risorse non gestite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-282">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="a4842-283">Azione di sicurezza: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-283">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="a4842-284">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="a4842-284">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Media.Imaging.WriteableBitmap.WritePixels(System.Windows.Int32Rect,System.Array,System.Int32,System.Int32,System.Int32)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
