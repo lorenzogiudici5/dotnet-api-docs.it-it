@@ -1,0 +1,180 @@
+<Type Name="ProfileOptimization" FullName="System.Runtime.ProfileOptimization">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="bd86c9e8585771817dff9c403cde415163613389" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public static class ProfileOptimization" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit ProfileOptimization extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.ProfileOptimization" />
+  <TypeSignature Language="VB.NET" Value="Public Class ProfileOptimization" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ProfileOptimization abstract sealed" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="f7baf-101">Migliora le prestazioni di avvio dei domini applicazione in applicazioni che richiedono l'uso del compilatore JIT (Just-in-Time) eseguendo la compilazione in background dei metodi che potrebbero essere eseguiti, in base ai profili creati durante le compilazioni precedenti.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f7baf-101">Improves the startup performance of application domains in applications that require the just-in-time (JIT) compiler by performing background compilation of methods that are likely to be executed, based on profiles created during previous compilations.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="f7baf-102">Ottimizzazioni guidate da profilo richiede un computer multicore.</span><span class="sxs-lookup"><span data-stu-id="f7baf-102">Profile optimization requires a multicore computer.</span></span> <span data-ttu-id="f7baf-103">I metodi vengono ignorati in altri computer.</span><span class="sxs-lookup"><span data-stu-id="f7baf-103">The methods are ignored on other computers.</span></span>  
+  
+ <span data-ttu-id="f7baf-104">Ogni volta che si avvia l'ottimizzazione del profilo in un dominio applicazione, viene letto il profilo che è stato creato durante l'utilizzo precedente.</span><span class="sxs-lookup"><span data-stu-id="f7baf-104">Each time you initiate profile optimization in an application domain, the profile that was created during the previous use is read.</span></span> <span data-ttu-id="f7baf-105">Le informazioni nel profilo vengono utilizzate per la compilazione in background identificando i metodi che hanno maggiore probabili di essere eseguite durante l'avvio.</span><span class="sxs-lookup"><span data-stu-id="f7baf-105">The information in the profile is used to guide background compilation by identifying the methods that are most likely to be executed during startup.</span></span> <span data-ttu-id="f7baf-106">Nei computer multicore, ciò aumenta le probabilità che un metodo è già compilato al momento che è necessario affinché il thread principale dell'applicazione è necessario chiamare il compilatore JIT.</span><span class="sxs-lookup"><span data-stu-id="f7baf-106">On multicore computers, this increases the chances that a method is already compiled by the time it is needed so that the main application thread does not have to call the JIT compiler.</span></span>  
+  
+ <span data-ttu-id="f7baf-107">Il file del profilo viene sovrascritto ogni utilizzo in modo che contenga sempre le informazioni più recenti sui metodi vengono usati durante l'avvio.</span><span class="sxs-lookup"><span data-stu-id="f7baf-107">The profile file is overwritten on each use, so it always contains the most recent information about which methods are used during startup.</span></span>  
+  
+ <span data-ttu-id="f7baf-108">I profili di ottimizzazione non sono limitati all'avvio di dominio dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="f7baf-108">Optimization profiles are not restricted to application domain startup.</span></span> <span data-ttu-id="f7baf-109">Possono essere utilizzati per qualsiasi attività che richiedono un uso massiccio del compilatore JIT.</span><span class="sxs-lookup"><span data-stu-id="f7baf-109">They can be used for any activity that will require heavy use of the JIT compiler.</span></span> <span data-ttu-id="f7baf-110">È possibile gestire più profili per un dominio applicazione in modo che ogni tale attività ha un proprio profilo.</span><span class="sxs-lookup"><span data-stu-id="f7baf-110">You can maintain multiple profiles for an application domain so that each such activity has its own profile.</span></span>  
+  
+ <span data-ttu-id="f7baf-111">Per usare i profili di ottimizzazione in un dominio applicazione, è necessario chiamare il <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> (metodo) e specificare la cartella in cui sono archiviati i profili.</span><span class="sxs-lookup"><span data-stu-id="f7baf-111">To use optimization profiles in an application domain, you must call the <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> method and specify the folder where profiles are stored.</span></span> <span data-ttu-id="f7baf-112">La cartella deve esistere già.</span><span class="sxs-lookup"><span data-stu-id="f7baf-112">The folder must already exist.</span></span> <span data-ttu-id="f7baf-113">Per iniziare a utilizzare un profilo, chiamare il <xref:System.Runtime.ProfileOptimization.StartProfile%2A> (metodo) e specificare il nome del file del profilo.</span><span class="sxs-lookup"><span data-stu-id="f7baf-113">To begin using a profile, call the <xref:System.Runtime.ProfileOptimization.StartProfile%2A> method and specify the file name of the profile.</span></span> <span data-ttu-id="f7baf-114">Se il file non è stato registrato in precedenza, viene creato al primo utilizzo.</span><span class="sxs-lookup"><span data-stu-id="f7baf-114">If the file was not recorded previously, it is created on first use.</span></span> <span data-ttu-id="f7baf-115">Non sono previsti tempi di benefit prima delle prestazioni viene creato un profilo.</span><span class="sxs-lookup"><span data-stu-id="f7baf-115">There is no performance benefit the first time a profile is created.</span></span>  
+  
+ <span data-ttu-id="f7baf-116">Ottimizzazione del profilo non modifica l'ordine in cui vengono eseguiti i metodi.</span><span class="sxs-lookup"><span data-stu-id="f7baf-116">Profile optimization does not change the order in which methods are executed.</span></span> <span data-ttu-id="f7baf-117">Metodi non vengono eseguiti sul thread in background; Se un metodo viene compilato ma mai chiamato, viene semplicemente non utilizzato.</span><span class="sxs-lookup"><span data-stu-id="f7baf-117">Methods are not executed on the background thread; if a method is compiled but never called, it is simply not used.</span></span> <span data-ttu-id="f7baf-118">Se un file del profilo è danneggiato o non possono essere scritti nella cartella specificata (ad esempio, perché la cartella non esiste), l'esecuzione del programma continua senza analisi di ottimizzazione.</span><span class="sxs-lookup"><span data-stu-id="f7baf-118">If a profile file is corrupt or cannot be written to the specified folder (for example, because the folder does not exist), program execution continues without optimization profiling.</span></span>  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="SetProfileRoot">
+      <MemberSignature Language="C#" Value="public static void SetProfileRoot (string directoryPath);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetProfileRoot(string directoryPath) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.ProfileOptimization.SetProfileRoot(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetProfileRoot (directoryPath As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetProfileRoot(System::String ^ directoryPath);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="directoryPath" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="directoryPath">
+          <span data-ttu-id="f7baf-119">Il percorso completo della cartella in cui i file del profilo vengono archiviati per il dominio applicazione corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-119">The full path to the folder where profile files are stored for the current application domain.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f7baf-120">Abilita la profilatura dell'ottimizzazione per il dominio dell'applicazione corrente e imposta la cartella in cui i file del profilo di ottimizzazione sono archiviati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-120">Enables optimization profiling for the current application domain, and sets the folder where the optimization profile files are stored.</span>
+          </span>
+          <span data-ttu-id="f7baf-121">In un computer a core singolo il metodo viene ignorato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-121">On a single-core computer, the method is ignored.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f7baf-122">È necessario chiamare questo metodo prima di chiamare il <xref:System.Runtime.ProfileOptimization.StartProfile%2A> metodo per la prima volta nel dominio applicazione corrente.</span><span class="sxs-lookup"><span data-stu-id="f7baf-122">You must call this method before you call the <xref:System.Runtime.ProfileOptimization.StartProfile%2A> method for the first time in the current application domain.</span></span> <span data-ttu-id="f7baf-123">Se si chiama <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> più volte nello stesso dominio applicazione, tutte le chiamate dopo la prima vengono ignorate.</span><span class="sxs-lookup"><span data-stu-id="f7baf-123">If you call <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> more than once in the same application domain, all calls after the first are ignored.</span></span>  
+  
+ <span data-ttu-id="f7baf-124">La cartella specificata deve esistere.</span><span class="sxs-lookup"><span data-stu-id="f7baf-124">The specified folder must already exist.</span></span> <span data-ttu-id="f7baf-125">Se non esiste, questo metodo non viene creata e non si verifica.</span><span class="sxs-lookup"><span data-stu-id="f7baf-125">If it does not exist, calling this method does not create it, and no profiling occurs.</span></span>  
+  
+ <span data-ttu-id="f7baf-126">Nei computer che non dispone di più core, questo metodo viene ignorato.</span><span class="sxs-lookup"><span data-stu-id="f7baf-126">On computers that do not have multiple cores, this method is ignored.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="f7baf-127">richiede l'attendibilità totale per il chiamante immediato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-127">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="f7baf-128">Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-128">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="StartProfile">
+      <MemberSignature Language="C#" Value="public static void StartProfile (string profile);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void StartProfile(string profile) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.ProfileOptimization.StartProfile(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub StartProfile (profile As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void StartProfile(System::String ^ profile);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="profile" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="profile">
+          <span data-ttu-id="f7baf-129">Nome file del profilo da utilizzare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-129">The file name of the profile to use.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f7baf-130">Avvia la compilazione JIT dei metodi che erano stati registrati nel file del profilo specificato, in un thread in background.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-130">Starts just-in-time (JIT) compilation of the methods that were previously recorded in the specified profile file, on a background thread.</span>
+          </span>
+          <span data-ttu-id="f7baf-131">Avvia il processo di registrazione dell'utilizzo del metodo corrente che successivamente sovrascrive il file del profilo specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-131">Starts the process of recording current method use, which later overwrites the specified profile file.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f7baf-132">Se il profilo specificato sia presente nella cartella specificata per il <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> metodo, le informazioni contenute viene utilizzato per determinare l'ordine in cui vengono compilati i metodi sul thread in background.</span><span class="sxs-lookup"><span data-stu-id="f7baf-132">If the specified profile exists in the folder specified by the <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> method, the information it contains is used to determine the order in which methods are compiled on the background thread.</span></span> <span data-ttu-id="f7baf-133">Il <xref:System.Runtime.ProfileOptimization.StartProfile%2A> metodo crea il profilo, se non esiste già e avvia la registrazione dell'utilizzo di metodo.</span><span class="sxs-lookup"><span data-stu-id="f7baf-133">The <xref:System.Runtime.ProfileOptimization.StartProfile%2A> method creates the profile if it does not already exist, and initiates the recording of method use.</span></span>  
+  
+ <span data-ttu-id="f7baf-134">Vengono registrati solo i metodi che vengono chiamati in realtà, indipendentemente dal fatto che sono stati compilati sul thread in background o nel thread principale dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="f7baf-134">Only methods that are actually called are recorded, regardless of whether they were compiled on the background thread or on the main application thread.</span></span> <span data-ttu-id="f7baf-135">Se è necessario chiamarlo prima che il thread in background ha compilato l'applicazione, un metodo viene compilato nel thread principale dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="f7baf-135">A method is compiled on the main application thread if the application needs to call it before the background thread has compiled it.</span></span>  
+  
+ <span data-ttu-id="f7baf-136">Il codice che esegue la registrazione di tiene traccia della frequenza in cui vengono compilati i metodi, inclusi i metodi che vengono compilati in entrambi i thread in background e nel thread principale.</span><span class="sxs-lookup"><span data-stu-id="f7baf-136">The code that performs the recording tracks the rate at which methods are compiled, including methods that are compiled on both the background thread and on the main thread.</span></span> <span data-ttu-id="f7baf-137">Quando la frequenza scende sotto un livello predeterminato, registrazione viene arrestata.</span><span class="sxs-lookup"><span data-stu-id="f7baf-137">When the rate falls below a predetermined level, recording stops.</span></span> <span data-ttu-id="f7baf-138">La registrazione si interrompe anche se la velocità di compilazione JIT supera un limite predeterminato.</span><span class="sxs-lookup"><span data-stu-id="f7baf-138">Recording also stops if the rate of JIT compilation exceeds a predetermined upper limit.</span></span>  
+  
+ <span data-ttu-id="f7baf-139">Se il <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> (metodo) non è stato chiamato per il dominio applicazione corrente, o se il computer non dispone di più core, il <xref:System.Runtime.ProfileOptimization.StartProfile%2A> metodo non ha alcun effetto.</span><span class="sxs-lookup"><span data-stu-id="f7baf-139">If the <xref:System.Runtime.ProfileOptimization.SetProfileRoot%2A> method has not been called for the current application domain, or if the computer does not have multiple cores, the <xref:System.Runtime.ProfileOptimization.StartProfile%2A> method has no effect.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">
+          <span data-ttu-id="f7baf-140">richiede l'attendibilità totale per il chiamante immediato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-140">requires full trust for the immediate caller.</span>
+          </span>
+          <span data-ttu-id="f7baf-141">Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f7baf-141">This member cannot be used by partially trusted or transparent code.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

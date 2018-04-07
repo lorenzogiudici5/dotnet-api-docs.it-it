@@ -1,0 +1,1636 @@
+<Type Name="OleDbParameter" FullName="System.Data.OleDb.OleDbParameter">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="6fee3e4468acdff0f6a8c1749dba2918dcf759b9" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class OleDbParameter : System.Data.Common.DbParameter, ICloneable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OleDbParameter extends System.Data.Common.DbParameter implements class System.Data.IDataParameter, class System.Data.IDbDataParameter, class System.ICloneable" />
+  <TypeSignature Language="DocId" Value="T:System.Data.OleDb.OleDbParameter" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class OleDbParameter&#xA;Inherits DbParameter&#xA;Implements ICloneable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class OleDbParameter sealed : System::Data::Common::DbParameter, ICloneable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbParameter</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.ICloneable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.ComponentModel.TypeConverter(typeof(System.Data.OleDb.OleDbParameter/OleDbParameterConverter))</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="411e1-101">Rappresenta un parametro di un oggetto <see cref="T:System.Data.OleDb.OleDbCommand" /> ed eventualmente il relativo mapping a una colonna di <see cref="T:System.Data.DataSet" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="411e1-101">Represents a parameter to an <see cref="T:System.Data.OleDb.OleDbCommand" /> and optionally its mapping to a <see cref="T:System.Data.DataSet" /> column.</span>
+      </span>
+      <span data-ttu-id="411e1-102">Questa classe non può essere ereditata.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="411e1-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-103">Il Provider di dati OLE DB.NET Framework Usa i parametri posizionali contrassegnati con un punto interrogativo (?) anziché i parametri denominati.</span><span class="sxs-lookup"><span data-stu-id="411e1-103">The OLE DB.NET Framework Data Provider uses positional parameters that are marked with a question mark (?) instead of named parameters.</span></span>  
+  
+ <span data-ttu-id="411e1-104">Quando una query su un database Oracle tramite il Provider Microsoft OLE DB per Oracle (MSDAORA) e il Provider di dati OLE DB.NET Framework, utilizzando il `LIKE` clausola per cercare valori nei campi a lunghezza fissa non può restituire tutte le corrispondenze previste.</span><span class="sxs-lookup"><span data-stu-id="411e1-104">When querying an Oracle database using the Microsoft OLE DB Provider for Oracle (MSDAORA) and the OLE DB.NET Framework Data Provider, using the `LIKE` clause to query values in fixed-length fields may not return all expected matches.</span></span> <span data-ttu-id="411e1-105">Il motivo è che quando Oracle corrisponde a valori dei campi a lunghezza fissa in una `LIKE` clausola corrisponde l'intera lunghezza della stringa, inclusa la spaziatura interna gli spazi finali.</span><span class="sxs-lookup"><span data-stu-id="411e1-105">The reason is that when Oracle matches values for fixed-length fields in a `LIKE` clause, it matches the entire length of the string, including any padding trailing spaces.</span></span> <span data-ttu-id="411e1-106">Ad esempio, se una tabella in un database Oracle contiene un campo denominato "Field1" definito come `char(3)`, e si immette il valore "a" in una riga della tabella, il codice seguente non restituisce la riga.</span><span class="sxs-lookup"><span data-stu-id="411e1-106">For example, if a table in an Oracle database contains a field named "Field1" that is defined as `char(3)`, and you enter the value "a" into a row of that table, the following code does not return the row.</span></span>  
+  
+```vb  
+Dim queryString As String = "SELECT * FROM Table1 WHERE Field1 LIKE ?"  
+Dim command As OleDbCommand = New OleDbCommand(queryString, connection)  
+command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a"  
+Dim reader As OleDbDataReader = command.ExecuteReader()  
+```  
+  
+```csharp  
+string queryString = "SELECT * FROM Table1 WHERE Field1 LIKE ?";  
+OleDbCommand command = new OleDbCommand(queryString, connection);  
+command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a";  
+OleDbDataReader reader = command.ExecuteReader();  
+```  
+  
+ <span data-ttu-id="411e1-107">Ciò si verifica perché Oracle memorizza il valore della colonna "a" (padding "a", con spazi finali, per la lunghezza del campo predefinito di 3), che Oracle non gestisce come una corrispondenza per il valore del parametro di "a" in caso di un `LIKE` confronto di campi a lunghezza fissa.</span><span class="sxs-lookup"><span data-stu-id="411e1-107">This is because Oracle stores the column value as "a  " (padding "a", with trailing spaces, to the fixed field length of 3), which Oracle does not treat as a match for the parameter value of "a" in the case of a `LIKE` comparison of fixed-length fields.</span></span>  
+  
+ <span data-ttu-id="411e1-108">Per risolvere questo problema, aggiungere un carattere jolly di percentuale ("%") al valore di parametro (`"a%"`), oppure utilizzare un SQL `=` confronto invece.</span><span class="sxs-lookup"><span data-stu-id="411e1-108">To resolve this problem, append a percentage ("%") wildcard character to the parameter value (`"a%"`), or use an SQL `=` comparison instead.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-109">L'esempio seguente crea più istanze di <xref:System.Data.OleDb.OleDbParameter> tramite il <xref:System.Data.OleDb.OleDbParameterCollection> insieme all'interno di <xref:System.Data.OleDb.OleDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-109">The following example creates multiple instances of <xref:System.Data.OleDb.OleDbParameter> through the <xref:System.Data.OleDb.OleDbParameterCollection> collection within the <xref:System.Data.OleDb.OleDbDataAdapter>.</span></span> <span data-ttu-id="411e1-110">Questi parametri vengono utilizzati per selezionare dati dall'origine dati e inserire i dati di <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="411e1-110">These parameters are used to select data from the data source and place the data in the <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="411e1-111">In questo esempio si presuppone che un <xref:System.Data.DataSet> e <xref:System.Data.OleDb.OleDbDataAdapter> sono già stati creati utilizzando la connessione di schema appropriato, comandi e.</span><span class="sxs-lookup"><span data-stu-id="411e1-111">This example assumes that a <xref:System.Data.DataSet> and an <xref:System.Data.OleDb.OleDbDataAdapter> have already been created by using the appropriate schema, commands, and connection.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter Example/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-112">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-112">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-113">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-113">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="411e1-114">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-114">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string name, System.Data.OleDb.OleDbType dataType);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, valuetype System.Data.OleDb.OleDbType dataType) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Data.OleDb.OleDbType)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, dataType As OleDbType)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ name, System::Data::OleDb::OleDbType dataType);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="dataType" Type="System.Data.OleDb.OleDbType" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="411e1-115">Nome del parametro di cui eseguire il mapping.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-115">The name of the parameter to map.</span>
+          </span>
+        </param>
+        <param name="dataType">
+          <span data-ttu-id="411e1-116">Uno dei valori di <see cref="T:System.Data.OleDb.OleDbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-116">One of the <see cref="T:System.Data.OleDb.OleDbType" /> values.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-117">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che utilizza il nome del parametro e il tipo di dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-117">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name and data type.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-118">Il tipo di dati e, se necessario, <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> vengono dedotti dal valore della `dataType` parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-118">The data type, and if appropriate, <xref:System.Data.OleDb.OleDbParameter.Size%2A> and <xref:System.Data.OleDb.OleDbParameter.Precision%2A> are inferred from the value of the `dataType` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-119">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-119">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter1 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter1 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter1 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter1 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-120">Il valore specificato nel parametro <paramref name="dataType" /> è un tipo di dati back-end non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-120">The value supplied in the <paramref name="dataType" /> parameter is an invalid back-end data type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string name, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, value As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ name, System::Object ^ value);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="411e1-121">Nome del parametro di cui eseguire il mapping.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-121">The name of the parameter to map.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="411e1-122">Valore del nuovo oggetto <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-122">The value of the new <see cref="T:System.Data.OleDb.OleDbParameter" /> object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-123">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che utilizza il nome del parametro e il valore della nuova classe <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-123">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name and the value of the new <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-124">Prestare attenzione quando si utilizza questo overload del metodo di <xref:System.Data.OleDb.OleDbParameter> costruttore per specificare i valori di parametro integer.</span><span class="sxs-lookup"><span data-stu-id="411e1-124">Use caution when you are using this overload of the <xref:System.Data.OleDb.OleDbParameter> constructor to specify integer parameter values.</span></span> <span data-ttu-id="411e1-125">Poiché l'overload accetta un `value` di tipo <xref:System.Object>, è necessario convertire il valore integrale in un tipo <xref:System.Object>, come illustrato nell'esempio C# riportato di seguito.</span><span class="sxs-lookup"><span data-stu-id="411e1-125">Because this overload takes a `value` of type <xref:System.Object>, you must convert the integral value to an <xref:System.Object> type when the value is zero, as the following C# example demonstrates.</span></span>  
+  
+```csharp  
+Parameter = new OleDbParameter("@pname", Convert.ToInt32(0));  
+```  
+  
+ <span data-ttu-id="411e1-126">Se si esegue questa conversione, il compilatore presuppone che si sta tentando di chiamare il <xref:System.Data.OleDb.OleDbParameter.%23ctor%2A> overload del costruttore.</span><span class="sxs-lookup"><span data-stu-id="411e1-126">If you do not perform this conversion, the compiler assumes that you are trying to call the <xref:System.Data.OleDb.OleDbParameter.%23ctor%2A> constructor overload.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-127">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-127">The following example creates an <xref:System.Data.OleDb.OleDbParameter>.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter5 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter5 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter5 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter5 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string name, System.Data.OleDb.OleDbType dataType, int size);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, valuetype System.Data.OleDb.OleDbType dataType, int32 size) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Data.OleDb.OleDbType,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, dataType As OleDbType, size As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ name, System::Data::OleDb::OleDbType dataType, int size);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="dataType" Type="System.Data.OleDb.OleDbType" />
+        <Parameter Name="size" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="411e1-128">Nome del parametro di cui eseguire il mapping.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-128">The name of the parameter to map.</span>
+          </span>
+        </param>
+        <param name="dataType">
+          <span data-ttu-id="411e1-129">Uno dei valori di <see cref="T:System.Data.OleDb.OleDbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-129">One of the <see cref="T:System.Data.OleDb.OleDbType" /> values.</span>
+          </span>
+        </param>
+        <param name="size">
+          <span data-ttu-id="411e1-130">Lunghezza del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-130">The length of the parameter.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-131">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che utilizza il nome del parametro, il tipo di dati e la lunghezza.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-131">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name, data type, and length.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-132">Il <xref:System.Data.OleDb.OleDbParameter.Size%2A> viene dedotto dal valore della `dataType` parametro se non è impostato in modo esplicito nel `size` parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-132">The <xref:System.Data.OleDb.OleDbParameter.Size%2A> is inferred from the value of the `dataType` parameter if it is not explicitly set in the `size` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-133">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-133">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter2 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter2 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter2 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter2 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-134">Il valore specificato nel parametro <paramref name="dataType" /> è un tipo di dati back-end non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-134">The value supplied in the <paramref name="dataType" /> parameter is an invalid back-end data type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string name, System.Data.OleDb.OleDbType dataType, int size, string srcColumn);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string name, valuetype System.Data.OleDb.OleDbType dataType, int32 size, string srcColumn) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Data.OleDb.OleDbType,System.Int32,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (name As String, dataType As OleDbType, size As Integer, srcColumn As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ name, System::Data::OleDb::OleDbType dataType, int size, System::String ^ srcColumn);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="dataType" Type="System.Data.OleDb.OleDbType" />
+        <Parameter Name="size" Type="System.Int32" />
+        <Parameter Name="srcColumn" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="411e1-135">Nome del parametro di cui eseguire il mapping.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-135">The name of the parameter to map.</span>
+          </span>
+        </param>
+        <param name="dataType">
+          <span data-ttu-id="411e1-136">Uno dei valori di <see cref="T:System.Data.OleDb.OleDbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-136">One of the <see cref="T:System.Data.OleDb.OleDbType" /> values.</span>
+          </span>
+        </param>
+        <param name="size">
+          <span data-ttu-id="411e1-137">Lunghezza del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-137">The length of the parameter.</span>
+          </span>
+        </param>
+        <param name="srcColumn">
+          <span data-ttu-id="411e1-138">Nome della colonna di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-138">The name of the source column.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-139">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che utilizza il nome del parametro, il tipo di dati, la lunghezza e il nome della colonna di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-139">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name, data type, length, and source column name.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-140">Il <xref:System.Data.OleDb.OleDbParameter.Size%2A> viene dedotto dal valore della `dataType` parametro se non è impostato in modo esplicito nel `size` parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-140">The <xref:System.Data.OleDb.OleDbParameter.Size%2A> is inferred from the value of the `dataType` parameter if it is not explicitly set in the `size` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-141">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-141">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter3 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter3 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter3 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter3 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-142">Il valore specificato nel parametro <paramref name="dataType" /> è un tipo di dati back-end non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-142">The value supplied in the <paramref name="dataType" /> parameter is an invalid back-end data type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string parameterName, System.Data.OleDb.OleDbType dbType, int size, System.Data.ParameterDirection direction, bool isNullable, byte precision, byte scale, string srcColumn, System.Data.DataRowVersion srcVersion, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string parameterName, valuetype System.Data.OleDb.OleDbType dbType, int32 size, valuetype System.Data.ParameterDirection direction, bool isNullable, unsigned int8 precision, unsigned int8 scale, string srcColumn, valuetype System.Data.DataRowVersion srcVersion, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Data.OleDb.OleDbType,System.Int32,System.Data.ParameterDirection,System.Boolean,System.Byte,System.Byte,System.String,System.Data.DataRowVersion,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (parameterName As String, dbType As OleDbType, size As Integer, direction As ParameterDirection, isNullable As Boolean, precision As Byte, scale As Byte, srcColumn As String, srcVersion As DataRowVersion, value As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ parameterName, System::Data::OleDb::OleDbType dbType, int size, System::Data::ParameterDirection direction, bool isNullable, System::Byte precision, System::Byte scale, System::String ^ srcColumn, System::Data::DataRowVersion srcVersion, System::Object ^ value);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+        <Parameter Name="dbType" Type="System.Data.OleDb.OleDbType" />
+        <Parameter Name="size" Type="System.Int32" />
+        <Parameter Name="direction" Type="System.Data.ParameterDirection" />
+        <Parameter Name="isNullable" Type="System.Boolean" />
+        <Parameter Name="precision" Type="System.Byte" />
+        <Parameter Name="scale" Type="System.Byte" />
+        <Parameter Name="srcColumn" Type="System.String" />
+        <Parameter Name="srcVersion" Type="System.Data.DataRowVersion" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">
+          <span data-ttu-id="411e1-143">Nome del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-143">The name of the parameter.</span>
+          </span>
+        </param>
+        <param name="dbType">
+          <span data-ttu-id="411e1-144">Uno dei valori di <see cref="T:System.Data.OleDb.OleDbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-144">One of the <see cref="T:System.Data.OleDb.OleDbType" /> values.</span>
+          </span>
+        </param>
+        <param name="size">
+          <span data-ttu-id="411e1-145">Lunghezza del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-145">The length of the parameter.</span>
+          </span>
+        </param>
+        <param name="direction">
+          <span data-ttu-id="411e1-146">Uno dei valori di <see cref="T:System.Data.ParameterDirection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-146">One of the <see cref="T:System.Data.ParameterDirection" /> values.</span>
+          </span>
+        </param>
+        <param name="isNullable">
+          <span data-ttu-id="411e1-147">
+            <see langword="true" /> se il valore del campo può essere Null; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-147">
+              <see langword="true" /> if the value of the field can be null; otherwise <see langword="false" />.</span>
+          </span>
+        </param>
+        <param name="precision">
+          <span data-ttu-id="411e1-148">Numero totale di cifre a sinistra e a destra del separatore decimale in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-148">The total number of digits to the left and right of the decimal point to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+        </param>
+        <param name="scale">
+          <span data-ttu-id="411e1-149">Numero totale di posizioni decimali in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-149">The total number of decimal places to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+        </param>
+        <param name="srcColumn">
+          <span data-ttu-id="411e1-150">Nome della colonna di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-150">The name of the source column.</span>
+          </span>
+        </param>
+        <param name="srcVersion">
+          <span data-ttu-id="411e1-151">Uno dei valori di <see cref="T:System.Data.DataRowVersion" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-151">One of the <see cref="T:System.Data.DataRowVersion" /> values.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="411e1-152">Oggetto <see cref="T:System.Object" /> che rappresenta il valore di <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-152">An <see cref="T:System.Object" /> that is the value of the <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-153">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che usa il nome del parametro, il tipo di dati, la lunghezza, il nome della colonna di origine, la direzione del parametro, la precisione numerica e altre proprietà.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-153">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name, data type, length, source column name, parameter direction, numeric precision, and other properties.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-154">Il <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> vengono dedotti dal valore della `dataType` parametro se non sono impostati in modo esplicito nel `size` e `precision` parametri.</span><span class="sxs-lookup"><span data-stu-id="411e1-154">The <xref:System.Data.OleDb.OleDbParameter.Size%2A> and <xref:System.Data.OleDb.OleDbParameter.Precision%2A> are inferred from the value of the `dataType` parameter if they are not explicitly set in the `size` and `precision` parameters.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-155">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e visualizza il <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.</span><span class="sxs-lookup"><span data-stu-id="411e1-155">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and displays the <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-156">Il valore specificato nel parametro <paramref name="dataType" /> è un tipo di dati back-end non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-156">The value supplied in the <paramref name="dataType" /> parameter is an invalid back-end data type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OleDbParameter (string parameterName, System.Data.OleDb.OleDbType dbType, int size, System.Data.ParameterDirection direction, byte precision, byte scale, string sourceColumn, System.Data.DataRowVersion sourceVersion, bool sourceColumnNullMapping, object value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string parameterName, valuetype System.Data.OleDb.OleDbType dbType, int32 size, valuetype System.Data.ParameterDirection direction, unsigned int8 precision, unsigned int8 scale, string sourceColumn, valuetype System.Data.DataRowVersion sourceVersion, bool sourceColumnNullMapping, object value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.#ctor(System.String,System.Data.OleDb.OleDbType,System.Int32,System.Data.ParameterDirection,System.Byte,System.Byte,System.String,System.Data.DataRowVersion,System.Boolean,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (parameterName As String, dbType As OleDbType, size As Integer, direction As ParameterDirection, precision As Byte, scale As Byte, sourceColumn As String, sourceVersion As DataRowVersion, sourceColumnNullMapping As Boolean, value As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OleDbParameter(System::String ^ parameterName, System::Data::OleDb::OleDbType dbType, int size, System::Data::ParameterDirection direction, System::Byte precision, System::Byte scale, System::String ^ sourceColumn, System::Data::DataRowVersion sourceVersion, bool sourceColumnNullMapping, System::Object ^ value);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+        <Parameter Name="dbType" Type="System.Data.OleDb.OleDbType" />
+        <Parameter Name="size" Type="System.Int32" />
+        <Parameter Name="direction" Type="System.Data.ParameterDirection" />
+        <Parameter Name="precision" Type="System.Byte" />
+        <Parameter Name="scale" Type="System.Byte" />
+        <Parameter Name="sourceColumn" Type="System.String" />
+        <Parameter Name="sourceVersion" Type="System.Data.DataRowVersion" />
+        <Parameter Name="sourceColumnNullMapping" Type="System.Boolean" />
+        <Parameter Name="value" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">
+          <span data-ttu-id="411e1-157">Nome del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-157">The name of the parameter.</span>
+          </span>
+        </param>
+        <param name="dbType">
+          <span data-ttu-id="411e1-158">Uno dei valori di <see cref="T:System.Data.OleDb.OleDbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-158">One of the <see cref="T:System.Data.OleDb.OleDbType" /> values.</span>
+          </span>
+        </param>
+        <param name="size">
+          <span data-ttu-id="411e1-159">Lunghezza del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-159">The length of the parameter.</span>
+          </span>
+        </param>
+        <param name="direction">
+          <span data-ttu-id="411e1-160">Uno dei valori di <see cref="T:System.Data.ParameterDirection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-160">One of the <see cref="T:System.Data.ParameterDirection" /> values.</span>
+          </span>
+        </param>
+        <param name="precision">
+          <span data-ttu-id="411e1-161">Numero totale di cifre a sinistra e a destra del separatore decimale in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-161">The total number of digits to the left and right of the decimal point to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+        </param>
+        <param name="scale">
+          <span data-ttu-id="411e1-162">Numero totale di posizioni decimali in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-162">The total number of decimal places to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+        </param>
+        <param name="sourceColumn">
+          <span data-ttu-id="411e1-163">Nome della colonna di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-163">The name of the source column.</span>
+          </span>
+        </param>
+        <param name="sourceVersion">
+          <span data-ttu-id="411e1-164">Uno dei valori di <see cref="T:System.Data.DataRowVersion" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-164">One of the <see cref="T:System.Data.DataRowVersion" /> values.</span>
+          </span>
+        </param>
+        <param name="sourceColumnNullMapping">
+          <span data-ttu-id="411e1-165">
+            <see langword="true" /> se la colonna di origine ammette valori Null; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-165">
+              <see langword="true" /> if the source column is nullable; <see langword="false" /> if it is not.</span>
+          </span>
+        </param>
+        <param name="value">
+          <span data-ttu-id="411e1-166">Oggetto <see cref="T:System.Object" /> che rappresenta il valore di <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-166">An <see cref="T:System.Object" /> that is the value of the <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="411e1-167">Inizializza una nuova istanza della classe <see cref="T:System.Data.OleDb.OleDbParameter" /> che usa il nome del parametro, il tipo di dati, la lunghezza, il nome della colonna di origine, la direzione del parametro, la precisione numerica e altre proprietà.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-167">Initializes a new instance of the <see cref="T:System.Data.OleDb.OleDbParameter" /> class that uses the parameter name, data type, length, source column name, parameter direction, numeric precision, and other properties.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-168">Il <xref:System.Data.OleDb.OleDbParameter.Size%2A> e <xref:System.Data.OleDb.OleDbParameter.Precision%2A> vengono dedotti dal valore della `dataType` parametro se non sono impostati in modo esplicito nel `size` e `precision` parametri.</span><span class="sxs-lookup"><span data-stu-id="411e1-168">The <xref:System.Data.OleDb.OleDbParameter.Size%2A> and <xref:System.Data.OleDb.OleDbParameter.Precision%2A> are inferred from the value of the `dataType` parameter if they are not explicitly set in the `size` and `precision` parameters.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-169">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e visualizza il <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.</span><span class="sxs-lookup"><span data-stu-id="411e1-169">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and displays the <xref:System.Data.OleDb.OleDbParameter.ParameterName%2A>.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.OleDbParameter4 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.OleDbParameter4 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-170">Il valore specificato nel parametro <paramref name="dataType" /> è un tipo di dati back-end non valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-170">The value supplied in the <paramref name="dataType" /> parameter is an invalid back-end data type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="DbType">
+      <MemberSignature Language="C#" Value="public override System.Data.DbType DbType { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.DbType DbType" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.DbType" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property DbType As DbType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Data::DbType DbType { System::Data::DbType get(); void set(System::Data::DbType value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.DbType</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DbType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-171">Ottiene o imposta l'oggetto <see cref="T:System.Data.DbType" /> del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-171">Gets or sets the <see cref="T:System.Data.DbType" /> of the parameter.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-172">Uno dei valori di <see cref="T:System.Data.DbType" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-172">One of the <see cref="T:System.Data.DbType" /> values.</span>
+          </span>
+          <span data-ttu-id="411e1-173">Il valore predefinito è <see cref="F:System.Data.DbType.String" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-173">The default is <see cref="F:System.Data.DbType.String" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-174">Il <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> sono collegati.</span><span class="sxs-lookup"><span data-stu-id="411e1-174">The <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> and <xref:System.Data.OleDb.OleDbParameter.DbType%2A> are linked.</span></span> <span data-ttu-id="411e1-175">Pertanto, l'impostazione di <xref:System.Data.OleDb.OleDbParameter.DbType%2A> modifiche di <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> a un tipo di supporto <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>.</span><span class="sxs-lookup"><span data-stu-id="411e1-175">Therefore, setting the <xref:System.Data.OleDb.OleDbParameter.DbType%2A> changes the <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> to a supporting <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>.</span></span>  
+  
+ <span data-ttu-id="411e1-176">Per un elenco di tipi di dati supportati, vedere appropriata <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> membro.</span><span class="sxs-lookup"><span data-stu-id="411e1-176">For a list of the supported data types, see the appropriate <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> member.</span></span> <span data-ttu-id="411e1-177">Per ulteriori informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).</span><span class="sxs-lookup"><span data-stu-id="411e1-177">For more information, see [DataAdapter Parameters](~/docs/framework/data/adonet/dataadapter-parameters.md).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-178">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-178">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData OleDbParameter.DbType Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.DbType Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData OleDbParameter.DbType Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OleDbParameter.DbType Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="411e1-179">La proprietà non è stata impostata su un oggetto <see cref="T:System.Data.DbType" /> valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-179">The property was not set to a valid <see cref="T:System.Data.DbType" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Direction">
+      <MemberSignature Language="C#" Value="public override System.Data.ParameterDirection Direction { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.ParameterDirection Direction" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Direction" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property Direction As ParameterDirection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Data::ParameterDirection Direction { System::Data::ParameterDirection get(); void set(System::Data::ParameterDirection value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.Direction</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.RefreshProperties</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.ParameterDirection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-180">Ottiene o imposta un valore che indica se il parametro è solo di input, solo di output, bidirezionale o è un parametro di valore restituito da una stored procedure.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-180">Gets or sets a value that indicates whether the parameter is input-only, output-only, bidirectional, or a stored procedure return-value parameter.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-181">Uno dei valori di <see cref="T:System.Data.ParameterDirection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-181">One of the <see cref="T:System.Data.ParameterDirection" /> values.</span>
+          </span>
+          <span data-ttu-id="411e1-182">Il valore predefinito è <see langword="Input" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-182">The default is <see langword="Input" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-183">Se il <xref:System.Data.ParameterDirection> è output e l'esecuzione dell'oggetto associato <xref:System.Data.OleDb.OleDbCommand> non restituisce un valore, il <xref:System.Data.OleDb.OleDbParameter> contiene un valore null.</span><span class="sxs-lookup"><span data-stu-id="411e1-183">If the <xref:System.Data.ParameterDirection> is output, and execution of the associated <xref:System.Data.OleDb.OleDbCommand> does not return a value, the <xref:System.Data.OleDb.OleDbParameter> contains a null value.</span></span>  
+  
+ <span data-ttu-id="411e1-184">`Output`, `InputOut`, e `ReturnValue` restituiti dalla chiamata <xref:System.Data.OleDb.OleDbCommand.ExecuteReader%2A> non è possibile accedere finché non si chiama <xref:System.Data.OleDb.OleDbDataReader.Close%2A> o **Dispose** sul <xref:System.Data.OleDb.OleDbDataReader>.</span><span class="sxs-lookup"><span data-stu-id="411e1-184">`Output`, `InputOut`, and `ReturnValue` parameters returned by calling <xref:System.Data.OleDb.OleDbCommand.ExecuteReader%2A> cannot be accessed until you call <xref:System.Data.OleDb.OleDbDataReader.Close%2A> or **Dispose** on the <xref:System.Data.OleDb.OleDbDataReader>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-185">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-185">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.Direction = ParameterDirection.Output  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.Direction = ParameterDirection.Output;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-186">La proprietà non è stata impostata su uno dei valori di <see cref="T:System.Data.ParameterDirection" /> validi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-186">The property was not set to one of the valid <see cref="T:System.Data.ParameterDirection" /> values.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="IsNullable">
+      <MemberSignature Language="C#" Value="public override bool IsNullable { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsNullable" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.IsNullable" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property IsNullable As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsNullable { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-187">Ottiene o imposta un valore che indica se il parametro ammette valori Null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-187">Gets or sets a value that indicates whether the parameter accepts null values.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-188">
+            <see langword="true" /> se sono ammessi valori Null; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-188">
+              <see langword="true" /> if null values are accepted; otherwise <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="411e1-189">Il valore predefinito è <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-189">The default is <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-190">I valori null vengono gestiti tramite il <xref:System.DBNull> classe.</span><span class="sxs-lookup"><span data-stu-id="411e1-190">Null values are handled using the <xref:System.DBNull> class.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-191">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-191">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.IsNullable = True  
+    parameter.Direction = ParameterDirection.Output  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.IsNullable = true;  
+    parameter.Direction = ParameterDirection.Output;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Offset">
+      <MemberSignature Language="C#" Value="public int Offset { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Offset" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Offset" />
+      <MemberSignature Language="VB.NET" Value="Public Property Offset As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Offset { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OleDbType">
+      <MemberSignature Language="C#" Value="public System.Data.OleDb.OleDbType OleDbType { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.OleDb.OleDbType OleDbType" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.OleDbType" />
+      <MemberSignature Language="VB.NET" Value="Public Property OleDbType As OleDbType" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::OleDb::OleDbType OleDbType { System::Data::OleDb::OleDbType get(); void set(System::Data::OleDb::OleDbType value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.RefreshProperties</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Data.Common.DbProviderSpecificTypeProperty(true)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.OleDb.OleDbType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-192">Ottiene o imposta l'oggetto <see cref="T:System.Data.OleDb.OleDbType" /> del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-192">Gets or sets the <see cref="T:System.Data.OleDb.OleDbType" /> of the parameter.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-193">
+            <see cref="T:System.Data.OleDb.OleDbType" /> del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-193">The <see cref="T:System.Data.OleDb.OleDbType" /> of the parameter.</span>
+          </span>
+          <span data-ttu-id="411e1-194">Il valore predefinito è <see cref="F:System.Data.OleDb.OleDbType.VarWChar" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-194">The default is <see cref="F:System.Data.OleDb.OleDbType.VarWChar" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-195">Il <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> e <xref:System.Data.OleDb.OleDbParameter.DbType%2A> sono collegati.</span><span class="sxs-lookup"><span data-stu-id="411e1-195">The <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> and <xref:System.Data.OleDb.OleDbParameter.DbType%2A> are linked.</span></span> <span data-ttu-id="411e1-196">Pertanto, l'impostazione di <xref:System.Data.OleDb.OleDbParameter.DbType%2A> modifiche di <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> a un tipo di supporto <xref:System.Data.OleDb.OleDbType>.</span><span class="sxs-lookup"><span data-stu-id="411e1-196">Therefore, setting the <xref:System.Data.OleDb.OleDbParameter.DbType%2A> changes the <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> to a supporting <xref:System.Data.OleDb.OleDbType>.</span></span>  
+  
+ <span data-ttu-id="411e1-197">Per un elenco di tipi di dati supportati, vedere appropriata <xref:System.Data.OleDb.OleDbType> membro.</span><span class="sxs-lookup"><span data-stu-id="411e1-197">For a list of the supported data types, see the appropriate <xref:System.Data.OleDb.OleDbType> member.</span></span> <span data-ttu-id="411e1-198">Per ulteriori informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).</span><span class="sxs-lookup"><span data-stu-id="411e1-198">For more information, see [DataAdapter Parameters](~/docs/framework/data/adonet/dataadapter-parameters.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ParameterName">
+      <MemberSignature Language="C#" Value="public override string ParameterName { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ParameterName" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.ParameterName" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property ParameterName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ParameterName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.ParameterName</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-199">Ottiene o imposta il nome di <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-199">Gets or sets the name of the <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-200">Nome di <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-200">The name of the <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+          <span data-ttu-id="411e1-201">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-201">The default is an empty string ("").</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-202">Il Provider OLE DB .NET vengono utilizzati i parametri contrassegnati con un punto interrogativo (?) anziché i parametri denominati.</span><span class="sxs-lookup"><span data-stu-id="411e1-202">The OLE DB .NET Provider uses positional parameters that are marked with a question mark (?) instead of named parameters.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-203">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-203">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.Direction = ParameterDirection.Output  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.Direction = ParameterDirection.Output;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Precision">
+      <MemberSignature Language="C#" Value="public byte Precision { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int8 Precision" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Precision" />
+      <MemberSignature Language="VB.NET" Value="Public Property Precision As Byte" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Byte Precision { System::Byte get(); void set(System::Byte value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataParameter.Precision</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Byte</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-204">Ottiene o imposta il numero massimo di cifre utilizzate per rappresentare la proprietà <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-204">Gets or sets the maximum number of digits used to represent the <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> property.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-205">Numero massimo di cifre utilizzate per rappresentare la proprietà <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-205">The maximum number of digits used to represent the <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> property.</span>
+          </span>
+          <span data-ttu-id="411e1-206">Il valore predefinito è 0 e indica che la precisione per la proprietà <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> viene impostata dal provider di dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-206">The default value is 0, which indicates that the data provider sets the precision for <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-207">Il <xref:System.Data.OleDb.OleDbParameter.Precision%2A> proprietà viene utilizzata solo per i parametri di input numerici e decimali.</span><span class="sxs-lookup"><span data-stu-id="411e1-207">The <xref:System.Data.OleDb.OleDbParameter.Precision%2A> property is only used for decimal and numeric input parameters.</span></span>  
+  
+ <span data-ttu-id="411e1-208">Il <xref:System.Data.OleDb.OleDbParameter.Precision%2A> proprietà deve essere impostata solo per `Decimal` e `Numeric` parametri prima di chiamare il <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> metodo il <xref:System.Data.OleDb.OleDbCommand>.</span><span class="sxs-lookup"><span data-stu-id="411e1-208">The <xref:System.Data.OleDb.OleDbParameter.Precision%2A> property should be set only for `Decimal` and `Numeric` parameters prior to calling the <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> method of the <xref:System.Data.OleDb.OleDbCommand>.</span></span>  
+  
+ <span data-ttu-id="411e1-209">Impostando questa proprietà su un valore diverso da quello del database dipende dall'implementazione del provider di dati e può restituire dati troncamento o round un codice di errore.</span><span class="sxs-lookup"><span data-stu-id="411e1-209">Setting this property to a value other than the value in the database depends on the implementation of the data provider and may return an error code, truncate, or round data.</span></span>  
+  
+ <span data-ttu-id="411e1-210">Il `Precision` proprietà influisce solo su parametri i cui <xref:System.Data.OleDb.OleDbType> è `Decimal`, `Numeric`, o `VarNumeric`.</span><span class="sxs-lookup"><span data-stu-id="411e1-210">The `Precision` property only affects parameters whose <xref:System.Data.OleDb.OleDbType> is `Decimal`, `Numeric`, or `VarNumeric`.</span></span> <span data-ttu-id="411e1-211">Per altri tipi di dati `Precision` viene ignorato.</span><span class="sxs-lookup"><span data-stu-id="411e1-211">For other data types, `Precision` is ignored.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="411e1-212">Utilizzo di questa proprietà da assegnare forzatamente i dati passati al database non è supportato.</span><span class="sxs-lookup"><span data-stu-id="411e1-212">Use of this property to coerce data passed to the database is not supported.</span></span> <span data-ttu-id="411e1-213">Per arrotondare, troncare o forzare in caso contrario i dati prima di passarlo al database, utilizzare il <xref:System.Math> classe che fa parte di `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-213">To round, truncate, or otherwise coerce data before passing it to the database, use the <xref:System.Math> class that is part of the `System` namespace prior to assigning a value to the parameter's `Value` property.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="411e1-214">Provider di dati .NET framework inclusi in .NET Framework versione 1.0 non verificano la <xref:System.Data.OleDb.OleDbParameter.Precision%2A> o <xref:System.Data.OleDb.OleDbParameter.Scale%2A> di <xref:System.Decimal> i valori dei parametri.</span><span class="sxs-lookup"><span data-stu-id="411e1-214">.NET Framework data providers that are included with the .NET Framework version 1.0 do not verify the <xref:System.Data.OleDb.OleDbParameter.Precision%2A> or <xref:System.Data.OleDb.OleDbParameter.Scale%2A> of <xref:System.Decimal> parameter values.</span></span> <span data-ttu-id="411e1-215">Ciò può provocare dati troncati essere inserito nell'origine dati.</span><span class="sxs-lookup"><span data-stu-id="411e1-215">This can cause truncated data to be inserted at the data source.</span></span> <span data-ttu-id="411e1-216">Se si utilizza .NET Framework versione 1.0, convalidare la <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter.Scale%2A> di <xref:System.Decimal> valori prima di impostare il valore del parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-216">If you are using .NET Framework version 1.0, validate the <xref:System.Data.OleDb.OleDbParameter.Precision%2A> and <xref:System.Data.OleDb.OleDbParameter.Scale%2A> of <xref:System.Decimal> values before setting the parameter value.</span></span> <span data-ttu-id="411e1-217"><xref:System.Data.OleDb.OleDbParameter.Scale%2A> i valori che superano il <xref:System.Decimal> parametro vengono comunque troncati.</span><span class="sxs-lookup"><span data-stu-id="411e1-217"><xref:System.Data.OleDb.OleDbParameter.Scale%2A> values that exceed the <xref:System.Decimal> parameter scale are still truncated.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-218">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-218">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Price", OleDbType.Decimal)  
+    parameter.Value = 3.1416  
+    parameter.Precision = 8  
+    parameter.Scale = 4  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Price", OleDbType.Decimal);  
+    parameter.Value = 3.1416;  
+    parameter.Precision = 8;  
+    parameter.Scale = 4;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ResetDbType">
+      <MemberSignature Language="C#" Value="public override void ResetDbType ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void ResetDbType() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.ResetDbType" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub ResetDbType ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void ResetDbType();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-219">Reimposta il tipo associato a <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-219">Resets the type associated with this <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-220">Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è in grado di dedurre il tipo dal relativo valore.</span><span class="sxs-lookup"><span data-stu-id="411e1-220">When executing a command that includes parameter values, code can either set the type of a parameter explicitly, or the parameter can infer its type from its value.</span></span> <span data-ttu-id="411e1-221">Chiamare questo metodo reimposta il parametro in modo che nuovamente possibile dedurre il tipo dal valore passato nel parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-221">Calling this method resets the parameter so that it can again infer its type from the value passed in the parameter.</span></span> <span data-ttu-id="411e1-222">Chiamare questo metodo influisce su entrambe le <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> le proprietà del <xref:System.Data.OleDb.OleDbParameter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-222">Calling this method affects both the <xref:System.Data.OleDb.OleDbParameter.DbType%2A> and <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> properties of the <xref:System.Data.OleDb.OleDbParameter>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Data.OleDb.OleDbParameter.ResetOleDbType" />
+        <altmember cref="P:System.Data.OleDb.OleDbParameter.DbType" />
+        <altmember cref="P:System.Data.OleDb.OleDbParameter.OleDbType" />
+      </Docs>
+    </Member>
+    <Member MemberName="ResetOleDbType">
+      <MemberSignature Language="C#" Value="public void ResetOleDbType ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void ResetOleDbType() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.ResetOleDbType" />
+      <MemberSignature Language="VB.NET" Value="Public Sub ResetOleDbType ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ResetOleDbType();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-223">Reimposta il tipo associato a <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-223">Resets the type associated with this <see cref="T:System.Data.OleDb.OleDbParameter" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-224">Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è in grado di dedurre il tipo dal relativo valore.</span><span class="sxs-lookup"><span data-stu-id="411e1-224">When executing a command that includes parameter values, code can either set the type of a parameter explicitly, or the parameter can infer its type from its value.</span></span> <span data-ttu-id="411e1-225">Chiamare questo metodo reimposta il parametro in modo che nuovamente possibile dedurre il tipo dal valore passato nel parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-225">Calling this method resets the parameter so that it can again infer its type from the value passed in the parameter.</span></span> <span data-ttu-id="411e1-226">Chiamare questo metodo influisce su entrambe le <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> le proprietà del <xref:System.Data.OleDb.OleDbParameter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-226">Calling this method affects both the <xref:System.Data.OleDb.OleDbParameter.DbType%2A> and <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> properties of the <xref:System.Data.OleDb.OleDbParameter>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Data.OleDb.OleDbParameter.ResetDbType" />
+        <altmember cref="P:System.Data.OleDb.OleDbParameter.DbType" />
+        <altmember cref="P:System.Data.OleDb.OleDbParameter.OleDbType" />
+      </Docs>
+    </Member>
+    <Member MemberName="Scale">
+      <MemberSignature Language="C#" Value="public byte Scale { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance unsigned int8 Scale" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Scale" />
+      <MemberSignature Language="VB.NET" Value="Public Property Scale As Byte" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Byte Scale { System::Byte get(); void set(System::Byte value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataParameter.Scale</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Byte</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-227">Ottiene o imposta il numero di posizioni decimali in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-227">Gets or sets the number of decimal places to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-228">Numero di posizioni decimali in cui viene risolto <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-228">The number of decimal places to which <see cref="P:System.Data.OleDb.OleDbParameter.Value" /> is resolved.</span>
+          </span>
+          <span data-ttu-id="411e1-229">Il valore predefinito è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-229">The default is 0.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-230">Il <xref:System.Data.OleDb.OleDbParameter.Scale%2A> proprietà viene utilizzata solo per i parametri di input numerici e decimali prima di chiamare il <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> metodo il <xref:System.Data.OleDb.OleDbCommand> e per specificare i parametri di output numerica.</span><span class="sxs-lookup"><span data-stu-id="411e1-230">The <xref:System.Data.OleDb.OleDbParameter.Scale%2A> property is only used for decimal and numeric input parameters before calling the <xref:System.Data.OleDb.OleDbCommand.Prepare%2A> method of the <xref:System.Data.OleDb.OleDbCommand> and to specify numeric output parameters.</span></span>  
+  
+ <span data-ttu-id="411e1-231">Impostando questa proprietà su un valore diverso da quello del database dipende dall'implementazione del provider di dati e può restituire dati troncamento o round un codice di errore.</span><span class="sxs-lookup"><span data-stu-id="411e1-231">Setting this property to a value other than the value in the database depends on the implementation of the data provider and may return an error code, truncate, or round data.</span></span>  
+  
+ <span data-ttu-id="411e1-232">Quando si utilizza SQL Server Native Client 10 (o versioni successive) per associare un parametro il cui tipo è `Decimal`, `Numeric`, `VarNumeric`, `DBDate`, o `DBTimeStamp`, è necessario specificare manualmente un valore di scala adeguata.</span><span class="sxs-lookup"><span data-stu-id="411e1-232">When using SQL Server Native Client 10 (or later), to bind a parameter whose type is `Decimal`, `Numeric`, `VarNumeric`, `DBDate`, or `DBTimeStamp`, you must manually specify an appropriate scale value.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="411e1-233">Utilizzo di questa proprietà da assegnare forzatamente i dati passati al database non è supportato.</span><span class="sxs-lookup"><span data-stu-id="411e1-233">Use of this property to coerce data passed to the database is not supported.</span></span> <span data-ttu-id="411e1-234">Per arrotondare, troncare o forzare in caso contrario i dati prima di passarlo al database, utilizzare il <xref:System.Math> classe che fa parte di `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-234">To round, truncate, or otherwise coerce data before passing it to the database, use the <xref:System.Math> class that is part of the `System` namespace prior to assigning a value to the parameter's `Value` property.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="411e1-235">Provider di dati .NET framework inclusi in .NET Framework versione 1.0 non verificano la <xref:System.Data.OleDb.OleDbParameter.Precision%2A> o <xref:System.Data.OleDb.OleDbParameter.Scale%2A> di <xref:System.Decimal> i valori dei parametri.</span><span class="sxs-lookup"><span data-stu-id="411e1-235">.NET Framework data providers that are included with the .NET Framework version 1.0 do not verify the <xref:System.Data.OleDb.OleDbParameter.Precision%2A> or <xref:System.Data.OleDb.OleDbParameter.Scale%2A> of <xref:System.Decimal> parameter values.</span></span> <span data-ttu-id="411e1-236">Ciò può provocare dati troncati essere inserito nell'origine dati.</span><span class="sxs-lookup"><span data-stu-id="411e1-236">This can cause truncated data to be inserted at the data source.</span></span> <span data-ttu-id="411e1-237">Se si utilizza .NET Framework versione 1.0, convalidare la <xref:System.Data.OleDb.OleDbParameter.Precision%2A> e <xref:System.Data.OleDb.OleDbParameter> di <xref:System.Decimal> valori prima di impostare il valore del parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-237">If you are using .NET Framework version 1.0, validate the <xref:System.Data.OleDb.OleDbParameter.Precision%2A> and <xref:System.Data.OleDb.OleDbParameter> of <xref:System.Decimal> values before setting the parameter value.</span></span> <span data-ttu-id="411e1-238"><xref:System.Data.OleDb.OleDbParameter.Scale%2A> i valori che superano il <xref:System.Decimal> parametro vengono comunque troncati.</span><span class="sxs-lookup"><span data-stu-id="411e1-238"><xref:System.Data.OleDb.OleDbParameter.Scale%2A> values that exceed the <xref:System.Decimal> parameter scale are still truncated.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-239">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-239">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Price", OleDbType.Decimal)  
+    parameter.Value = 3.1416  
+    parameter.Precision = 8  
+    parameter.Scale = 4  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Price", OleDbType.Decimal);  
+    parameter.Value = 3.1416;  
+    parameter.Precision = 8;  
+    parameter.Scale = 4;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Size">
+      <MemberSignature Language="C#" Value="public override int Size { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Size" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Size" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property Size As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int Size { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataParameter.Size</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-240">Ottiene o imposta la dimensione massima, in byte, dei dati nella colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-240">Gets or sets the maximum size, in bytes, of the data within the column.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-241">Dimensione massima, in byte, dei dati nella colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-241">The maximum size, in bytes, of the data within the column.</span>
+          </span>
+          <span data-ttu-id="411e1-242">Il valore predefinito viene dedotto dal valore del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-242">The default value is inferred from the parameter value.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-243">Il <xref:System.Data.OleDb.OleDbParameter.Size%2A> proprietà viene utilizzata per i tipi stringa e binari.</span><span class="sxs-lookup"><span data-stu-id="411e1-243">The <xref:System.Data.OleDb.OleDbParameter.Size%2A> property is used for binary and string types.</span></span>  
+  
+ <span data-ttu-id="411e1-244">Per i tipi di dati e ANSI della stringa di dati di <xref:System.Data.OleDb.OleDbParameter.Size%2A> proprietà indica il numero di byte.</span><span class="sxs-lookup"><span data-stu-id="411e1-244">For nonstring data types and ANSI string data, the <xref:System.Data.OleDb.OleDbParameter.Size%2A> property refers to the number of bytes.</span></span> <span data-ttu-id="411e1-245">Per i dati stringa Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> indica il numero di caratteri.</span><span class="sxs-lookup"><span data-stu-id="411e1-245">For Unicode string data, <xref:System.Data.OleDb.OleDbParameter.Size%2A> refers to the number of characters.</span></span> <span data-ttu-id="411e1-246">Il conteggio per le stringhe non include il carattere di terminazione.</span><span class="sxs-lookup"><span data-stu-id="411e1-246">The count for strings does not include the terminating character.</span></span>  
+  
+ <span data-ttu-id="411e1-247">Per i tipi di dati a lunghezza variabile, <xref:System.Data.OleDb.OleDbParameter.Size%2A> descrive la quantità massima di dati da trasmettere al server.</span><span class="sxs-lookup"><span data-stu-id="411e1-247">For variable-length data types, <xref:System.Data.OleDb.OleDbParameter.Size%2A> describes the maximum amount of data to transmit to the server.</span></span> <span data-ttu-id="411e1-248">Ad esempio, per un valore di stringa Unicode, <xref:System.Data.OleDb.OleDbParameter.Size%2A> può essere utilizzato per limitare la quantità di dati inviati al server per i primi 100 caratteri.</span><span class="sxs-lookup"><span data-stu-id="411e1-248">For example, for a Unicode string value, <xref:System.Data.OleDb.OleDbParameter.Size%2A> could be used to limit the amount of data sent to the server to the first 100 characters.</span></span>  
+  
+ <span data-ttu-id="411e1-249">Per i parametri bidirezionali e di output e valori restituiti, è necessario impostare il valore di <xref:System.Data.OleDb.OleDbParameter.Size%2A>.</span><span class="sxs-lookup"><span data-stu-id="411e1-249">For bidirectional and output parameters, and return values, you must set the value of <xref:System.Data.OleDb.OleDbParameter.Size%2A>.</span></span> <span data-ttu-id="411e1-250">Non è obbligatorio per i parametri di input, e se viene impostato in modo non esplicito, il valore viene dedotto dalle dimensioni effettive del parametro specificato quando viene eseguita un'istruzione con parametri.</span><span class="sxs-lookup"><span data-stu-id="411e1-250">This is not required for input parameters, and if not explicitly set, the value of is inferred from the actual size of the specified parameter when a parameterized statement is executed.</span></span>  
+  
+ <span data-ttu-id="411e1-251">Il <xref:System.Data.OleDb.OleDbParameter.DbType%2A>, <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>, e <xref:System.Data.OleDb.OleDbParameter.Size%2A> di un parametro possono essere dedotte impostando <xref:System.Data.OleDb.OleDbParameter.Value%2A>.</span><span class="sxs-lookup"><span data-stu-id="411e1-251">The <xref:System.Data.OleDb.OleDbParameter.DbType%2A>, <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A>, and <xref:System.Data.OleDb.OleDbParameter.Size%2A> properties of a parameter can be inferred by setting <xref:System.Data.OleDb.OleDbParameter.Value%2A>.</span></span> <span data-ttu-id="411e1-252">Pertanto, non è necessario specificarli.</span><span class="sxs-lookup"><span data-stu-id="411e1-252">Therefore, you are not required to specify them.</span></span> <span data-ttu-id="411e1-253">Tuttavia, non sono esposti <xref:System.Data.OleDb.OleDbParameter> le impostazioni delle proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-253">However, they are not exposed in <xref:System.Data.OleDb.OleDbParameter> property settings.</span></span> <span data-ttu-id="411e1-254">Ad esempio, se le dimensioni del parametro sono stata dedotta, <xref:System.Data.OleDb.OleDbParameter.Size%2A> non contiene il valore dedotto dopo l'esecuzione dell'istruzione.</span><span class="sxs-lookup"><span data-stu-id="411e1-254">For example, if the size of the parameter has been inferred, <xref:System.Data.OleDb.OleDbParameter.Size%2A> does not contain the inferred value after statement execution.</span></span>  
+  
+ <span data-ttu-id="411e1-255">Per i tipi di dati a lunghezza fissa, il valore di <xref:System.Data.OleDb.OleDbParameter.Size%2A> viene ignorato.</span><span class="sxs-lookup"><span data-stu-id="411e1-255">For fixed-length data types, the value of <xref:System.Data.OleDb.OleDbParameter.Size%2A> is ignored.</span></span> <span data-ttu-id="411e1-256">Può essere recuperato a scopo informativo e restituisce la quantità massima di byte utilizzata dal provider durante la trasmissione del valore del parametro per il server.</span><span class="sxs-lookup"><span data-stu-id="411e1-256">It can be retrieved for informational purposes, and returns the maximum amount of bytes the provider uses when transmitting the value of the parameter to the server.</span></span>  
+  
+ <span data-ttu-id="411e1-257">Se le dimensioni del valore fornito per un <xref:System.Data.OleDb.OleDbParameter> supera specificato <xref:System.Data.OleDb.OleDbParameter.Size%2A>, <xref:System.Data.OleDb.OleDbParameter.Value%2A> del <xref:System.Data.OleDb.OleDbParameter> contiene il valore specificato, troncato alla dimensione del <xref:System.Data.OleDb.OleDbParameter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-257">If the size of the value supplied for an <xref:System.Data.OleDb.OleDbParameter> exceeds the specified <xref:System.Data.OleDb.OleDbParameter.Size%2A>, the <xref:System.Data.OleDb.OleDbParameter.Value%2A> of the <xref:System.Data.OleDb.OleDbParameter> contains the specified value, truncated to the size of the <xref:System.Data.OleDb.OleDbParameter>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-258">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-258">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim myValue As String = "12 foot scarf - multiple colors, one previous owner"  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar)  
+    parameter.Direction = ParameterDirection.Output  
+    parameter.Size = myValue.Length  
+    parameter.Value = myValue  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    string myValue = "12 foot scarf - multiple colors, one previous owner";  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar);  
+    parameter.Direction = ParameterDirection.Output;  
+    parameter.Size = myValue.Length;  
+    parameter.Value = myValue;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SourceColumn">
+      <MemberSignature Language="C#" Value="public override string SourceColumn { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string SourceColumn" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.SourceColumn" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property SourceColumn As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ SourceColumn { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.SourceColumn</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-259">Ottiene o imposta il nome della colonna di origine mappata alla classe <see cref="T:System.Data.DataSet" /> e utilizzata per il caricamento o la restituzione della proprietà <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-259">Gets or sets the name of the source column mapped to the <see cref="T:System.Data.DataSet" /> and used for loading or returning the <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-260">Nome della colonna di origine mappata a <see cref="T:System.Data.DataSet" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-260">The name of the source column mapped to the <see cref="T:System.Data.DataSet" />.</span>
+          </span>
+          <span data-ttu-id="411e1-261">Il valore predefinito è una stringa vuota.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-261">The default is an empty string.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-262">Quando <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> è impostata su un valore diverso da una stringa vuota, il valore del parametro viene recuperato dalla colonna con il <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> nome.</span><span class="sxs-lookup"><span data-stu-id="411e1-262">When <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> is set to anything other than an empty string, the value of the parameter is retrieved from the column with the <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> name.</span></span> <span data-ttu-id="411e1-263">Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> è impostato su `Input`, il valore viene recuperato dal <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="411e1-263">If <xref:System.Data.OleDb.OleDbParameter.Direction%2A> is set to `Input`, the value is taken from the <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="411e1-264">Se <xref:System.Data.OleDb.OleDbParameter.Direction%2A> è impostato su `Output`, il valore viene recuperato dall'origine dati.</span><span class="sxs-lookup"><span data-stu-id="411e1-264">If <xref:System.Data.OleDb.OleDbParameter.Direction%2A> is set to `Output`, the value is taken from the data source.</span></span> <span data-ttu-id="411e1-265">Oggetto <xref:System.Data.OleDb.OleDbParameter.Direction%2A> di `InputOutput` è una combinazione di entrambi.</span><span class="sxs-lookup"><span data-stu-id="411e1-265">A <xref:System.Data.OleDb.OleDbParameter.Direction%2A> of `InputOutput` is a combination of both.</span></span>  
+  
+ <span data-ttu-id="411e1-266">Per ulteriori informazioni sull'utilizzo di <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> proprietà, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md) e [l'aggiornamento di origini dati con DataAdapter](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).</span><span class="sxs-lookup"><span data-stu-id="411e1-266">For more information about how to use the <xref:System.Data.OleDb.OleDbParameter.SourceColumn%2A> property, see [DataAdapter Parameters](~/docs/framework/data/adonet/dataadapter-parameters.md) and [Updating Data Sources with DataAdapters](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-267">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-267">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.SourceColumn = "Description"  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.SourceColumn = "Description";  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SourceColumnNullMapping">
+      <MemberSignature Language="C#" Value="public override bool SourceColumnNullMapping { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool SourceColumnNullMapping" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property SourceColumnNullMapping As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool SourceColumnNullMapping { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-268">Ottiene o imposta un valore che indica se la colonna di origine è nullable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-268">Sets or gets a value which indicates whether the source column is nullable.</span>
+          </span>
+          <span data-ttu-id="411e1-269">Questo consente a <see cref="T:System.Data.Common.DbCommandBuilder" /> di generare correttamente istruzioni Update per le colonne nullable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-269">This allows <see cref="T:System.Data.Common.DbCommandBuilder" /> to correctly generate Update statements for nullable columns.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-270">
+            <see langword="true" /> se la colonna di origine ammette valori Null; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-270">
+              <see langword="true" /> if the source column is nullable; <see langword="false" /> if it is not.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-271"><xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> viene utilizzato il <xref:System.Data.Common.DbCommandBuilder> per generare correttamente i comandi di aggiornamento quando si gestiscono le colonne che ammettono valori null.</span><span class="sxs-lookup"><span data-stu-id="411e1-271"><xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> is used by the <xref:System.Data.Common.DbCommandBuilder> to correctly generate update commands when dealing with nullable columns.</span></span> <span data-ttu-id="411e1-272">In genere, l'utilizzo di <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> è limitato agli sviluppatori che ereditano da <xref:System.Data.Common.DbCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="411e1-272">Generally, use of <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> is limited to developers inheriting from <xref:System.Data.Common.DbCommandBuilder>.</span></span>  
+  
+ <span data-ttu-id="411e1-273"><xref:System.Data.Common.DbCommandBuilder> utilizza questa proprietà per determinare se la colonna di origine ammette valori null e imposta questa proprietà su `true` se ammette valori null, e `false` in caso contrario.</span><span class="sxs-lookup"><span data-stu-id="411e1-273"><xref:System.Data.Common.DbCommandBuilder> uses this property to determine whether the source column is nullable, and sets this property to `true` if it is nullable, and `false` if it is not.</span></span> <span data-ttu-id="411e1-274">Quando <xref:System.Data.Common.DbCommandBuilder> è genera l'istruzione Update, esamina il <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> per ogni parametro.</span><span class="sxs-lookup"><span data-stu-id="411e1-274">When <xref:System.Data.Common.DbCommandBuilder> is generating its Update statement, it examines the <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> for each parameter.</span></span> <span data-ttu-id="411e1-275">Se la proprietà è `true`, <xref:System.Data.Common.DbCommandBuilder> genera una clausola WHERE simile al seguente (in questa espressione di query, "FieldName" rappresenta il nome del campo):</span><span class="sxs-lookup"><span data-stu-id="411e1-275">If the property is `true`, <xref:System.Data.Common.DbCommandBuilder> generates a WHERE clauses like the following (in this query expression, "FieldName" represents the name of the field):</span></span>  
+  
+```  
+((@IsNull_FieldName = 1 AND FieldName IS NULL) OR   
+  (FieldName = @Original_FieldName))  
+```  
+  
+ <span data-ttu-id="411e1-276">Se <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> per il campo è false, <xref:System.Data.Common.DbCommandBuilder> genera la seguente clausola WHERE:</span><span class="sxs-lookup"><span data-stu-id="411e1-276">If <xref:System.Data.OleDb.OleDbParameter.SourceColumnNullMapping%2A> for the field is false, <xref:System.Data.Common.DbCommandBuilder> generates the following WHERE clause:</span></span>  
+  
+```  
+FieldName = @OriginalFieldName  
+```  
+  
+ <span data-ttu-id="411e1-277">Inoltre, @IsNull_FieldName contiene 1 se il campo di origine contiene valori null e 0 in caso contrario.</span><span class="sxs-lookup"><span data-stu-id="411e1-277">In addition, @IsNull_FieldName contains 1 if the source field contains null, and 0 if it does not.</span></span> <span data-ttu-id="411e1-278">Questo meccanismo consente di ottimizzare le prestazioni in SQL Server e fornisce un codice comune per più provider.</span><span class="sxs-lookup"><span data-stu-id="411e1-278">This mechanism allows for a performance optimization in SQL Server, and provides for common code that works across multiple providers.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SourceVersion">
+      <MemberSignature Language="C#" Value="public override System.Data.DataRowVersion SourceVersion { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.DataRowVersion SourceVersion" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.SourceVersion" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property SourceVersion As DataRowVersion" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Data::DataRowVersion SourceVersion { System::Data::DataRowVersion get(); void set(System::Data::DataRowVersion value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.SourceVersion</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DataRowVersion</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-279">Ottiene o imposta l'enumerazione <see cref="T:System.Data.DataRowVersion" /> da utilizzare per il caricamento della proprietà <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-279">Gets or sets the <see cref="T:System.Data.DataRowVersion" /> to use when you load <see cref="P:System.Data.OleDb.OleDbParameter.Value" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-280">Uno dei valori di <see cref="T:System.Data.DataRowVersion" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-280">One of the <see cref="T:System.Data.DataRowVersion" /> values.</span>
+          </span>
+          <span data-ttu-id="411e1-281">Il valore predefinito è <see langword="Current" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-281">The default is <see langword="Current" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-282">Utilizzato da <xref:System.Data.OleDb.OleDbDataAdapter.UpdateCommand%2A> durante un'operazione di aggiornamento per stabilire se il valore del parametro è impostato su `Current` o `Original`.</span><span class="sxs-lookup"><span data-stu-id="411e1-282">Used by <xref:System.Data.OleDb.OleDbDataAdapter.UpdateCommand%2A> during an update operation to determine whether the parameter value is set to `Current` or `Original`.</span></span> <span data-ttu-id="411e1-283">Ciò consente di aggiornare le chiavi primarie.</span><span class="sxs-lookup"><span data-stu-id="411e1-283">This lets primary keys be updated.</span></span> <span data-ttu-id="411e1-284">Questa proprietà è impostata per la versione del <xref:System.Data.DataRow> utilizzato dal <xref:System.Data.DataRow.Item%2A> proprietà o <xref:System.Data.DataRow.GetChildRows%2A> metodo il <xref:System.Data.DataRow> oggetto.</span><span class="sxs-lookup"><span data-stu-id="411e1-284">This property is set to the version of the <xref:System.Data.DataRow> used by the <xref:System.Data.DataRow.Item%2A> property, or the <xref:System.Data.DataRow.GetChildRows%2A> method of the <xref:System.Data.DataRow> object.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-285">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-285">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.SourceColumn = "Description"  
+    parameter.SourceVersion = DataRowVersion.Current  
+End Sub  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.SourceColumn = "Description";  
+    parameter.SourceVersion = DataRowVersion.Current;  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="411e1-286">La proprietà non è stata impostata su uno dei valori dell'enumerazione <see cref="T:System.Data.DataRowVersion" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-286">The property was not set to one of the <see cref="T:System.Data.DataRowVersion" /> values.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="System.ICloneable.Clone">
+      <MemberSignature Language="C#" Value="object ICloneable.Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance object System.ICloneable.Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.System#ICloneable#Clone" />
+      <MemberSignature Language="VB.NET" Value="Function Clone () As Object Implements ICloneable.Clone" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Object ^ System.ICloneable.Clone() = ICloneable::Clone;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.ICloneable.Clone</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-287">Per una descrizione di questo membro, vedere <see cref="M:System.ICloneable.Clone" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-287">For a description of this member, see <see cref="M:System.ICloneable.Clone" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="411e1-288">Nuovo oggetto <see cref="T:System.Object" /> che consiste in una copia dell'istanza corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-288">A new <see cref="T:System.Object" /> that is a copy of this instance.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-289">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="411e1-289">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="411e1-290">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Data.OleDb.OleDbParameter> a un'interfaccia <xref:System.ICloneable>.</span><span class="sxs-lookup"><span data-stu-id="411e1-290">It can be used only when the <xref:System.Data.OleDb.OleDbParameter> instance is cast to an <xref:System.ICloneable> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OleDb.OleDbParameter.ToString" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-291">Ottiene una stringa che contiene <see cref="P:System.Data.OleDb.OleDbParameter.ParameterName" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-291">Gets a string that contains the <see cref="P:System.Data.OleDb.OleDbParameter.ParameterName" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="411e1-292">Stringa contenente <see cref="P:System.Data.OleDb.OleDbParameter.ParameterName" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-292">A string that contains the <see cref="P:System.Data.OleDb.OleDbParameter.ParameterName" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Value">
+      <MemberSignature Language="C#" Value="public override object Value { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Value" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OleDb.OleDbParameter.Value" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property Value As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ Value { System::Object ^ get(); void set(System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDataParameter.Value</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.RefreshProperties</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.TypeConverter(typeof(System.ComponentModel.StringConverter))</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="411e1-293">Ottiene o imposta il valore del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-293">Gets or sets the value of the parameter.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="411e1-294">Oggetto <see cref="T:System.Object" /> che rappresenta il valore del parametro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-294">An <see cref="T:System.Object" /> that is the value of the parameter.</span>
+          </span>
+          <span data-ttu-id="411e1-295">Il valore predefinito è null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="411e1-295">The default value is null.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="411e1-296">Per i parametri di input, il valore è associato il <xref:System.Data.OleDb.OleDbCommand> che viene inviato al server.</span><span class="sxs-lookup"><span data-stu-id="411e1-296">For input parameters, the value is bound to the <xref:System.Data.OleDb.OleDbCommand> that is sent to the server.</span></span> <span data-ttu-id="411e1-297">Per l'output e i parametri di valore restituito, il valore è impostato al completamento del <xref:System.Data.OleDb.OleDbCommand> e dopo il <xref:System.Data.OleDb.OleDbDataReader> è chiuso.</span><span class="sxs-lookup"><span data-stu-id="411e1-297">For output and return value parameters, the value is set on completion of the <xref:System.Data.OleDb.OleDbCommand> and after the <xref:System.Data.OleDb.OleDbDataReader> is closed.</span></span>  
+  
+ <span data-ttu-id="411e1-298">Quando si invia un valore di parametro null al server, è necessario specificare <xref:System.DBNull>, non è null.</span><span class="sxs-lookup"><span data-stu-id="411e1-298">When you send a null parameter value to the server, you must specify <xref:System.DBNull>, not null.</span></span> <span data-ttu-id="411e1-299">Il valore null nel sistema è un oggetto vuoto senza un valore.</span><span class="sxs-lookup"><span data-stu-id="411e1-299">The null value in the system is an empty object that has no value.</span></span> <span data-ttu-id="411e1-300"><xref:System.DBNull> viene usato per rappresentare i valori null.</span><span class="sxs-lookup"><span data-stu-id="411e1-300"><xref:System.DBNull> is used to represent null values.</span></span>  
+  
+ <span data-ttu-id="411e1-301">Se l'applicazione specifica il tipo di database, il valore associato viene convertito al tipo quando il provider invia i dati al server.</span><span class="sxs-lookup"><span data-stu-id="411e1-301">If the application specifies the database type, the bound value is converted to that type when the provider sends the data to the server.</span></span> <span data-ttu-id="411e1-302">Il provider tenta di convertire qualsiasi tipo di valore se supporta il <xref:System.IConvertible> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="411e1-302">The provider tries to convert any type of value if it supports the <xref:System.IConvertible> interface.</span></span> <span data-ttu-id="411e1-303">Se il tipo specificato non è compatibile con il valore se potrebbero verificarsi errori di conversione.</span><span class="sxs-lookup"><span data-stu-id="411e1-303">Conversion errors may result if the specified type is not compatible with the value.</span></span>  
+  
+ <span data-ttu-id="411e1-304">Sia il <xref:System.Data.OleDb.OleDbParameter.DbType%2A> e <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> possono essere dedotte impostando il valore.</span><span class="sxs-lookup"><span data-stu-id="411e1-304">Both the <xref:System.Data.OleDb.OleDbParameter.DbType%2A> and <xref:System.Data.OleDb.OleDbParameter.OleDbType%2A> properties can be inferred by setting the Value.</span></span>  
+  
+ <span data-ttu-id="411e1-305">Il <xref:System.Data.OleDb.OleDbParameter.Value%2A> proprietà viene sovrascritto dal metodo Update di <xref:System.Data.IDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="411e1-305">The <xref:System.Data.OleDb.OleDbParameter.Value%2A> property is overwritten by the Update method of <xref:System.Data.IDbDataAdapter>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="411e1-306">Nell'esempio seguente viene creato un <xref:System.Data.OleDb.OleDbParameter> e vengono impostate alcune delle relative proprietà.</span><span class="sxs-lookup"><span data-stu-id="411e1-306">The following example creates an <xref:System.Data.OleDb.OleDbParameter> and sets some of its properties.</span></span>  
+  
+```vb  
+Public Sub CreateOleDbParameter()  
+    Dim parameter As New OleDbParameter("Description", OleDbType.VarChar, 88)  
+    parameter.Value = "garden hose"  
+End Sub 'CreateOleDbParameter  
+```  
+  
+```csharp  
+public void CreateOleDbParameter()   
+ {  
+    OleDbParameter parameter = new OleDbParameter("Description", OleDbType.VarChar, 88);  
+    parameter.Value = "garden hose";  
+ }  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

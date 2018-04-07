@@ -1,0 +1,2612 @@
+<Type Name="OracleDataReader" FullName="System.Data.OracleClient.OracleDataReader">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="ee2e0d7ea6efb54407057c5b6e6bef3a75c63303" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class OracleDataReader : System.Data.Common.DbDataReader" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OracleDataReader extends System.Data.Common.DbDataReader" />
+  <TypeSignature Language="DocId" Value="T:System.Data.OracleClient.OracleDataReader" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class OracleDataReader&#xA;Inherits DbDataReader" />
+  <TypeSignature Language="C++ CLI" Value="public ref class OracleDataReader sealed : System::Data::Common::DbDataReader" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data.OracleClient</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbDataReader</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="3df9f-101">Fornisce un modo per leggere un flusso di righe di dati forward-only da un'origine dati.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3df9f-101">Provides a way of reading a forward-only stream of data rows from a data source.</span>
+      </span>
+      <span data-ttu-id="3df9f-102">Questa classe non può essere ereditata.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="3df9f-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-103">Per creare un <xref:System.Data.OracleClient.OracleDataReader>, è necessario chiamare il <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> metodo il <xref:System.Data.OracleClient.OracleCommand> , anziché utilizzare direttamente un costruttore dell'oggetto.</span><span class="sxs-lookup"><span data-stu-id="3df9f-103">To create an <xref:System.Data.OracleClient.OracleDataReader>, you must call the <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> method of the <xref:System.Data.OracleClient.OracleCommand> object, rather than directly using a constructor.</span></span>  
+  
+ <span data-ttu-id="3df9f-104">Modifiche apportate a un set di risultati da un altro processo o thread durante la lettura dei dati potrebbero essere visibili all'utente di <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-104">Changes made to a resultset by another process or thread while data is being read may be visible to the user of the <xref:System.Data.OracleClient.OracleDataReader>.</span></span>  
+  
+ <span data-ttu-id="3df9f-105"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> e <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> sono le uniche proprietà che è possibile chiamare dopo il <xref:System.Data.OracleClient.OracleDataReader> è chiuso.</span><span class="sxs-lookup"><span data-stu-id="3df9f-105"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> and <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> are the only properties that you can call after the <xref:System.Data.OracleClient.OracleDataReader> is closed.</span></span> <span data-ttu-id="3df9f-106">In alcuni casi, è necessario chiamare <xref:System.Data.OracleClient.OracleDataReader.Close%2A> prima di poter chiamare <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-106">In some cases, you must call <xref:System.Data.OracleClient.OracleDataReader.Close%2A> before you can call <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A>.</span></span>  
+  
+ <span data-ttu-id="3df9f-107">Più <xref:System.Data.OracleClient.OracleDataReader> possono essere aperti in qualsiasi momento.</span><span class="sxs-lookup"><span data-stu-id="3df9f-107">More than one <xref:System.Data.OracleClient.OracleDataReader> can be open at any given time.</span></span>  
+  
+ <span data-ttu-id="3df9f-108">I due esempi di Visual Basic seguenti viene illustrato come utilizzare un <xref:System.Data.OracleClient.OracleDataReader> per recuperare un oggetto Oracle `REF CURSOR`.</span><span class="sxs-lookup"><span data-stu-id="3df9f-108">The following two Visual Basic examples demonstrate how to use an <xref:System.Data.OracleClient.OracleDataReader> to retrieve an Oracle `REF CURSOR`.</span></span> <span data-ttu-id="3df9f-109">Questi esempi vengono utilizzate tabelle definite nello schema Oracle Scott/Tiger e richiedono il seguente package PL/SQL e il corpo del package.</span><span class="sxs-lookup"><span data-stu-id="3df9f-109">These examples use tables that are defined in the Oracle Scott/Tiger schema, and require the following PL/SQL package and package body.</span></span> <span data-ttu-id="3df9f-110">È necessario creare per il server per utilizzare gli esempi.</span><span class="sxs-lookup"><span data-stu-id="3df9f-110">You must create these on your server to use the examples.</span></span>  
+  
+ <span data-ttu-id="3df9f-111">Creare il seguente package Oracle sul server Oracle.</span><span class="sxs-lookup"><span data-stu-id="3df9f-111">Create the following Oracle package on the Oracle server.</span></span>  
+  
+```  
+CREATE OR REPLACE PACKAGE CURSPKG AS   
+   TYPE T_CURSOR IS REF CURSOR;   
+   PROCEDURE OPEN_ONE_CURSOR (N_EMPNO IN NUMBER,   
+      IO_CURSOR IN OUT T_CURSOR);   
+   PROCEDURE OPEN_TWO_CURSORS (EMPCURSOR OUT T_CURSOR,   
+      DEPTCURSOR OUT T_CURSOR);  
+END CURSPKG;  
+/  
+```  
+  
+ <span data-ttu-id="3df9f-112">Creare il seguente corpo del package Oracle sul server Oracle.</span><span class="sxs-lookup"><span data-stu-id="3df9f-112">Create the following Oracle package body on the Oracle server.</span></span>  
+  
+```  
+  
+CREATE OR REPLACE PACKAGE BODY CURSPKG AS   
+    PROCEDURE OPEN_ONE_CURSOR (N_EMPNO IN NUMBER,   
+                               IO_CURSOR OUT T_CURSOR)   
+    IS   
+        V_CURSOR T_CURSOR;   
+    BEGIN   
+        IF N_EMPNO <> 0 THEN   
+             OPEN V_CURSOR FOR   
+             SELECT EMP.EMPNO, EMP.ENAME, DEPT.DEPTNO, DEPT.DNAME   
+                  FROM EMP, DEPT   
+                  WHERE EMP.DEPTNO = DEPT.DEPTNO   
+                        AND EMP.EMPNO = N_EMPNO;   
+        ELSE   
+             OPEN V_CURSOR FOR   
+             SELECT EMP.EMPNO, EMP.ENAME, DEPT.DEPTNO, DEPT.DNAME   
+                  FROM EMP, DEPT   
+                  WHERE EMP.DEPTNO = DEPT.DEPTNO;   
+        END IF;   
+        IO_CURSOR := V_CURSOR;   
+    END OPEN_ONE_CURSOR;   
+    PROCEDURE OPEN_TWO_CURSORS (EMPCURSOR OUT T_CURSOR,   
+                                DEPTCURSOR OUT T_CURSOR)   
+    IS   
+        V_CURSOR1 T_CURSOR;   
+        V_CURSOR2 T_CURSOR;   
+    BEGIN   
+        OPEN V_CURSOR1 FOR SELECT * FROM EMP;   
+        OPEN V_CURSOR2 FOR SELECT * FROM DEPT;   
+        EMPCURSOR  := V_CURSOR1;   
+        DEPTCURSOR := V_CURSOR2;   
+    END OPEN_TWO_CURSORS;   
+END CURSPKG;  
+/  
+```  
+  
+ <span data-ttu-id="3df9f-113">Questo esempio di Visual Basic viene eseguita una stored procedure PL/SQL archiviati che restituisce un `REF CURSOR` parametro e legge il valore come un <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-113">This Visual Basic example executes a PL/SQL stored procedure that returns a `REF CURSOR` parameter, and reads the value as an <xref:System.Data.OracleClient.OracleDataReader>.</span></span>  
+  
+```vb  
+Private Sub ReadOracleData(ByVal connectionString As String)  
+   Dim connection As New OracleConnection(connectionString)  
+   Dim command As New OracleCommand()  
+   Dim reader As OracleDataReader  
+  
+   connection.Open()  
+   command.Connection = connection  
+   command.CommandText = "CURSPKG.OPEN_ONE_CURSOR"  
+   command.CommandType = CommandType.StoredProcedure  
+   command.Parameters.Add(New OracleParameter("N_EMPNO", OracleType.Number)).Value = 7369  
+   command.Parameters.Add(New OracleParameter("IO_CURSOR", OracleType.Cursor)).Direction = ParameterDirection.Output  
+  
+   reader = command.ExecuteReader()  
+   While (reader.Read())  
+      ' Do something with the values.  
+   End While  
+   reader.Close()  
+   connection.Close()  
+End Sub  
+```  
+  
+ <span data-ttu-id="3df9f-114">Questo esempio di Visual Basic viene eseguita una stored procedure PL/SQL archiviati che restituisce due `REF CURSOR` , parametri e legge i valori utilizzando un <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-114">This Visual Basic example executes a PL/SQL stored procedure that returns two `REF CURSOR` parameters, and reads the values using an <xref:System.Data.OracleClient.OracleDataReader>.</span></span>  
+  
+```vb  
+Private Sub ReadOracleData(ByVal connectionString As String)  
+   Dim dataSet As New DataSet()  
+   Dim connection As New OracleConnection(connectionString)  
+   Dim command As New OracleCommand()  
+   Dim reader As OracleDataReader  
+  
+   connection.Open()  
+   command.Connection = connection  
+   command.CommandText = "CURSPKG.OPEN_TWO_CURSORS"  
+   command.CommandType = CommandType.StoredProcedure  
+   command.Parameters.Add(New OracleParameter("EMPCURSOR", OracleType.Cursor)).Direction = ParameterDirection.Output  
+   command.Parameters.Add(New OracleParameter("DEPTCURSOR", OracleType.Cursor)).Direction = ParameterDirection.Output  
+  
+   reader = command.ExecuteReader(CommandBehavior.CloseConnection)  
+   While (reader.Read())  
+      ' Do something with the values.  
+   End While  
+   reader.NextResult()  
+   While (reader.Read())  
+        ' Do something with the values.  
+   End While  
+   reader.Close()  
+   connection.Close()  
+ End Sub  
+```  
+  
+ <span data-ttu-id="3df9f-115">Nell'esempio c# viene creata una tabella Oracle e lo carica con i dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-115">This C# example creates an Oracle table and loads it with data.</span></span> <span data-ttu-id="3df9f-116">È necessario eseguire questo esempio viene prima di eseguire l'esempio successivo, in cui viene illustrato l'utilizzo un <xref:System.Data.OracleClient.OracleDataReader> per accedere ai dati tramite le strutture OracleType.</span><span class="sxs-lookup"><span data-stu-id="3df9f-116">You must run this example prior to running the subsequent example, which demonstrates using an <xref:System.Data.OracleClient.OracleDataReader> to access the data using OracleType structures.</span></span>  
+  
+```csharp  
+public void Setup(string connectionString)  
+{  
+   OracleConnection connection = new OracleConnection(connectionString);  
+   try  
+   {  
+      connection.Open();  
+      OracleCommand command = connection.CreateCommand();  
+      command.CommandText ="CREATE TABLE OracleTypesTable (MyVarchar2 varchar2(3000),MyNumber number(28,4) PRIMARY KEY,MyDate date, MyRaw raw(255))";  
+      command.ExecuteNonQuery();  
+      command.CommandText ="INSERT INTO OracleTypesTable VALUES ('test', 2, to_date('2000-01-11 12:54:01','yyyy-mm-dd hh24:mi:ss'), '0001020304')";  
+      command.ExecuteNonQuery();  
+      command.CommandText="SELECT * FROM OracleTypesTable";  
+   }  
+   catch(Exception)  
+   {  
+   }  
+   finally  
+   {  
+      connection.Close();  
+   }  
+}  
+```  
+  
+ <span data-ttu-id="3df9f-117">Nell'esempio c# viene utilizzata una <xref:System.Data.OracleClient.OracleDataReader> per accedere ai dati e vengono utilizzati diversi <xref:System.Data.OracleClient.OracleType> strutture per visualizzare i dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-117">This C# example uses an <xref:System.Data.OracleClient.OracleDataReader> to access data, and uses several <xref:System.Data.OracleClient.OracleType> structures to display the data.</span></span>  
+  
+```csharp  
+public void ReadOracleTypesExample(string connectionString)  
+{  
+   OracleConnection connection = new OracleConnection(connectionString);  
+   connection.Open();  
+   OracleCommand command = connection.CreateCommand();  
+   try  
+   {  
+      command.CommandText = "SELECT * FROM OracleTypesTable";  
+      OracleDataReader reader = command.ExecuteReader();  
+      reader.Read();  
+      //Using the Oracle specific getters for each type is faster than  
+      //using GetOracleValue.  
+      //First column, MyVarchar2, is a VARCHAR2 data type in Oracle Server  
+      //and maps to OracleString.  
+      OracleString oraclestring1 = reader.GetOracleString(0);  
+      Console.WriteLine("OracleString " + oraclestring1.ToString());  
+  
+      //Second column, MyNumber, is a NUMBER data type in Oracle Server  
+      //and maps to OracleNumber.  
+      OracleNumber oraclenumber1 = reader.GetOracleNumber(1);  
+      Console.WriteLine("OracleNumber " + oraclenumber1.ToString());  
+  
+      //Third column, MyDate, is a DATA data type in Oracle Server  
+      //and maps to OracleDateTime.  
+      OracleDateTime oracledatetime1 = reader.GetOracleDateTime(2);  
+      Console.WriteLine("OracleDateTime " + oracledatetime1.ToString());  
+  
+      //Fourth column, MyRaw, is a RAW data type in Oracle Server and  
+      //maps to OracleBinary.  
+      OracleBinary oraclebinary1 = reader.GetOracleBinary(3);  
+  
+      //Calling value on a null OracleBinary throws  
+      //OracleNullValueException; therefore, check for a null value.  
+      if (oraclebinary1.IsNull==false)  
+      {  
+         foreach(byte b in oraclebinary1.Value)  
+         {  
+            Console.WriteLine("byte " + b.ToString());  
+         }  
+      }  
+      reader.Close();  
+   }  
+   catch(Exception e)  
+   {  
+      Console.WriteLine(e.ToString());  
+   }  
+   finally  
+   {  
+      connection.Close();  
+   }  
+}  
+```  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3df9f-118">Nell'esempio seguente viene creato un <xref:System.Data.OracleClient.OracleConnection>, un <xref:System.Data.OracleClient.OracleCommand>e un <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-118">The following example creates an <xref:System.Data.OracleClient.OracleConnection>, an <xref:System.Data.OracleClient.OracleCommand>, and an <xref:System.Data.OracleClient.OracleDataReader>.</span></span> <span data-ttu-id="3df9f-119">Nell'esempio legge i dati, scrivono nella console.</span><span class="sxs-lookup"><span data-stu-id="3df9f-119">The example reads through the data, writing it out to the console.</span></span> <span data-ttu-id="3df9f-120">Infine, l'esempio chiude il <xref:System.Data.OracleClient.OracleDataReader>, quindi il <xref:System.Data.OracleClient.OracleConnection>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-120">Finally, the example closes the <xref:System.Data.OracleClient.OracleDataReader>, then the <xref:System.Data.OracleClient.OracleConnection>.</span></span>  
+  
+ [!code-csharp[Classic WebData OracleDataReader#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OracleDataReader/CS/source.cs#1)]
+ [!code-vb[Classic WebData OracleDataReader#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OracleDataReader/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public override void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-121">Chiude l'oggetto <see cref="T:System.Data.OracleClient.OracleDataReader" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-121">Closes the <see cref="T:System.Data.OracleClient.OracleDataReader" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-122">Più <xref:System.Data.OracleClient.OracleDataReader> possono essere aperti in qualsiasi momento.</span><span class="sxs-lookup"><span data-stu-id="3df9f-122">More than one <xref:System.Data.OracleClient.OracleDataReader> can be open at any given time.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="3df9f-123">Non chiamare `Close` o `Dispose` in una connessione, un `DataReader`, o qualsiasi altro oggetto gestito di `Finalize` metodo della classe.</span><span class="sxs-lookup"><span data-stu-id="3df9f-123">Do not call `Close` or `Dispose` on a connection, a `DataReader`, or any other managed object in the `Finalize` method of your class.</span></span> <span data-ttu-id="3df9f-124">In un finalizzatore, è necessario rilasciare solo le risorse non gestite che la classe controlla direttamente.</span><span class="sxs-lookup"><span data-stu-id="3df9f-124">In a finalizer, you should only release unmanaged resources that your class owns directly.</span></span> <span data-ttu-id="3df9f-125">Se nella classe non sono presenti risorse non gestite, non includere un metodo `Finalize` nella relativa definizione della classe.</span><span class="sxs-lookup"><span data-stu-id="3df9f-125">If your class does not own any unmanaged resources, do not include a `Finalize` method in your class definition.</span></span> <span data-ttu-id="3df9f-126">Per ulteriori informazioni, vedere [Garbage Collection](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9).</span><span class="sxs-lookup"><span data-stu-id="3df9f-126">For more information, see [Garbage Collection](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Depth">
+      <MemberSignature Language="C#" Value="public override int Depth { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Depth" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.Depth" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Depth As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int Depth { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-127">Ottiene un valore che indica il livello di annidamento della riga corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-127">Gets a value indicating the depth of nesting for the current row.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-128">Livello di annidamento della riga corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-128">The depth of nesting for the current row.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-129">La tabella più esterna è di livello zero.</span><span class="sxs-lookup"><span data-stu-id="3df9f-129">The outermost table has a depth of zero.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FieldCount">
+      <MemberSignature Language="C#" Value="public override int FieldCount { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 FieldCount" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.FieldCount" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property FieldCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int FieldCount { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-130">Ottiene il numero di colonne nella riga corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-130">Gets the number of columns in the current row.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-131">Quando non è posizionato in un recordset valido, 0; in caso contrario, il numero delle colonne presenti nel record corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-131">When not positioned in a valid record set, 0; otherwise the number of columns in the current record.</span>
+          </span>
+          <span data-ttu-id="3df9f-132">Il valore predefinito è -1.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-132">The default is -1.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-133">Include campi nascosti.</span><span class="sxs-lookup"><span data-stu-id="3df9f-133">Includes hidden fields.</span></span> <span data-ttu-id="3df9f-134">Utilizzare <xref:System.Data.Common.DbDataReader.VisibleFieldCount%2A> per escludere campi nascosti.</span><span class="sxs-lookup"><span data-stu-id="3df9f-134">Use <xref:System.Data.Common.DbDataReader.VisibleFieldCount%2A> to exclude hidden fields.</span></span>  
+  
+ <span data-ttu-id="3df9f-135">Dopo l'esecuzione di una query che non restituisce righe, <xref:System.Data.OracleClient.OracleDataReader.FieldCount%2A> restituisce 0.</span><span class="sxs-lookup"><span data-stu-id="3df9f-135">After executing a query that does not return rows, <xref:System.Data.OracleClient.OracleDataReader.FieldCount%2A> returns 0.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="3df9f-136">Non è presente nessuna connessione a un'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-136">There is no current connection to a data source.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBoolean">
+      <MemberSignature Language="C#" Value="public override bool GetBoolean (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool GetBoolean(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetBoolean(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetBoolean (i As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool GetBoolean(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-137">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-137">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-138">Ottiene il valore della colonna specificata come valore Boolean.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-138">Gets the value of the specified column as a Boolean.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-139">Boolean corrispondente al valore della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-139">A Boolean that is the value of the column.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-140">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-140">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-141">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-141">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetByte">
+      <MemberSignature Language="C#" Value="public override byte GetByte (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance unsigned int8 GetByte(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetByte(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetByte (i As Integer) As Byte" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Byte GetByte(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Byte</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-142">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-142">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-143">Ottiene il valore della colonna specificata come byte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-143">Gets the value of the specified column as a byte.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-144">Valore della colonna specificata sotto forma di byte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-144">The value of the specified column as a byte.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-145">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-145">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-146">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-146">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBytes">
+      <MemberSignature Language="C#" Value="public override long GetBytes (int i, long fieldOffset, byte[] buffer2, int bufferoffset, int length);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int64 GetBytes(int32 i, int64 fieldOffset, unsigned int8[] buffer2, int32 bufferoffset, int32 length) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetBytes (i As Integer, fieldOffset As Long, buffer2 As Byte(), bufferoffset As Integer, length As Integer) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override long GetBytes(int i, long fieldOffset, cli::array &lt;System::Byte&gt; ^ buffer2, int bufferoffset, int length);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="fieldOffset" Type="System.Int64" />
+        <Parameter Name="buffer2" Type="System.Byte[]" />
+        <Parameter Name="bufferoffset" Type="System.Int32" />
+        <Parameter Name="length" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-147">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-147">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <param name="fieldOffset">
+          <span data-ttu-id="3df9f-148">Indice all'interno del campo dal quale iniziare l'operazione di lettura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-148">The index within the field where the read operation is to begin.</span>
+          </span>
+        </param>
+        <param name="buffer2">
+          <span data-ttu-id="3df9f-149">Buffer in cui leggere il flusso di byte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-149">The buffer into which to read the stream of bytes.</span>
+          </span>
+        </param>
+        <param name="bufferoffset">
+          <span data-ttu-id="3df9f-150">Indice dal quale <c>buffer</c> inizia l'operazione di scrittura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-150">The index where <c>buffer</c> is to begin the write operation.</span>
+          </span>
+        </param>
+        <param name="length">
+          <span data-ttu-id="3df9f-151">Numero di byte da leggere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-151">The number of bytes to read.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-152">Legge un flusso di byte dall'offset di colonna specificato nel buffer come matrice, a partire dall'offset del buffer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-152">Reads a stream of bytes from the specified column offset into the buffer as an array, starting at the given buffer offset.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-153">Numero effettivo di byte letti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-153">The actual number of bytes read.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-154"><xref:System.Data.OracleClient.OracleDataReader.GetBytes%2A> Restituisce il numero di byte disponibili nel campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-154"><xref:System.Data.OracleClient.OracleDataReader.GetBytes%2A> returns the number of available bytes in the field.</span></span> <span data-ttu-id="3df9f-155">Nella maggior parte dei casi si tratta della lunghezza esatta del campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-155">In most cases this is the exact length of the field.</span></span> <span data-ttu-id="3df9f-156">Tuttavia, il numero restituito può essere inferiore alla lunghezza del campo se `GetBytes` è già stato utilizzato per ottenere i byte del campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-156">However, the number returned may be less than the true length of the field if `GetBytes` has already been used to obtain bytes from the field.</span></span> <span data-ttu-id="3df9f-157">Questo può essere il caso, ad esempio, se il <xref:System.Data.OracleClient.OracleDataReader> viene letta una struttura di dati di grandi dimensioni in un buffer.</span><span class="sxs-lookup"><span data-stu-id="3df9f-157">This may be the case, for example, if the <xref:System.Data.OracleClient.OracleDataReader> is reading a large data structure into a buffer.</span></span> <span data-ttu-id="3df9f-158">Per ulteriori informazioni, vedere il `SequentialAccess` l'impostazione di <xref:System.Data.CommandBehavior>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-158">For more information, see the `SequentialAccess` setting of <xref:System.Data.CommandBehavior>.</span></span>  
+  
+ <span data-ttu-id="3df9f-159">Se si passa un buffer che è un valore null, <xref:System.Data.OracleClient.OracleDataReader.GetBytes%2A> restituisce la lunghezza del campo espressa in byte.</span><span class="sxs-lookup"><span data-stu-id="3df9f-159">If you pass a buffer that is a null value, <xref:System.Data.OracleClient.OracleDataReader.GetBytes%2A> returns the length of the field in bytes.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetChar">
+      <MemberSignature Language="C#" Value="public override char GetChar (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance char GetChar(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetChar(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetChar (i As Integer) As Char" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override char GetChar(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-160">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-160">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-161">Ottiene il valore della colonna specificata sotto forma di carattere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-161">Gets the value of the specified column as a character.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-162">Valore della colonna specificata sotto forma di carattere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-162">The value of the specified column as a character.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-163">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-163">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-164">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-164">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetChars">
+      <MemberSignature Language="C#" Value="public override long GetChars (int i, long fieldOffset, char[] buffer2, int bufferoffset, int length);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int64 GetChars(int32 i, int64 fieldOffset, char[] buffer2, int32 bufferoffset, int32 length) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetChars (i As Integer, fieldOffset As Long, buffer2 As Char(), bufferoffset As Integer, length As Integer) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override long GetChars(int i, long fieldOffset, cli::array &lt;char&gt; ^ buffer2, int bufferoffset, int length);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="fieldOffset" Type="System.Int64" />
+        <Parameter Name="buffer2" Type="System.Char[]" />
+        <Parameter Name="bufferoffset" Type="System.Int32" />
+        <Parameter Name="length" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-165">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-165">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <param name="fieldOffset">
+          <span data-ttu-id="3df9f-166">Indice all'interno della riga dalla quale iniziare l'operazione di lettura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-166">The index within the row where the read operation is to begin.</span>
+          </span>
+        </param>
+        <param name="buffer2">
+          <span data-ttu-id="3df9f-167">Buffer in cui copiare i dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-167">The buffer into which to copy data.</span>
+          </span>
+        </param>
+        <param name="bufferoffset">
+          <span data-ttu-id="3df9f-168">Indice dal quale <c>buffer</c> inizia l'operazione di scrittura.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-168">The index where <c>buffer</c> is to begin the write operation.</span>
+          </span>
+        </param>
+        <param name="length">
+          <span data-ttu-id="3df9f-169">Numero di caratteri da leggere.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-169">The number of characters to read.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-170">Legge un flusso di caratteri dall'offset di colonna specificato nel buffer come matrice, a partire dall'offset del buffer specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-170">Reads a stream of characters from the specified column offset into the buffer as an array, starting at the given buffer offset.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-171">Numero effettivo di caratteri letti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-171">The actual number of characters read.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-172"><xref:System.Data.OracleClient.OracleDataReader.GetChars%2A> Restituisce il numero di caratteri disponibili nel campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-172"><xref:System.Data.OracleClient.OracleDataReader.GetChars%2A> returns the number of available characters in the field.</span></span> <span data-ttu-id="3df9f-173">Nella maggior parte dei casi si tratta della lunghezza esatta del campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-173">In most cases this is the exact length of the field.</span></span> <span data-ttu-id="3df9f-174">Tuttavia, il numero restituito può essere inferiore alla lunghezza del campo se `GetChars` è già stato utilizzato per ottenere i caratteri del campo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-174">However, the number returned may be less than the true length of the field if `GetChars` has already been used to obtain characters from the field.</span></span> <span data-ttu-id="3df9f-175">Questo può essere il caso, ad esempio, se il <xref:System.Data.OracleClient.OracleDataReader> viene letta una struttura di dati di grandi dimensioni in un buffer.</span><span class="sxs-lookup"><span data-stu-id="3df9f-175">This may be the case, for example, if the <xref:System.Data.OracleClient.OracleDataReader> is reading a large data structure into a buffer.</span></span> <span data-ttu-id="3df9f-176">Per ulteriori informazioni, vedere il `SequentialAccess` l'impostazione di <xref:System.Data.CommandBehavior>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-176">For more information, see the `SequentialAccess` setting of <xref:System.Data.CommandBehavior>.</span></span>  
+  
+ <span data-ttu-id="3df9f-177">Se si passa un buffer che è un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-177">If you pass a buffer that is a null value.</span></span> <span data-ttu-id="3df9f-178"><xref:System.Data.OracleClient.OracleDataReader.GetChars%2A> Restituisce la lunghezza del campo in caratteri.</span><span class="sxs-lookup"><span data-stu-id="3df9f-178"><xref:System.Data.OracleClient.OracleDataReader.GetChars%2A> returns the length of the field in characters.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDataTypeName">
+      <MemberSignature Language="C#" Value="public override string GetDataTypeName (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string GetDataTypeName(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetDataTypeName(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetDataTypeName (i As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ GetDataTypeName(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-179">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-179">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-180">Ottiene il nome del tipo di dati di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-180">Gets the name of the source data type.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-181">Nome del tipo di dati di origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-181">The name of the source data type.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDateTime">
+      <MemberSignature Language="C#" Value="public override DateTime GetDateTime (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.DateTime GetDateTime(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetDateTime(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetDateTime (i As Integer) As DateTime" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override DateTime GetDateTime(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.DateTime</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-182">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-182">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-183">Ottiene il valore della colonna specificata come oggetto <see langword="DateTime" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-183">Gets the value of the specified column as a <see langword="DateTime" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-184">Valore della colonna specificata come oggetto <see langword="DateTime" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-184">The value of the specified column as a <see langword="DateTime" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-185">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-185">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-186">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-186">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDecimal">
+      <MemberSignature Language="C#" Value="public override decimal GetDecimal (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.Decimal GetDecimal(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetDecimal(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetDecimal (i As Integer) As Decimal" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Decimal GetDecimal(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Decimal</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-187">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-187">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-188">Ottiene il valore della colonna specificata come oggetto <see langword="Decimal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-188">Gets the value of the specified column as a <see langword="Decimal" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-189">Valore della colonna specificata come oggetto <see langword="Decimal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-189">The value of the specified column as a <see langword="Decimal" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-190">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-190">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-191">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-191">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDouble">
+      <MemberSignature Language="C#" Value="public override double GetDouble (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance float64 GetDouble(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetDouble(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetDouble (i As Integer) As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override double GetDouble(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-192">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-192">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-193">Ottiene il valore della colonna specificata come numero a virgola mobile con precisione doppia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-193">Gets the value of the specified column as a double-precision floating point number.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-194">Valore della colonna specificata sotto forma di numero in virgola mobile e precisione doppia.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-194">The value of the specified column as a double-precision floating point number.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-195">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-195">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-196">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-196">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public override System.Collections.IEnumerator GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Collections.IEnumerator GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetEnumerator () As IEnumerator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Collections::IEnumerator ^ GetEnumerator();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-197">Restituisce un oggetto <see cref="T:System.Collections.IEnumerator" /> che può essere utilizzato per scorrere le righe nel lettore di dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-197">Returns an <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-198">Oggetto <see cref="T:System.Collections.IEnumerator" /> che può essere utilizzato per scorrere le righe nel lettore di dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-198">An <see cref="T:System.Collections.IEnumerator" /> that can be used to iterate through the rows in the data reader.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-199">Sebbene sia possibile utilizzare questo metodo per recuperare un enumeratore esplicito, in linguaggi che supportano un ciclo foreach costrutto, è più semplice da utilizzare il costrutto di ciclo direttamente per scorrere le righe nel lettore di dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-199">Although you can use this method to retrieve an explicit enumerator, in languages that support a foreach construct, it's simpler to use the looping construct directly in order to iterate through the rows in the data reader.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFieldType">
+      <MemberSignature Language="C#" Value="public override Type GetFieldType (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Type GetFieldType(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetFieldType(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetFieldType (i As Integer) As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override Type ^ GetFieldType(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-200">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-200">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-201">Ottiene l'oggetto <see cref="T:System.Type" /> che rappresenta il tipo di dati dell'oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-201">Gets the <see cref="T:System.Type" /> that is the data type of the object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-202">Oggetto <see cref="T:System.Type" /> che rappresenta il tipo di dati dell'oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-202">The <see cref="T:System.Type" /> that is the data type of the object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetFloat">
+      <MemberSignature Language="C#" Value="public override float GetFloat (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance float32 GetFloat(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetFloat(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetFloat (i As Integer) As Single" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override float GetFloat(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-203">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-203">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-204">Ottiene il valore della colonna specificata sotto forma di numero in virgola mobile e precisione singola.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-204">Gets the value of the specified column as a single-precision floating-point number.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-205">Valore della colonna specificata sotto forma di numero in virgola mobile e precisione singola.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-205">The value of the specified column as a single-precision floating-point number.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-206">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-206">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-207">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-207">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetGuid">
+      <MemberSignature Language="C#" Value="public override Guid GetGuid (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.Guid GetGuid(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetGuid(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetGuid (i As Integer) As Guid" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override Guid GetGuid(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Guid</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-208">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-208">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-209">Ottiene il valore della colonna specificata come identificatore univoco globale (GUID).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-209">Gets the value of the specified column as a globally-unique identifier (GUID).</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-210">Valore della colonna specificata sotto forma di GUID.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-210">The value of the specified column as a GUID.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-211">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-211">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-212">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-212">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInt16">
+      <MemberSignature Language="C#" Value="public override short GetInt16 (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int16 GetInt16(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetInt16(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetInt16 (i As Integer) As Short" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override short GetInt16(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int16</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-213">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-213">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-214">Ottiene il valore della colonna specificata sotto forma di intero con segno a 16 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-214">Gets the value of the specified column as a 16-bit signed integer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-215">Valore della colonna specificata sotto forma di intero con segno a 16 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-215">The value of the specified column as a 16-bit signed integer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-216">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-216">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-217">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-217">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInt32">
+      <MemberSignature Language="C#" Value="public override int GetInt32 (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetInt32(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetInt32(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetInt32 (i As Integer) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetInt32(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-218">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-218">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-219">Ottiene il valore della colonna specificata come intero con segno a 32 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-219">Gets the value of the specified column as a 32-bit signed integer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-220">Valore della colonna specificata come intero con segno a 32 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-220">The value of the specified column as a 32-bit signed integer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-221">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-221">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-222">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-222">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInt64">
+      <MemberSignature Language="C#" Value="public override long GetInt64 (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int64 GetInt64(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetInt64(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetInt64 (i As Integer) As Long" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override long GetInt64(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-223">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-223">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-224">Ottiene il valore della colonna specificata come integer con segno a 64 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-224">Gets the value of the specified column as a 64-bit signed integer.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-225">Valore della colonna specificata come intero con segno a 64 bit.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-225">The value of the specified column as a 64-bit signed integer.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-226">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-226">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-227">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-227">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetName">
+      <MemberSignature Language="C#" Value="public override string GetName (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string GetName(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetName(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetName (i As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ GetName(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-228">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-228">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-229">Ottiene il nome della colonna specificata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-229">Gets the name of the specified column.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-230">Stringa che rappresenta il nome della colonna specificata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-230">A string that is the name of the specified column.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Data.OracleClient.OracleDataReader.GetOrdinal(System.String)" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleBFile">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleBFile GetOracleBFile (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleBFile GetOracleBFile(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleBFile(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleBFile (i As Integer) As OracleBFile" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleBFile ^ GetOracleBFile(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleBFile</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-231">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-231">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-232">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleBFile" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-232">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleBFile" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-233">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleBFile" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-233">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleBFile" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-234">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-234">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-235">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-235">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleBinary">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleBinary GetOracleBinary (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleBinary GetOracleBinary(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleBinary(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleBinary (i As Integer) As OracleBinary" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleBinary GetOracleBinary(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleBinary</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-236">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-236">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-237">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleBinary" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-237">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleBinary" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-238">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleBinary" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-238">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleBinary" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-239">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-239">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-240">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-240">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleDateTime">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleDateTime GetOracleDateTime (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleDateTime GetOracleDateTime(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleDateTime(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleDateTime (i As Integer) As OracleDateTime" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleDateTime GetOracleDateTime(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleDateTime</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-241">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-241">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-242">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleDateTime" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-242">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleDateTime" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-243">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleDateTime" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-243">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleDateTime" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-244">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-244">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-245">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-245">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleLob">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleLob GetOracleLob (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleLob GetOracleLob(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleLob(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleLob (i As Integer) As OracleLob" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleLob ^ GetOracleLob(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleLob</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-246">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-246">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-247">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleLob" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-247">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleLob" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-248">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleLob" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-248">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleLob" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-249">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-249">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-250">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-250">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleMonthSpan">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleMonthSpan GetOracleMonthSpan (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleMonthSpan GetOracleMonthSpan(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleMonthSpan(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleMonthSpan (i As Integer) As OracleMonthSpan" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleMonthSpan GetOracleMonthSpan(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleMonthSpan</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-251">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-251">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-252">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleMonthSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-252">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleMonthSpan" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-253">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleMonthSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-253">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleMonthSpan" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-254">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-254">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-255">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-255">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleNumber">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleNumber GetOracleNumber (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleNumber GetOracleNumber(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleNumber(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleNumber (i As Integer) As OracleNumber" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleNumber GetOracleNumber(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleNumber</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-256">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-256">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-257">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleNumber" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-257">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleNumber" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-258">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleNumber" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-258">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleNumber" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-259">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-259">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-260">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-260">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleString">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleString GetOracleString (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleString GetOracleString(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleString(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleString (i As Integer) As OracleString" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleString GetOracleString(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleString</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-261">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-261">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-262">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleString" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-262">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleString" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-263">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleString" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-263">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleString" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-264">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-264">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-265">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-265">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleTimeSpan">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleTimeSpan GetOracleTimeSpan (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.Data.OracleClient.OracleTimeSpan GetOracleTimeSpan(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleTimeSpan(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleTimeSpan (i As Integer) As OracleTimeSpan" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleTimeSpan GetOracleTimeSpan(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleTimeSpan</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-266">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-266">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-267">Ottiene il valore della colonna specificata sotto forma di oggetto <see cref="T:System.Data.OracleClient.OracleTimeSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-267">Gets the value of the specified column as an <see cref="T:System.Data.OracleClient.OracleTimeSpan" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-268">Valore della colonna specificata come oggetto <see cref="T:System.Data.OracleClient.OracleTimeSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-268">The value of the specified column as an <see cref="T:System.Data.OracleClient.OracleTimeSpan" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-269">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-269">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-270">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-270">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleValue">
+      <MemberSignature Language="C#" Value="public object GetOracleValue (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object GetOracleValue(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleValue(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleValue (i As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ GetOracleValue(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-271">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-271">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-272">Ottiene il valore della colonna in corrispondenza dell'ordinale specificato nel formato Oracle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-272">Gets the value of the column at the specified ordinal in its Oracle format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-273">Valore Oracle da restituire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-273">The Oracle value to return.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-274">Il metodo restituisce <xref:System.DBNull> per colonne di database con valori null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-274">This method returns <xref:System.DBNull> for null database columns.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOracleValues">
+      <MemberSignature Language="C#" Value="public int GetOracleValues (object[] values);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 GetOracleValues(object[] values) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOracleValues(System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetOracleValues (values As Object()) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; int GetOracleValues(cli::array &lt;System::Object ^&gt; ^ values);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="values" Type="System.Object[]" />
+      </Parameters>
+      <Docs>
+        <param name="values">
+          <span data-ttu-id="3df9f-275">Matrice di <see cref="T:System.Object" /> in cui copiare le colonne attributo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-275">An array of type <see cref="T:System.Object" /> into which to copy the attribute columns.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-276">Ottiene tutte le colonne di attributo nella riga corrente in formato Oracle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-276">Gets all the attribute columns in the current row in Oracle format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-277">Numero di istanze di <see cref="T:System.Object" /> nella matrice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-277">The number of instances of <see cref="T:System.Object" /> in the array.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-278">Per la maggior parte delle applicazioni, il <xref:System.Data.OracleClient.OracleDataReader.GetOracleValues%2A> metodo fornisce un mezzo efficiente per recuperare tutte le colonne, anziché recuperare ciascuna colonna singolarmente.</span><span class="sxs-lookup"><span data-stu-id="3df9f-278">For most applications, the <xref:System.Data.OracleClient.OracleDataReader.GetOracleValues%2A> method provides an efficient means for retrieving all columns, rather than retrieving each column individually.</span></span>  
+  
+ <span data-ttu-id="3df9f-279">È possibile passare un <xref:System.Object> matrice che contiene un valore minore rispetto al numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-279">You can pass an <xref:System.Object> array that contains fewer than the number of columns contained in the resulting row.</span></span> <span data-ttu-id="3df9f-280">Solo la quantità di dati di <xref:System.Object> contenuti nella matrice vengono copiati nella matrice.</span><span class="sxs-lookup"><span data-stu-id="3df9f-280">Only the amount of data the <xref:System.Object> array holds is copied to the array.</span></span> <span data-ttu-id="3df9f-281">È inoltre possibile passare un <xref:System.Object> matrice la cui lunghezza è maggiore del numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-281">You can also pass an <xref:System.Object> array whose length is more than the number of columns contained in the resulting row.</span></span>  
+  
+ <span data-ttu-id="3df9f-282">Il metodo restituisce <xref:System.DBNull> per colonne di database con valori null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-282">This method returns <xref:System.DBNull> for null database columns.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetOrdinal">
+      <MemberSignature Language="C#" Value="public override int GetOrdinal (string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetOrdinal(string name) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetOrdinal(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetOrdinal (name As String) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetOrdinal(System::String ^ name);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="3df9f-283">Nome della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-283">The name of the column.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-284">Ottiene la posizione ordinale della colonna, dato il nome della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-284">Gets the column ordinal, given the name of the column.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-285">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-285">The zero-based column ordinal.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-286"><xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> Innanzitutto, esegue una ricerca con distinzione maiuscole/minuscole.</span><span class="sxs-lookup"><span data-stu-id="3df9f-286"><xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> performs a case-sensitive lookup first.</span></span> <span data-ttu-id="3df9f-287">In caso contrario, viene eseguita una ricerca con distinzione tra maiuscole e secondo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-287">If it fails, a second case-insensitive search is made.</span></span> <span data-ttu-id="3df9f-288">Il metodo genera un `IndexOutOfRange` eccezione se non viene trovato l'ordinale della colonna in base zero.</span><span class="sxs-lookup"><span data-stu-id="3df9f-288">The method throws an `IndexOutOfRange` exception if the zero-based column ordinal is not found.</span></span>  
+  
+ <span data-ttu-id="3df9f-289"><xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> è senza distinzione di larghezza dei caratteri kana.</span><span class="sxs-lookup"><span data-stu-id="3df9f-289"><xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> is kana-width insensitive.</span></span>  
+  
+ <span data-ttu-id="3df9f-290">Poiché le ricerche basate su valori ordinali sono più efficienti ricerche denominate, non è opportuno chiamare <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> all'interno di un ciclo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-290">Because ordinal-based lookups are more efficient than named lookups, it is inefficient to call <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> within a loop.</span></span> <span data-ttu-id="3df9f-291">Chiamare invece <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> una sola volta e quindi assegnare i risultati a una variabile integer da utilizzare all'interno del ciclo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-291">Instead, call <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> once and then assign the results to an integer variable for use within the loop.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3df9f-292">Nell'esempio seguente viene illustrato l'utilizzo del metodo <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-292">The following example demonstrates how to use the <xref:System.Data.OracleClient.OracleDataReader.GetOrdinal%2A> method.</span></span>  
+  
+```vb  
+Public Sub ReadOracleData(ByVal connectionString As String)  
+  
+    Dim queryString As String = "SELECT OrderID, CustomerID FROM Orders"  
+    Dim connection As New OracleConnection(connectionString)  
+    Dim command As New OracleCommand(queryString, connectionString)  
+  
+    connection.Open()  
+  
+    Dim reader As OracleDataReader = command.ExecuteReader()  
+  
+    Dim custIdCol As Integer = reader.GetOrdinal("CustomerID")  
+  
+    Do While reader.Read()  
+        Console.WriteLine("CustomerID = {0}", reader.GetString(custIdCol))  
+    Loop  
+  
+    reader.Close()  
+    connection.Close()  
+End Sub  
+```  
+  
+```csharp  
+public void ReadOracleData(string connectionString)  
+{  
+    string queryString = "SELECT OrderID, CustomerID FROM Orders";  
+    OracleConnection connection = new OracleConnection(connectionString);  
+    OracleCommand command = new OracleCommand(queryString,connection);  
+  
+    connection.Open();  
+    OracleDataReader reader = command.ExecuteReader();  
+  
+    int custIdCol = reader.GetOrdinal("CustomerID");  
+  
+    while (reader.Read())  
+        Console.WriteLine("CustomerID = {0}", reader.GetString(custIdCol));  
+  
+    reader.Close();  
+    connection.Close();  
+}  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProviderSpecificFieldType">
+      <MemberSignature Language="C#" Value="public override Type GetProviderSpecificFieldType (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Type GetProviderSpecificFieldType(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetProviderSpecificFieldType(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetProviderSpecificFieldType (i As Integer) As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override Type ^ GetProviderSpecificFieldType(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-293">Oggetto <see cref="T:System.Int32" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-293">An <see cref="T:System.Int32" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-294">Ottiene un oggetto <see langword="Object" /> che consiste in una rappresentazione del tipo di campo specifico del provider sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-294">Gets an <see langword="Object" /> that is a representation of the underlying provider specific field type.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-295">Ottiene un oggetto <see cref="T:System.Object" /> che consiste in una rappresentazione del tipo di campo specifico del provider sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-295">Gets an <see cref="T:System.Object" /> that is a representation of the underlying provider specific field type.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProviderSpecificValue">
+      <MemberSignature Language="C#" Value="public override object GetProviderSpecificValue (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance object GetProviderSpecificValue(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetProviderSpecificValue(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetProviderSpecificValue (i As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Object ^ GetProviderSpecificValue(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-296">Oggetto <see cref="T:System.Int32" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-296">An <see cref="T:System.Int32" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-297">Ottiene un oggetto <see langword="Object" /> che consiste in una rappresentazione del tipo di campo specifico del provider sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-297">Gets an <see langword="Object" /> that is a representation of the underlying provider specific field type.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-298">Ottiene un oggetto <see cref="T:System.Object" /> che consiste in una rappresentazione del tipo di campo specifico del provider sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-298">Gets an <see cref="T:System.Object" /> that is a representation of the underlying provider specific field type.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProviderSpecificValues">
+      <MemberSignature Language="C#" Value="public override int GetProviderSpecificValues (object[] values);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetProviderSpecificValues(object[] values) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetProviderSpecificValues(System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetProviderSpecificValues (values As Object()) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetProviderSpecificValues(cli::array &lt;System::Object ^&gt; ^ values);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="values" Type="System.Object[]" />
+      </Parameters>
+      <Docs>
+        <param name="values">
+          <span data-ttu-id="3df9f-299">Matrice di istanze della classe <see cref="T:System.Object" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-299">An array of <see cref="T:System.Object" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-300">Ottiene una matrice di oggetti che sono una rappresentazione dei valori specifici del provider sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-300">Gets an array of objects that are a representation of the underlying provider specific values.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-301">Numero di istanze di <see cref="T:System.Object" /> nella matrice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-301">The number of instances of <see cref="T:System.Object" /> in the array.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-302">Per la maggior parte delle applicazioni, il <xref:System.Data.OracleClient.OracleDataReader.GetProviderSpecificValues%2A> metodo fornisce un mezzo efficiente per recuperare tutte le colonne, anziché recuperare ciascuna colonna singolarmente.</span><span class="sxs-lookup"><span data-stu-id="3df9f-302">For most applications, the <xref:System.Data.OracleClient.OracleDataReader.GetProviderSpecificValues%2A> method provides an efficient means for retrieving all columns, rather than retrieving each column individually.</span></span>  
+  
+ <span data-ttu-id="3df9f-303">È possibile passare un <xref:System.Object> matrice che contiene un valore minore rispetto al numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-303">You can pass an <xref:System.Object> array that contains fewer than the number of columns contained in the resulting row.</span></span> <span data-ttu-id="3df9f-304">Solo la quantità di dati di <xref:System.Object> contenuti nella matrice vengono copiati nella matrice.</span><span class="sxs-lookup"><span data-stu-id="3df9f-304">Only the amount of data the <xref:System.Object> array holds is copied to the array.</span></span> <span data-ttu-id="3df9f-305">È inoltre possibile passare un <xref:System.Object> matrice la cui lunghezza è maggiore del numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-305">You can also pass an <xref:System.Object> array whose length is more than the number of columns contained in the resulting row.</span></span>  
+  
+ <span data-ttu-id="3df9f-306">Il metodo restituisce <xref:System.DBNull> per colonne di database con valori null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-306">This method returns <xref:System.DBNull> for null database columns.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSchemaTable">
+      <MemberSignature Language="C#" Value="public override System.Data.DataTable GetSchemaTable ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Data.DataTable GetSchemaTable() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetSchemaTable" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetSchemaTable () As DataTable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Data::DataTable ^ GetSchemaTable();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DataTable</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-307">Restituisce un oggetto <see cref="T:System.Data.DataTable" /> che descrive i metadati della colonna di OracleDataReader.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-307">Returns a <see cref="T:System.Data.DataTable" /> that describes the column metadata of the OracleDataReader.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-308">Oggetto <see cref="T:System.Data.DataTable" /> che descrive i metadati della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-308">A <see cref="T:System.Data.DataTable" /> that describes the column metadata.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-309">Il <xref:System.Data.OracleClient.OracleDataReader.GetSchemaTable%2A> metodo restituisce i metadati relativi a ogni colonna nell'ordine seguente:</span><span class="sxs-lookup"><span data-stu-id="3df9f-309">The <xref:System.Data.OracleClient.OracleDataReader.GetSchemaTable%2A> method returns metadata about each column in the following order:</span></span>  
+  
+|<span data-ttu-id="3df9f-310">Colonna DataReader</span><span class="sxs-lookup"><span data-stu-id="3df9f-310">DataReader Column</span></span>|<span data-ttu-id="3df9f-311">Descrizione</span><span class="sxs-lookup"><span data-stu-id="3df9f-311">Description</span></span>|  
+|-----------------------|-----------------|  
+|<span data-ttu-id="3df9f-312">Nome colonna</span><span class="sxs-lookup"><span data-stu-id="3df9f-312">ColumnName</span></span>|<span data-ttu-id="3df9f-313">Il nome di colonna. Questo potrebbe non essere univoco.</span><span class="sxs-lookup"><span data-stu-id="3df9f-313">The name of the column; this might not be unique.</span></span> <span data-ttu-id="3df9f-314">Se non è possibile determinare il nome della colonna, viene restituito un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-314">If the column name cannot be determined, a null value is returned.</span></span> <span data-ttu-id="3df9f-315">Questo nome riflette sempre la denominazione più recente della colonna nel testo del comando o una vista corrente.</span><span class="sxs-lookup"><span data-stu-id="3df9f-315">This name always reflects the most recent naming of the column in the current view or command text.</span></span>|  
+|<span data-ttu-id="3df9f-316">ColumnOrdinal</span><span class="sxs-lookup"><span data-stu-id="3df9f-316">ColumnOrdinal</span></span>|<span data-ttu-id="3df9f-317">Ordinale in base zero della colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-317">The zero-based ordinal of the column.</span></span> <span data-ttu-id="3df9f-318">Questa colonna non può contenere un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-318">This column cannot contain a null value.</span></span>|  
+|<span data-ttu-id="3df9f-319">ColumnSize</span><span class="sxs-lookup"><span data-stu-id="3df9f-319">ColumnSize</span></span>|<span data-ttu-id="3df9f-320">Lunghezza massima possibile di un valore nella colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-320">The maximum possible length of a value in the column.</span></span> <span data-ttu-id="3df9f-321">Per le colonne che utilizzano un tipo di dati a lunghezza fissa, questa è la dimensione del tipo di dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-321">For columns that use a fixed-length data type, this is the size of the data type.</span></span>|  
+|<span data-ttu-id="3df9f-322">NumericPrecision</span><span class="sxs-lookup"><span data-stu-id="3df9f-322">NumericPrecision</span></span>|<span data-ttu-id="3df9f-323">Se <xref:System.Data.OracleClient.OracleParameter.DbType%2A> è un tipo di dati numerici, è la precisione massima della colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-323">If <xref:System.Data.OracleClient.OracleParameter.DbType%2A> is a numeric data type, this is the maximum precision of the column.</span></span> <span data-ttu-id="3df9f-324">La precisione dipende dalla definizione della colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-324">The precision depends on the definition of the column.</span></span> <span data-ttu-id="3df9f-325">`Float` e `Double` sono di tipi di dati Oracle e precisione binaria.</span><span class="sxs-lookup"><span data-stu-id="3df9f-325">`Float` and `Double` data types in Oracle are binary precision.</span></span>|  
+|<span data-ttu-id="3df9f-326">NumericScale</span><span class="sxs-lookup"><span data-stu-id="3df9f-326">NumericScale</span></span>|<span data-ttu-id="3df9f-327">Se <xref:System.Data.OracleClient.OracleParameter.DbType%2A> è un tipo di dati numerici, il numero di cifre a destra del separatore decimale.</span><span class="sxs-lookup"><span data-stu-id="3df9f-327">If <xref:System.Data.OracleClient.OracleParameter.DbType%2A> is a numeric data type, the number of digits to the right of the decimal point.</span></span> <span data-ttu-id="3df9f-328">`Float` e `Double` tipi di dati in Oracle la scala sono binaria.</span><span class="sxs-lookup"><span data-stu-id="3df9f-328">`Float` and `Double` data types in Oracle are binary scale.</span></span>|  
+|<span data-ttu-id="3df9f-329">Tipo di dati</span><span class="sxs-lookup"><span data-stu-id="3df9f-329">DataType</span></span>|<span data-ttu-id="3df9f-330">Esegue il mapping al tipo common language runtime di <xref:System.Data.OracleClient.OracleParameter.DbType%2A>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-330">Maps to the common language runtime type of <xref:System.Data.OracleClient.OracleParameter.DbType%2A>.</span></span>|  
+|<span data-ttu-id="3df9f-331">IsLong</span><span class="sxs-lookup"><span data-stu-id="3df9f-331">IsLong</span></span>|<span data-ttu-id="3df9f-332">`true` Se la colonna contiene un oggetto Long binario (BLOB) che contiene dati molto lunghi.</span><span class="sxs-lookup"><span data-stu-id="3df9f-332">`true` if the column contains a Binary Long Object (BLOB) that contains very long data.</span></span>|  
+|<span data-ttu-id="3df9f-333">AllowDBNull</span><span class="sxs-lookup"><span data-stu-id="3df9f-333">AllowDBNull</span></span>|<span data-ttu-id="3df9f-334">`true` Se il consumer può impostare la colonna su un valore null. in caso contrario, `false`.</span><span class="sxs-lookup"><span data-stu-id="3df9f-334">`true` if the consumer can set the column to a null value; otherwise, `false`.</span></span> <span data-ttu-id="3df9f-335">Una colonna può contenere valori null, anche se non può essere impostata su un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-335">A column may contain null values, even if it cannot be set to a null value.</span></span>|  
+|<span data-ttu-id="3df9f-336">IsUnique</span><span class="sxs-lookup"><span data-stu-id="3df9f-336">IsUnique</span></span>|<span data-ttu-id="3df9f-337">`true`: Nella tabella di tabella di base restituito in due righe non <xref:System.Data.Common.SchemaTableColumn.BaseTableName> -possono avere lo stesso valore in questa colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-337">`true`: No two rows in the base table-the table returned in <xref:System.Data.Common.SchemaTableColumn.BaseTableName> -can have the same value in this column.</span></span> <span data-ttu-id="3df9f-338">**IsUnique** è sicuramente `true` se la colonna costituisce una chiave da sola o se è presente un vincolo di tipo UNIQUE applicato solo a questa colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-338">**IsUnique** is guaranteed to be `true` if the column constitutes a key by itself or if there is a constraint of type UNIQUE that applies only to this column.</span></span> <span data-ttu-id="3df9f-339">`false`: La colonna può contenere valori duplicati nella tabella di base.</span><span class="sxs-lookup"><span data-stu-id="3df9f-339">`false`: The column can contain duplicate values in the base table.</span></span> <span data-ttu-id="3df9f-340">Il valore predefinito per questa colonna è false.</span><span class="sxs-lookup"><span data-stu-id="3df9f-340">The default for this column is false.</span></span>|  
+|<span data-ttu-id="3df9f-341">IsKey</span><span class="sxs-lookup"><span data-stu-id="3df9f-341">IsKey</span></span>|<span data-ttu-id="3df9f-342">`true`: La colonna fa parte di un set di colonne nel set di righe che, complessivamente, identificare in modo univoco la riga.</span><span class="sxs-lookup"><span data-stu-id="3df9f-342">`true`: The column is one of a set of columns in the rowset that, taken together, uniquely identify the row.</span></span> <span data-ttu-id="3df9f-343">Il set di colonne con **IsKey** impostato su true deve identificare in modo univoco una riga nel set di righe.</span><span class="sxs-lookup"><span data-stu-id="3df9f-343">The set of columns with **IsKey** set to true must uniquely identify a row in the rowset.</span></span> <span data-ttu-id="3df9f-344">Non è necessario che il set di colonne è un set minimo di colonne.</span><span class="sxs-lookup"><span data-stu-id="3df9f-344">There is no requirement that this set of columns is a minimal set of columns.</span></span> <span data-ttu-id="3df9f-345">Questo set di colonne può essere generato da una chiave primaria della tabella di base, un vincolo unique o un indice univoco.</span><span class="sxs-lookup"><span data-stu-id="3df9f-345">This set of columns may be generated from a base table primary key, a unique constraint or a unique index.</span></span> <span data-ttu-id="3df9f-346">`false`: La colonna non è necessario per identificare in modo univoco la riga.</span><span class="sxs-lookup"><span data-stu-id="3df9f-346">`false`: The column is not required to uniquely identify the row.</span></span>|  
+|<span data-ttu-id="3df9f-347">BaseTableName</span><span class="sxs-lookup"><span data-stu-id="3df9f-347">BaseTableName</span></span>|<span data-ttu-id="3df9f-348">Il nome della tabella o della vista nell'archivio dati contenente la colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-348">The name of the table or view in the data store that contains the column.</span></span> <span data-ttu-id="3df9f-349">Un valore null se non è possibile determinare il nome della tabella di base.</span><span class="sxs-lookup"><span data-stu-id="3df9f-349">A null value if the base table name cannot be determined.</span></span> <span data-ttu-id="3df9f-350">Il valore predefinito di questa colonna è un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-350">The default of this column is a null value.</span></span>|  
+|<span data-ttu-id="3df9f-351">BaseColumnName</span><span class="sxs-lookup"><span data-stu-id="3df9f-351">BaseColumnName</span></span>|<span data-ttu-id="3df9f-352">Nome della colonna nell'archivio dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-352">The name of the column in the data store.</span></span> <span data-ttu-id="3df9f-353">Questo potrebbe essere diverso dal nome di colonna restituito nella **ColumnName** se è stato utilizzato un alias di colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-353">This might be different than the column name returned in the **ColumnName** column if an alias was used.</span></span> <span data-ttu-id="3df9f-354">Un valore null se non è possibile determinare il nome della colonna di base o se la colonna del set di righe è derivata da, ma non identica a, una colonna nei dati di archivio.</span><span class="sxs-lookup"><span data-stu-id="3df9f-354">A null value if the base column name cannot be determined or if the rowset column is derived, but not identical to, a column in the data store.</span></span> <span data-ttu-id="3df9f-355">Il valore predefinito per questa colonna è un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-355">The default for this column is a null value.</span></span>|  
+|<span data-ttu-id="3df9f-356">BaseSchemaName</span><span class="sxs-lookup"><span data-stu-id="3df9f-356">BaseSchemaName</span></span>|<span data-ttu-id="3df9f-357">Il nome dello schema nell'archivio dati contenente la colonna.</span><span class="sxs-lookup"><span data-stu-id="3df9f-357">The name of the schema in the data store that contains the column.</span></span> <span data-ttu-id="3df9f-358">Un valore null se non è possibile determinare il nome dello schema di base.</span><span class="sxs-lookup"><span data-stu-id="3df9f-358">A null value if the base schema name cannot be determined.</span></span> <span data-ttu-id="3df9f-359">Il valore predefinito per questa colonna è un valore null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-359">The default for this column is a null value.</span></span>|  
+  
+ <span data-ttu-id="3df9f-360">Viene restituita una riga per ogni colonna nel set di risultati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-360">A row is returned for every column in the results set.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="3df9f-361">Per garantire che le colonne di metadati restituiscono le informazioni corrette, è necessario chiamare <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> con il `behavior` parametro impostato su `KeyInfo`.</span><span class="sxs-lookup"><span data-stu-id="3df9f-361">To ensure that metadata columns return the correct information, you must call <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> with the `behavior` parameter set to `KeyInfo`.</span></span> <span data-ttu-id="3df9f-362">In caso contrario, alcune colonne nella tabella dello schema può restituire dati predefiniti, null o non corretto.</span><span class="sxs-lookup"><span data-stu-id="3df9f-362">Otherwise, some of the columns in the schema table may return default, null, or incorrect data.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetString">
+      <MemberSignature Language="C#" Value="public override string GetString (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string GetString(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetString(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetString (i As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ GetString(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-363">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-363">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-364">Ottiene il valore della colonna specificata sotto forma di stringa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-364">Gets the value of the specified column as a string.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-365">Valore della colonna specificata sotto forma di stringa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-365">The value of the specified column as a string.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-366">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-366">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-367">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-367">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetTimeSpan">
+      <MemberSignature Language="C#" Value="public TimeSpan GetTimeSpan (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance valuetype System.TimeSpan GetTimeSpan(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetTimeSpan(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetTimeSpan (i As Integer) As TimeSpan" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; TimeSpan GetTimeSpan(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.TimeSpan</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-368">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-368">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-369">Ottiene il valore della colonna specificata sotto forma di classe <see langword="System.TimeSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-369">Gets the value of the specified column as a <see langword="System.TimeSpan" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-370">Valore della colonna specificata come oggetto <see cref="T:System.TimeSpan" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-370">The value of the specified column as a <see cref="T:System.TimeSpan" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-371">Chiamare <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> per controllare i valori null prima di chiamare questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-371">Call <xref:System.Data.OracleClient.OracleDataReader.IsDBNull%2A> to check for null values before calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidCastException">
+          <span data-ttu-id="3df9f-372">Il cast specificato non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-372">The specified cast is not valid.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetValue">
+      <MemberSignature Language="C#" Value="public override object GetValue (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance object GetValue(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetValue(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetValue (i As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Object ^ GetValue(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-373">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-373">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-374">Ottiene il valore della colonna in corrispondenza dell'ordinale specificato nel formato nativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-374">Gets the value of the column at the specified ordinal in its native format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-375">Valore da restituire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-375">The value to return.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-376">Il metodo restituisce <xref:System.DBNull> per colonne di database con valori null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-376">This method returns <xref:System.DBNull> for null database columns.</span></span> <span data-ttu-id="3df9f-377">Il valore restituito da questo metodo potrebbe essere il risultato della conversione dal tipo di dati Number di Oracle per il tipo .NET decimale.</span><span class="sxs-lookup"><span data-stu-id="3df9f-377">The value returned by this method might be the result of the conversion from Oracle's Number data type to .NET Decimal type.</span></span> <span data-ttu-id="3df9f-378">Se il valore è troppo grande per essere archiviato nel tipo Decimal di .NET, questo metodo genera un <xref:System.Data.OracleClient.OracleException> che rappresenta un'eccezione di overflow.</span><span class="sxs-lookup"><span data-stu-id="3df9f-378">If the value is too large to be stored in the .NET Decimal, this method throws an <xref:System.Data.OracleClient.OracleException> that is an overflow exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Data.OracleClient.OracleException">
+          <span data-ttu-id="3df9f-379">Il valore è troppo grande per essere archiviato nel tipo Decimal di .NET.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-379">The value is too large to be stored in the .NET Decimal.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetValues">
+      <MemberSignature Language="C#" Value="public override int GetValues (object[] values);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetValues(object[] values) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.GetValues(System.Object[])" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetValues (values As Object()) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetValues(cli::array &lt;System::Object ^&gt; ^ values);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="values" Type="System.Object[]" />
+      </Parameters>
+      <Docs>
+        <param name="values">
+          <span data-ttu-id="3df9f-380">Matrice di <see cref="T:System.Object" /> in cui copiare le colonne attributo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-380">An array of type <see cref="T:System.Object" /> into which to copy the attribute columns.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-381">Popola una matrice di oggetti con i valori della colonna della riga corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-381">Populates an array of objects with the column values of the current row.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-382">Numero di istanze di <see cref="T:System.Object" /> nella matrice.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-382">The number of instances of <see cref="T:System.Object" /> in the array.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-383">Per la maggior parte delle applicazioni, il <xref:System.Data.OracleClient.OracleDataReader.GetValues%2A> metodo fornisce un mezzo efficiente per recuperare tutte le colonne, anziché recuperare ciascuna colonna singolarmente.</span><span class="sxs-lookup"><span data-stu-id="3df9f-383">For most applications, the <xref:System.Data.OracleClient.OracleDataReader.GetValues%2A> method provides an efficient means for retrieving all columns, rather than retrieving each column individually.</span></span>  
+  
+ <span data-ttu-id="3df9f-384">È possibile passare un <xref:System.Object> matrice che contiene un valore minore rispetto al numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-384">You can pass an <xref:System.Object> array that contains fewer than the number of columns contained in the resulting row.</span></span> <span data-ttu-id="3df9f-385">Solo la quantità di dati di <xref:System.Object> contenuti nella matrice vengono copiati nella matrice.</span><span class="sxs-lookup"><span data-stu-id="3df9f-385">Only the amount of data the <xref:System.Object> array holds is copied to the array.</span></span> <span data-ttu-id="3df9f-386">È inoltre possibile passare un <xref:System.Object> matrice la cui lunghezza è maggiore del numero di colonne contenute nella riga risultante.</span><span class="sxs-lookup"><span data-stu-id="3df9f-386">You can also pass an <xref:System.Object> array whose length is more than the number of columns contained in the resulting row.</span></span>  
+  
+ <span data-ttu-id="3df9f-387">Il metodo restituisce <xref:System.DBNull> per colonne di database con valori null.</span><span class="sxs-lookup"><span data-stu-id="3df9f-387">This method returns <xref:System.DBNull> for null database columns.</span></span> <span data-ttu-id="3df9f-388">Il valore restituito nel <xref:System.Object> matrice potrebbe essere il risultato della conversione dal tipo di dati Number di Oracle per il tipo .NET decimale.</span><span class="sxs-lookup"><span data-stu-id="3df9f-388">The value returned in the <xref:System.Object> array might be the result of the conversion from Oracle's Number data type to .NET Decimal type.</span></span> <span data-ttu-id="3df9f-389">Se il valore è troppo grande per essere archiviato nel tipo Decimal di .NET, questo metodo genera un <xref:System.Data.OracleClient.OracleException> che rappresenta un'eccezione di overflow.</span><span class="sxs-lookup"><span data-stu-id="3df9f-389">If the value is too large to be stored in the .NET Decimal, this method throws an <xref:System.Data.OracleClient.OracleException> that is an overflow exception.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Data.OracleClient.OracleException">
+          <span data-ttu-id="3df9f-390">Il valore è troppo grande per essere archiviato nel tipo Decimal di .NET.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-390">The value is too large to be stored in the .NET Decimal.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="HasRows">
+      <MemberSignature Language="C#" Value="public override bool HasRows { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool HasRows" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.HasRows" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property HasRows As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool HasRows { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-391">Ottiene un valore che indica se l'oggetto <see cref="T:System.Data.OracleClient.OracleDataReader" /> contiene una o più righe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-391">Gets a value indicating whether the <see cref="T:System.Data.OracleClient.OracleDataReader" /> contains one or more rows.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-392">
+            <see langword="true" /> se la classe <see cref="T:System.Data.OracleClient.OracleDataReader" /> contiene una o più righe. In caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-392">
+              <see langword="true" /> if the <see cref="T:System.Data.OracleClient.OracleDataReader" /> contains one or more rows; otherwise <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsClosed">
+      <MemberSignature Language="C#" Value="public override bool IsClosed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsClosed" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.IsClosed" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property IsClosed As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsClosed { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-393">Indica se la classe <see cref="T:System.Data.OracleClient.OracleDataReader" /> è chiusa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-393">Indicates whether the <see cref="T:System.Data.OracleClient.OracleDataReader" /> is closed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-394">
+            <see langword="true" /> se la classe <see cref="T:System.Data.OracleClient.OracleDataReader" /> è chiusa. In caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-394">
+              <see langword="true" /> if the <see cref="T:System.Data.OracleClient.OracleDataReader" /> is closed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-395"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> e <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> sono le uniche proprietà che è possibile chiamare dopo il <xref:System.Data.OracleClient.OracleDataReader> è chiuso.</span><span class="sxs-lookup"><span data-stu-id="3df9f-395"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> and <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> are the only properties that you can call after the <xref:System.Data.OracleClient.OracleDataReader> is closed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDBNull">
+      <MemberSignature Language="C#" Value="public override bool IsDBNull (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool IsDBNull(int32 i) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.IsDBNull(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function IsDBNull (i As Integer) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool IsDBNull(int i);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-396">Ordinale di colonna in base zero.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-396">The zero-based column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-397">Ottiene un valore che indica se la colonna contiene valori non esistenti o mancanti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-397">Gets a value indicating whether the column contains non-existent or missing values.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-398">
+            <see langword="true" /> se il valore della colonna specificata equivale a <see cref="T:System.DBNull" />, in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-398">
+              <see langword="true" /> if the specified column value is equivalent to <see cref="T:System.DBNull" />; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-399">Per evitare che venga generato un errore, chiamare questo metodo per verificare i valori di colonna null prima di chiamare l'oggetto tipizzato metodi Get (ad esempio, <xref:System.Data.OracleClient.OracleDataReader.GetByte%2A>, <xref:System.Data.OracleClient.OracleDataReader.GetChar%2A>e così via).</span><span class="sxs-lookup"><span data-stu-id="3df9f-399">To avoid raising an error, call this method to check for null column values before calling the typed Get methods (for example, <xref:System.Data.OracleClient.OracleDataReader.GetByte%2A>, <xref:System.Data.OracleClient.OracleDataReader.GetChar%2A>, and so on).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Item">
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-400">Ottiene il valore di una colonna nel formato nativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-400">Gets the value of a column in its native format.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public override object this[int i] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(int32)" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.Item(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Overrides ReadOnly Property Item(i As Integer) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ default[int] { System::Object ^ get(int i); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">
+          <span data-ttu-id="3df9f-401">Ordinale di colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-401">The column ordinal.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-402">Ottiene il valore della colonna specificata nel formato nativo, data la posizione ordinale della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-402">Gets the value of the specified column in its native format given the column ordinal.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-403">Valore della colonna specificata nel formato nativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-403">The value of the specified column in its native format.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.IndexOutOfRangeException">
+          <span data-ttu-id="3df9f-404">L'indice passato non era compreso nell'intervallo da 0 a <see cref="P:System.Data.IDataRecord.FieldCount" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-404">The index passed was outside the range of 0 through <see cref="P:System.Data.IDataRecord.FieldCount" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public override object this[string name] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(string)" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.Item(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Overrides ReadOnly Property Item(name As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ default[System::String ^] { System::Object ^ get(System::String ^ name); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="name">
+          <span data-ttu-id="3df9f-405">Nome della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-405">The column name.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="3df9f-406">Ottiene il valore della colonna specificata nel formato nativo, dato il nome della colonna.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-406">Gets the value of the specified column in its native format given the column name.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-407">Valore della colonna specificata nel formato nativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-407">The value of the specified column in its native format.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.IndexOutOfRangeException">
+          <span data-ttu-id="3df9f-408">Non è stata trovata alcuna colonna con il nome specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-408">No column with the specified name was found.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="NextResult">
+      <MemberSignature Language="C#" Value="public override bool NextResult ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool NextResult() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.NextResult" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function NextResult () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool NextResult();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-409">Sposta l'interfaccia <see cref="T:System.Data.OracleClient.OracleDataReader" /> al risultato successivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-409">Advances the <see cref="T:System.Data.OracleClient.OracleDataReader" /> to the next result</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-410">
+            <see langword="true" /> se sono presenti più gruppi di risultati; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-410">
+              <see langword="true" /> if there are more result sets; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-411">È necessario utilizzare un `REF CURSOR` quando si chiama questo metodo.</span><span class="sxs-lookup"><span data-stu-id="3df9f-411">You must use a `REF CURSOR` when calling this method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public override bool Read ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Read() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleDataReader.Read" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Read () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Read();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-412">Sposta l'oggetto <see cref="T:System.Data.OracleClient.OracleDataReader" /> al record successivo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-412">Advances the <see cref="T:System.Data.OracleClient.OracleDataReader" /> to the next record.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="3df9f-413">
+            <see langword="true" /> se sono presenti altre righe; in caso contrario, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-413">
+              <see langword="true" /> if there are more rows; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-414">La posizione predefinita del <xref:System.Data.OracleClient.OracleDataReader> è prima del primo record.</span><span class="sxs-lookup"><span data-stu-id="3df9f-414">The default position of the <xref:System.Data.OracleClient.OracleDataReader> is prior to the first record.</span></span> <span data-ttu-id="3df9f-415">Pertanto, è necessario chiamare <xref:System.Data.OracleClient.OracleDataReader.Read%2A> per iniziare ad accedere ai dati.</span><span class="sxs-lookup"><span data-stu-id="3df9f-415">Therefore, you must call <xref:System.Data.OracleClient.OracleDataReader.Read%2A> to begin accessing any data.</span></span>  
+  
+ <span data-ttu-id="3df9f-416">Più <xref:System.Data.OracleClient.OracleDataReader> possono essere aperti in qualsiasi momento.</span><span class="sxs-lookup"><span data-stu-id="3df9f-416">More than one <xref:System.Data.OracleClient.OracleDataReader> can be open at any given time.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="3df9f-417">Nell'esempio seguente viene creato un <xref:System.Data.OracleClient.OracleConnection>, un <xref:System.Data.OracleClient.OracleCommand>e un <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-417">The following example creates an <xref:System.Data.OracleClient.OracleConnection>, an <xref:System.Data.OracleClient.OracleCommand>, and an <xref:System.Data.OracleClient.OracleDataReader>.</span></span> <span data-ttu-id="3df9f-418">Nell'esempio legge i dati, scrivono nella console.</span><span class="sxs-lookup"><span data-stu-id="3df9f-418">The example reads through the data, writing it out to the console.</span></span> <span data-ttu-id="3df9f-419">Infine, l'esempio chiude il <xref:System.Data.OracleClient.OracleDataReader>, quindi il <xref:System.Data.OracleClient.OracleConnection>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-419">Finally, the example closes the <xref:System.Data.OracleClient.OracleDataReader>, then the <xref:System.Data.OracleClient.OracleConnection>.</span></span>  
+  
+ [!code-csharp[Classic WebData IDataReader.Read Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData IDataReader.Read Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData IDataReader.Read Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData IDataReader.Read Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RecordsAffected">
+      <MemberSignature Language="C#" Value="public override int RecordsAffected { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 RecordsAffected" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleDataReader.RecordsAffected" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property RecordsAffected As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int RecordsAffected { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="3df9f-420">Ottiene il numero di righe modificate, inserite o eliminate dall'esecuzione dell'istruzione SQL.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-420">Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="3df9f-421">Numero di righe modificate, inserite o eliminate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-421">The number of rows changed, inserted, or deleted.</span>
+          </span>
+          <span data-ttu-id="3df9f-422">-1 per istruzioni SELECT; 0 se non viene influenzata alcuna riga o se l'istruzione non riesce.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="3df9f-422">-1 for SELECT statements; 0 if no rows were affected, or the statement failed.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="3df9f-423">Il <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> non è impostata fino a quando non vengono lette tutte le righe e si chiude il <xref:System.Data.OracleClient.OracleDataReader>.</span><span class="sxs-lookup"><span data-stu-id="3df9f-423">The <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> property is not set until all rows are read and you close the <xref:System.Data.OracleClient.OracleDataReader>.</span></span>  
+  
+ <span data-ttu-id="3df9f-424"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> e <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> sono le uniche proprietà che è possibile chiamare dopo il <xref:System.Data.OracleClient.OracleDataReader> è chiuso.</span><span class="sxs-lookup"><span data-stu-id="3df9f-424"><xref:System.Data.OracleClient.OracleDataReader.IsClosed%2A> and <xref:System.Data.OracleClient.OracleDataReader.RecordsAffected%2A> are the only properties that you can call after the <xref:System.Data.OracleClient.OracleDataReader> is closed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

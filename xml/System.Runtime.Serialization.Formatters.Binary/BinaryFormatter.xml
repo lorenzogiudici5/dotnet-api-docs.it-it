@@ -1,0 +1,1295 @@
+<Type Name="BinaryFormatter" FullName="System.Runtime.Serialization.Formatters.Binary.BinaryFormatter">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="42f1258a65ffe522a7aa5d683ff80ce9ea8c1044" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class BinaryFormatter : System.Runtime.Remoting.Messaging.IRemotingFormatter" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BinaryFormatter extends System.Object implements class System.Runtime.Remoting.Messaging.IRemotingFormatter, class System.Runtime.Serialization.IFormatter" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class BinaryFormatter&#xA;Implements IRemotingFormatter" />
+  <TypeSignature Language="C++ CLI" Value="public ref class BinaryFormatter sealed : System::Runtime::Remoting::Messaging::IRemotingFormatter" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+    <AssemblyVersion>4.0.2.0</AssemblyVersion>
+    <AssemblyVersion>4.0.3.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Runtime.Remoting.Messaging.IRemotingFormatter</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="c96b2-101">Serializza e deserializza un oggetto o un intero grafico di oggetti collegati in formato binario.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="c96b2-101">Serializes and deserializes an object, or an entire graph of connected objects, in binary format.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-102">Il <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> e <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> sono classi che implementano il <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interfaccia per supportare le chiamate di procedura remota (RPC) e <xref:System.Runtime.Serialization.IFormatter> interfaccia (ereditata dal <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>) per supportare la serializzazione di un grafico degli oggetti.</span><span class="sxs-lookup"><span data-stu-id="c96b2-102">The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> and <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> classes implement the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface to support remote procedure calls (RPCs), and the <xref:System.Runtime.Serialization.IFormatter> interface (inherited by the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter>) to support serialization of a graph of objects.</span></span> <span data-ttu-id="c96b2-103">Il <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> classe supporta anche le chiamate RPC con <xref:System.Runtime.Serialization.Formatters.ISoapMessage> oggetti, senza utilizzare il <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> funzionalità.</span><span class="sxs-lookup"><span data-stu-id="c96b2-103">The <xref:System.Runtime.Serialization.Formatters.Soap.SoapFormatter> class also supports RPCs with <xref:System.Runtime.Serialization.Formatters.ISoapMessage> objects, without using the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> functionality.</span></span>  
+  
+ <span data-ttu-id="c96b2-104">Durante le chiamate RPC, il <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interfaccia consente la specifica di due grafici oggetto separato: il grafico di oggetti da serializzare e un ulteriore grafico che contiene una matrice di oggetti intestazione che contengono informazioni sulla chiamata di funzione remoto (per esempio ID della transazione o una firma del metodo).</span><span class="sxs-lookup"><span data-stu-id="c96b2-104">During RPCs, the <xref:System.Runtime.Remoting.Messaging.IRemotingFormatter> interface allows the specification of two separate object graphs: the graph of objects to serialize, and an additional graph that contains an array of header objects that convey information about the remote function call (for example, transaction ID or a method signature).</span></span>  
+  
+ <span data-ttu-id="c96b2-105">RPC che utilizzano il <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> separati in due parti distinte: chiamate al metodo, che vengono inviate al server con l'oggetto remoto che contiene il metodo chiamato e le risposte di metodo, che vengono inviate dal server al client con lo stato e risposta informazioni del metodo chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96b2-105">RPCs that use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> separate into two distinct parts: method calls, which are sent to the server with the remote object that contains the method called, and method responses, which are sent from the server to the client with the status and response information from the called method.</span></span>  
+  
+ <span data-ttu-id="c96b2-106">Durante la serializzazione di una chiamata al metodo il primo oggetto dell'oggetto grafico deve supportare il <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="c96b2-106">During serialization of a method call the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface.</span></span> <span data-ttu-id="c96b2-107">Per deserializzare una chiamata al metodo, utilizzare il <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> metodo con il <xref:System.Runtime.Remoting.Messaging.HeaderHandler> parametro.</span><span class="sxs-lookup"><span data-stu-id="c96b2-107">To deserialize a method call, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> method with the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> parameter.</span></span> <span data-ttu-id="c96b2-108">L'infrastruttura remota utilizza il <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegato per produrre un oggetto che supporta il <xref:System.Runtime.Serialization.ISerializable> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="c96b2-108">The remoting infrastructure uses the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate to produce an object that supports the <xref:System.Runtime.Serialization.ISerializable> interface.</span></span> <span data-ttu-id="c96b2-109">Quando il <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> richiama il <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegato, restituisce l'URI dell'oggetto remoto con il metodo viene chiamato.</span><span class="sxs-lookup"><span data-stu-id="c96b2-109">When the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> invokes the <xref:System.Runtime.Remoting.Messaging.HeaderHandler> delegate, it returns the URI of the remote object with the method that is being called.</span></span> <span data-ttu-id="c96b2-110">Il primo oggetto grafico restituito supporta il <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="c96b2-110">The first object in the graph returned supports the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> interface.</span></span>  
+  
+ <span data-ttu-id="c96b2-111">La procedura di serializzazione per una risposta al metodo è identica a quello di una chiamata al metodo, eccetto il primo oggetto dell'oggetto grafico deve supportare il <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="c96b2-111">The serialization procedure for a method response is identical to that of a method call, except the first object of the object graph must support the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface.</span></span> <span data-ttu-id="c96b2-112">Per deserializzare una risposta al metodo, utilizzare il <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="c96b2-112">To deserialize a method response, use the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method.</span></span> <span data-ttu-id="c96b2-113">Per risparmiare tempo, i dettagli sull'oggetto chiamante non vengono inviati all'oggetto remoto durante la chiamata al metodo.</span><span class="sxs-lookup"><span data-stu-id="c96b2-113">To save time, details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="c96b2-114">Questi dettagli sono ottenuti dalla chiamata al metodo originale, che viene passata per il <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> metodo nel <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> parametro.</span><span class="sxs-lookup"><span data-stu-id="c96b2-114">These details are instead obtained from the original method call, which is passed to the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method in the <xref:System.Runtime.Remoting.Messaging.IMethodCallMessage> parameter.</span></span> <span data-ttu-id="c96b2-115">Il primo oggetto del grafico restituito dal <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> metodo supporta il <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interfaccia.</span><span class="sxs-lookup"><span data-stu-id="c96b2-115">The first object in the graph returned by the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> method supports the <xref:System.Runtime.Remoting.Messaging.IMethodReturnMessage> interface.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-116">Mediante la serializzazione binaria per deserializzare i dati non attendibili può comportare rischi di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-116">Using binary serialization to deserialize untrusted data can lead to security risks.</span></span> <span data-ttu-id="c96b2-117">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-117">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+## <a name="unpaired-surrogates"></a><span data-ttu-id="c96b2-118">Surrogati non appaiati</span><span class="sxs-lookup"><span data-stu-id="c96b2-118">Unpaired Surrogates</span></span>  
+ <span data-ttu-id="c96b2-119">Caratteri surrogati non abbinati vengono perse nella serializzazione binaria.</span><span class="sxs-lookup"><span data-stu-id="c96b2-119">Any unpaired surrogate characters are lost in binary serialization.</span></span> <span data-ttu-id="c96b2-120">Ad esempio, la stringa seguente contiene un carattere Unicode surrogato alto `(\ud800`) tra i due `Test` parole:</span><span class="sxs-lookup"><span data-stu-id="c96b2-120">For example, the following string contains a high surrogate Unicode character `(\ud800`) in between the two `Test` words:</span></span>  
+  
+ `Test\ud800Test`  
+  
+ <span data-ttu-id="c96b2-121">Prima della serializzazione, la matrice di byte della stringa è il seguente:</span><span class="sxs-lookup"><span data-stu-id="c96b2-121">Before serialization, the byte array of the string is as follows:</span></span>  
+  
+|<span data-ttu-id="c96b2-122">Valore di matrice di byte</span><span class="sxs-lookup"><span data-stu-id="c96b2-122">Byte Array Value</span></span>|<span data-ttu-id="c96b2-123">Carattere</span><span class="sxs-lookup"><span data-stu-id="c96b2-123">Character</span></span>|  
+|----------------------|---------------|  
+|<span data-ttu-id="c96b2-124">84</span><span class="sxs-lookup"><span data-stu-id="c96b2-124">84</span></span>|<span data-ttu-id="c96b2-125">T</span><span class="sxs-lookup"><span data-stu-id="c96b2-125">T</span></span>|  
+|<span data-ttu-id="c96b2-126">101</span><span class="sxs-lookup"><span data-stu-id="c96b2-126">101</span></span>|<span data-ttu-id="c96b2-127">h</span><span class="sxs-lookup"><span data-stu-id="c96b2-127">e</span></span>|  
+|<span data-ttu-id="c96b2-128">115</span><span class="sxs-lookup"><span data-stu-id="c96b2-128">115</span></span>|<span data-ttu-id="c96b2-129">s</span><span class="sxs-lookup"><span data-stu-id="c96b2-129">s</span></span>|  
+|<span data-ttu-id="c96b2-130">116</span><span class="sxs-lookup"><span data-stu-id="c96b2-130">116</span></span>|<span data-ttu-id="c96b2-131">t</span><span class="sxs-lookup"><span data-stu-id="c96b2-131">t</span></span>|  
+|<span data-ttu-id="c96b2-132">55296</span><span class="sxs-lookup"><span data-stu-id="c96b2-132">55296</span></span>|<span data-ttu-id="c96b2-133">\ud800</span><span class="sxs-lookup"><span data-stu-id="c96b2-133">\ud800</span></span>|  
+|<span data-ttu-id="c96b2-134">84</span><span class="sxs-lookup"><span data-stu-id="c96b2-134">84</span></span>|<span data-ttu-id="c96b2-135">T</span><span class="sxs-lookup"><span data-stu-id="c96b2-135">T</span></span>|  
+|<span data-ttu-id="c96b2-136">101</span><span class="sxs-lookup"><span data-stu-id="c96b2-136">101</span></span>|<span data-ttu-id="c96b2-137">h</span><span class="sxs-lookup"><span data-stu-id="c96b2-137">e</span></span>|  
+|<span data-ttu-id="c96b2-138">115</span><span class="sxs-lookup"><span data-stu-id="c96b2-138">115</span></span>|<span data-ttu-id="c96b2-139">s</span><span class="sxs-lookup"><span data-stu-id="c96b2-139">s</span></span>|  
+|<span data-ttu-id="c96b2-140">116</span><span class="sxs-lookup"><span data-stu-id="c96b2-140">116</span></span>|<span data-ttu-id="c96b2-141">t</span><span class="sxs-lookup"><span data-stu-id="c96b2-141">t</span></span>|  
+  
+ <span data-ttu-id="c96b2-142">Dopo la deserializzazione, viene perso il carattere Unicode surrogato alto:</span><span class="sxs-lookup"><span data-stu-id="c96b2-142">After deserialization, the high surrogate Unicode character is lost:</span></span>  
+  
+|<span data-ttu-id="c96b2-143">Valore di matrice di byte</span><span class="sxs-lookup"><span data-stu-id="c96b2-143">Byte Array Value</span></span>|<span data-ttu-id="c96b2-144">Carattere</span><span class="sxs-lookup"><span data-stu-id="c96b2-144">Character</span></span>|  
+|----------------------|---------------|  
+|<span data-ttu-id="c96b2-145">84</span><span class="sxs-lookup"><span data-stu-id="c96b2-145">84</span></span>|<span data-ttu-id="c96b2-146">T</span><span class="sxs-lookup"><span data-stu-id="c96b2-146">T</span></span>|  
+|<span data-ttu-id="c96b2-147">101</span><span class="sxs-lookup"><span data-stu-id="c96b2-147">101</span></span>|<span data-ttu-id="c96b2-148">h</span><span class="sxs-lookup"><span data-stu-id="c96b2-148">e</span></span>|  
+|<span data-ttu-id="c96b2-149">115</span><span class="sxs-lookup"><span data-stu-id="c96b2-149">115</span></span>|<span data-ttu-id="c96b2-150">s</span><span class="sxs-lookup"><span data-stu-id="c96b2-150">s</span></span>|  
+|<span data-ttu-id="c96b2-151">116</span><span class="sxs-lookup"><span data-stu-id="c96b2-151">116</span></span>|<span data-ttu-id="c96b2-152">t</span><span class="sxs-lookup"><span data-stu-id="c96b2-152">t</span></span>|  
+|<span data-ttu-id="c96b2-153">84</span><span class="sxs-lookup"><span data-stu-id="c96b2-153">84</span></span>|<span data-ttu-id="c96b2-154">T</span><span class="sxs-lookup"><span data-stu-id="c96b2-154">T</span></span>|  
+|<span data-ttu-id="c96b2-155">101</span><span class="sxs-lookup"><span data-stu-id="c96b2-155">101</span></span>|<span data-ttu-id="c96b2-156">h</span><span class="sxs-lookup"><span data-stu-id="c96b2-156">e</span></span>|  
+|<span data-ttu-id="c96b2-157">115</span><span class="sxs-lookup"><span data-stu-id="c96b2-157">115</span></span>|<span data-ttu-id="c96b2-158">s</span><span class="sxs-lookup"><span data-stu-id="c96b2-158">s</span></span>|  
+|<span data-ttu-id="c96b2-159">116</span><span class="sxs-lookup"><span data-stu-id="c96b2-159">116</span></span>|<span data-ttu-id="c96b2-160">t</span><span class="sxs-lookup"><span data-stu-id="c96b2-160">t</span></span>|  
+  
+   
+  
+## Examples  
+ [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
+ [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
+ [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-161">Inizializza una nuova istanza della classe <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-161">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public BinaryFormatter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; BinaryFormatter();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-162">Inizializza una nuova istanza della classe <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> con i valori predefiniti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-162">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class with default values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-163">Questo costruttore imposta le proprietà del <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> come illustrato di seguito:</span><span class="sxs-lookup"><span data-stu-id="c96b2-163">This constructor sets the properties of the <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter> object as follows:</span></span>  
+  
+|<span data-ttu-id="c96b2-164">Tipo di proprietà</span><span class="sxs-lookup"><span data-stu-id="c96b2-164">Property Type</span></span>|<span data-ttu-id="c96b2-165">Condizione</span><span class="sxs-lookup"><span data-stu-id="c96b2-165">Condition</span></span>|  
+|-------------------|---------------|  
+|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector%2A>|`null`|  
+|<xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context%2A>|<span data-ttu-id="c96b2-166">Oggetto <xref:System.Runtime.Serialization.StreamingContext> con un valore che indica che i dati serializzati possono essere trasmesse a o ricevuti da qualsiasi altro contesto.</span><span class="sxs-lookup"><span data-stu-id="c96b2-166">A <xref:System.Runtime.Serialization.StreamingContext> with a value that indicates that serialized data can be transmitted to or received from any of the other contexts.</span></span> <span data-ttu-id="c96b2-167">(<xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType>)</span><span class="sxs-lookup"><span data-stu-id="c96b2-167">(<xref:System.Runtime.Serialization.StreamingContextStates.All?displayProperty=nameWithType>)</span></span>|  
+  
+   
+  
+## Examples  
+ [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
+ [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
+ [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public BinaryFormatter (System.Runtime.Serialization.ISurrogateSelector selector, System.Runtime.Serialization.StreamingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Runtime.Serialization.ISurrogateSelector selector, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.#ctor(System.Runtime.Serialization.ISurrogateSelector,System.Runtime.Serialization.StreamingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (selector As ISurrogateSelector, context As StreamingContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; BinaryFormatter(System::Runtime::Serialization::ISurrogateSelector ^ selector, System::Runtime::Serialization::StreamingContext context);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="selector" Type="System.Runtime.Serialization.ISurrogateSelector" />
+        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
+      </Parameters>
+      <Docs>
+        <param name="selector">
+          <span data-ttu-id="c96b2-168">Oggetto <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> da usare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-168">The <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> to use.</span>
+          </span>
+          <span data-ttu-id="c96b2-169">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-169">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="c96b2-170">Origine e destinazione per i dati serializzati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-170">The source and destination for the serialized data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-171">Inizializza una nuova istanza della classe <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> con un selettore di surrogati e un contesto di flusso specificati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-171">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> class with a given surrogate selector and streaming context.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-172">Inizializza una nuova `BinaryFormatter` per la serializzazione o deserializzazione di oggetti dall'oggetto specificato <xref:System.IO.Stream>.</span><span class="sxs-lookup"><span data-stu-id="c96b2-172">Initializes a new `BinaryFormatter` for serialization or deserialization of objects from the specified <xref:System.IO.Stream>.</span></span>  
+  
+ <span data-ttu-id="c96b2-173">Il processo di serializzazione o deserializzazione utilizza l'oggetto specificato <xref:System.Runtime.Serialization.ISurrogateSelector> per cercare surrogati registrati per i tipi di oggetti da deserializzare.</span><span class="sxs-lookup"><span data-stu-id="c96b2-173">The serialization or deserialization process uses the specified <xref:System.Runtime.Serialization.ISurrogateSelector> to search for surrogates that are registered for the object types you want to deserialize.</span></span> <span data-ttu-id="c96b2-174">I surrogati sono helper che serializzare e deserializzare gli oggetti di classi specifiche.</span><span class="sxs-lookup"><span data-stu-id="c96b2-174">Surrogates are helpers that serialize and deserialize objects of specific classes.</span></span> <span data-ttu-id="c96b2-175">Il valore predefinito <xref:System.Runtime.Serialization.ISurrogateSelector> non può gestire la serializzazione di oggetti da cui deriva il <xref:System.MarshalByRefObject> per i servizi remoti.</span><span class="sxs-lookup"><span data-stu-id="c96b2-175">The default <xref:System.Runtime.Serialization.ISurrogateSelector> cannot handle the serialization of objects that derive from the <xref:System.MarshalByRefObject> for remoting purposes.</span></span> <span data-ttu-id="c96b2-176">In una situazione di comunicazione remota specificata <xref:System.Runtime.Serialization.ISurrogateSelector> sostituisce l'oggetto derivato da <xref:System.MarshalByRefObject> con un <xref:System.Runtime.Remoting.ObjRef> oggetto serializzato dal selettore di surrogati specificato.</span><span class="sxs-lookup"><span data-stu-id="c96b2-176">In a remoting situation the specified <xref:System.Runtime.Serialization.ISurrogateSelector> replaces the object derived from <xref:System.MarshalByRefObject> with a <xref:System.Runtime.Remoting.ObjRef> object that is serialized by the specified surrogate selector.</span></span> <span data-ttu-id="c96b2-177">Pertanto, se si desidera utilizzare oggetti remoti, impostare il `selector` parametro a un'istanza di <xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector>.</span><span class="sxs-lookup"><span data-stu-id="c96b2-177">Therefore, if you want to use remote objects, set the `selector` parameter to an instance of <xref:System.Runtime.Remoting.Messaging.RemotingSurrogateSelector>.</span></span> <span data-ttu-id="c96b2-178">Se non è necessario surrogati, impostare il `selector` parametro `null`.</span><span class="sxs-lookup"><span data-stu-id="c96b2-178">If you do not need surrogates, set the `selector` parameter to be `null`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AssemblyFormat">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.FormatterAssemblyStyle AssemblyFormat { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.FormatterAssemblyStyle AssemblyFormat" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.AssemblyFormat" />
+      <MemberSignature Language="VB.NET" Value="Public Property AssemblyFormat As FormatterAssemblyStyle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::FormatterAssemblyStyle AssemblyFormat { System::Runtime::Serialization::Formatters::FormatterAssemblyStyle get(); void set(System::Runtime::Serialization::Formatters::FormatterAssemblyStyle value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.Formatters.FormatterAssemblyStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-179">Ottiene o imposta il comportamento del deserializzatore relativamente al reperire e caricare assembly.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-179">Gets or sets the behavior of the deserializer with regards to finding and loading assemblies.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-180">Uno dei valori di <see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /> che specifica il comportamento del deserializzatore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-180">One of the <see cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" /> values that specifies the deserializer behavior.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.Runtime.Serialization.Formatters.FormatterAssemblyStyle" />
+      </Docs>
+    </Member>
+    <Member MemberName="Binder">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.SerializationBinder Binder { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Serialization.SerializationBinder Binder" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Binder" />
+      <MemberSignature Language="VB.NET" Value="Public Property Binder As SerializationBinder" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::SerializationBinder ^ Binder { System::Runtime::Serialization::SerializationBinder ^ get(); void set(System::Runtime::Serialization::SerializationBinder ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.Binder</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.SerializationBinder</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-181">Ottiene o imposta un oggetto di tipo <see cref="T:System.Runtime.Serialization.SerializationBinder" /> che controlla l'associazione di un oggetto serializzato a un tipo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-181">Gets or sets an object of type <see cref="T:System.Runtime.Serialization.SerializationBinder" /> that controls the binding of a serialized object to a type.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-182">Strumento di associazione della serializzazione da utilizzare con questo formattatore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-182">The serialization binder to use with this formatter.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!code-cpp[SerializationBinder Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/SerializationBinder Example/CPP/serializationbinder.cpp#1)]
+ [!code-csharp[SerializationBinder Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/SerializationBinder Example/CS/serializationbinder.cs#1)]
+ [!code-vb[SerializationBinder Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/SerializationBinder Example/VB/serializationbinder.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Runtime.Serialization.SerializationBinder" />
+      </Docs>
+    </Member>
+    <Member MemberName="Context">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.StreamingContext Context { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.StreamingContext Context" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Context" />
+      <MemberSignature Language="VB.NET" Value="Public Property Context As StreamingContext" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::StreamingContext Context { System::Runtime::Serialization::StreamingContext get(); void set(System::Runtime::Serialization::StreamingContext value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.Context</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.StreamingContext</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-183">Ottiene o imposta l'oggetto <see cref="T:System.Runtime.Serialization.StreamingContext" /> per questo formattatore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-183">Gets or sets the <see cref="T:System.Runtime.Serialization.StreamingContext" /> for this formatter.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-184">Contesto di flusso da utilizzare con questo formattatore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-184">The streaming context to use with this formatter.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-185">Il <xref:System.Runtime.Serialization.StreamingContext> fornisce un'enumerazione che descrive l'origine e la destinazione di un flusso serializzato specificato, rappresenta un modo per la serializzazione mantenere tale contesto e un ulteriore contesto definito dal chiamante.</span><span class="sxs-lookup"><span data-stu-id="c96b2-185">The <xref:System.Runtime.Serialization.StreamingContext> provides an enumeration that describes the source and the destination for a given serialized stream, as well as a way for serialization to retain that context and an additional caller-defined context.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Runtime.Serialization.StreamingContext" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Deserialize">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-186">Deserializza un flusso in un grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-186">Deserializes a stream into an object graph.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-187">Chiamare questo metodo con dati non attendibili implica un rischio di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-187">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="c96b2-188">Chiamare questo metodo solo con dati attendibili.</span><span class="sxs-lookup"><span data-stu-id="c96b2-188">Call this method only with trusted data.</span></span> <span data-ttu-id="c96b2-189">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-189">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Deserialize">
+      <MemberSignature Language="C#" Value="public object Deserialize (System.IO.Stream serializationStream);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object Deserialize(class System.IO.Stream serializationStream) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream)" />
+      <MemberSignature Language="VB.NET" Value="Public Function Deserialize (serializationStream As Stream) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ Deserialize(System::IO::Stream ^ serializationStream);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Runtime.Serialization.IFormatter.Deserialize(System.IO.Stream)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-190">Flusso da cui deserializzare il grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-190">The stream from which to deserialize the object graph.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-191">Deserializza il flusso specificato in un grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-191">Deserializes the specified stream into an object graph.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96b2-192">Primo livello (radice) dell'oggetto grafico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-192">The top (root) of the object graph.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-193">Per una deserializzazione corretta, la posizione corrente nel flusso deve essere all'inizio dell'oggetto grafico.</span><span class="sxs-lookup"><span data-stu-id="c96b2-193">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-194">Chiamare questo metodo con dati non attendibili implica un rischio di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-194">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="c96b2-195">Chiamare questo metodo solo con dati attendibili.</span><span class="sxs-lookup"><span data-stu-id="c96b2-195">Call this method only with trusted data.</span></span> <span data-ttu-id="c96b2-196">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-196">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+   
+  
+## Examples  
+ [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
+ [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
+ [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-197">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-197">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-198">
+            <paramref name="serializationStream" /> supporta la ricerca ma la sua lunghezza è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-198">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
+          </span>
+          <span data-ttu-id="c96b2-199">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-199">-or-</span>
+          </span>
+          <span data-ttu-id="c96b2-200">Il tipo di destinazione è <see cref="T:System.Decimal" />, ma il valore non è compreso nell'intervallo del tipo <see cref="T:System.Decimal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-200">The target type is a <see cref="T:System.Decimal" />, but the value is out of range of the <see cref="T:System.Decimal" /> type.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-201">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-201">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-202">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-202">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-203">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-203">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Deserialize">
+      <MemberSignature Language="C#" Value="public object Deserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object Deserialize(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Function Deserialize (serializationStream As Stream, handler As HeaderHandler) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ Deserialize(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Runtime.Remoting.Messaging.IRemotingFormatter.Deserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-204">Flusso da cui deserializzare il grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-204">The stream from which to deserialize the object graph.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="c96b2-205">
+            <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> che gestisce eventuali intestazioni in <c>serializationStream</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-205">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
+          </span>
+          <span data-ttu-id="c96b2-206">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-206">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-207">Deserializza il flusso specificato in un grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-207">Deserializes the specified stream into an object graph.</span>
+          </span>
+          <span data-ttu-id="c96b2-208">L'oggetto <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> fornito gestisce eventuali intestazioni nel flusso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-208">The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> handles any headers in that stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96b2-209">Oggetto deserializzato o di primo livello (radice) del grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-209">The deserialized object or the top object (root) of the object graph.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-210">Intestazioni vengono utilizzate solo per le applicazioni remote specifiche.</span><span class="sxs-lookup"><span data-stu-id="c96b2-210">Headers are used only for specific remoting applications.</span></span>  
+  
+ <span data-ttu-id="c96b2-211">Affinché la deserializzazione completare la posizione corrente nel flusso deve essere all'inizio dell'oggetto grafico.</span><span class="sxs-lookup"><span data-stu-id="c96b2-211">In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-212">Chiamare questo metodo con dati non attendibili implica un rischio di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-212">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="c96b2-213">Chiamare questo metodo solo con dati attendibili.</span><span class="sxs-lookup"><span data-stu-id="c96b2-213">Call this method only with trusted data.</span></span> <span data-ttu-id="c96b2-214">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-214">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-215">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-215">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-216">
+            <paramref name="serializationStream" /> supporta la ricerca ma la sua lunghezza è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-216">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
+          </span>
+          <span data-ttu-id="c96b2-217">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-217">-or-</span>
+          </span>
+          <span data-ttu-id="c96b2-218">Il tipo di destinazione è <see cref="T:System.Decimal" />, ma il valore non è compreso nell'intervallo del tipo <see cref="T:System.Decimal" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-218">The target type is a <see cref="T:System.Decimal" />, but the value is out of range of the <see cref="T:System.Decimal" /> type.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-219">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-219">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-220">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-220">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-221">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-221">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="DeserializeMethodResponse">
+      <MemberSignature Language="C#" Value="public object DeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object DeserializeMethodResponse(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler, class System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)" />
+      <MemberSignature Language="VB.NET" Value="Public Function DeserializeMethodResponse (serializationStream As Stream, handler As HeaderHandler, methodCallMessage As IMethodCallMessage) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ DeserializeMethodResponse(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler, System::Runtime::Remoting::Messaging::IMethodCallMessage ^ methodCallMessage);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
+        <Parameter Name="methodCallMessage" Type="System.Runtime.Remoting.Messaging.IMethodCallMessage" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-222">Flusso da cui deserializzare il grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-222">The stream from which to deserialize the object graph.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="c96b2-223">
+            <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> che gestisce eventuali intestazioni in <c>serializationStream</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-223">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
+          </span>
+          <span data-ttu-id="c96b2-224">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-224">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="methodCallMessage">
+          <span data-ttu-id="c96b2-225">
+            <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> contenente i dettagli sull'origine della chiamata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-225">The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> that contains details about where the call came from.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-226">Deserializza una risposta a una chiamata remota a un metodo dal <see cref="T:System.IO.Stream" /> specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-226">Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96b2-227">Risposta deserializzata alla chiamata remota al metodo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-227">The deserialized response to the remote method call.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-228">Dettagli sull'oggetto chiamante non vengono inviati all'oggetto remoto durante la chiamata al metodo.</span><span class="sxs-lookup"><span data-stu-id="c96b2-228">Details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="c96b2-229">Questi dettagli vengono ottenuti dalla chiamata al metodo originale che viene passata al metodo corrente la `methodCallMessage` parametro.</span><span class="sxs-lookup"><span data-stu-id="c96b2-229">Instead, these details are obtained from the original method call that is passed to the current method in the `methodCallMessage` parameter.</span></span>  
+  
+ <span data-ttu-id="c96b2-230">Affinché la deserializzazione completare la posizione corrente nel flusso deve essere all'inizio dell'oggetto grafico.</span><span class="sxs-lookup"><span data-stu-id="c96b2-230">In order for deserialization to succeed the current position in the stream must be at the beginning of the object graph.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-231">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-231">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-232">
+            <paramref name="serializationStream" /> supporta la ricerca ma la sua lunghezza è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-232">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-233">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-233">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-234">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-234">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-235">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-235">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="FilterLevel">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.TypeFilterLevel FilterLevel { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.TypeFilterLevel FilterLevel" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.FilterLevel" />
+      <MemberSignature Language="VB.NET" Value="Public Property FilterLevel As TypeFilterLevel" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::TypeFilterLevel FilterLevel { System::Runtime::Serialization::Formatters::TypeFilterLevel get(); void set(System::Runtime::Serialization::Formatters::TypeFilterLevel value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.Formatters.TypeFilterLevel</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-236">Ottiene o imposta l'oggetto <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> per la deserializzazione automatica eseguita da <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-236">Gets or sets the <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> of automatic deserialization the <see cref="T:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter" /> performs.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-237">Valore <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> che rappresenta il livello di deserializzazione automatica corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-237">The <see cref="T:System.Runtime.Serialization.Formatters.TypeFilterLevel" /> that represents the current automatic deserialization level.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-238">Valori supportati sono <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low> e <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full> (impostazione predefinita).</span><span class="sxs-lookup"><span data-stu-id="c96b2-238">Supported values are <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Low> and <xref:System.Runtime.Serialization.Formatters.TypeFilterLevel.Full> (the default).</span></span> <span data-ttu-id="c96b2-239">Per informazioni dettagliate sui livelli di deserializzazione, vedere [ &#91; \<topic://cpconAutomaticDeserializationInNETRemoting >&#93;](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b).</span><span class="sxs-lookup"><span data-stu-id="c96b2-239">For details about deserialization levels, see [&#91;\<topic://cpconAutomaticDeserializationInNETRemoting>&#93;](http://msdn.microsoft.com/library/313a0e88-5b2b-4a17-8391-0ddf9f7a787b).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Serialize">
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-240">Serializza un oggetto o un grafico di oggetti connessi nel flusso specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-240">Serializes an object, or graph of connected objects, to the given stream.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Serialize">
+      <MemberSignature Language="C#" Value="public void Serialize (System.IO.Stream serializationStream, object graph);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Serialize(class System.IO.Stream serializationStream, object graph) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Serialize (serializationStream As Stream, graph As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Serialize(System::IO::Stream ^ serializationStream, System::Object ^ graph);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Runtime.Serialization.IFormatter.Serialize(System.IO.Stream,System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="graph" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-241">Flusso in cui serializzare il grafico.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-241">The stream to which the graph is to be serialized.</span>
+          </span>
+        </param>
+        <param name="graph">
+          <span data-ttu-id="c96b2-242">Oggetto alla radice del grafico da serializzare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-242">The object at the root of the graph to serialize.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-243">Serializza l'oggetto o il grafico di oggetti con l'oggetto di primo livello (radice) specificato nel flusso indicato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-243">Serializes the object, or graph of objects with the specified top (root), to the given stream.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ [!code-cpp[BinaryFormatterClass Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/BinaryFormatterClass Example/CPP/binaryformatter.cpp#1)]
+ [!code-csharp[BinaryFormatterClass Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/BinaryFormatterClass Example/CS/binaryformatter.cs#1)]
+ [!code-vb[BinaryFormatterClass Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/BinaryFormatterClass Example/VB/binaryformatter.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-244">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-244">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+          <span data-ttu-id="c96b2-245">oppure</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-245">-or-</span>
+          </span>
+          <span data-ttu-id="c96b2-246">
+            <paramref name="graph" /> è Null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-246">The <paramref name="graph" /> is null.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-247">Si è verificato un errore durante la serializzazione, ad esempio un oggetto nel parametro <paramref name="graph" /> non è contrassegnato come serializzabile.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-247">An error has occurred during serialization, such as if an object in the <paramref name="graph" /> parameter is not marked as serializable.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-248">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-248">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-249">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-249">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-250">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-250">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Serialize">
+      <MemberSignature Language="C#" Value="public void Serialize (System.IO.Stream serializationStream, object graph, System.Runtime.Remoting.Messaging.Header[] headers);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Serialize(class System.IO.Stream serializationStream, object graph, class System.Runtime.Remoting.Messaging.Header[] headers) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Serialize (serializationStream As Stream, graph As Object, headers As Header())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Serialize(System::IO::Stream ^ serializationStream, System::Object ^ graph, cli::array &lt;System::Runtime::Remoting::Messaging::Header ^&gt; ^ headers);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Runtime.Remoting.Messaging.IRemotingFormatter.Serialize(System.IO.Stream,System.Object,System.Runtime.Remoting.Messaging.Header[])</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="graph" Type="System.Object" />
+        <Parameter Name="headers" Type="System.Runtime.Remoting.Messaging.Header[]" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-251">Flusso in cui serializzare l'oggetto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-251">The stream to which the object is to be serialized.</span>
+          </span>
+        </param>
+        <param name="graph">
+          <span data-ttu-id="c96b2-252">Oggetto alla radice del grafico da serializzare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-252">The object at the root of the graph to serialize.</span>
+          </span>
+        </param>
+        <param name="headers">
+          <span data-ttu-id="c96b2-253">Intestazioni remote da includere nella serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-253">Remoting headers to include in the serialization.</span>
+          </span>
+          <span data-ttu-id="c96b2-254">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-254">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-255">Serializza l'oggetto o il grafico di oggetti con l'oggetto di primo livello (radice) specificato nel flusso indicato, collegando le intestazioni fornite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-255">Serializes the object, or graph of objects with the specified top (root), to the given stream attaching the provided headers.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-256">Il processo di serializzazione include le informazioni fornite nel `headers` parametro all'inizio del flusso serializzato.</span><span class="sxs-lookup"><span data-stu-id="c96b2-256">The serialization process includes the information supplied in the `headers` parameter at the front of the serialized stream.</span></span>  
+  
+ <span data-ttu-id="c96b2-257">Intestazioni vengono utilizzate solo per le applicazioni remote specifiche.</span><span class="sxs-lookup"><span data-stu-id="c96b2-257">Headers are used only for specific remoting applications.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-258">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-258">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-259">Si è verificato un errore durante la serializzazione, ad esempio un oggetto nel parametro <paramref name="graph" /> non è contrassegnato come serializzabile.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-259">An error has occurred during serialization, such as if an object in the <paramref name="graph" /> parameter is not marked as serializable.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-260">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-260">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-261">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-261">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-262">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-262">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="SurrogateSelector">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.ISurrogateSelector SurrogateSelector { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Runtime.Serialization.ISurrogateSelector SurrogateSelector" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.SurrogateSelector" />
+      <MemberSignature Language="VB.NET" Value="Public Property SurrogateSelector As ISurrogateSelector" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::ISurrogateSelector ^ SurrogateSelector { System::Runtime::Serialization::ISurrogateSelector ^ get(); void set(System::Runtime::Serialization::ISurrogateSelector ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Runtime.Serialization.IFormatter.SurrogateSelector</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.ISurrogateSelector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-263">Ottiene o imposta un oggetto <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> che controlla la sostituzione dei tipi durante la serializzazione e la deserializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-263">Gets or sets a <see cref="T:System.Runtime.Serialization.ISurrogateSelector" /> that controls type substitution during serialization and deserialization.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-264">Selettore di surrogati da utilizzare con questo formattatore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-264">The surrogate selector to use with this formatter.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-265">Viene utilizzato il selettore di surrogati <xref:System.Runtime.Remoting> per generare <xref:System.Runtime.Remoting.ObjRef> istanze per gli oggetti che derivano da <xref:System.MarshalByRefObject>.</span><span class="sxs-lookup"><span data-stu-id="c96b2-265">The surrogate selector is used by <xref:System.Runtime.Remoting> to generate <xref:System.Runtime.Remoting.ObjRef> instances for objects that derive from <xref:System.MarshalByRefObject>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Runtime.Serialization.SurrogateSelector" />
+      </Docs>
+    </Member>
+    <Member MemberName="TypeFormat">
+      <MemberSignature Language="C#" Value="public System.Runtime.Serialization.Formatters.FormatterTypeStyle TypeFormat { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Runtime.Serialization.Formatters.FormatterTypeStyle TypeFormat" />
+      <MemberSignature Language="DocId" Value="P:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.TypeFormat" />
+      <MemberSignature Language="VB.NET" Value="Public Property TypeFormat As FormatterTypeStyle" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Runtime::Serialization::Formatters::FormatterTypeStyle TypeFormat { System::Runtime::Serialization::Formatters::FormatterTypeStyle get(); void set(System::Runtime::Serialization::Formatters::FormatterTypeStyle value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Runtime.Serialization.Formatters.FormatterTypeStyle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="c96b2-266">Ottiene o imposta il formato in cui sono disposte le descrizioni dei tipi nel flusso serializzato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-266">Gets or sets the format in which type descriptions are laid out in the serialized stream.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="c96b2-267">Stile dei layout dei tipi da utilizzare.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-267">The style of type layouts to use.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+        <altmember cref="T:System.Runtime.Serialization.Formatters.FormatterTypeStyle" />
+      </Docs>
+    </Member>
+    <Member MemberName="UnsafeDeserialize">
+      <MemberSignature Language="C#" Value="public object UnsafeDeserialize (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object UnsafeDeserialize(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler)" />
+      <MemberSignature Language="VB.NET" Value="Public Function UnsafeDeserialize (serializationStream As Stream, handler As HeaderHandler) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ UnsafeDeserialize(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-268">Flusso da cui deserializzare il grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-268">The stream from which to deserialize the object graph.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="c96b2-269">
+            <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> che gestisce eventuali intestazioni in <c>serializationStream</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-269">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
+          </span>
+          <span data-ttu-id="c96b2-270">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-270">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-271">Deserializza il flusso specificato in un grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-271">Deserializes the specified stream into an object graph.</span>
+          </span>
+          <span data-ttu-id="c96b2-272">L'oggetto <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> fornito gestisce eventuali intestazioni nel flusso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-272">The provided <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> handles any headers in that stream.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96b2-273">Oggetto deserializzato o di primo livello (radice) del grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-273">The deserialized object or the top object (root) of the object graph.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-274">Intestazioni vengono utilizzate solo per le applicazioni remote specifiche.</span><span class="sxs-lookup"><span data-stu-id="c96b2-274">Headers are used only for specific remoting applications.</span></span>  
+  
+ <span data-ttu-id="c96b2-275">Questo metodo Usa <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> per evitare che venga chiamato da codice non attendibile, è necessario solo il chiamante immediato abbia <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> autorizzazione.</span><span class="sxs-lookup"><span data-stu-id="c96b2-275">This method uses <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> permission.</span></span> <span data-ttu-id="c96b2-276">Non utilizzare questo metodo se il codice può essere chiamato da codice parzialmente attendibile.</span><span class="sxs-lookup"><span data-stu-id="c96b2-276">Do not use this method if your code can be called from partially trusted code.</span></span> <span data-ttu-id="c96b2-277">In scenari ad attendibilità parziale, utilizzare <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> invece.</span><span class="sxs-lookup"><span data-stu-id="c96b2-277">In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A> instead.</span></span> <span data-ttu-id="c96b2-278">In scenari con attendibilità totale, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A> offre prestazioni migliori rispetto a <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>.</span><span class="sxs-lookup"><span data-stu-id="c96b2-278">In full trust scenarios, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserialize%2A> provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize%2A>.</span></span>  
+  
+ <span data-ttu-id="c96b2-279">Per una deserializzazione corretta, la posizione corrente nel flusso deve essere all'inizio dell'oggetto grafico.</span><span class="sxs-lookup"><span data-stu-id="c96b2-279">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-280">Chiamare questo metodo con dati non attendibili implica un rischio di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-280">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="c96b2-281">Chiamare questo metodo solo con dati attendibili.</span><span class="sxs-lookup"><span data-stu-id="c96b2-281">Call this method only with trusted data.</span></span> <span data-ttu-id="c96b2-282">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-282">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-283">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-283">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-284">
+            <paramref name="serializationStream" /> supporta la ricerca ma la sua lunghezza è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-284">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-285">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-285">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-286">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-286">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-287">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-287">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="UnsafeDeserializeMethodResponse">
+      <MemberSignature Language="C#" Value="public object UnsafeDeserializeMethodResponse (System.IO.Stream serializationStream, System.Runtime.Remoting.Messaging.HeaderHandler handler, System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object UnsafeDeserializeMethodResponse(class System.IO.Stream serializationStream, class System.Runtime.Remoting.Messaging.HeaderHandler handler, class System.Runtime.Remoting.Messaging.IMethodCallMessage methodCallMessage) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse(System.IO.Stream,System.Runtime.Remoting.Messaging.HeaderHandler,System.Runtime.Remoting.Messaging.IMethodCallMessage)" />
+      <MemberSignature Language="VB.NET" Value="Public Function UnsafeDeserializeMethodResponse (serializationStream As Stream, handler As HeaderHandler, methodCallMessage As IMethodCallMessage) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ UnsafeDeserializeMethodResponse(System::IO::Stream ^ serializationStream, System::Runtime::Remoting::Messaging::HeaderHandler ^ handler, System::Runtime::Remoting::Messaging::IMethodCallMessage ^ methodCallMessage);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializationStream" Type="System.IO.Stream" />
+        <Parameter Name="handler" Type="System.Runtime.Remoting.Messaging.HeaderHandler" />
+        <Parameter Name="methodCallMessage" Type="System.Runtime.Remoting.Messaging.IMethodCallMessage" />
+      </Parameters>
+      <Docs>
+        <param name="serializationStream">
+          <span data-ttu-id="c96b2-288">Flusso da cui deserializzare il grafico di oggetti.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-288">The stream from which to deserialize the object graph.</span>
+          </span>
+        </param>
+        <param name="handler">
+          <span data-ttu-id="c96b2-289">
+            <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> che gestisce eventuali intestazioni in <c>serializationStream</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-289">The <see cref="T:System.Runtime.Remoting.Messaging.HeaderHandler" /> that handles any headers in the <c>serializationStream</c>.</span>
+          </span>
+          <span data-ttu-id="c96b2-290">Può essere <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-290">Can be <see langword="null" />.</span>
+          </span>
+        </param>
+        <param name="methodCallMessage">
+          <span data-ttu-id="c96b2-291">
+            <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> contenente i dettagli sull'origine della chiamata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-291">The <see cref="T:System.Runtime.Remoting.Messaging.IMethodCallMessage" /> that contains details about where the call came from.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="c96b2-292">Deserializza una risposta a una chiamata remota a un metodo dal <see cref="T:System.IO.Stream" /> specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-292">Deserializes a response to a remote method call from the provided <see cref="T:System.IO.Stream" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="c96b2-293">Risposta deserializzata alla chiamata remota al metodo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-293">The deserialized response to the remote method call.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="c96b2-294">Dettagli sull'oggetto chiamante non vengono inviati all'oggetto remoto durante la chiamata al metodo.</span><span class="sxs-lookup"><span data-stu-id="c96b2-294">Details about the caller object are not sent to the remote object during the method call.</span></span> <span data-ttu-id="c96b2-295">Questi dettagli vengono ottenuti dalla chiamata al metodo originale che viene passata al metodo corrente la `methodCallMessage` parametro.</span><span class="sxs-lookup"><span data-stu-id="c96b2-295">Instead, these details are obtained from the original method call that is passed to the current method in the `methodCallMessage` parameter.</span></span>  
+  
+ <span data-ttu-id="c96b2-296">Questo metodo Usa <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> per evitare che venga chiamato da codice non attendibile, è necessario solo il chiamante immediato abbia <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> autorizzazione.</span><span class="sxs-lookup"><span data-stu-id="c96b2-296">This method uses <xref:System.Security.Permissions.SecurityAction.LinkDemand?displayProperty=nameWithType> to prevent it from being called from untrusted code; only the immediate caller is required to have <xref:System.Security.Permissions.SecurityPermissionAttribute.SerializationFormatter%2A?displayProperty=nameWithType> permission.</span></span> <span data-ttu-id="c96b2-297">Non utilizzare questo metodo se il codice può essere chiamato da codice parzialmente attendibile.</span><span class="sxs-lookup"><span data-stu-id="c96b2-297">Do not use this method if your code can be called from partially trusted code.</span></span> <span data-ttu-id="c96b2-298">In scenari ad attendibilità parziale, utilizzare <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> invece.</span><span class="sxs-lookup"><span data-stu-id="c96b2-298">In partially trusted scenarios, use <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A> instead.</span></span> <span data-ttu-id="c96b2-299">In scenari con attendibilità totale, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A> offre prestazioni migliori rispetto a <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>.</span><span class="sxs-lookup"><span data-stu-id="c96b2-299">In full trust scenarios, <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.UnsafeDeserializeMethodResponse%2A> provides better performance than <xref:System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.DeserializeMethodResponse%2A>.</span></span>  
+  
+ <span data-ttu-id="c96b2-300">Per una deserializzazione corretta, la posizione corrente nel flusso deve essere all'inizio dell'oggetto grafico.</span><span class="sxs-lookup"><span data-stu-id="c96b2-300">For successful deserialization, the current position in the stream must be at the beginning of the object graph.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="c96b2-301">Chiamare questo metodo con dati non attendibili implica un rischio di sicurezza.</span><span class="sxs-lookup"><span data-stu-id="c96b2-301">Calling this method with untrusted data is a security risk.</span></span> <span data-ttu-id="c96b2-302">Chiamare questo metodo solo con dati attendibili.</span><span class="sxs-lookup"><span data-stu-id="c96b2-302">Call this method only with trusted data.</span></span> <span data-ttu-id="c96b2-303">Per altre informazioni, vedere [la convalida dei dati](https://www.owasp.org/index.php/Data_Validation).</span><span class="sxs-lookup"><span data-stu-id="c96b2-303">For more information, see [Data Validation](https://www.owasp.org/index.php/Data_Validation).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="c96b2-304">L'elemento <paramref name="serializationStream" /> è <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-304">The <paramref name="serializationStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.Serialization.SerializationException">
+          <span data-ttu-id="c96b2-305">
+            <paramref name="serializationStream" /> supporta la ricerca ma la sua lunghezza è 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-305">The <paramref name="serializationStream" /> supports seeking, but its length is 0.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Security.SecurityException">
+          <span data-ttu-id="c96b2-306">Il chiamante non dispone dell'autorizzazione richiesta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-306">The caller does not have the required permission.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="c96b2-307">Per fornire servizi di serializzazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-307">To provide serialization services.</span>
+          </span>
+          <span data-ttu-id="c96b2-308">Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="c96b2-308">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter" />.</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

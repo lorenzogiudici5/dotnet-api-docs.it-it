@@ -1,0 +1,1465 @@
+<Type Name="OdbcConnection" FullName="System.Data.Odbc.OdbcConnection">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="80d1892cb80c1d1d41e21f772ca6dc381f5f72f9" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="it-IT" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class OdbcConnection : System.Data.Common.DbConnection, ICloneable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OdbcConnection extends System.Data.Common.DbConnection implements class System.ICloneable" />
+  <TypeSignature Language="DocId" Value="T:System.Data.Odbc.OdbcConnection" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class OdbcConnection&#xA;Inherits DbConnection&#xA;Implements ICloneable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class OdbcConnection sealed : System::Data::Common::DbConnection, ICloneable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Data.Odbc</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbConnection</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.ICloneable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.ComponentModel.DefaultEvent("InfoMessage")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="90c54-101">Rappresenta una connessione aperta a un'origine dati.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="90c54-101">Represents an open connection to a data source.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-102">Un <xref:System.Data.Odbc.OdbcConnection> oggetto rappresenta una connessione a un'origine dati creata utilizzando una stringa di connessione o il nome di origine dati ODBC (DSN) univoca.</span><span class="sxs-lookup"><span data-stu-id="90c54-102">An <xref:System.Data.Odbc.OdbcConnection> object represents a unique connection to a data source created by using a connection string or ODBC data source name (DSN).</span></span> <span data-ttu-id="90c54-103">Con un sistema di database client/server, è equivalente a una connessione di rete al server.</span><span class="sxs-lookup"><span data-stu-id="90c54-103">With a client/server database system, it is equivalent to a network connection to the server.</span></span> <span data-ttu-id="90c54-104">A seconda delle funzionalità supportate dal driver ODBC nativo, alcuni metodi o proprietà di un <xref:System.Data.Odbc.OdbcConnection> oggetto potrebbe non essere disponibile.</span><span class="sxs-lookup"><span data-stu-id="90c54-104">Depending on the functionality supported by the native ODBC driver, some methods or properties of an <xref:System.Data.Odbc.OdbcConnection> object may not be available.</span></span>  
+  
+ <span data-ttu-id="90c54-105">Il <xref:System.Data.Odbc.OdbcConnection> oggetto utilizza le risorse native, ad esempio gli handle di connessione e dell'ambiente ODBC.</span><span class="sxs-lookup"><span data-stu-id="90c54-105">The <xref:System.Data.Odbc.OdbcConnection> object uses native resources such as ODBC environment and connection handles.</span></span> <span data-ttu-id="90c54-106">È consigliabile chiudere sempre in modo esplicito qualsiasi open <xref:System.Data.Odbc.OdbcConnection> oggetti chiamando <xref:System.Data.Odbc.OdbcConnection.Close%2A> o **Dispose** prima di <xref:System.Data.Odbc.OdbcConnection> oggetto esce dall'ambito o inserendo la connessione all'interno di un `Using` istruzione.</span><span class="sxs-lookup"><span data-stu-id="90c54-106">You should always explicitly close any open <xref:System.Data.Odbc.OdbcConnection> objects by calling <xref:System.Data.Odbc.OdbcConnection.Close%2A> or **Dispose** before the <xref:System.Data.Odbc.OdbcConnection> object goes out of scope, or by placing the connection within a `Using` statement.</span></span> <span data-ttu-id="90c54-107">Ciò non lascia la liberazione di tali risorse native a garbage collection.</span><span class="sxs-lookup"><span data-stu-id="90c54-107">Not doing this leaves the freeing of these native resources to garbage collection.</span></span> <span data-ttu-id="90c54-108">La liberazione potrebbe non essere immediatamente.</span><span class="sxs-lookup"><span data-stu-id="90c54-108">It might not free them immediately.</span></span> <span data-ttu-id="90c54-109">Questa operazione, a sua volta, può infine che il driver sottostante esaurimento delle risorse o raggiungere un limite massimo.</span><span class="sxs-lookup"><span data-stu-id="90c54-109">This, in turn, can eventually cause the underlying driver to run out of resources or reach a maximum limit.</span></span> <span data-ttu-id="90c54-110">Questo ha comportato errori intermittenti.</span><span class="sxs-lookup"><span data-stu-id="90c54-110">This has resulted in intermittent failures.</span></span> <span data-ttu-id="90c54-111">Ad esempio, potrebbero verificarsi `Maximum Connections` -errori correlati, mentre un numero di connessioni in attesa di essere eliminato dal garbage collector.</span><span class="sxs-lookup"><span data-stu-id="90c54-111">For example, you might experience `Maximum Connections` -related errors while many connections are waiting to be deleted by the garbage collector.</span></span> <span data-ttu-id="90c54-112">In modo esplicito la chiusura delle connessioni consente un utilizzo più efficiente delle risorse native, aumento della scalabilità e migliorando le prestazioni complessive dell'applicazione.</span><span class="sxs-lookup"><span data-stu-id="90c54-112">Explicitly closing the connections allows for a more efficient use of native resources, enhancing scalability and improving overall application performance.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-113">Per distribuire applicazioni ad alte prestazioni, è spesso necessario utilizzare il pool di connessioni.</span><span class="sxs-lookup"><span data-stu-id="90c54-113">To deploy high-performance applications, you frequently must use connection pooling.</span></span> <span data-ttu-id="90c54-114">Tuttavia, quando si utilizza il Provider di dati .NET Framework per ODBC, non è necessario abilitare il pool di connessioni perché il provider gestito automaticamente.</span><span class="sxs-lookup"><span data-stu-id="90c54-114">However, when you use the .NET Framework Data Provider for ODBC, you do not have to enable connection pooling because the provider manages this automatically.</span></span>  
+  
+ <span data-ttu-id="90c54-115">Se uno del `Execute` metodi il <xref:System.Data.Odbc.OdbcCommand> classe causa un errore irreversibile <xref:System.Data.Odbc.OdbcException> (ad esempio, SQL Server livello di gravità pari a 20 o superiore), il <xref:System.Data.Odbc.OdbcConnection> venga chiusa.</span><span class="sxs-lookup"><span data-stu-id="90c54-115">If one of the `Execute` methods of the <xref:System.Data.Odbc.OdbcCommand> class causes a fatal <xref:System.Data.Odbc.OdbcException> (for example, a SQL Server severity level of 20 or greater), the <xref:System.Data.Odbc.OdbcConnection> may close.</span></span> <span data-ttu-id="90c54-116">L'utente può tuttavia riaprire la connessione e continuare.</span><span class="sxs-lookup"><span data-stu-id="90c54-116">However, the user can reopen the connection and continue.</span></span>  
+  
+ <span data-ttu-id="90c54-117">Un'applicazione che crea un'istanza di <xref:System.Data.Odbc.OdbcConnection> oggetto può richiedere tutti i chiamanti diretti e indiretti impostando le richieste di sicurezza dichiarativo o imperativo di autorizzazioni sufficienti per il codice.</span><span class="sxs-lookup"><span data-stu-id="90c54-117">An application that creates an instance of the <xref:System.Data.Odbc.OdbcConnection> object can require all direct and indirect callers to have sufficient permission to the code by setting declarative or imperative security demands.</span></span> <span data-ttu-id="90c54-118"><xref:System.Data.Odbc.OdbcConnection> Crea le richieste di sicurezza utilizzando il <xref:System.Data.Odbc.OdbcPermission> oggetto.</span><span class="sxs-lookup"><span data-stu-id="90c54-118"><xref:System.Data.Odbc.OdbcConnection> creates security demands by using the <xref:System.Data.Odbc.OdbcPermission> object.</span></span> <span data-ttu-id="90c54-119">Gli utenti possono verificare che il codice disponga di autorizzazioni sufficienti mediante il <xref:System.Data.Odbc.OdbcPermissionAttribute> oggetto.</span><span class="sxs-lookup"><span data-stu-id="90c54-119">Users can verify that their code has sufficient permissions by using the <xref:System.Data.Odbc.OdbcPermissionAttribute> object.</span></span> <span data-ttu-id="90c54-120">Utenti e amministratori possono inoltre utilizzare lo strumento Criteri di sicurezza dall'accesso di codice (Caspol.exe) per modificare i criteri di sicurezza a livello aziendale, computer e utente.</span><span class="sxs-lookup"><span data-stu-id="90c54-120">Users and administrators can also use the Code Access Security Policy Tool (Caspol.exe) to modify security policy at the computer, user, and enterprise levels.</span></span> <span data-ttu-id="90c54-121">Per altre informazioni, vedere [Code Access Security and ADO.NET](~/docs/framework/data/adonet/code-access-security.md).</span><span class="sxs-lookup"><span data-stu-id="90c54-121">For more information, see [Code Access Security and ADO.NET](~/docs/framework/data/adonet/code-access-security.md).</span></span>  
+  
+ <span data-ttu-id="90c54-122">Per ulteriori informazioni sulla gestione dei messaggi di avviso e informativi dall'origine dati, vedere [gli eventi di connessione](~/docs/framework/data/adonet/connection-events.md).</span><span class="sxs-lookup"><span data-stu-id="90c54-122">For more information about handling warning and informational messages from the data source, see [Connection Events](~/docs/framework/data/adonet/connection-events.md).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-123">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcCommand> e <xref:System.Data.Odbc.OdbcConnection>.</span><span class="sxs-lookup"><span data-stu-id="90c54-123">The following example creates an <xref:System.Data.Odbc.OdbcCommand> and an <xref:System.Data.Odbc.OdbcConnection>.</span></span> <span data-ttu-id="90c54-124">Il <xref:System.Data.Odbc.OdbcConnection> viene aperto e impostato come il <xref:System.Data.Odbc.OdbcCommand.Connection%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-124">The <xref:System.Data.Odbc.OdbcConnection> is opened and set as the <xref:System.Data.Odbc.OdbcCommand.Connection%2A> property.</span></span> <span data-ttu-id="90c54-125">Nell'esempio viene quindi chiamato <xref:System.Data.Odbc.OdbcCommand.ExecuteNonQuery%2A>e chiude la connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-125">The example then calls <xref:System.Data.Odbc.OdbcCommand.ExecuteNonQuery%2A>, and closes the connection.</span></span> <span data-ttu-id="90c54-126">A tale scopo, il <xref:System.Data.Odbc.OdbcCommand.ExecuteNonQuery%2A> viene passata una stringa di connessione e una stringa di query che rappresenta un'istruzione SQL INSERT.</span><span class="sxs-lookup"><span data-stu-id="90c54-126">To accomplish this, the <xref:System.Data.Odbc.OdbcCommand.ExecuteNonQuery%2A> is passed a connection string and a query string that is an SQL INSERT statement.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-127">Inizializza una nuova istanza della classe <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-127">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcConnection" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OdbcConnection ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OdbcConnection();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-128">Inizializza una nuova istanza della classe <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-128">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcConnection" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-129">Quando una nuova istanza della <xref:System.Data.Odbc.OdbcConnection> viene creata, la sola scrittura e lettura proprietà vengono impostate sui valori iniziali di seguito, a meno che non siano impostate in modo specifico mediante le parole chiave associate nel <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-129">When a new instance of <xref:System.Data.Odbc.OdbcConnection> is created, the write-only and read-only properties are set to the following initial values unless they are specifically set using their associated keywords in the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property.</span></span>  
+  
+|<span data-ttu-id="90c54-130">Proprietà</span><span class="sxs-lookup"><span data-stu-id="90c54-130">Properties</span></span>|<span data-ttu-id="90c54-131">Valore iniziale</span><span class="sxs-lookup"><span data-stu-id="90c54-131">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A>|<span data-ttu-id="90c54-132">una stringa vuota ("")</span><span class="sxs-lookup"><span data-stu-id="90c54-132">empty string ("")</span></span>|  
+|<xref:System.Data.Odbc.OdbcConnection.ConnectionTimeout%2A>|<span data-ttu-id="90c54-133">15</span><span class="sxs-lookup"><span data-stu-id="90c54-133">15</span></span>|  
+|<xref:System.Data.Odbc.OdbcConnection.Database%2A>|<span data-ttu-id="90c54-134">una stringa vuota ("")</span><span class="sxs-lookup"><span data-stu-id="90c54-134">empty string ("")</span></span>|  
+  
+ <span data-ttu-id="90c54-135">È possibile modificare il valore per queste proprietà solo se si utilizza il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-135">You can change the value for these properties only by using the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-136">Nell'esempio seguente crea e apre un <xref:System.Data.Odbc.OdbcConnection>.</span><span class="sxs-lookup"><span data-stu-id="90c54-136">The following example creates and opens an <xref:System.Data.Odbc.OdbcConnection>.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.OdbcConnection#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.OdbcConnection/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.OdbcConnection#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.OdbcConnection/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OdbcConnection (string connectionString);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string connectionString) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (connectionString As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OdbcConnection(System::String ^ connectionString);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="connectionString" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="connectionString">
+          <span data-ttu-id="90c54-137">Connessione utilizzata per aprire l'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-137">The connection used to open the data source.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-138">Inizializza una nuova istanza della classe <see cref="T:System.Data.Odbc.OdbcConnection" /> con la stringa di connessione specificata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-138">Initializes a new instance of the <see cref="T:System.Data.Odbc.OdbcConnection" /> class with the specified connection string.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-139">Quando una nuova istanza della <xref:System.Data.Odbc.OdbcConnection> viene creata, la sola scrittura e lettura proprietà vengono impostate sui valori iniziali di seguito, a meno che non siano impostate in modo specifico mediante le parole chiave associate nel <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-139">When a new instance of <xref:System.Data.Odbc.OdbcConnection> is created, the write-only and read-only properties are set to the following initial values unless they are specifically set using their associated keywords in the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property.</span></span>  
+  
+|<span data-ttu-id="90c54-140">Proprietà</span><span class="sxs-lookup"><span data-stu-id="90c54-140">Properties</span></span>|<span data-ttu-id="90c54-141">Valore iniziale</span><span class="sxs-lookup"><span data-stu-id="90c54-141">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A>|`connectionString`|  
+|<xref:System.Data.Odbc.OdbcConnection.ConnectionTimeout%2A>|<span data-ttu-id="90c54-142">15</span><span class="sxs-lookup"><span data-stu-id="90c54-142">15</span></span>|  
+|<xref:System.Data.Odbc.OdbcConnection.Database%2A>|<span data-ttu-id="90c54-143">una stringa vuota ("")</span><span class="sxs-lookup"><span data-stu-id="90c54-143">empty string ("")</span></span>|  
+  
+ <span data-ttu-id="90c54-144">È possibile modificare il valore per queste proprietà solo se si utilizza il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-144">You can change the value for these properties only by using the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-145">Nell'esempio seguente crea e apre un <xref:System.Data.Odbc.OdbcConnection>.</span><span class="sxs-lookup"><span data-stu-id="90c54-145">The following example creates and opens an <xref:System.Data.Odbc.OdbcConnection>.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.OdbcConnection1#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.OdbcConnection1/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.OdbcConnection1#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.OdbcConnection1/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginDbTransaction">
+      <MemberSignature Language="C#" Value="protected override System.Data.Common.DbTransaction BeginDbTransaction (System.Data.IsolationLevel isolationLevel);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Data.Common.DbTransaction BeginDbTransaction(valuetype System.Data.IsolationLevel isolationLevel) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.BeginDbTransaction(System.Data.IsolationLevel)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Data::Common::DbTransaction ^ BeginDbTransaction(System::Data::IsolationLevel isolationLevel);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Common.DbTransaction</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="isolationLevel" Type="System.Data.IsolationLevel" />
+      </Parameters>
+      <Docs>
+        <param name="isolationLevel">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="BeginTransaction">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-146">Avvia una transazione all'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-146">Starts a transaction at the data source.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="BeginTransaction">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcTransaction BeginTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcTransaction BeginTransaction() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.BeginTransaction" />
+      <MemberSignature Language="VB.NET" Value="Public Function BeginTransaction () As OdbcTransaction" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcTransaction ^ BeginTransaction();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcTransaction</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-147">Avvia una transazione all'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-147">Starts a transaction at the data source.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-148">Oggetto che rappresenta la nuova transazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-148">An object representing the new transaction.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-149">Per eseguire il commit o il rollback della transazione, è necessario utilizzare in modo esplicito il <xref:System.Data.Odbc.OdbcTransaction.Commit%2A> o <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="90c54-149">To commit or roll back the transaction, you must explicitly use the <xref:System.Data.Odbc.OdbcTransaction.Commit%2A> or <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> methods.</span></span>  
+  
+ <span data-ttu-id="90c54-150">Per assicurarsi che venga eseguito correttamente il Provider di dati .NET Framework per il modello di gestione delle transazioni ODBC, evitare di utilizzare altri modelli di gestione delle transazioni, ad esempio quelli forniti dall'origine dati.</span><span class="sxs-lookup"><span data-stu-id="90c54-150">To make sure that the .NET Framework Data Provider for ODBC transaction management model performs correctly, avoid using other transaction management models, such as those provided by the data source.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-151">Se non si specifica un livello di isolamento, il livello di isolamento verrà determinato dal driver in uso.</span><span class="sxs-lookup"><span data-stu-id="90c54-151">If you do not specify an isolation level, the isolation level will be determined by the driver being used.</span></span> <span data-ttu-id="90c54-152">Per specificare un livello di isolamento con il <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A> metodo, utilizzare l'overload che accetta il `isolevel` parametro.</span><span class="sxs-lookup"><span data-stu-id="90c54-152">To specify an isolation level with the <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A> method, use the overload that takes the `isolevel` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-153">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection> e <xref:System.Data.Odbc.OdbcTransaction>.</span><span class="sxs-lookup"><span data-stu-id="90c54-153">The following example creates an <xref:System.Data.Odbc.OdbcConnection> and an <xref:System.Data.Odbc.OdbcTransaction>.</span></span> <span data-ttu-id="90c54-154">Viene inoltre illustrato come utilizzare il <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A>, <xref:System.Data.Odbc.OdbcTransaction.Commit%2A>, e <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="90c54-154">It also demonstrates how to use the <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A>, <xref:System.Data.Odbc.OdbcTransaction.Commit%2A>, and <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> methods.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.BeginTransaction1#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.BeginTransaction1/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.BeginTransaction1#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.BeginTransaction1/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="90c54-155">Una transazione è attualmente attiva.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-155">A transaction is currently active.</span>
+          </span>
+          <span data-ttu-id="90c54-156">Le transazioni parallele non sono supportate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-156">Parallel transactions are not supported.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginTransaction">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcTransaction BeginTransaction (System.Data.IsolationLevel isolevel);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcTransaction BeginTransaction(valuetype System.Data.IsolationLevel isolevel) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.BeginTransaction(System.Data.IsolationLevel)" />
+      <MemberSignature Language="VB.NET" Value="Public Function BeginTransaction (isolevel As IsolationLevel) As OdbcTransaction" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcTransaction ^ BeginTransaction(System::Data::IsolationLevel isolevel);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcTransaction</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="isolevel" Type="System.Data.IsolationLevel" />
+      </Parameters>
+      <Docs>
+        <param name="isolevel">
+          <span data-ttu-id="90c54-157">Livello di isolamento della transazione per questa connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-157">The transaction isolation level for this connection.</span>
+          </span>
+          <span data-ttu-id="90c54-158">Se non viene specificato un livello di isolamento, verrà utilizzato quello predefinito per il driver sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-158">If you do not specify an isolation level, the default isolation level for the driver is used.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-159">Avvia una transazione all'origine dati con il valore di <see cref="T:System.Data.IsolationLevel" /> specificato.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-159">Starts a transaction at the data source with the specified <see cref="T:System.Data.IsolationLevel" /> value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-160">Oggetto che rappresenta la nuova transazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-160">An object representing the new transaction.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-161">Per eseguire il commit o il rollback della transazione, è necessario utilizzare in modo esplicito il <xref:System.Data.Odbc.OdbcTransaction.Commit%2A> o <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="90c54-161">To commit or roll back the transaction, you must explicitly use the <xref:System.Data.Odbc.OdbcTransaction.Commit%2A> or <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> methods.</span></span>  
+  
+ <span data-ttu-id="90c54-162">Per assicurarsi che venga eseguito correttamente il Provider di dati .NET Framework per il modello di gestione delle transazioni ODBC, evitare di utilizzare altri modelli di gestione delle transazioni, ad esempio quelli forniti dall'origine dati.</span><span class="sxs-lookup"><span data-stu-id="90c54-162">To make sure that the .NET Framework Data Provider for ODBC transaction management model performs correctly, avoid using other transaction management models, such as those provided by the data source.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-163">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection> e <xref:System.Data.Odbc.OdbcTransaction>.</span><span class="sxs-lookup"><span data-stu-id="90c54-163">The following example creates an <xref:System.Data.Odbc.OdbcConnection> and an <xref:System.Data.Odbc.OdbcTransaction>.</span></span> <span data-ttu-id="90c54-164">Viene inoltre illustrato come utilizzare il <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A>, <xref:System.Data.Odbc.OdbcTransaction.Commit%2A>, e <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> metodi.</span><span class="sxs-lookup"><span data-stu-id="90c54-164">It also demonstrates how to use the <xref:System.Data.Odbc.OdbcConnection.BeginTransaction%2A>, <xref:System.Data.Odbc.OdbcTransaction.Commit%2A>, and <xref:System.Data.Odbc.OdbcTransaction.Rollback%2A> methods.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.BeginTransaction1#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.BeginTransaction1/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.BeginTransaction1#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.BeginTransaction1/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="90c54-165">Una transazione è attualmente attiva.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-165">A transaction is currently active.</span>
+          </span>
+          <span data-ttu-id="90c54-166">Le transazioni parallele non sono supportate.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-166">Parallel transactions are not supported.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ChangeDatabase">
+      <MemberSignature Language="C#" Value="public override void ChangeDatabase (string value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void ChangeDatabase(string value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.ChangeDatabase(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub ChangeDatabase (value As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void ChangeDatabase(System::String ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="90c54-167">Nome del database.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-167">The database name.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-168">Modifica il database corrente associato a un oggetto <see cref="T:System.Data.Odbc.OdbcConnection" /> aperto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-168">Changes the current database associated with an open <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-169">Il `value` parametro deve contenere un nome di database valido e non può contenere un valore null, una stringa vuota (""), o una stringa contenente solo caratteri vuoti.</span><span class="sxs-lookup"><span data-stu-id="90c54-169">The `value` parameter must contain a valid database name, and cannot contain a null value, an empty string (""), or a string with only blank characters.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-170">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection> e modifica il database corrente.</span><span class="sxs-lookup"><span data-stu-id="90c54-170">The following example creates an <xref:System.Data.Odbc.OdbcConnection> and changes the current database.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.Database#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Database/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.Database#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Database/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="90c54-171">Il nome del database non è valido.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-171">The database name is not valid.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="90c54-172">La connessione non è aperta.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-172">The connection is not open.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Data.Odbc.OdbcException">
+          <span data-ttu-id="90c54-173">Non è possibile modificare il database.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-173">Cannot change the database.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public override void Close ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Close() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.Close" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Close ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Close();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-174">Chiude la connessione all'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-174">Closes the connection to the data source.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-175">Il <xref:System.Data.Odbc.OdbcConnection.Close%2A> metodo esegue il rollback di tutte le transazioni in sospeso.</span><span class="sxs-lookup"><span data-stu-id="90c54-175">The <xref:System.Data.Odbc.OdbcConnection.Close%2A> method rolls back any pending transactions.</span></span> <span data-ttu-id="90c54-176">È quindi rilascia la connessione al pool di connessioni o chiude la connessione se il pool di connessioni è disabilitato.</span><span class="sxs-lookup"><span data-stu-id="90c54-176">It then releases the connection to the connection pool, or closes the connection if connection pooling is disabled.</span></span> <span data-ttu-id="90c54-177">Se <xref:System.Data.Odbc.OdbcConnection.Close%2A> viene chiamato durante la gestione un <xref:System.Data.Common.DbConnection.StateChange> evento, alcuna ulteriore <xref:System.Data.Common.DbConnection.StateChange> gli eventi vengono attivati.</span><span class="sxs-lookup"><span data-stu-id="90c54-177">If <xref:System.Data.Odbc.OdbcConnection.Close%2A> is called while handling a <xref:System.Data.Common.DbConnection.StateChange> event, no additional <xref:System.Data.Common.DbConnection.StateChange> events are fired.</span></span>  
+  
+ <span data-ttu-id="90c54-178">Un'applicazione può chiamare <xref:System.Data.Odbc.OdbcConnection.Close%2A> più volte senza generare un'eccezione.</span><span class="sxs-lookup"><span data-stu-id="90c54-178">An application can call <xref:System.Data.Odbc.OdbcConnection.Close%2A> more than one time without generating an exception.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-179">Quando si utilizza il Provider di dati .NET Framework per ODBC, non è necessario abilitare il pool di connessioni perché questa operazione è gestita automaticamente da Gestione Driver ODBC.</span><span class="sxs-lookup"><span data-stu-id="90c54-179">When you use the .NET Framework Data Provider for ODBC, you do not have to enable connection pooling because the ODBC Driver Manager manages this automatically.</span></span> <span data-ttu-id="90c54-180">Per ulteriori informazioni su come abilitare e disabilitare il pool di connessioni, vedere la documentazione di Microsoft Open Database Connectivity (ODBC).</span><span class="sxs-lookup"><span data-stu-id="90c54-180">For more information about how to enable and disabling connection pooling, see the Microsoft Open Database Connectivity (ODBC) documentation.</span></span>  
+  
+> [!CAUTION]
+>  <span data-ttu-id="90c54-181">Non chiamare <xref:System.Data.Odbc.OdbcConnection.Close%2A> o `Dispose` su una connessione, un DataReader o qualsiasi altro oggetto gestito di `Finalize` metodo della classe.</span><span class="sxs-lookup"><span data-stu-id="90c54-181">Do not call <xref:System.Data.Odbc.OdbcConnection.Close%2A> or `Dispose` on a Connection, a DataReader, or any other managed object in the `Finalize` method of your class.</span></span> <span data-ttu-id="90c54-182">In un finalizzatore, è necessario rilasciare solo le risorse non gestite che la classe controlla direttamente.</span><span class="sxs-lookup"><span data-stu-id="90c54-182">In a finalizer, you should only release unmanaged resources that your class owns directly.</span></span> <span data-ttu-id="90c54-183">Se nella classe non sono presenti risorse non gestite, non includere un metodo `Finalize` nella relativa definizione della classe.</span><span class="sxs-lookup"><span data-stu-id="90c54-183">If your class does not own any unmanaged resources, do not include a `Finalize` method in your class definition.</span></span> <span data-ttu-id="90c54-184">Per ulteriori informazioni, vedere [Garbage Collection](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9).</span><span class="sxs-lookup"><span data-stu-id="90c54-184">For more information, see [Garbage Collection](http://msdn.microsoft.com/library/22b6cb97-0c80-4eeb-a2cf-5ed7655e37f9).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-185">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection>, viene aperto, vengono visualizzate alcune delle relative proprietà e quindi chiude la connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-185">The following example creates an <xref:System.Data.Odbc.OdbcConnection>, opens it, displays some of its properties, and then closes the connection.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.Close#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Close/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.Close#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Close/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConnectionString">
+      <MemberSignature Language="C#" Value="public override string ConnectionString { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ConnectionString" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.ConnectionString" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property ConnectionString As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ConnectionString { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("Microsoft.VSDesigner.Data.Odbc.Design.OdbcConnectionStringEditor, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.RecommendedAsConfigurable(true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.RefreshProperties</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.SettingsBindable(true)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-186">Ottiene o imposta la stringa utilizzata per aprire un'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-186">Gets or sets the string used to open a data source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-187">Stringa di connessione del driver ODBC che contiene impostazioni, quali il nome dell'origine dati, necessari a stabilire la connessione iniziale.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-187">The ODBC driver connection string that includes settings, such as the data source name, needed to establish the initial connection.</span>
+          </span>
+          <span data-ttu-id="90c54-188">Il valore predefinito è una stringa vuota ("").</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-188">The default value is an empty string ("").</span>
+          </span>
+          <span data-ttu-id="90c54-189">La lunghezza massima è 1024 caratteri.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-189">The maximum length is 1024 characters.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-190">Il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà è progettata in modo che corrisponda il più vicino possibile formato di stringa di connessione ODBC.</span><span class="sxs-lookup"><span data-stu-id="90c54-190">The <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property is designed to match ODBC connection string format as closely as possible.</span></span> <span data-ttu-id="90c54-191">Il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> può essere impostata solo quando la connessione viene chiusa e non appena viene impostato viene passato, senza modifiche, gestione Driver e il driver sottostante.</span><span class="sxs-lookup"><span data-stu-id="90c54-191">The <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> can be set only when the connection is closed, and as soon as it is set it is passed, unchanged, to the Driver Manager and the underlying driver.</span></span> <span data-ttu-id="90c54-192">Pertanto, la sintassi per la <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> deve corrispondere esattamente da Gestione Driver e il supporto dei driver sottostante.</span><span class="sxs-lookup"><span data-stu-id="90c54-192">Therefore, the syntax for the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> must exactly match what the Driver Manager and underlying driver support.</span></span>  
+  
+ <span data-ttu-id="90c54-193">È possibile utilizzare il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà per connettersi a un'ampia gamma di origini dati.</span><span class="sxs-lookup"><span data-stu-id="90c54-193">You can use the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property to connect to a variety of data sources.</span></span> <span data-ttu-id="90c54-194">Ciò include un nome di origine dati (DSN) ODBC.</span><span class="sxs-lookup"><span data-stu-id="90c54-194">This includes an ODBC data source name (DSN).</span></span> <span data-ttu-id="90c54-195">Nell'esempio seguente vengono illustrate diverse stringhe di connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-195">The following example illustrates several possible connection strings.</span></span>  
+  
+```  
+"Driver={SQL Server};Server=(local);Trusted_Connection=Yes;Database=AdventureWorks;"  
+  
+"Driver={Microsoft ODBC for Oracle};Server=ORACLE8i7;Persist Security Info=False;Trusted_Connection=Yes"  
+  
+"Driver={Microsoft Access Driver (*.mdb)};DBQ=c:\bin\Northwind.mdb"  
+  
+"Driver={Microsoft Excel Driver (*.xls)};DBQ=c:\bin\book1.xls"  
+  
+"Driver={Microsoft Text Driver (*.txt; *.csv)};DBQ=c:\bin"  
+  
+"DSN=dsnname"  
+```  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-196">Il Provider di dati .NET Framework per ODBC non supporta il `Persist Security Info` parola chiave che è supportato da altri provider di dati .NET Framework.</span><span class="sxs-lookup"><span data-stu-id="90c54-196">The .NET Framework Data Provider for ODBC does not support the `Persist Security Info` keyword that is supported by other .NET Framework data providers.</span></span> <span data-ttu-id="90c54-197">Tuttavia, il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà si comporta come se `Persist Security Info` sono stati impostati su `false`.</span><span class="sxs-lookup"><span data-stu-id="90c54-197">However, the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property behaves as if `Persist Security Info` were set to `false`.</span></span> <span data-ttu-id="90c54-198">Ciò significa che non è possibile recuperare la password dal <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà se la connessione è stata aperta.</span><span class="sxs-lookup"><span data-stu-id="90c54-198">This means that you cannot retrieve the password from the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property if the connection has been opened.</span></span> <span data-ttu-id="90c54-199">Quando il <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà viene letta da un <xref:System.Data.Odbc.OdbcConnection> che è stato aperto, la stringa di connessione viene restituita meno la password.</span><span class="sxs-lookup"><span data-stu-id="90c54-199">When the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property is read from an <xref:System.Data.Odbc.OdbcConnection> object that has been opened, the connection string is returned minus the password.</span></span> <span data-ttu-id="90c54-200">Non è possibile modificare questo comportamento. Pertanto, se l'applicazione richiede la password, archiviare separatamente prima di chiamare <xref:System.Data.Odbc.OdbcConnection.Open%2A>.</span><span class="sxs-lookup"><span data-stu-id="90c54-200">You cannot change this behavior; therefore, if the application requires the password, store it separately before calling <xref:System.Data.Odbc.OdbcConnection.Open%2A>.</span></span>  
+  
+ <span data-ttu-id="90c54-201">Molte delle impostazioni specificate nella stringa di contengono le proprietà di sola lettura corrispondenti (ad esempio, `Server=(local)`, che corrisponde alla <xref:System.Data.Odbc.OdbcConnection.DataSource%2A> proprietà).</span><span class="sxs-lookup"><span data-stu-id="90c54-201">Many of the settings specified in the string have corresponding read-only properties (for example, `Server=(local)`, which corresponds to the <xref:System.Data.Odbc.OdbcConnection.DataSource%2A> property).</span></span> <span data-ttu-id="90c54-202">Queste proprietà vengono aggiornate dopo la connessione è aperta, tranne quando viene rilevato un errore.</span><span class="sxs-lookup"><span data-stu-id="90c54-202">These properties are updated after the connection is opened, except when an error is detected.</span></span> <span data-ttu-id="90c54-203">In questo caso, nessuna delle proprietà vengono aggiornata.</span><span class="sxs-lookup"><span data-stu-id="90c54-203">In this case, none of the properties are updated.</span></span> <span data-ttu-id="90c54-204"><xref:System.Data.Odbc.OdbcConnection> proprietà (ad esempio <xref:System.Data.Odbc.OdbcConnection.Database%2A>) restituiscono solo le impostazioni predefinite o quelle specificate nel <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A>.</span><span class="sxs-lookup"><span data-stu-id="90c54-204"><xref:System.Data.Odbc.OdbcConnection> properties (such as <xref:System.Data.Odbc.OdbcConnection.Database%2A>) return only default settings or those settings specified in the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A>.</span></span>  
+  
+ <span data-ttu-id="90c54-205">In Microsoft .NET Framework versione 1.0, convalida della stringa di connessione non verrà eseguita fino a quando un'applicazione chiama il <xref:System.Data.Odbc.OdbcConnection.Open%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="90c54-205">In the Microsoft .NET Framework version 1.0, validation of the connection string does not occur until an application calls the <xref:System.Data.Odbc.OdbcConnection.Open%2A> method.</span></span> <span data-ttu-id="90c54-206">È responsabilità del driver ODBC sottostante per convalidare la stringa di connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-206">It is the responsibility of the underlying ODBC driver to validate the connection string.</span></span> <span data-ttu-id="90c54-207">Se la stringa di connessione contiene proprietà non valide o non supportata, il driver può generare un <xref:System.Data.Odbc.OdbcException> in fase di esecuzione.</span><span class="sxs-lookup"><span data-stu-id="90c54-207">If the connection string contains invalid or unsupported properties, the driver may raise an <xref:System.Data.Odbc.OdbcException> at run time.</span></span>  
+  
+ <span data-ttu-id="90c54-208">Tuttavia, in .NET Framework versione 1.1 e versioni successive, una convalida di base della stringa di connessione viene eseguita non appena si imposta la <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> proprietà.</span><span class="sxs-lookup"><span data-stu-id="90c54-208">However, in the .NET Framework version 1.1 and later versions, some basic validation of the connection string occurs as soon as you set the <xref:System.Data.Odbc.OdbcConnection.ConnectionString%2A> property.</span></span> <span data-ttu-id="90c54-209">In quel momento, il provider di dati consente di verificare che la stringa di connessione soddisfi il "parola chiave = valore;..." formato, ma non verifica se le parole chiave o i valori sono validi.</span><span class="sxs-lookup"><span data-stu-id="90c54-209">At that time, the data provider verifies that the connection string meets the "keyword=value;..." format, but it does not verify whether keywords or values are valid.</span></span> <span data-ttu-id="90c54-210">La verifica successiva viene eseguita dal driver ODBC sottostante quando l'applicazione chiama il <xref:System.Data.Odbc.OdbcConnection.Open%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="90c54-210">The remaining verification is performed by the underlying ODBC driver when the application calls the <xref:System.Data.Odbc.OdbcConnection.Open%2A> method.</span></span>  
+  
+ <span data-ttu-id="90c54-211">Una stringa di connessione ODBC presenta la sintassi seguente:</span><span class="sxs-lookup"><span data-stu-id="90c54-211">An ODBC connection string has the following syntax:</span></span>  
+  
+```  
+connection-string ::= empty-string[;] | attribute[;] | attribute; connection-string  
+empty-string ::=  
+attribute ::= attribute-keyword=attribute-value | DRIVER=[{]attribute-value[}]  
+attribute-keyword ::= DSN | UID | PWD  
+ | driver-defined-attribute-keyword  
+attribute-value ::= character-string  
+driver-defined-attribute-keyword ::= identifier  
+```  
+  
+ <span data-ttu-id="90c54-212">dove `character-string` contiene zero o più caratteri; `identifier` ha uno o più caratteri; `attribute-keyword` non viene fatta distinzione tra maiuscole e minuscole; `attribute-value` può essere fatta distinzione tra maiuscole e minuscole; e il valore della parola chiave DSN non costituiti solo da spazi vuoti.</span><span class="sxs-lookup"><span data-stu-id="90c54-212">where `character-string` has zero or more characters; `identifier` has one or more characters; `attribute-keyword` is not case sensitive; `attribute-value` can be case sensitive; and the value of the DSN keyword does not consist only of blanks.</span></span>  
+  
+ <span data-ttu-id="90c54-213">A causa di connessione stringa e l'inizializzazione file grammatica, parole chiave e i valori di attributo devono essere evitati contenenti caratteri [] {} (),? \* =! @ non racchiusi tra parentesi graffe.</span><span class="sxs-lookup"><span data-stu-id="90c54-213">Because of connection string and initialization file grammar, keywords and attribute values should be avoided that contain the characters []{}(),;?\*=!@ not enclosed with braces.</span></span> <span data-ttu-id="90c54-214">Il valore della parola chiave DSN non può essere costituito solo da spazi vuoti e non deve contenere spazi vuoti iniziali.</span><span class="sxs-lookup"><span data-stu-id="90c54-214">The value of the DSN keyword cannot consist only of blanks and should not contain leading blanks.</span></span> <span data-ttu-id="90c54-215">A causa di grammatica delle informazioni di sistema, i nomi delle origini dati e le parole chiave non può contenere la barra rovesciata (\\) caratteri.</span><span class="sxs-lookup"><span data-stu-id="90c54-215">Because of the grammar of the system information, keywords and data source names cannot contain the backslash (\\) character.</span></span>  
+  
+ <span data-ttu-id="90c54-216">Le applicazioni non devono aggiungere le parentesi graffe per il valore dell'attributo dopo la parola chiave Driver, a meno che l'attributo contiene un punto e virgola (;), nel qual caso le parentesi graffe sono obbligatorie.</span><span class="sxs-lookup"><span data-stu-id="90c54-216">Applications do not have to add braces around the attribute value after the Driver keyword unless the attribute contains a semicolon (;), in which case the braces are required.</span></span> <span data-ttu-id="90c54-217">Se il valore dell'attributo che il driver riceve include parentesi graffe, il driver non necessario rimuoverli ma dovrebbero far parte della stringa di connessione restituito.</span><span class="sxs-lookup"><span data-stu-id="90c54-217">If the attribute value that the driver receives includes braces, the driver should not remove them but they should be part of the returned connection string.</span></span>  
+  
+ <span data-ttu-id="90c54-218">Connessione o DSN valore stringa racchiusa tra parentesi graffe ({}) che contiene i caratteri [] {} (),? \* =! @ viene passato intatto al driver.</span><span class="sxs-lookup"><span data-stu-id="90c54-218">A DSN or connection string value enclosed with braces ({}) that contains any of the characters []{}(),;?\*=!@ is passed intact to the driver.</span></span> <span data-ttu-id="90c54-219">Tuttavia, quando si utilizzano questi caratteri in una parola chiave, gestione Driver restituisce un errore quando si lavora con i DSN su file, ma passa la stringa di connessione per il driver per le stringhe di connessione normale.</span><span class="sxs-lookup"><span data-stu-id="90c54-219">However, when you use these characters in a keyword, the Driver Manager returns an error when you work with file DSNs, but passes the connection string to the driver for regular connection strings.</span></span> <span data-ttu-id="90c54-220">Evitare di usare parentesi graffe incorporate in un valore della parola chiave.</span><span class="sxs-lookup"><span data-stu-id="90c54-220">Avoid using embedded braces in a keyword value.</span></span>  
+  
+ <span data-ttu-id="90c54-221">La stringa di connessione può includere qualsiasi numero di parole chiave definito dal driver.</span><span class="sxs-lookup"><span data-stu-id="90c54-221">The connection string may include any number of driver-defined keywords.</span></span> <span data-ttu-id="90c54-222">Poiché la parola chiave DRIVER non Usa informazioni dal sistema, il driver deve definire sufficiente parole chiave in modo da potersi connettere a un'origine dati utilizzando solo le informazioni nella stringa di connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-222">Because the DRIVER keyword does not use information from the system, the driver must define enough keywords so that a driver can connect to a data source using only the information in the connection string.</span></span> <span data-ttu-id="90c54-223">Il driver definisce le parole chiave sono necessarie per connettersi all'origine dati.</span><span class="sxs-lookup"><span data-stu-id="90c54-223">The driver defines which keywords are required to connect to the data source.</span></span>  
+  
+ <span data-ttu-id="90c54-224">Se le parole chiave vengono ripetute nella stringa di connessione, non c'è garanzia verrà selezionato il valore.</span><span class="sxs-lookup"><span data-stu-id="90c54-224">If any keywords are repeated in the connection string, there is no guarantee which value will be selected.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-225">Se un driver ODBC supporta le stringhe di connessione di più di 1024 caratteri, è possibile utilizzare un nome di origine dati (DSN) per superare il limite di lunghezza massima.</span><span class="sxs-lookup"><span data-stu-id="90c54-225">If an ODBC driver supports connection strings longer than 1024 characters, you can use a data source name (DSN) to exceed the maximum length limitation.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ConnectionTimeout">
+      <MemberSignature Language="C#" Value="public int ConnectionTimeout { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ConnectionTimeout" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.ConnectionTimeout" />
+      <MemberSignature Language="VB.NET" Value="Public Property ConnectionTimeout As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int ConnectionTimeout { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(15)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-226">Ottiene o imposta il tempo di attesa mentre si tenta di stabilire una connessione, prima di terminare il tentativo e generare un errore.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-226">Gets or sets the time to wait while trying to establish a connection before terminating the attempt and generating an error.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-227">Tempo di attesa in secondi per l'apertura di una connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-227">The time in seconds to wait for a connection to open.</span>
+          </span>
+          <span data-ttu-id="90c54-228">Il valore predefinito è 15 secondi.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-228">The default value is 15 seconds.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-229">A differenza dei provider di dati .NET Framework per SQL Server e OLE DB, il Provider di dati .NET Framework per ODBC non supporta l'impostazione di questa proprietà come valore di stringa di connessione, perché non è una parola chiave di connessione ODBC valida.</span><span class="sxs-lookup"><span data-stu-id="90c54-229">Unlike the .NET Framework data providers for SQL Server and OLE DB, the .NET Framework Data Provider for ODBC does not support setting this property as a connection string value, because it is not a valid ODBC connection keyword.</span></span> <span data-ttu-id="90c54-230">Per specificare un timeout di connessione, impostare il <xref:System.Data.Odbc.OdbcConnection.ConnectionTimeout%2A> proprietà prima di chiamare <xref:System.Data.Odbc.OdbcConnection.Open%2A>.</span><span class="sxs-lookup"><span data-stu-id="90c54-230">To specify a connection time-out, set the <xref:System.Data.Odbc.OdbcConnection.ConnectionTimeout%2A> property before calling <xref:System.Data.Odbc.OdbcConnection.Open%2A>.</span></span> <span data-ttu-id="90c54-231">Ciò equivale all'impostazione ODBC `SQLSetConnectAttr` attributo SQL_ATTR_LOGIN_TIMOUT.</span><span class="sxs-lookup"><span data-stu-id="90c54-231">This is equivalent to setting the ODBC `SQLSetConnectAttr` SQL_ATTR_LOGIN_TIMOUT attribute.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="90c54-232">Il valore impostato è minore di 0.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-232">The value set is less than 0.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.Odbc.OdbcCommand CreateCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.Odbc.OdbcCommand CreateCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.CreateCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function CreateCommand () As OdbcCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::Odbc::OdbcCommand ^ CreateCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-233">Crea e restituisce un oggetto <see cref="T:System.Data.Odbc.OdbcCommand" /> associato alla classe <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-233">Creates and returns an <see cref="T:System.Data.Odbc.OdbcCommand" /> object associated with the <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-234">Oggetto <see cref="T:System.Data.Odbc.OdbcCommand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-234">An <see cref="T:System.Data.Odbc.OdbcCommand" /> object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateDbCommand">
+      <MemberSignature Language="C#" Value="protected override System.Data.Common.DbCommand CreateDbCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Data.Common.DbCommand CreateDbCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.CreateDbCommand" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateDbCommand () As DbCommand" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Data::Common::DbCommand ^ CreateDbCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Common.DbCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Database">
+      <MemberSignature Language="C#" Value="public override string Database { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Database" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.Database" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Database As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Database { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-235">Ottiene il nome del database corrente o del database da usare dopo l'apertura della connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-235">Gets the name of the current database or the database to be used after a connection is opened.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-236">Nome del database corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-236">The name of the current database.</span>
+          </span>
+          <span data-ttu-id="90c54-237">Il valore predefinito è una stringa vuota ("") finché non si apre la connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-237">The default value is an empty string ("") until the connection is opened.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-238">Inizialmente, il <xref:System.Data.Odbc.OdbcConnection.Database%2A> proprietà è impostata nella stringa di connessione.</span><span class="sxs-lookup"><span data-stu-id="90c54-238">At first, the <xref:System.Data.Odbc.OdbcConnection.Database%2A> property is set in the connection string.</span></span> <span data-ttu-id="90c54-239">Il <xref:System.Data.Odbc.OdbcConnection.Database%2A> proprietà può essere aggiornata tramite il <xref:System.Data.Odbc.OdbcConnection.ChangeDatabase%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="90c54-239">The <xref:System.Data.Odbc.OdbcConnection.Database%2A> property can be updated by using the <xref:System.Data.Odbc.OdbcConnection.ChangeDatabase%2A> method.</span></span> <span data-ttu-id="90c54-240">Se si modifica il database corrente utilizzando un'istruzione SQL o <xref:System.Data.Odbc.OdbcConnection.ChangeDatabase%2A> (metodo), viene inviato un messaggio informativo e quindi la proprietà viene aggiornata.</span><span class="sxs-lookup"><span data-stu-id="90c54-240">If you change the current database using an SQL statement or the <xref:System.Data.Odbc.OdbcConnection.ChangeDatabase%2A> method, an informational message is sent and then the property is updated.</span></span>  
+  
+ <span data-ttu-id="90c54-241">Il recupero di <xref:System.Data.Odbc.OdbcConnection.Database%2A> proprietà è equivalente alla chiamata alla funzione ODBC `SQLGetInfo` con il `Attribute` parametro impostato su SQL_ATTR_CURRENT_CATALOG.</span><span class="sxs-lookup"><span data-stu-id="90c54-241">Retrieving the <xref:System.Data.Odbc.OdbcConnection.Database%2A> property is equivalent to calling the ODBC function `SQLGetInfo` with the `Attribute` parameter set to SQL_ATTR_CURRENT_CATALOG.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-242">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection> e modifica il database corrente.</span><span class="sxs-lookup"><span data-stu-id="90c54-242">The following example creates an <xref:System.Data.Odbc.OdbcConnection> and changes the current database.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.Database#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Database/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.Database#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.Database/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataSource">
+      <MemberSignature Language="C#" Value="public override string DataSource { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string DataSource" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.DataSource" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property DataSource As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ DataSource { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-243">Ottiene il nome server o il nome file dell'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-243">Gets the server name or file name of the data source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-244">Nome server o nome file dell'origine dati.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-244">The server name or file name of the data source.</span>
+          </span>
+          <span data-ttu-id="90c54-245">Il valore predefinito è una stringa vuota ("") finché non si apre la connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-245">The default value is an empty string ("") until the connection is opened.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-246">Il recupero di <xref:System.Data.Odbc.OdbcConnection.DataSource%2A> proprietà è equivalente alla chiamata alla funzione ODBC `SQLGetInfo` con il `InfoType` parametro impostato su SQL_SERVER_NAME.</span><span class="sxs-lookup"><span data-stu-id="90c54-246">Retrieving the <xref:System.Data.Odbc.OdbcConnection.DataSource%2A> property is equivalent to calling the ODBC function `SQLGetInfo` with the `InfoType` parameter set to SQL_SERVER_NAME.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="90c54-247">Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcConnection> e visualizza il nome dell'origine dati back-end.</span><span class="sxs-lookup"><span data-stu-id="90c54-247">The following example creates an <xref:System.Data.Odbc.OdbcConnection> and displays the backend data source name.</span></span>  
+  
+ [!code-csharp[Classic WebData OdbcConnection.DataSource#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.DataSource/CS/source.cs#1)]
+ [!code-vb[Classic WebData OdbcConnection.DataSource#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcConnection.DataSource/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Driver">
+      <MemberSignature Language="C#" Value="public string Driver { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Driver" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.Driver" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Driver As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Driver { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-248">Ottiene il nome del driver ODBC specificato per la connessione corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-248">Gets the name of the ODBC driver specified for the current connection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-249">Nome del driver ODBC.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-249">The name of the ODBC driver.</span>
+          </span>
+          <span data-ttu-id="90c54-250">Si tratta in genere di un nome DLL, ad esempio Sqlsrv32.dll.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-250">This typically is the DLL name (for example, Sqlsrv32.dll).</span>
+          </span>
+          <span data-ttu-id="90c54-251">Il valore predefinito è una stringa vuota ("") finché non si apre la connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-251">The default value is an empty string ("") until the connection is opened.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-252">Il recupero di <xref:System.Data.Odbc.OdbcConnection.Driver%2A> proprietà è equivalente alla chiamata alla funzione ODBC `SQLGetInfo` con il `InfoType` parametro impostato su SQL_DRIVER_NAME.</span><span class="sxs-lookup"><span data-stu-id="90c54-252">Retrieving the <xref:System.Data.Odbc.OdbcConnection.Driver%2A> property is equivalent to calling the ODBC function `SQLGetInfo` with the `InfoType` parameter set to SQL_DRIVER_NAME.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnlistDistributedTransaction">
+      <MemberSignature Language="C#" Value="public void EnlistDistributedTransaction (System.EnterpriseServices.ITransaction transaction);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void EnlistDistributedTransaction(class System.EnterpriseServices.ITransaction transaction) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction(System.EnterpriseServices.ITransaction)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EnlistDistributedTransaction (transaction As ITransaction)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnlistDistributedTransaction(System::EnterpriseServices::ITransaction ^ transaction);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="transaction" Type="System.EnterpriseServices.ITransaction" />
+      </Parameters>
+      <Docs>
+        <param name="transaction">
+          <span data-ttu-id="90c54-253">Riferimento a un oggetto <see cref="T:System.EnterpriseServices.ITransaction" /> esistente in cui eseguire l'integrazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-253">A reference to an existing <see cref="T:System.EnterpriseServices.ITransaction" /> in which to enlist.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-254">Permette l'integrazione nella transazione specificata come transazione distribuita.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-254">Enlists in the specified transaction as a distributed transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-255">Novità in ADO.NET 2.0 è il supporto per l'utilizzo di <xref:System.Data.Common.DbConnection.EnlistTransaction%2A> metodo di integrazione in una transazione distribuita.</span><span class="sxs-lookup"><span data-stu-id="90c54-255">New in ADO.NET 2.0 is support for using the <xref:System.Data.Common.DbConnection.EnlistTransaction%2A> method to enlist in a distributed transaction.</span></span> <span data-ttu-id="90c54-256">Poiché inserisce una connessione in un <xref:System.Transactions.Transaction> istanza, **EnlistTransaction** consente di sfruttare le funzionalità disponibili nel <xref:System.Transactions> dello spazio dei nomi per la gestione transazioni distribuite, rendendola preferibile ** EnlistDistributedTransaction** a questo scopo.</span><span class="sxs-lookup"><span data-stu-id="90c54-256">Because it enlists a connection in a <xref:System.Transactions.Transaction> instance, **EnlistTransaction** takes advantage of functionality available in the <xref:System.Transactions> namespace for managing distributed transactions, making it preferable to **EnlistDistributedTransaction** for this purpose.</span></span> <span data-ttu-id="90c54-257">Per ulteriori informazioni, vedere [transazioni distribuite](~/docs/framework/data/adonet/distributed-transactions.md).</span><span class="sxs-lookup"><span data-stu-id="90c54-257">For more information, see [Distributed Transactions](~/docs/framework/data/adonet/distributed-transactions.md).</span></span>  
+  
+ <span data-ttu-id="90c54-258">È possibile continuare a eseguire l'inserimento di una transazione distribuita esistente usando il <xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction*> metodo se l'inserimento automatico è disabilitato.</span><span class="sxs-lookup"><span data-stu-id="90c54-258">You can continue to enlist in an existing distributed transaction using the <xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction*> method if auto-enlistment is disabled.</span></span> <span data-ttu-id="90c54-259">L'integrazione in una transazione distribuita esistente assicura che, se è stato eseguito il commit o il rollback della transazione, le modifiche apportate dal codice all'origine dati sono inoltre eseguito il commit o il rollback.</span><span class="sxs-lookup"><span data-stu-id="90c54-259">Enlisting in an existing distributed transaction makes sure that, if the transaction is committed or rolled back, modifications made by the code at the data source are also committed or rolled back.</span></span> <span data-ttu-id="90c54-260">Per ulteriori informazioni sulle transazioni distribuite, vedere [transazioni distribuite](~/docs/framework/data/adonet/distributed-transactions.md).</span><span class="sxs-lookup"><span data-stu-id="90c54-260">For more information about distributed transactions, see [Distributed Transactions](~/docs/framework/data/adonet/distributed-transactions.md).</span></span>  
+  
+ <span data-ttu-id="90c54-261"><xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction%2A> Restituisce un'eccezione se il <xref:System.Data.Odbc.OdbcConnection> è già avviato una transazione tramite <xref:System.Data.Odbc.OdbcConnection.BeginTransaction*>.</span><span class="sxs-lookup"><span data-stu-id="90c54-261"><xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction%2A> returns an exception if the <xref:System.Data.Odbc.OdbcConnection> has already started a transaction using <xref:System.Data.Odbc.OdbcConnection.BeginTransaction*>.</span></span> <span data-ttu-id="90c54-262">Tuttavia, se la transazione è una transazione locale avviata nell'origine dati (ad esempio eseguendo in modo esplicito l'istruzione BEGIN TRANSACTION tramite un <xref:System.Data.Odbc.OdbcCommand> oggetto), <xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction%2A> esegue il rollback della transazione locale e si integra in esistente transazione distribuita come richiesto.</span><span class="sxs-lookup"><span data-stu-id="90c54-262">However, if the transaction is a local transaction started at the data source (for example, by explicitly executing the BEGIN TRANSACTION statement using an <xref:System.Data.Odbc.OdbcCommand> object), <xref:System.Data.Odbc.OdbcConnection.EnlistDistributedTransaction%2A> rolls back the local transaction and enlists in the existing distributed transaction as requested.</span></span> <span data-ttu-id="90c54-263">Non verrà notificato che è stato eseguito il rollback della transazione locale e responsabile della gestione delle transazioni locali non avviate tramite <xref:System.Data.Odbc.OdbcConnection.BeginTransaction*>.</span><span class="sxs-lookup"><span data-stu-id="90c54-263">You will not receive notice that the local transaction was rolled back, and are responsible for managing any local transactions not started using <xref:System.Data.Odbc.OdbcConnection.BeginTransaction*>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EnlistTransaction">
+      <MemberSignature Language="C#" Value="public override void EnlistTransaction (System.Transactions.Transaction transaction);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void EnlistTransaction(class System.Transactions.Transaction transaction) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.EnlistTransaction(System.Transactions.Transaction)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void EnlistTransaction(System::Transactions::Transaction ^ transaction);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="transaction" Type="System.Transactions.Transaction" />
+      </Parameters>
+      <Docs>
+        <param name="transaction">
+          <span data-ttu-id="90c54-264">Riferimento a un oggetto <see cref="T:System.Transactions.Transaction" /> esistente in cui eseguire l'integrazione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-264">A reference to an existing <see cref="T:System.Transactions.Transaction" /> in which to enlist.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-265">Permette l'integrazione nella transazione specificata come transazione distribuita.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-265">Enlists in the specified transaction as a distributed transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-266">Novità in ADO.NET 2.0 è il supporto per l'utilizzo di <xref:System.Data.Common.DbConnection.EnlistTransaction%2A> metodo di integrazione in una transazione distribuita.</span><span class="sxs-lookup"><span data-stu-id="90c54-266">New in ADO.NET 2.0 is support for using the <xref:System.Data.Common.DbConnection.EnlistTransaction%2A> method to enlist in a distributed transaction.</span></span> <span data-ttu-id="90c54-267">Poiché inserisce una connessione in un <xref:System.Transactions.Transaction> istanza, **EnlistTransaction** consente di sfruttare le funzionalità disponibili nel <xref:System.Transactions> dello spazio dei nomi per la gestione transazioni distribuite, rendendola preferibile ** EnlistDistributedTransaction**, che utilizza un **System.EnterpriseServices.ITransaction** oggetto.</span><span class="sxs-lookup"><span data-stu-id="90c54-267">Because it enlists a connection in a <xref:System.Transactions.Transaction> instance, **EnlistTransaction** takes advantage of functionality available in the <xref:System.Transactions> namespace for managing distributed transactions, making it preferable to **EnlistDistributedTransaction**, which uses a **System.EnterpriseServices.ITransaction** object.</span></span> <span data-ttu-id="90c54-268">Include inoltre una semantica leggermente diversa: quando una connessione in modo esplicito è integrata in una transazione, non può essere rimosso o integrata in un'altra transazione fino al completamento della prima transazione.</span><span class="sxs-lookup"><span data-stu-id="90c54-268">It also has slightly different semantics: once a connection is explicitly enlisted on a transaction, it cannot be unenlisted or enlisted in another transaction until the first transaction finishes.</span></span> <span data-ttu-id="90c54-269">Per ulteriori informazioni sulle transazioni distribuite, vedere [transazioni distribuite](~/docs/framework/data/adonet/distributed-transactions.md).</span><span class="sxs-lookup"><span data-stu-id="90c54-269">For more information about distributed transactions, see [Distributed Transactions](~/docs/framework/data/adonet/distributed-transactions.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetSchema">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-270">Restituisce informazioni sullo schema per l'origine dati di questo oggetto <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-270">Returns schema information for the data source of this <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetSchema">
+      <MemberSignature Language="C#" Value="public override System.Data.DataTable GetSchema ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Data.DataTable GetSchema() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.GetSchema" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetSchema () As DataTable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Data::DataTable ^ GetSchema();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DataTable</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-271">Restituisce informazioni sullo schema per l'origine dati di questo oggetto <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-271">Returns schema information for the data source of this <see cref="T:System.Data.Odbc.OdbcConnection" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-272">Oggetto <see cref="T:System.Data.DataTable" /> che contiene informazioni sullo schema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-272">A <see cref="T:System.Data.DataTable" /> that contains schema information.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSchema">
+      <MemberSignature Language="C#" Value="public override System.Data.DataTable GetSchema (string collectionName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Data.DataTable GetSchema(string collectionName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.GetSchema(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetSchema (collectionName As String) As DataTable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Data::DataTable ^ GetSchema(System::String ^ collectionName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DataTable</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="collectionName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="collectionName">
+          <span data-ttu-id="90c54-273">Specifica il nome dello schema da restituire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-273">Specifies the name of the schema to return.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-274">Restituisce le informazioni di schema per l'origine dati dell'oggetto <see cref="T:System.Data.Odbc.OdbcConnection" /> utilizzando il nome specificato per il nome dello schema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-274">Returns schema information for the data source of this <see cref="T:System.Data.Odbc.OdbcConnection" /> using the specified name for the schema name.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-275">Oggetto <see cref="T:System.Data.DataTable" /> che contiene informazioni sullo schema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-275">A <see cref="T:System.Data.DataTable" /> that contains schema information.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-276">Quando `collectionName` è null, il <xref:System.Data.DataTable> contiene informazioni su tutti i metadati disponibili e le eventuali restrizioni.</span><span class="sxs-lookup"><span data-stu-id="90c54-276">When `collectionName` is null, the <xref:System.Data.DataTable> contains information about all available metadata and any restrictions.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-277">Tutte le restrizioni che si applicano al `SQLStatistics` metodo si applicano anche al `ODBCConnection.GetSchema("indexes")` insieme.</span><span class="sxs-lookup"><span data-stu-id="90c54-277">All restrictions that apply to the `SQLStatistics` method also apply to the `ODBCConnection.GetSchema("indexes")` collection.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetSchema">
+      <MemberSignature Language="C#" Value="public override System.Data.DataTable GetSchema (string collectionName, string[] restrictionValues);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Data.DataTable GetSchema(string collectionName, string[] restrictionValues) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.GetSchema(System.String,System.String[])" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetSchema (collectionName As String, restrictionValues As String()) As DataTable" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Data::DataTable ^ GetSchema(System::String ^ collectionName, cli::array &lt;System::String ^&gt; ^ restrictionValues);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.DataTable</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="collectionName" Type="System.String" />
+        <Parameter Name="restrictionValues" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="collectionName">
+          <span data-ttu-id="90c54-278">Specifica il nome dello schema da restituire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-278">Specifies the name of the schema to return.</span>
+          </span>
+        </param>
+        <param name="restrictionValues">
+          <span data-ttu-id="90c54-279">Specifica un insieme di valori di restrizione per lo schema richiesto.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-279">Specifies a set of restriction values for the requested schema.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="90c54-280">Restituisce le informazioni di schema per l'origine dati dell'oggetto <see cref="T:System.Data.Odbc.OdbcConnection" /> utilizzando la stringa specificata per il nome dello schema e la matrice di stringhe specificata per i valori di restrizione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-280">Returns schema information for the data source of this <see cref="T:System.Data.Odbc.OdbcConnection" /> using the specified string for the schema name and the specified string array for the restriction values.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-281">Oggetto <see cref="T:System.Data.DataTable" /> che contiene informazioni sullo schema.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-281">A <see cref="T:System.Data.DataTable" /> that contains schema information.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-282">Quando `collectionName` è specificato come null, il <xref:System.Data.DataTable> contiene informazioni su tutti i metadati che sono disponibili e le relative restrizioni.</span><span class="sxs-lookup"><span data-stu-id="90c54-282">When `collectionName` is specified as null, the <xref:System.Data.DataTable> contains information about all the metadata that is available, and its restrictions.</span></span>  
+  
+ <span data-ttu-id="90c54-283">Il `restrictionValues` parametro può fornire *n* profondità dei valori specificati dall'insieme di restrizioni per una raccolta specifica.</span><span class="sxs-lookup"><span data-stu-id="90c54-283">The `restrictionValues` parameter can supply *n* depth of values which are specified by the restrictions collection for a specific collection.</span></span> <span data-ttu-id="90c54-284">Per impostare i valori per una determinata restrizione e non impostare i valori di altre restrizioni, è necessario impostare le restrizioni precedenti su null e quindi immettere il valore appropriato per la restrizione che si desidera specificare un valore per.</span><span class="sxs-lookup"><span data-stu-id="90c54-284">In order to set values on a given restriction, and not set the values of other restrictions, you must set the preceding restrictions to null and then put the appropriate value in for the restriction that you would like to specify a value for.</span></span>  
+  
+ <span data-ttu-id="90c54-285">Un esempio di questa è la raccolta "Tabelle".</span><span class="sxs-lookup"><span data-stu-id="90c54-285">An example of this is the "Tables" collection.</span></span> <span data-ttu-id="90c54-286">Se la raccolta "Tables" presenta tre restrizioni (database, proprietario e nome di tabella) e si desidera vengano restituite solo le tabelle associate al proprietario "Carlo", quindi è necessario passare almeno i seguenti valori: null, "Carlo".</span><span class="sxs-lookup"><span data-stu-id="90c54-286">If the "Tables" collection has three restrictions (database, owner, and table name), and you want to get back only the tables associated with the owner "Carl," then you would need to pass in at least the following values: null, "Carl".</span></span> <span data-ttu-id="90c54-287">Se un valore di restrizione non viene passato, i valori predefiniti vengono utilizzati per la restrizione.</span><span class="sxs-lookup"><span data-stu-id="90c54-287">If a restriction value is not passed in, the default values are used for that restriction.</span></span> <span data-ttu-id="90c54-288">Questo è lo stesso mapping passare null, che è diverso dal passaggio di una stringa vuota per il valore del parametro.</span><span class="sxs-lookup"><span data-stu-id="90c54-288">This is the same mapping as passing in null, which is different from passing in an empty string for the parameter value.</span></span> <span data-ttu-id="90c54-289">In questo caso, la stringa vuota ("") viene considerato come valore per il parametro specificato.</span><span class="sxs-lookup"><span data-stu-id="90c54-289">In that case, the empty string ("") is considered to be the value for the specified parameter.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-290">Tutte le restrizioni che si applicano al metodo SQLStatistics applicherà alla raccolta valide.</span><span class="sxs-lookup"><span data-stu-id="90c54-290">All restrictions that apply to SQLStatistics method will apply to the ODBCConnection.GetSchema("indexes") collection.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InfoMessage">
+      <MemberSignature Language="C#" Value="public event System.Data.Odbc.OdbcInfoMessageEventHandler InfoMessage;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Data.Odbc.OdbcInfoMessageEventHandler InfoMessage" />
+      <MemberSignature Language="DocId" Value="E:System.Data.Odbc.OdbcConnection.InfoMessage" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event InfoMessage As OdbcInfoMessageEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::Data::Odbc::OdbcInfoMessageEventHandler ^ InfoMessage;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Odbc.OdbcInfoMessageEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-291">Viene generato quando il driver ODBC invia un avviso o un messaggio informativo.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-291">Occurs when the ODBC driver sends a warning or an informational message.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-292">I client che desidera elaborare avvisi o messaggi informativi inviati dal server è necessario creare un <xref:System.Data.Odbc.OdbcInfoMessageEventHandler> delegato per l'ascolto su questo evento.</span><span class="sxs-lookup"><span data-stu-id="90c54-292">Clients that want to process warnings or informational messages sent by the server should create an <xref:System.Data.Odbc.OdbcInfoMessageEventHandler> delegate to listen to this event.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Open">
+      <MemberSignature Language="C#" Value="public override void Open ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Open() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.Open" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Open ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Open();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-293">Apre una connessione a un'origine dati con le impostazioni delle proprietà specificate dalla proprietà <see cref="P:System.Data.Odbc.OdbcConnection.ConnectionString" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-293">Opens a connection to a data source with the property settings specified by the <see cref="P:System.Data.Odbc.OdbcConnection.ConnectionString" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-294">Il <xref:System.Data.Odbc.OdbcConnection> Disegna una connessione aperta dal pool di connessioni, se disponibile.</span><span class="sxs-lookup"><span data-stu-id="90c54-294">The <xref:System.Data.Odbc.OdbcConnection> draws an open connection from the connection pool if one is available.</span></span> <span data-ttu-id="90c54-295">In caso contrario, stabilisce una nuova connessione all'origine dati.</span><span class="sxs-lookup"><span data-stu-id="90c54-295">Otherwise, it establishes a new connection to the data source.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-296">Se il <xref:System.Data.Odbc.OdbcConnection> esce dall'ambito, la connessione rappresenta non viene chiusa automaticamente.</span><span class="sxs-lookup"><span data-stu-id="90c54-296">If the <xref:System.Data.Odbc.OdbcConnection> goes out of scope, the connection it represents does not close automatically.</span></span> <span data-ttu-id="90c54-297">Pertanto, è necessario chiudere esplicitamente la connessione, chiamando <xref:System.Data.Odbc.OdbcConnection.Close%2A>, **Dispose**, o inserendo la connessione all'interno di un `Using` istruzione.</span><span class="sxs-lookup"><span data-stu-id="90c54-297">Therefore, you must explicitly close the connection by calling <xref:System.Data.Odbc.OdbcConnection.Close%2A>, **Dispose**, or by placing the connection within a `Using` statement.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="90c54-298">La funzionalità di questo metodo non è supportata nella classe base e deve invece essere implementata in una classe derivata.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-298">The functionality of this method is unsupported in the base class and must be implemented in a derived class instead.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseObjectPool">
+      <MemberSignature Language="C#" Value="public static void ReleaseObjectPool ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void ReleaseObjectPool() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.ReleaseObjectPool" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub ReleaseObjectPool ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void ReleaseObjectPool();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-299">Indica che è possibile rilasciare il gestore dell'ambiente di Gestione driver ODBC quando viene rilasciata l'ultima connessione sottostante.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-299">Indicates that the ODBC Driver Manager environment handle can be released when the last underlying connection is released.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-300">`ReleaseObjectPool` può essere chiamato per rilasciare l'handle di ambiente ODBC.</span><span class="sxs-lookup"><span data-stu-id="90c54-300">`ReleaseObjectPool` can be called to release the ODBC environment handle.</span></span> <span data-ttu-id="90c54-301">Si potrebbe essere necessario chiamare questo metodo se, ad esempio, l'oggetto connessione non essere utilizzato nuovamente.</span><span class="sxs-lookup"><span data-stu-id="90c54-301">You might want to call this method if, for example, the connection object will not be used again.</span></span> <span data-ttu-id="90c54-302">Quando vengono chiuse tutte le connessioni nell'ambiente, l'ambiente può essere eliminato.</span><span class="sxs-lookup"><span data-stu-id="90c54-302">When all connections in the environment are closed, the environment can be disposed.</span></span> <span data-ttu-id="90c54-303">Si noti che sola chiamata del metodo non consente di rilasciare le connessioni attive esistenti nell'ambiente.</span><span class="sxs-lookup"><span data-stu-id="90c54-303">Note that calling the method alone does not actually release the active connections that exist in the environment.</span></span>  
+  
+ <span data-ttu-id="90c54-304">Di seguito deve verificarsi prima che l'ambiente viene infine eliminato:</span><span class="sxs-lookup"><span data-stu-id="90c54-304">The following must occur before the environment is finally disposed:</span></span>  
+  
+1.  <span data-ttu-id="90c54-305">Chiamare <xref:System.Data.Odbc.OdbcConnection.Close%2A> per rilasciare il <xref:System.Data.Odbc.OdbcConnection> oggetto dall'ambiente.</span><span class="sxs-lookup"><span data-stu-id="90c54-305">Call <xref:System.Data.Odbc.OdbcConnection.Close%2A> to release the <xref:System.Data.Odbc.OdbcConnection> object from the environment.</span></span>  
+  
+2.  <span data-ttu-id="90c54-306">Consente di ogni oggetto connessione timeout.</span><span class="sxs-lookup"><span data-stu-id="90c54-306">Allow each connection object to time out.</span></span>  
+  
+3.  <span data-ttu-id="90c54-307">Chiamare il metodo <xref:System.Data.Odbc.OdbcConnection.ReleaseObjectPool%2A>.</span><span class="sxs-lookup"><span data-stu-id="90c54-307">Call <xref:System.Data.Odbc.OdbcConnection.ReleaseObjectPool%2A>.</span></span>  
+  
+4.  <span data-ttu-id="90c54-308">Richiamare l'operazione di garbage collection.</span><span class="sxs-lookup"><span data-stu-id="90c54-308">Invoke garbage collection.</span></span>  
+  
+ <span data-ttu-id="90c54-309">Viceversa, se si chiama <xref:System.Data.Odbc.OdbcConnection.Close%2A> in tutte le connessioni attive e richiamare l'operazione di garbage collection, ma non viene chiamato <xref:System.Data.Odbc.OdbcConnection.ReleaseObjectPool%2A>, le risorse riservate per l'ambiente rimangono disponibili.</span><span class="sxs-lookup"><span data-stu-id="90c54-309">Conversely, if you call <xref:System.Data.Odbc.OdbcConnection.Close%2A> on all active connections, and invoke garbage collection, but do not call <xref:System.Data.Odbc.OdbcConnection.ReleaseObjectPool%2A>, the resources reserved for the environment remain available.</span></span>  
+  
+ <span data-ttu-id="90c54-310">Dopo il rilascio di un handle di ambiente, una richiesta per un nuovo <xref:System.Data.Odbc.OdbcConnection> crea un nuovo ambiente.</span><span class="sxs-lookup"><span data-stu-id="90c54-310">After an environment handle is released, a request for a new <xref:System.Data.Odbc.OdbcConnection> creates a new environment.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ServerVersion">
+      <MemberSignature Language="C#" Value="public override string ServerVersion { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string ServerVersion" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.ServerVersion" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property ServerVersion As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ServerVersion { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-311">Ottiene una stringa che contiene la versione del server a cui è connesso il client.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-311">Gets a string that contains the version of the server to which the client is connected.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-312">Versione del server connesso.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-312">The version of the connected server.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-313">Se <xref:System.Data.Odbc.OdbcConnection.ServerVersion%2A> non è supportata dal driver ODBC sottostante, una stringa vuota ("") viene restituito.</span><span class="sxs-lookup"><span data-stu-id="90c54-313">If <xref:System.Data.Odbc.OdbcConnection.ServerVersion%2A> is not supported by the underlying ODBC driver, an empty string ("") is returned.</span></span>  
+  
+ <span data-ttu-id="90c54-314">Il <xref:System.Data.Odbc.OdbcConnection.ServerVersion%2A> proprietà assume il formato '*# #. # #. # # #*,' in cui le prime due cifre indicano la versione principale, le due cifre successive sono la versione secondaria e le ultime quattro cifre rappresentano la versione di rilascio.</span><span class="sxs-lookup"><span data-stu-id="90c54-314">The <xref:System.Data.Odbc.OdbcConnection.ServerVersion%2A> property takes the form '*##.##.####*,' where the first two digits are the major version, the next two digits are the minor version, and the last four digits are the release version.</span></span> <span data-ttu-id="90c54-315">Il driver deve eseguire il rendering la versione del prodotto in questo modulo tuttavia anche possibile aggiungere la versione specifica del prodotto sotto forma di stringa (ad esempio, "04.01.0000 Rdb 4.1").</span><span class="sxs-lookup"><span data-stu-id="90c54-315">The driver must render the product version in this form but can also append the product-specific version as a string (for example, "04.01.0000 Rdb 4.1").</span></span> <span data-ttu-id="90c54-316">Questa stringa Usa il formato '*Major*' dove *principali* e *secondaria* sono esattamente due cifre e *compilare* è esattamente quattro cifre.</span><span class="sxs-lookup"><span data-stu-id="90c54-316">This string takes the form '*major.minor.build*' where *major* and *minor* are exactly two digits and *build* is exactly four digits.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="90c54-317">La connessione è chiusa.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-317">The connection is closed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="State">
+      <MemberSignature Language="C#" Value="public override System.Data.ConnectionState State { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.ConnectionState State" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcConnection.State" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property State As ConnectionState" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Data::ConnectionState State { System::Data::ConnectionState get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.ConnectionState</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-318">Ottiene lo stato corrente della connessione.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-318">Gets the current state of the connection.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="90c54-319">Combinazione bit per bit dei valori di <see cref="T:System.Data.ConnectionState" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-319">A bitwise combination of the <see cref="T:System.Data.ConnectionState" /> values.</span>
+          </span>
+          <span data-ttu-id="90c54-320">Il valore predefinito è <see langword="Closed" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-320">The default is <see langword="Closed" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-321">Di seguito è consentite le modifiche dello stato:</span><span class="sxs-lookup"><span data-stu-id="90c54-321">The following are allowed state changes:</span></span>  
+  
+-   <span data-ttu-id="90c54-322">Da `Closed` a `Open`, usando il <xref:System.Data.Odbc.OdbcConnection.Open%2A> metodo.</span><span class="sxs-lookup"><span data-stu-id="90c54-322">From `Closed` to `Open`, using the <xref:System.Data.Odbc.OdbcConnection.Open%2A> method.</span></span>  
+  
+-   <span data-ttu-id="90c54-323">Da `Open` a `Closed`, utilizzando il <xref:System.Data.Odbc.OdbcConnection.Close%2A> o **Dispose** metodo.</span><span class="sxs-lookup"><span data-stu-id="90c54-323">From `Open` to `Closed`, using either the <xref:System.Data.Odbc.OdbcConnection.Close%2A> or **Dispose** method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="90c54-324">La chiamata di <xref:System.Data.Odbc.OdbcConnection.State%2A> proprietà su una connessione aperta aumenta il sovraccarico dell'applicazione, poiché ogni chiamata di questo tipo causa una chiamata SQL_ATTR_CONNECTION_DEAD al driver ODBC sottostante per determinare se la connessione è ancora valida.</span><span class="sxs-lookup"><span data-stu-id="90c54-324">Calling the <xref:System.Data.Odbc.OdbcConnection.State%2A> property on an open connection increases application overhead because each such call causes a SQL_ATTR_CONNECTION_DEAD call to the underlying ODBC driver to determine whether the connection is still valid.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.ICloneable.Clone">
+      <MemberSignature Language="C#" Value="object ICloneable.Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance object System.ICloneable.Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcConnection.System#ICloneable#Clone" />
+      <MemberSignature Language="VB.NET" Value="Function Clone () As Object Implements ICloneable.Clone" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Object ^ System.ICloneable.Clone() = ICloneable::Clone;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.ICloneable.Clone</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.Odbc</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="90c54-325">Per una descrizione di questo membro, vedere <see cref="M:System.ICloneable.Clone" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-325">For a description of this member, see <see cref="M:System.ICloneable.Clone" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="90c54-326">Nuovo oggetto <see cref="T:System.Object" /> che consiste in una copia dell'istanza corrente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="90c54-326">A new <see cref="T:System.Object" /> that is a copy of this instance.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="90c54-327">Questo membro è un’implementazione esplicita di un membro di interfaccia.</span><span class="sxs-lookup"><span data-stu-id="90c54-327">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="90c54-328">Può essere utilizzato solo quando si esegue il cast dell'istanza <xref:System.Data.Odbc.OdbcConnection> a un'interfaccia <xref:System.ICloneable>.</span><span class="sxs-lookup"><span data-stu-id="90c54-328">It can be used only when the <xref:System.Data.Odbc.OdbcConnection> instance is cast to an <xref:System.ICloneable> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
