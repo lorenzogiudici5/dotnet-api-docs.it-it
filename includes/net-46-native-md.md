@@ -1,0 +1,1 @@
+<span data-ttu-id="13574-101">Disponibile a partire dalla versione 4.6, solo in .NET Native</span><span class="sxs-lookup"><span data-stu-id="13574-101">Available since 4.6, .NET Native only</span></span>

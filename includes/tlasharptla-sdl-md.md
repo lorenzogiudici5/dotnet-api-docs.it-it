@@ -1,0 +1,1 @@
+<span data-ttu-id="40c1f-101">Microsoft Security Development Lifecycle (SDL)</span><span class="sxs-lookup"><span data-stu-id="40c1f-101">Microsoft Security Development Lifecycle (SDL)</span></span>

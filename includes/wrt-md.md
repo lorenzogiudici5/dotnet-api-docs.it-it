@@ -1,0 +1,1 @@
+<span data-ttu-id="211df-101">Windows Runtime</span><span class="sxs-lookup"><span data-stu-id="211df-101">Windows Runtime</span></span>

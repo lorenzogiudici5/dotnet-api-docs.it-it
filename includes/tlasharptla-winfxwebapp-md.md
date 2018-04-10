@@ -1,0 +1,1 @@
+<span data-ttu-id="ea35c-101">applicazione browser XAML (XBAP)</span><span class="sxs-lookup"><span data-stu-id="ea35c-101">XAML browser application (XBAP)</span></span>

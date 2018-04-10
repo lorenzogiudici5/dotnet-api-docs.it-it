@@ -1,0 +1,1 @@
+<span data-ttu-id="0cdfb-101">Blocco note Microsoft</span><span class="sxs-lookup"><span data-stu-id="0cdfb-101">Microsoft Notepad</span></span>

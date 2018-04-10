@@ -1,0 +1,1 @@
+<span data-ttu-id="7985d-101">Multipurpose Internet Mail Extensions (MIME)</span><span class="sxs-lookup"><span data-stu-id="7985d-101">Multipurpose Internet Mail Extensions (MIME)</span></span>

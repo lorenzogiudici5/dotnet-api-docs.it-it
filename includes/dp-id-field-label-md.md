@@ -1,0 +1,1 @@
+<span data-ttu-id="209c9-101">Campo dell'identificatore della proprietà di dipendenza:</span><span class="sxs-lookup"><span data-stu-id="209c9-101">Dependency property identifier field:</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="af010-101">Tagged Image File Format (TIFF)</span><span class="sxs-lookup"><span data-stu-id="af010-101">Tagged Image File Format (TIFF)</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="fedf2-101">GPU (Graphics Processing Unit)</span><span class="sxs-lookup"><span data-stu-id="fedf2-101">graphics processing unit (GPU)</span></span>

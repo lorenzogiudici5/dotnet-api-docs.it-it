@@ -1,0 +1,1 @@
+<span data-ttu-id="b133a-101">fornitore di software indipendente (ISV)</span><span class="sxs-lookup"><span data-stu-id="b133a-101">independent software vendor (ISV)</span></span>

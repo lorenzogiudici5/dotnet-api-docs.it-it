@@ -1,0 +1,1 @@
+<span data-ttu-id="f4ad8-101">Gestione colori immagine (ICM)</span><span class="sxs-lookup"><span data-stu-id="f4ad8-101">Image Color Management (ICM)</span></span>

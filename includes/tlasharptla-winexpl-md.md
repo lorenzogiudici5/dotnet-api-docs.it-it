@@ -1,0 +1,1 @@
+<span data-ttu-id="a5f73-101">Esplora risorse di Microsoft Windows</span><span class="sxs-lookup"><span data-stu-id="a5f73-101">Microsoft Windows Explorer</span></span>

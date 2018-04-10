@@ -1,0 +1,1 @@
+<span data-ttu-id="a7d0a-101">interfaccia utente grafica (GUI)</span><span class="sxs-lookup"><span data-stu-id="a7d0a-101">graphical user interface (GUI)</span></span>

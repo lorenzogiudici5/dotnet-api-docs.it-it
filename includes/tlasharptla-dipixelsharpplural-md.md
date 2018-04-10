@@ -1,0 +1,1 @@
+<span data-ttu-id="0564d-101">unità indipendenti dal dispositivo (1/96 di pollice per unità)</span><span class="sxs-lookup"><span data-stu-id="0564d-101">device-independent units (1/96th inch per unit)</span></span>

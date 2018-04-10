@@ -1,0 +1,1 @@
+<span data-ttu-id="19562-101">World Wide Web Consortium (W3C)</span><span class="sxs-lookup"><span data-stu-id="19562-101">World Wide Web Consortium (W3C)</span></span>

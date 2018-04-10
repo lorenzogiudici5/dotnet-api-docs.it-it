@@ -1,0 +1,1 @@
+<span data-ttu-id="1580a-101">Windows Internet Explorer 7</span><span class="sxs-lookup"><span data-stu-id="1580a-101">Windows Internet Explorer 7</span></span>

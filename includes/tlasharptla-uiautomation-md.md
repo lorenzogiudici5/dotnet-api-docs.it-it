@@ -1,0 +1,1 @@
+<span data-ttu-id="e445b-101">Automazione interfaccia utente Microsoft</span><span class="sxs-lookup"><span data-stu-id="e445b-101">Microsoft UI Automation</span></span>

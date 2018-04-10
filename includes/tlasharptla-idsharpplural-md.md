@@ -1,0 +1,1 @@
+<span data-ttu-id="88672-101">identificatori (ID)</span><span class="sxs-lookup"><span data-stu-id="88672-101">identifiers (IDs)</span></span>

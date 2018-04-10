@@ -1,0 +1,1 @@
+<span data-ttu-id="fac10-101">documento XPS (XML Paper Specification)</span><span class="sxs-lookup"><span data-stu-id="fac10-101">XML Paper Specification (XPS) document</span></span>

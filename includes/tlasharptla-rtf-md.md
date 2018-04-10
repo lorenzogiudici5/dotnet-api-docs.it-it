@@ -1,0 +1,1 @@
+<span data-ttu-id="5bc46-101">Rich Text Format (RTF)</span><span class="sxs-lookup"><span data-stu-id="5bc46-101">Rich Text Format (RTF)</span></span>

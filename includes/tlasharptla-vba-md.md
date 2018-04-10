@@ -1,0 +1,1 @@
+<span data-ttu-id="c8830-101">Microsoft Visual Basic, Applications Edition (VBA)</span><span class="sxs-lookup"><span data-stu-id="c8830-101">Microsoft Visual Basic for Applications (VBA)</span></span>
