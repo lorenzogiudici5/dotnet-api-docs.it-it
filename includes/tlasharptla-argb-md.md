@@ -1,0 +1,1 @@
+<span data-ttu-id="b3aca-101">ARGB</span><span class="sxs-lookup"><span data-stu-id="b3aca-101">ARGB</span></span>

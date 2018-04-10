@@ -1,0 +1,1 @@
+<span data-ttu-id="be17a-101">XAML binario (BAML)</span><span class="sxs-lookup"><span data-stu-id="be17a-101">binary XAML (BAML)</span></span>

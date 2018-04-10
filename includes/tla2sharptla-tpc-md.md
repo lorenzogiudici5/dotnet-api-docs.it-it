@@ -1,0 +1,1 @@
+<span data-ttu-id="5f787-101">Tablet PC</span><span class="sxs-lookup"><span data-stu-id="5f787-101">Tablet PC</span></span>

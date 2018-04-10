@@ -1,0 +1,1 @@
+<span data-ttu-id="0c70e-101">interfaccia a documenti multipli</span><span class="sxs-lookup"><span data-stu-id="0c70e-101">multiple-document interface (MDI)</span></span>
