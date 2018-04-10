@@ -1,0 +1,3 @@
+
+> [!IMPORTANT] 
+> Anziché chiamare le **String. Format** metodo o utilizzando [stringhe di formato composite](~/docs/standard/base-types/composite-formatting.md), è possibile utilizzare *interpolati stringhe* se la lingua supportarle. Una stringa interpolata è una stringa che contiene *interpolati espressioni*. Ogni espressione interpolata che viene risolto con il valore dell'espressione e incluso nella stringa di risultato quando la stringa è assegnata. Per altre informazioni, vedere [interpolazione (riferimenti per c#) di stringa](~/docs/csharp/language-reference/tokens/interpolated.md) e [stringhe interpolate (riferimenti di Visual Basic)](~/docs/visual-basic/programming-guide/language-features/strings/interpolated-strings.md). 

@@ -1,0 +1,11 @@
+### <a name="default-signedxml-and-signedxms-algorithms-changed-to-sha256"></a>Algoritmi predefiniti SignedXML e SignedXMS modificati in SHA256
+
+|   |   |
+|---|---|
+|Dettagli|Nel 4.7 di .NET Framework e versioni precedenti, SignedXML e SignedCMS predefinita SHA1 per alcune operazioni. A partire da .NET Framework 4.7.1, SHA256 è abilitata per impostazione predefinita per queste operazioni. Questa modifica è necessaria perché SHA1 non è più considerato sicuro.|
+|Suggerimento|Esistono due nuovi valori di parametro di contesto al controllo del codice se SHA1 (non protetto) o SHA256 viene utilizzata per impostazione predefinita:<ul><li>Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms</li><li>Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms</li></ul>Per le applicazioni che destina .NET Framework 4.7.1 e versioni successive, se l'utilizzo di SHA256 non è desiderabili, è possibile ripristinare il valore predefinito SHA1 aggiungendo la seguente configurazione passare per il [runtime](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione del file config app file:<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=true;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=true&quot; /&gt;&#13;&#10;</code></pre>Per le applicazioni destinate a .NET Framework 4.7 e versioni precedenti, è possibile acconsentire esplicitamente questa modifica aggiungendo l'opzione di configurazione seguente per il [runtime](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione del file di configurazione dell'app:<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=false;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=false&quot; /&gt;&#13;&#10;</code></pre>|
+|Ambito|Secondario|
+|Versione|4.7.1|
+|Tipo|Ridestinazione|
+|API interessate|<ul><li><xref:System.Security.Cryptography.Pkcs.CmsSigner?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.SignedXml?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.Reference?displayProperty=nameWithType></li></ul>|
+

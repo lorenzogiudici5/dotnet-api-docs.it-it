@@ -1,1 +1,1 @@
-Per altre informazioni, vedere
+Per ulteriori informazioni, vedere

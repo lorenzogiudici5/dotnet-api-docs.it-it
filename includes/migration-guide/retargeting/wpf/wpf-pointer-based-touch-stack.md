@@ -1,0 +1,10 @@
+### <a name="wpf-pointer-based-touch-stack"></a>Stack WPF basate su puntatore tocco
+
+|   |   |
+|---|---|
+|Dettagli|Questa modifica consente di aggiungere la possibilità di attivare un WM_POINTER facoltativo basate stack tocco/stilo WPF.  Gli sviluppatori che non consentono in modo esplicito questo dovrebbe essere alcuna modifica del comportamento di tocco/stilo WPF. Corrente problemi noti con facoltativo WM_POINTER basato su stack tocco/stilo:<ul><li>Nessun supporto per l'input penna in tempo reale.</li><li>Durante l'input penna e StylusPlugins continueranno a funzionare, essi verranno elaborate nel Thread UI per la quale può causare una riduzione delle prestazioni.</li><li>Modifiche del comportamento a causa di modifiche nella promozione da eventi tocco/stilo agli eventi del mouse</li><li>La modifica potrebbe comportarsi in modo diverso</li><li>Trascinamento della selezione non verranno visualizzati i commenti e suggerimenti appropriati per l'input tocco</li><li>Questa operazione non influenza input con stilo</li><li>Trascinamento della selezione non può essere avviato sugli eventi tocco/stilo</li><li>Questo può potenzialmente bloccare l'applicazione fino a quando non viene rilevato l'input del mouse.</li><li>Gli sviluppatori dovranno quindi avviare l'opzione di trascinamento della selezione dagli eventi del mouse.</li></ul>|
+|Suggerimento|Gli sviluppatori che desiderano abilitare questo stack possono aggiungere/unione quanto segue al file app. config della propria applicazione:<pre><code class="language-xml">&lt;configuration&gt;&#13;&#10;&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Input.Stylus.EnablePointerSupport=true&quot;/&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;&lt;/configuration&gt;&#13;&#10;</code></pre>Se si rimuove questo o impostare il valore su false si spegne questo stack facoltativo. Si noti che lo stack è disponibile solo in Windows Update creatori di 10 e versioni successive.|
+|Ambito|Microsoft Edge|
+|Versione|4.7|
+|Tipo|Ridestinazione|
+

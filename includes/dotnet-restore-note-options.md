@@ -1,0 +1,4 @@
+> [!NOTE]
+> A partire da .NET Core 2.0, non è necessario eseguire [ `dotnet restore` ](~/docs/core/tools/dotnet-restore.md) perché viene eseguita in modo implicito da tutti i comandi, ad esempio `dotnet build` e `dotnet run`, che richiedono un ripristino si verifichi. È comunque un comando valido in alcuni scenari in cui eseguire un'esplicita operazione di ripristino opportuno, ad esempio [compilazioni di integrazione continua in Visual Studio Team Services](/vsts/build-release/apps/aspnet/build-aspnet-core) o in sistemi di compilazione che necessaria per controllare in modo esplicito l'ora in cui il ripristino viene eseguito.
+>
+> Questo comando supporta anche il `dotnet restore` opzioni quando viene passato nel formato lungo (ad esempio, `--source`). Opzioni di formato, a breve, ad esempio `-s`, non sono supportati.

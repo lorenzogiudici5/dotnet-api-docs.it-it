@@ -1,0 +1,1 @@
+La conversione potrebbe usare C di formato di normalizzazione anche se un carattere di input è già a larghezza intera. Ad esempio, la stringa "は゛" (che è già a larghezza intera) è normalizzato secondo "ば". Vedere [di normalizzazione Unicode](http://unicode.org/reports/tr15).
