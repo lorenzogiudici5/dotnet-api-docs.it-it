@@ -1,9 +1,9 @@
-### <a name="webutilityhtmlencode-and-webutilityhtmldecode-round-trip-bmp-correctly"></a>WebUtility.HtmlEncode e BMP round trip WebUtility.HtmlDecode correttamente
+### <a name="webutilityhtmlencode-and-webutilityhtmldecode-round-trip-bmp-correctly"></a>Round trip corretto di WebUtility.HtmlEncode e WebUtility.HtmlDecode per BMP
 
 |   |   |
 |---|---|
-|Dettagli|Per le applicazioni destinate a .NET Framework 4.5, caratteri che non rientrano correttamente il round trip Basic Multilingual Plane (BMP) quando vengono passati al <xref:System.Net.WebUtility.HtmlDecode(System.String)> metodi.|
-|Suggerimento|Questa modifica dovrebbe non hanno alcun effetto sulle applicazioni correnti, ma per ripristinare il comportamento originale, impostare il <code>targetFramework</code> attributo del <code>&lt;httpRuntime&gt;</code> elemento in una stringa diversa da &quot;4.5&quot;. È inoltre possibile impostare gli attributi <code>unicodeEncodingConformance</code> e <code>unicodeDecodingConformance</code> dell'elemento di configurazione <code>&lt;webUtility&gt;</code> per controllare questo comportamento indipendentemente dalla versione di destinazione di .NET Framework.|
+|Dettagli|Per le applicazioni destinate a .NET Framework 4.5, i caratteri al di fuori del piano di base multilinguistico (BMP, Basic Multilingual Plane) eseguono correttamente il round trip quando vengono passati ai metodi <xref:System.Net.WebUtility.HtmlDecode(System.String)>.|
+|Suggerimento|Questa modifica non dovrebbe avere alcun effetto sulle applicazioni correnti, ma per ripristinare il comportamento originale, impostare l'attributo <code>targetFramework</code> dell'elemento <code>&lt;httpRuntime&gt;</code> su una stringa diversa da &quot;4.5&quot;. È inoltre possibile impostare gli attributi <code>unicodeEncodingConformance</code> e <code>unicodeDecodingConformance</code> dell'elemento di configurazione <code>&lt;webUtility&gt;</code> per controllare questo comportamento indipendentemente dalla versione di destinazione di .NET Framework.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Ridestinazione|

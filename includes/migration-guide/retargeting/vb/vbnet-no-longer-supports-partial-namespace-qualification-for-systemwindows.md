@@ -1,4 +1,4 @@
-### <a name="vbnet-no-longer-supports-partial-namespace-qualification-for-systemwindows-apis"></a>Visual Basic.NET non supporta più parziale dello spazio dei nomi qualifica for APIs System.Windows
+### <a name="vbnet-no-longer-supports-partial-namespace-qualification-for-systemwindows-apis"></a>VB.NET non supporta più la qualificazione parziale dello spazio dei nomi per le API System.Windows
 
 |   |   |
 |---|---|

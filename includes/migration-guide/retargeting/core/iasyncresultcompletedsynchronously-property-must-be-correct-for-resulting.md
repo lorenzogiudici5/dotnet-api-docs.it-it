@@ -1,9 +1,9 @@
-### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>Proprietà CompletedSynchronously deve essere corretta per il completamento dell'attività risultante
+### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>La proprietà IAsyncResult.CompletedSynchronously deve essere corretta per garantire il completamento dell'attività risultante
 
 |   |   |
 |---|---|
-|Dettagli|Quando si chiama TaskFactory.FromAsync, l'implementazione del <xref:System.IAsyncResult.CompletedSynchronously> proprietà deve essere corretta per il completamento dell'attività risultante. Ovvero la proprietà deve restituire true unicamente se l'implementazione è stata completata in modo sincrono. Precedentemente, la proprietà non veniva verificata.|
-|Suggerimento|Se <xref:System.IAsyncResult?displayProperty=name> implementazioni correttamente restituiscono true per il <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> proprietà solo quando un'attività è stata completata in modo sincrono, quindi non verrà rispettata Nessuna interruzione. Gli utenti devono esaminare <xref:System.IAsyncResult?displayProperty=name> implementazioni sono proprietari (se presente) per garantire che esaminano correttamente se un'attività in modo sincrono o non è stata completata.|
+|Dettagli|Quando si chiama TaskFactory.FromAsync, l'implementazione della proprietà <xref:System.IAsyncResult.CompletedSynchronously> deve essere corretta per consentire il completamento dell'attività risultante. Ovvero la proprietà deve restituire true unicamente se l'implementazione è stata completata in modo sincrono. Precedentemente, la proprietà non veniva verificata.|
+|Suggerimento|Se le implementazioni di <xref:System.IAsyncResult?displayProperty=name> restituiscono correttamente true per la proprietà <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> solo quando un'attività viene completata in modo sincrono, non verrà applicata alcuna interruzione. È consigliabile che gli utenti verifichino le eventuali implementazioni di <xref:System.IAsyncResult?displayProperty=name> di loro proprietà, per assicurarsi che valutino in modo corretto se un'attività viene completata o meno in modo sincrono.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Ridestinazione|

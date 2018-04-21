@@ -1,4 +1,4 @@
-### <a name="blockingcollectionlttgttrytakefromany-does-not-throw-anymore"></a>BlockingCollection&lt;T&gt;. TryTakeFromAny venga non viene più generata
+### <a name="blockingcollectionlttgttrytakefromany-does-not-throw-anymore"></a>BlockingCollection&lt;T&gt;.TryTakeFromAny non genera più eccezioni
 
 |   |   |
 |---|---|

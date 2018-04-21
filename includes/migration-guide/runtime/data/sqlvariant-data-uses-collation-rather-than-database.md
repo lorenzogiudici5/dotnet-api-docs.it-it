@@ -1,4 +1,4 @@
-### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>Dati sql_variant utilizzano regole di confronto sql_variant anziché regole di confronto del database
+### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>I dati sql_variant usano regole di confronto sql_variant invece delle regole di confronto del database
 
 |   |   |
 |---|---|

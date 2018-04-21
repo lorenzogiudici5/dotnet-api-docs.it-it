@@ -1,29 +1,29 @@
 ## <a name="installation-instructions"></a>Istruzioni di installazione 
 
-Esistono due modi diversi per trovare il **.NET del compilatore Platform SDK** nel **programma di installazione di Visual Studio**:
+Esistono due modi diversi per trovare **.NET Compiler Platform SDK** nel **programma di installazione di Visual Studio**:
 
-### <a name="install-using-the-workloads-view"></a>Installare tramite la vista a carichi di lavoro
+### <a name="install-using-the-workloads-view"></a>Eseguire l'installazione tramite la visualizzazione Carichi di lavoro
 
-il SDK di piattaforma del compilatore .NET non è selezionata automaticamente come parte del carico di lavoro sviluppo estensione Visual Studio. È necessario selezionarla come componente facoltativo.
+.NET Compiler Platform SDK non viene selezionato automaticamente come parte del carico di lavoro Sviluppo di estensioni di Visual Studio. È necessario selezionarlo come componente facoltativo.
 
-1. Eseguire **programma di installazione di Visual Studio** 
-1. Selezionare **modificare** 
-1. Controllare la **lo sviluppo di estensioni di Visual Studio** carico di lavoro.
-1. Aprire la **lo sviluppo di estensioni di Visual Studio** nodo dell'albero di riepilogo.
-1. Selezionare la casella relativa **.NET del compilatore Platform SDK**. Sono disponibili, ultimo sotto i componenti facoltativi.
+1. Eseguire il **programma di installazione di Visual Studio**. 
+1. Selezionare **Modifica**. 
+1. Selezionare il carico di lavoro **Sviluppo di estensioni di Visual Studio**.
+1. Aprire il nodo **Sviluppo di estensioni di Visual Studio** nell'albero di riepilogo.
+1. Selezionare la casella di controllo per **.NET Compiler Platform SDK**. È l'ultima voce dei componenti facoltativi.
 
-Facoltativamente, si consiglia inoltre di **editor DGML** per visualizzare i grafici nel Visualizzatore di:
+Facoltativamente, è possibile installare anche l'**editor DGML** per visualizzare i grafici nel visualizzatore:
 
-1. Aprire la **singoli componenti** nodo dell'albero di riepilogo.
-1. Selezionare la casella relativa **editor DGML**
+1. Aprire il nodo **Singoli componenti** nell'albero di riepilogo.
+1. Selezionare la casella di controllo per **Editor DGML**.
 
-### <a name="install-using-the-individual-components-tab"></a>Installare la scheda di singoli componenti
+### <a name="install-using-the-individual-components-tab"></a>Eseguire l'installazione tramite la scheda Singoli componenti
 
-1. Eseguire **programma di installazione di Visual Studio** 
-1. Selezionare **modificare** 
-1. Selezionare il **singoli componenti** scheda 
-1. Selezionare la casella relativa **.NET del compilatore Platform SDK**. Risulterà ultimo sotto il **compilatori di creare strumenti e runtime** sezione.
+1. Eseguire il **programma di installazione di Visual Studio**. 
+1. Selezionare **Modifica**. 
+1. Selezionare la scheda **Singoli componenti**. 
+1. Selezionare la casella di controllo per **.NET Compiler Platform SDK**. È l'ultima voce nella sezione **Compilatori, strumenti di compilazione e runtime**.
 
-Facoltativamente, si consiglia inoltre di **editor DGML** per visualizzare i grafici nel Visualizzatore di:
+Facoltativamente, è possibile installare anche l'**editor DGML** per visualizzare i grafici nel visualizzatore:
 
-1. Selezionare la casella relativa **editor DGML**. È disponibile sotto il **gli strumenti di codice** sezione.
+1. Selezionare la casella di controllo per **Editor DGML**. La voce è disponibile nella sezione **Strumenti per il codice**.

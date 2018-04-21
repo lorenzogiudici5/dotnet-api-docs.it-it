@@ -1,4 +1,4 @@
-### <a name="concurrentqueuelttgttrypeek-can-return-an-erroneous-null-via-its-out-parameter"></a>ConcurrentQueue&lt;T&gt;. TryPeek può restituire un valore errato null tramite il parametro out
+### <a name="concurrentqueuelttgttrypeek-can-return-an-erroneous-null-via-its-out-parameter"></a>ConcurrentQueue&lt;T&gt;.TryPeek può restituire erroneamente un valore Null tramite il parametro di output
 
 |   |   |
 |---|---|

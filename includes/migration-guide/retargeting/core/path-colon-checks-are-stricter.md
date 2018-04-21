@@ -1,9 +1,9 @@
-### <a name="path-colon-checks-are-stricter"></a>Controlli del percorso i due punti sono più severi
+### <a name="path-colon-checks-are-stricter"></a>I controlli della presenza di due punti nel percorso sono più severi
 
 |   |   |
 |---|---|
-|Dettagli|In .NET Framework 4.6.2, un numero di modifiche sono stato apportato per supportare i percorsi in precedenza non supportati (sia di lunghezza e il formato). Controlli per la sintassi di unità appropriata separatore (due punti) sono stati apportati più corretti, che ha l'effetto collaterale di alcuni percorsi URI in alcune API percorso selezionare quale usati per essere espresso di blocco.|
-|Suggerimento|Se si passa un URI alle API interessate, modificare la stringa per essere innanzitutto un percorso valido.<ul><li>Rimuovere manualmente la combinazione di dagli URL (ad esempio rimuovere <code>file://</code> dagli URL)</li><li>Passare l'URI per il <xref:System.Uri> classe e usare <xref:System.Uri.LocalPath></li></ul>In alternativa, è possibile rifiutare esplicitamente la normalizzazione di percorso nuovo impostando il <code>Switch.System.IO.UseLegacyPathHandling</code> commutatore AppContext su true.|
+|Dettagli|In .NET Framework 4.6.2 sono state apportate varie modifiche per supportare i percorsi in precedenza non supportati (sia per lunghezza che per formato). I controlli della sintassi corretta del separatore appropriato per le unità (due punti) sono ora più corretti. L'effetto collaterale è però il blocco di alcuni percorsi URI in un gruppo selezionato di API Path in cui l'uso era tollerato.|
+|Suggerimento|Per il passaggio di un URI alle API interessate, modificare prima di tutto la stringa in modo che sia un percorso valido.<ul><li>Rimuovere manualmente lo schema dagli URL (ad esempio rimuovere <code>file://</code> dagli URL)</li><li>Passare l'URI alla classe <xref:System.Uri> e usare <xref:System.Uri.LocalPath></li></ul>In alternativa, è possibile rifiutare esplicitamente la nuova normalizzazione dei percorsi impostando l'opzione di AppContext <code>Switch.System.IO.UseLegacyPathHandling</code> su true.|
 |Ambito|Microsoft Edge|
 |Versione|4.6.2|
 |Tipo|Ridestinazione|

@@ -1,9 +1,9 @@
-### <a name="machinekeyencode-and-machinekeydecode-methods-are-now-obsolete"></a>Metodi MachineKey.Encode e MachineKey.Decode sono ora obsoleti
+### <a name="machinekeyencode-and-machinekeydecode-methods-are-now-obsolete"></a>I metodi MachineKey.Encode e MachineKey.Decode sono ora obsoleti
 
 |   |   |
 |---|---|
 |Dettagli|Questi metodi sono ora obsoleti. La compilazione del codice che chiama tali metodi genera un avviso del compilatore.|
-|Suggerimento|Le alternative consigliate sono <xref:System.Web.Security.MachineKey.Protect(System.Byte[],System.String[])> e <xref:System.Web.Security.MachineKey.Unprotect(System.Byte[],System.String[])>. In alternativa, gli avvisi di compilazione possono essere visualizzati o può essere evitate utilizzando un compilatore precedente. Le API sono ancora supportate.|
+|Suggerimento|Le alternative consigliate sono <xref:System.Web.Security.MachineKey.Protect(System.Byte[],System.String[])> e <xref:System.Web.Security.MachineKey.Unprotect(System.Byte[],System.String[])>. In alternativa, è possibile eliminare gli avvisi di compilazione o evitarli usando un compilatore precedente. Le API sono ancora supportate.|
 |Ambito|Secondario|
 |Versione|4.5|
 |Tipo|Ridestinazione|
