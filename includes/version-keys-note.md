@@ -1,3 +1,3 @@
 
 > [!IMPORTANT]
-> La tabella seguente elenca le chiavi di versioni di .NET Framework solo. Non vengono elencati i tasti di anteprima o di versioni non definitive.
+> La tabella seguente elenca solo le chiavi delle versioni rilasciate di .NET Framework. Non vengono elencate le chiavi di versioni di anteprima o non definitive.
