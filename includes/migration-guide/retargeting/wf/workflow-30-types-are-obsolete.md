@@ -1,4 +1,4 @@
-### <a name="workflow-30-types-are-obsolete"></a>Tipi di flusso di lavoro 3.0 sono obsoleti
+### <a name="workflow-30-types-are-obsolete"></a>I tipi di WorkFlow 3.0 sono obsoleti
 
 |   |   |
 |---|---|

@@ -1,9 +1,9 @@
-### <a name="new-enum-values-in-wpfs-pagerangeselection"></a>Nuovi valori di enumerazione in PageRangeSelection WPF
+### <a name="new-enum-values-in-wpfs-pagerangeselection"></a>Nuovi valori enumerazione in PageRangeSelection di WPF
 
 |   |   |
 |---|---|
-|Dettagli|Due nuovi membri (<xref:System.Windows.Controls.PageRangeSelection.CurrentPage?displayProperty=name> e <xref:System.Windows.Controls.PageRangeSelection.SelectedPages?displayProperty=name>) sono state aggiunte per la <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name> enum.|
-|Suggerimento|Nella maggior parte dei casi queste modifiche non influiscono sul codice utente. Il codice che dipende da un determinato numero di elementi esistenti <xref:System.Enum.GetNames(System.Type)> oppure <xref:System.Enum.GetValues(System.Type)> chiama sul <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name> tipo deve essere modificato, tuttavia.|
+|Dettagli|Sono stati aggiunti due nuovi membri (<xref:System.Windows.Controls.PageRangeSelection.CurrentPage?displayProperty=name> e <xref:System.Windows.Controls.PageRangeSelection.SelectedPages?displayProperty=name>) all'enumerazione <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name>.|
+|Suggerimento|Nella maggior parte dei casi queste modifiche non influiscono sul codice utente. È tuttavia consigliabile modificare il codice che dipende da un determinato numero di elementi esistenti nelle chiamate <xref:System.Enum.GetNames(System.Type)> o <xref:System.Enum.GetValues(System.Type)> per il tipo <xref:System.Windows.Controls.PageRangeSelection?displayProperty=name>.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Runtime|

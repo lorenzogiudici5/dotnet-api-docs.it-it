@@ -1,9 +1,9 @@
-### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter genera sulla coppia di surrogati non valide
+### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter genera un'eccezione per le coppie di surrogati non valide
 
 |   |   |
 |---|---|
-|Dettagli|Per le app destinate a .NET Framework 4.5.2 o a versioni precedenti, se si scrive una coppia di surrogati non valida usando la gestione dei fallback delle eccezioni, non viene sempre generata un'eccezione. Per le app destinate a .NET Framework 4.6, tentando di scrivere un surrogati non valide generano un <xref:System.ArgumentException?displayProperty=name>.|
-|Suggerimento|Se necessario, questa interruzione può essere evitato specificando come destinazione di .NET Framework 4.5.2 o versioni precedenti. In alternativa, le coppie di surrogati non valida possono essere pre-elaborate in un xml valido prima di scrivere queste.|
+|Dettagli|Per le app destinate a .NET Framework 4.5.2 o a versioni precedenti, se si scrive una coppia di surrogati non valida usando la gestione dei fallback delle eccezioni, non viene sempre generata un'eccezione. Per le applicazioni destinate a .NET Framework 4.6, il tentativo di scrivere una coppia di surrogati non valida genera <xref:System.ArgumentException?displayProperty=name>.|
+|Suggerimento|Se necessario, questa interruzione può essere evitata specificando come destinazione .NET Framework 4.5.2 o versioni precedenti. In alternativa, le coppie di surrogati non valide possono essere pre-elaborate in un xml valido prima di scriverle.|
 |Ambito|Microsoft Edge|
 |Versione|4.6|
 |Tipo|Ridestinazione|

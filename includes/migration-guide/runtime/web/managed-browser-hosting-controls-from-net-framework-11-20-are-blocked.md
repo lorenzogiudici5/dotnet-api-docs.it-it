@@ -3,7 +3,7 @@
 |   |   |
 |---|---|
 |Dettagli|L'hosting di questi controlli è bloccato in Internet Explorer.|
-|Suggerimento|Internet Explorer non riuscirà ad avviare un'applicazione che usa controlli di hosting di browser gestiti. Il comportamento precedente può essere ripristinato impostando il valore EnableIEHosting della sottochiave del Registro di sistema <code>HKLM/SOFTWARE/MICROSOFT/.NETFramework</code> al <code>1</code> x86 a sistemi e per processi a 32 bit su x64 sistemi e impostando il <code>EnableIEHosting</code> valore della sottochiave del Registro di sistema <code>HKLM/SOFTWARE/Wow6432Node/Microsoft/.NETFramework</code>a <code>1</code> per processi a 64 bit su x64 sistemi.|
+|Suggerimento|Internet Explorer non riuscirà ad avviare un'applicazione che usa controlli di hosting di browser gestiti. È possibile ripristinare il comportamento precedente impostando il valore EnableIEHosting della sottochiave del Registro di sistema <code>HKLM/SOFTWARE/MICROSOFT/.NETFramework</code> su <code>1</code> per i sistemi x86 e i processi a 32 bit nei sistemi x64 e impostando il valore <code>EnableIEHosting</code> della sottochiave del Registro di sistema <code>HKLM/SOFTWARE/Wow6432Node/Microsoft/.NETFramework</code> su <code>1</code> per i processi a 64 bit nei sistemi x64.|
 |Ambito|Secondario|
 |Versione|4.5|
 |Tipo|Runtime|

@@ -1,4 +1,4 @@
-### <a name="previewlostkeyboardfocus-is-called-repeatedly-if-its-handler-shows-a-windows-forms-message-box"></a>PreviewLostKeyboardFocus viene chiamato più volte se il relativo gestore viene visualizzata una finestra di messaggio Windows Form
+### <a name="previewlostkeyboardfocus-is-called-repeatedly-if-its-handler-shows-a-windows-forms-message-box"></a>PreviewLostKeyboardFocus viene chiamato ripetutamente se il gestore visualizza una finestra di messaggio di Windows Forms
 
 |   |   |
 |---|---|

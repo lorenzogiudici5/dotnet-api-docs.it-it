@@ -1,9 +1,9 @@
-### <a name="listsort-algorithm-changed"></a>List. Sort algoritmo modificato
+### <a name="listsort-algorithm-changed"></a>L'algoritmo List.Sort è stato modificato
 
 |   |   |
 |---|---|
-|Dettagli|A partire da .NET Framework 4.5, <xref:System.Collections.Generic.List%601?displayProperty=name>dell'algoritmo di ordinamento è stata modificata (per un ordinamento interiorizzato anziché un ordinamento rapido). <xref:System.Collections.Generic.List%601?displayProperty=name>del tipo di ordinamento non è mai stato stabile, ma questa modifica potrebbe causare diversi scenari di eseguire l'ordinamento in modi instabili. Questo significa semplicemente che gli elementi equivalenti ordinamento può essere eseguito in un ordine diverso nelle successive chiamate dell'API.|
-|Suggerimento|Poiché l'algoritmo di ordinamento precedente è stata inoltre instabile (anche se in modi leggermente differenti), non deve esserci alcun codice che dipende da elementi equivalenti sempre l'ordinamento in un ordine particolare. Se sono presenti istanze di codice che a seconda che in corso dei con il comportamento precedente, che il codice deve essere aggiornato per usare un operatore di confronto che verrà in modo deterministico ordinare gli elementi nell'ordine desiderato.|
+|Dettagli|A partire da .NET Framework 4.5, l'algoritmo di ordinamento di <xref:System.Collections.Generic.List%601?displayProperty=name> è stato modificato in ordinamento introspettivo anziché ordinamento rapido. L'ordinamento di <xref:System.Collections.Generic.List%601?displayProperty=name> non è mai stato stabile, ma questa modifica potrebbe determinare un ordinamento instabile in scenari diversi. Ciò significa semplicemente che l'ordinamento di elementi equivalenti potrebbe risultare diverso nelle successive chiamate dell'API.|
+|Suggerimento|Poiché anche l'algoritmo di ordinamento precedente era instabile, anche se in modi leggermente diversi, nessun codice deve dipendere da elementi equivalenti sempre ordinati in un particolare ordine. In presenza di istanze di codice con questo tipo di dipendenza che funzionano correttamente con il vecchio comportamento, è necessario aggiornare il codice in modo che usi un operatore di confronto che ordinerà gli elementi in modo deterministico nell'ordine desiderato.|
 |Ambito|Trasparente|
 |Versione|4.5|
 |Tipo|Runtime|

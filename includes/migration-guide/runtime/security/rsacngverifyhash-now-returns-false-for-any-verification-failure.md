@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Dettagli|A partire da .NET Framework 4.6.2, questo metodo restituisce <strong>False</strong> se non è formattata correttamente la firma stessa. Ora restituisce false per qualsiasi errore di verifica. In .NET Framework 4.6 e 4.6.1, il metodo genera un <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> se non è formattata correttamente la firma stessa.|
-|Suggerimento|Qualsiasi codice la cui esecuzione dipende dalla gestione di <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> deve essere eseguita in alternativa, se la convalida non riesce e il metodo restituisce <strong>False</strong>.|
+|Dettagli|A partire da .NET Framework 4.6.2, questo metodo restituisce <strong>False</strong> se la firma stessa non è formattata correttamente. Ora restituisce false per qualsiasi errore di verifica. In .NET Framework 4.6 e 4.6.1, il metodo genera <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> se non è formattata correttamente la firma stessa.|
+|Suggerimento|Qualsiasi codice la cui esecuzione dipenda da <xref:System.Security.Cryptography.CryptographicException?displayProperty=name> deve invece essere eseguito se la convalida non va a buon fine e il metodo restituisce <strong>False</strong>.|
 |Ambito|Secondario|
 |Versione|4.6.2|
 |Tipo|Runtime|

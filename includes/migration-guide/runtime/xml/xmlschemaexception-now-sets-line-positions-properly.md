@@ -1,9 +1,9 @@
-### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException imposta ora le posizioni delle righe in modo corretto
+### <a name="xmlschemaexception-now-sets-line-positions-properly"></a>XmlSchemaException ora imposta correttamente le posizioni delle righe
 
 |   |   |
 |---|---|
-|Dettagli|Se il <xref:System.Xml.Linq.LoadOptions.SetLineInfo> valore viene passato al metodo Load e si verifica un errore di convalida, il <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> proprietà contengono ora informazioni sulla riga.|
-|Suggerimento|Codice di gestione delle eccezioni che si presuppone <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> non saranno set deve essere aggiornato poiché queste proprietà verranno ora impostate correttamente quando SetLineInfo viene utilizzato durante il caricamento di dati XML.|
+|Dettagli|Se il valore <xref:System.Xml.Linq.LoadOptions.SetLineInfo> viene passato al metodo Load e si verifica un errore di convalida, le proprietà <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> contengono ora informazioni sulla riga.|
+|Suggerimento|È necessario aggiornare il codice di gestione delle eccezioni che presuppone che le proprietà <xref:System.Xml.Schema.XmlSchemaException.LineNumber> e <xref:System.Xml.Schema.XmlSchemaException.LinePosition> non vengano impostate, perché queste proprietà vengono ora impostate correttamente quando il metodo SetLineInfo viene usato durante il caricamento di XML.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Runtime|

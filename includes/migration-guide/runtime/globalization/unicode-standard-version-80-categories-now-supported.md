@@ -1,9 +1,9 @@
-### <a name="unicode-standard-version-80-categories-now-supported"></a>Categorie di Unicode standard versione 8.0 ora supportate
+### <a name="unicode-standard-version-80-categories-now-supported"></a>Le categorie dello standard Unicode versione 8.0 sono ora supportate
 
 |   |   |
 |---|---|
-|Dettagli|In .NET Framework 4.6.2, dati Unicode in framework sono stati aggiornati da Unicode standard versione 6.3 alla versione 8.0.  La richiesta di categoria di caratteri Unicode in .NET Framework 4.6.2, alcuni risultati potrebbero non corrispondere i risultati in versioni precedenti di .NET Framework.  Questa modifica principalmente interessa sillabe carattere e segni di vocali carattere Tai lue semplificato: nuovo e ideografici.|
-|Suggerimento|Revisione codice e rimuovere/cambiare la logica che varia in base a livello di codice le categorie di caratteri Unicode.|
+|Dettagli|In .NET Framework 4.6.2 i dati Unicode nel framework sono stati aggiornati dallo standard Unicode versione 6.3 alla versione 8.0.  Quando si richiede la categoria di caratteri Unicode in .NET Framework 4.6.2, alcuni risultati potrebbero non corrispondere ai risultati ottenuti nelle versioni precedenti di .NET Framework.  Questa modifica interessa principalmente le sillabe Cherokee e i simboli delle vocali e dei toni di Tai Lue semplificato.|
+|Suggerimento|Esaminare il codice e rimuovere o modificare la logica che dipende dalle categorie di caratteri Unicode hardcoded.|
 |Ambito|Secondario|
 |Versione|4.6.2|
 |Tipo|Runtime|

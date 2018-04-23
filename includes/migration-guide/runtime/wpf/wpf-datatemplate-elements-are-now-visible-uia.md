@@ -1,9 +1,9 @@
-### <a name="wpf-datatemplate-elements-are-now-visible-to-uia"></a>Elementi DataTemplate WPF sono ora visibili per automazione
+### <a name="wpf-datatemplate-elements-are-now-visible-to-uia"></a>Gli elementi WPF DataTemplate ora sono visibili per Automazione interfaccia utente (UIA)
 
 |   |   |
 |---|---|
-|Dettagli|In precedenza, <xref:System.Windows.DataTemplate?displayProperty=name> elementi sono invisibili per automazione interfaccia utente. A partire dalla versione 4.5, Automazione interfaccia utente rileva questi elementi. Ciò è utile in molti casi, ma può interrompere i test che dipendono da strutture ad albero di automazione non contenente <xref:System.Windows.DataTemplate?displayProperty=name> elementi.|
-|Suggerimento|I test di automazione interfaccia utente per questa app potrebbe essere aggiornato per tenere conto dell'albero di automazione, ora inclusi in precedenza invisibile <xref:System.Windows.DataTemplate?displayProperty=name> elementi. Ad esempio, nei test che prevedono che alcuni elementi siano adiacenti può essere ora necessario prevedere che possono infrapporsi elementi di Automazione interfaccia utente precedentemente invisibili. Oppure, potrebbe essere necessario aggiornare con nuovi valori i test che si basano su conteggi o indici specifici per gli elementi di Automazione interfaccia utente.|
+|Dettagli|In precedenza gli elementi <xref:System.Windows.DataTemplate?displayProperty=name> erano invisibili per Automazione interfaccia utente. A partire dalla versione 4.5, Automazione interfaccia utente rileva questi elementi. Questo è utile in molti casi, ma può causare problemi per i test che dipendono da alberi di automazione interfaccia utente che non contengono elementi <xref:System.Windows.DataTemplate?displayProperty=name>.|
+|Suggerimento|Potrebbe essere necessario aggiornare i test di Automazione interfaccia utente per questa app per tenere conto dell'albero di Automazione interfaccia utente che ora include elementi <xref:System.Windows.DataTemplate?displayProperty=name> precedentemente invisibili. Ad esempio, nei test che prevedono che alcuni elementi siano adiacenti può essere ora necessario prevedere che possono infrapporsi elementi di Automazione interfaccia utente precedentemente invisibili. Oppure, potrebbe essere necessario aggiornare con nuovi valori i test che si basano su conteggi o indici specifici per gli elementi di Automazione interfaccia utente.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Runtime|

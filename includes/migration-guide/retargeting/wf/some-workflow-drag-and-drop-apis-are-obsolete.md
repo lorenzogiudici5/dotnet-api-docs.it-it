@@ -1,9 +1,9 @@
-### <a name="some-workflow-drag-and-drop-apis-are-obsolete"></a>Alcune API di trascinamento e rilascio del flusso di lavoro sono obsoleti
+### <a name="some-workflow-drag-and-drop-apis-are-obsolete"></a>Alcune API WorkFlow con trascinamento della selezione sono obsolete
 
 |   |   |
 |---|---|
-|Dettagli|Questa API di trascinamento e rilascio del flusso di lavoro è obsoleta e genererà avvisi del compilatore se l'app viene rigenerato con 4.5.|
-|Suggerimento|Nuovo <xref:System.Activities.Presentation.DragDropHelper?displayProperty=name> necessario utilizzare le API che supportano le operazioni con più oggetti. In alternativa, è possibile eliminare gli avvisi di compilazione o evitarli usando un compilatore precedente. Le API sono ancora supportate.|
+|Dettagli|Questa API WorkFlow con trascinamento della selezione è obsoleta e genera avvisi del compilatore se l'app viene ricompilata per la versione 4.5.|
+|Suggerimento|In alternativa è consigliabile usare le nuove API <xref:System.Activities.Presentation.DragDropHelper?displayProperty=name> che supportano operazioni con più oggetti. In alternativa, è possibile eliminare gli avvisi di compilazione o evitarli usando un compilatore precedente. Le API sono ancora supportate.|
 |Ambito|Secondario|
 |Versione|4.5|
 |Tipo|Ridestinazione|

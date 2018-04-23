@@ -1,9 +1,9 @@
-### <a name="adonet-now-attempts-to-automatically-reconnect-broken-sql-connections"></a>ADO.NET ora tenta di riconnettersi automaticamente le connessioni SQL interrotte
+### <a name="adonet-now-attempts-to-automatically-reconnect-broken-sql-connections"></a>ADO.NET ora tenta di riconnettere automaticamente le connessioni SQL interrotte
 
 |   |   |
 |---|---|
-|Dettagli|A partire da .NET Framework 4.5.1, .NET Framework tenterà di riconnettersi automaticamente le connessioni SQL interrotte. Anche se ciò in genere consentirà applicazioni più affidabili, esistono casi in cui un'app deve sapere che la connessione è stata interrotta in modo che può richiedere un'azione alla riconnessione.|
-|Suggerimento|Se questa funzionalità è adeguata per motivi di compatibilità, è possibile disabilitarlo impostando il <xref:System.Data.SqlClient.SqlConnectionStringBuilder.ConnectRetryCount?displayProperty=name> proprietà di una stringa di connessione (o <xref:System.Data.SqlClient.SqlConnectionStringBuilder?displayProperty=name>) su 0.|
+|Dettagli|A partire da .NET Framework 4.5.1, .NET Framework tenterà di riconnettere automaticamente le connessioni SQL interrotte. Anche se ciò in genere renderà più affidabili le app, in alcuni casi limite un'app deve sapere che la connessione è stata interrotta in modo da poter adottare determinate azioni alla riconnessione.|
+|Suggerimento|Se questa funzionalità non è auspicabile per motivi di compatibilità, è possibile disabilitarla impostando la proprietà <xref:System.Data.SqlClient.SqlConnectionStringBuilder.ConnectRetryCount?displayProperty=name> di una stringa di connessione (o <xref:System.Data.SqlClient.SqlConnectionStringBuilder?displayProperty=name>) su 0.|
 |Ambito|Microsoft Edge|
 |Versione|4.5.1|
 |Tipo|Runtime|

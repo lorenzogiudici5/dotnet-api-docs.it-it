@@ -1,9 +1,9 @@
-### <a name="itemsclear-does-not-remove-duplicates-from-selecteditems"></a>Clear non rimuove i duplicati dal SelectedItems
+### <a name="itemsclear-does-not-remove-duplicates-from-selecteditems"></a>Items.Clear non rimuove i duplicati da SelectedItems
 
 |   |   |
 |---|---|
-|Dettagli|Si supponga che un selettore (con abilitata la selezione multipla) è duplicati relativa <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name> raccolta - appare più volte lo stesso elemento.  Rimozione di tali elementi dall'origine dati (ad esempio chiamando Clear) ha esito negativo per rimuoverli da <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name>; solo la prima istanza viene rimossa. Inoltre, utilizzo successivo delle <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name> (ad esempio SelectedItems.Clear()) possono verificarsi problemi, ad esempio <xref:System.ArgumentException?displayProperty=name>, in quanto <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name> contiene elementi che non sono più nell'origine dati.|
-|Suggerimento|Eseguire l'aggiornamento se possibile a .NET 4.6.2.|
+|Dettagli|Se un selettore con selezione multipla abilitata contiene duplicati nella raccolta <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name>, lo stesso elemento viene visualizzato più volte.  L'eliminazione di questi elementi dall'origine dati (ad esempio, chiamando Items.Clear) non li rimuove da <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name>; viene rimossa solo la prima istanza. Nell'uso successivo di <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name>, ad esempio SelectedItems.Clear(), si possono inoltre verificare errori, ad esempio <xref:System.ArgumentException?displayProperty=name>, in quanto <xref:System.Windows.Controls.Primitives.MultiSelector.SelectedItems?displayProperty=name> contiene elementi che non sono più nell'origine dati.|
+|Suggerimento|Se possibile, eseguire l'aggiornamento a .NET 4.6.2.|
 |Ambito|Secondario|
 |Versione|4.5|
 |Tipo|Runtime|

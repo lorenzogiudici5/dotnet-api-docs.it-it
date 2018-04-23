@@ -1,9 +1,9 @@
-### <a name="flowdocument-may-show-an-extra-line-of-text"></a>FlowDocument risultino una riga supplementare di testo
+### <a name="flowdocument-may-show-an-extra-line-of-text"></a>FlowDocument può visualizzare una riga di testo aggiuntiva
 
 |   |   |
 |---|---|
-|Dettagli|In alcuni casi, un <xref:System.Windows.Documents.FlowDocument> elemento verrà visualizzato un'ulteriore riga di testo quando in esecuzione in .NET Framework 4.5 rispetto al modo in cui visualizzato durante l'esecuzione in .NET Framework 4.0. Esistono casi noti della modifica che causa il testo da visualizzare in modo inadeguato o illegibly, ma potrebbe impedire che in precedenza è stato omesso dal testo da visualizzare un <xref:System.Windows.Documents.FlowDocument>della visualizzazione.|
-|Suggerimento|In alcuni casi, riducendo la visualizzazione proprietà dell'elemento PageHeight da una possibile ripristinare il precedente numero di righe visualizzate.|
+|Dettagli|In alcuni casi, un elemento <xref:System.Windows.Documents.FlowDocument> visualizzerà una riga di testo aggiuntiva quando è in esecuzione in .NET Framework 4.5 rispetto a quanto viene visualizzato quando è in esecuzione in .NET Framework 4.0. Non esistono casi noti del fatto che la modifica causi la visualizzazione non chiara o non leggibile del testo, ma potrebbe determinare la visualizzazione di testo in precedenza omesso dalla visualizzazione di <xref:System.Windows.Documents.FlowDocument>.|
+|Suggerimento|In alcuni casi, la riduzione della proprietà PageHeight dell'elemento visualizzato di una unità può ripristinare il numero di righe visualizzate in precedenza.|
 |Ambito|Microsoft Edge|
 |Versione|4.5|
 |Tipo|Runtime|
