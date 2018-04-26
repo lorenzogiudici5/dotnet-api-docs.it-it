@@ -1,1 +1,0 @@
-GPU (Graphics Processing Unit)

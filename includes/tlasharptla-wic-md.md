@@ -1,1 +1,0 @@
-Componente Imaging di Microsoft Windows Presentation Foundation

@@ -1,1 +1,0 @@
-Disponibile a partire dalla versione 4.6, solo in .NET Native

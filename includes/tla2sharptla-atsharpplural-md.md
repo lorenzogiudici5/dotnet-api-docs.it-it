@@ -1,1 +1,0 @@
-Tecnologie per l'accessibilità
