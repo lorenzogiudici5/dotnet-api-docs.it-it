@@ -1,1 +1,0 @@
-<span data-ttu-id="97161-101">Microsoft ActiveX</span><span class="sxs-lookup"><span data-stu-id="97161-101">Microsoft ActiveX</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="6bb62-101">tecnologia per l'accessibilità</span><span class="sxs-lookup"><span data-stu-id="6bb62-101">assistive technology</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="ed298-101">identificatore univoco globale (GUID)</span><span class="sxs-lookup"><span data-stu-id="ed298-101">globally unique identifier (GUID)</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="63dd4-101">WinEvents</span><span class="sxs-lookup"><span data-stu-id="63dd4-101">WinEvents</span></span>

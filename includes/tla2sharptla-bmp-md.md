@@ -1,1 +1,0 @@
-<span data-ttu-id="b81e1-101">BMP</span><span class="sxs-lookup"><span data-stu-id="b81e1-101">BMP</span></span>

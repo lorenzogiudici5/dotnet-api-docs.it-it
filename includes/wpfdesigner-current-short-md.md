@@ -1,1 +1,0 @@
-<span data-ttu-id="2032c-101">WPF Designer</span><span class="sxs-lookup"><span data-stu-id="2032c-101">WPF Designer</span></span>

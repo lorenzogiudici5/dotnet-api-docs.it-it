@@ -1,1 +1,0 @@
-<span data-ttu-id="d5014-101">Microsoft Windows GDI+</span><span class="sxs-lookup"><span data-stu-id="d5014-101">Microsoft Windows GDI+</span></span>
