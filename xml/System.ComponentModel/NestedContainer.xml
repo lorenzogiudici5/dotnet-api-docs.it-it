@@ -1,17 +1,18 @@
 <Type Name="NestedContainer" FullName="System.ComponentModel.NestedContainer">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="a124ee078be65668efae6c08b17c83ac01930fb7" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="2ea0cee2a21b7a803db3885352bef1af48bd1f95" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30378895" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36701355" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class NestedContainer : System.ComponentModel.Container, IDisposable, System.ComponentModel.INestedContainer" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NestedContainer extends System.ComponentModel.Container implements class System.ComponentModel.IContainer, class System.ComponentModel.INestedContainer, class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.ComponentModel.NestedContainer" />
   <TypeSignature Language="VB.NET" Value="Public Class NestedContainer&#xA;Inherits Container&#xA;Implements IDisposable, INestedContainer" />
   <TypeSignature Language="C++ CLI" Value="public ref class NestedContainer : System::ComponentModel::Container, IDisposable, System::ComponentModel::INestedContainer" />
+  <TypeSignature Language="F#" Value="type NestedContainer = class&#xA;    inherit Container&#xA;    interface INestedContainer&#xA;    interface IContainer&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -43,19 +44,19 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.ComponentModel.NestedContainer> classe è un'implementazione semplice del <xref:System.ComponentModel.INestedContainer> interfaccia che definisce un componente che contiene zero o più componenti in modo logico e appartiene a un componente padre. Il comportamento di contenitori nidificati differisce dal standard <xref:System.ComponentModel.Container> in diversi modi, inclusi i seguenti:  
+ Il <xref:System.ComponentModel.NestedContainer> classe è un'implementazione semplice del <xref:System.ComponentModel.INestedContainer> interfaccia che definisce un componente che logicamente contiene zero o più componenti ed è di proprietà di un componente padre. Il comportamento di contenitori nidificati è diverso da uno standard <xref:System.ComponentModel.Container> in diversi modi, inclusi i seguenti:  
   
 -   Le caratteristiche del sito, ad esempio <xref:System.ComponentModel.Component.DesignMode%2A> e <xref:System.ComponentModel.Component.GetService%2A> vengono indirizzate tramite sito del componente proprietario.  
   
--   Il sito <xref:System.ComponentModel.ISite.Name%2A> proprietà è un nome completo che include il nome del componente proprietario seguito da un punto (.) e il nome del componente figlio.  
+-   Il sito <xref:System.ComponentModel.ISite.Name%2A> proprietà è un nome completo che include il nome del componente proprietario seguiti da un punto (.) e il nome del componente figlio.  
   
 -   <xref:System.ComponentModel.NestedContainer.GetService%2A> fornisce il supporto per il <xref:System.ComponentModel.INestedContainer> come servizio.  
   
 -   Quando il componente proprietario viene eliminato, viene eliminato anche il contenitore.  
   
- Inoltre, le finestre di progettazione gestiscono i contenitori nidificati in modo diverso. Un host di progettazione è solo interessato in un contenitore, ovvero quello associato all'host. Pertanto, aggiungere e rimuovere gli eventi non vengono generati quando un componente viene aggiunto o rimosso da un contenitore annidato. Tuttavia, poiché servizi passano al contenitore annidato, vengono generati gli eventi di modifica componente quando viene modificato un componente in un contenitore annidato.  
+ Inoltre, le finestre di progettazione trattare i contenitori nidificati in modo diverso. Un host di progettazione è solo interessato in un contenitore, ovvero quello associato all'host. Pertanto, aggiungere e rimuovere gli eventi non vengono generati quando un componente viene aggiunto o rimosso da un contenitore annidato. Tuttavia, poiché servizi passano al contenitore annidato, gli eventi di modifica di componente vengono generati quando viene modificato un componente in un contenitore annidato.  
   
- Questa disparità di monitoraggio degli eventi influisce anche sulle funzionalità di annullamento, è strettamente legata alla serializzazione. Il motore di annullamento standard utilizza <xref:System.ComponentModel.Design.IReferenceService> per rilevare le modifiche apportate ai componenti. Se il motore di annullamento non è possibile identificare un nome per un componente tramite il servizio di riferimento, il motore ignorerà le modifiche per il componente. Il servizio riconosce automaticamente le modifiche apportate ai componenti contenuti solo se sono esposte come proprietà pubbliche di sola lettura con lo stesso nome nei relativi proprietari. In caso contrario, lo sviluppatore deve superare gli eventi di modifica componente fino al proprietario. Ad esempio, se un componente annidato `Text` proprietà è riapparire nel componente proprietario come un `Address` proprietà, quando il `Text` proprietà viene modificata, modifica di una proprietà deve essere eseguita a livello di codice per il corrispondente `Address` proprietà o in caso contrario, tale modifica non vengono registrata da annullare.  
+ Questo disparità di monitoraggio degli eventi influisce anche sulle funzionalità di annullamento, è strettamente legata alla serializzazione. Il motore di annullamento standard utilizza <xref:System.ComponentModel.Design.IReferenceService> per rilevare le modifiche apportate ai componenti. Se il motore di annullamento non è possibile identificare un nome per un componente tramite il servizio di riferimento, il motore ignorerà le modifiche per il componente. Il servizio riconosce automaticamente le modifiche apportate ai componenti contenuti solo se gli oggetti vengono esposti come proprietà pubbliche di sola lettura con lo stesso nome nei relativi proprietari. In caso contrario, lo sviluppatore deve superare gli eventi di modifica componente fino al proprietario. Se, ad esempio, un componente annidato `Text` proprietà è riapparire nel componente proprietario come un `Address` proprietà, quando il `Text` proprietà viene modificata, modifica di una proprietà deve essere eseguita a livello di codice per il corrispondente `Address` proprietà, altrimenti le modifiche non vengono registrate dall'annullamento.  
   
  ]]></format>
     </remarks>
@@ -71,6 +72,7 @@
       <MemberSignature Language="DocId" Value="M:System.ComponentModel.NestedContainer.#ctor(System.ComponentModel.IComponent)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (owner As IComponent)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; NestedContainer(System::ComponentModel::IComponent ^ owner);" />
+      <MemberSignature Language="F#" Value="new System.ComponentModel.NestedContainer : System.ComponentModel.IComponent -&gt; System.ComponentModel.NestedContainer" Usage="new System.ComponentModel.NestedContainer owner" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -96,7 +98,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo costruttore è incluso nel relativo proprietario <xref:System.ComponentModel.IComponent.Disposed> evento in modo che il contenitore annidato <xref:System.ComponentModel.NestedContainer.Dispose%2A> metodo verrà chiamato automaticamente.  
+ Questo costruttore è incluso nel relativo proprietario <xref:System.ComponentModel.IComponent.Disposed> eventi in modo che il contenitore annidato <xref:System.ComponentModel.NestedContainer.Dispose%2A> metodo verrà chiamato automaticamente.  
   
  ]]></format>
         </remarks>
@@ -111,6 +113,7 @@
       <MemberSignature Language="DocId" Value="M:System.ComponentModel.NestedContainer.CreateSite(System.ComponentModel.IComponent,System.String)" />
       <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateSite (component As IComponent, name As String) As ISite" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::ComponentModel::ISite ^ CreateSite(System::ComponentModel::IComponent ^ component, System::String ^ name);" />
+      <MemberSignature Language="F#" Value="override this.CreateSite : System.ComponentModel.IComponent * string -&gt; System.ComponentModel.ISite" Usage="nestedContainer.CreateSite (component, name)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -142,7 +145,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il `name` parametro `null`, <xref:System.ComponentModel.IComponent> viene aggiunto al contenitore annidato senza un nome significativo.  
+ Se il `name` parametro `null`, il <xref:System.ComponentModel.IComponent> viene aggiunto al contenitore annidato senza un nome significativo.  
   
  ]]></format>
         </remarks>
@@ -157,6 +160,7 @@
       <MemberSignature Language="DocId" Value="M:System.ComponentModel.NestedContainer.Dispose(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Overrides Sub Dispose (disposing As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void Dispose(bool disposing);" />
+      <MemberSignature Language="F#" Value="override this.Dispose : bool -&gt; unit" Usage="nestedContainer.Dispose disposing" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -186,7 +190,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo viene chiamato dal metodo pubblico `Dispose()` (metodo) e <xref:System.Object.Finalize%2A> metodo. `Dispose()` richiama il metodo protetto `Dispose(Boolean)` metodo con il `disposing` parametro impostato su `true`. <xref:System.Object.Finalize%2A> richiama `Dispose` con `disposing` impostato su `false`.  
+ Questo metodo viene chiamato dal metodo pubblico `Dispose()` metodo e il <xref:System.Object.Finalize%2A> metodo. `Dispose()` richiama il metodo protetto `Dispose(Boolean)` metodo con il `disposing` parametro impostato su `true`. <xref:System.Object.Finalize%2A> richiama `Dispose` con `disposing` impostato su `false`.  
   
  Quando il `disposing` parametro è true, questo metodo rilascia tutte le risorse utilizzate dagli oggetti gestiti da questo <xref:System.ComponentModel.NestedContainer> riferimenti. Il metodo richiama il metodo `Dispose()` di ciascun oggetto cui viene fatto riferimento.  
   
@@ -194,9 +198,7 @@
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            Il metodo <see langword="Dispose" /> può essere chiamato più volte da altri oggetti. Quando si esegue l'override <see langword="Dispose(Boolean)" /> prestare attenzione a non fare riferimento a oggetti che sono stati eliminati in una precedente chiamata a <see langword="Dispose" />. Per ulteriori informazioni su come implementare <see langword="Dispose(Boolean)" />, vedere [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
-  
- Per ulteriori informazioni su <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [si esegue l'override del metodo Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
+            <see langword="Dispose" /> può essere chiamato più volte da altri oggetti. Quando si esegue l'override <see langword="Dispose(Boolean)" /> prestare attenzione a non fare riferimento a oggetti già eliminati in una chiamata precedente a <see langword="Dispose" />. Per ulteriori informazioni su come implementare <see langword="Dispose(Boolean)" />, vedere [implementazione di un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Per ulteriori informazioni <see langword="Dispose" /> e <see cref="M:System.Object.Finalize" />, vedere [pulizia backup Resources](~/docs/standard/garbage-collection/unmanaged.md) non gestito e [override del metodo Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
         </block>
         <altmember cref="M:System.ComponentModel.NestedContainer.#ctor(System.ComponentModel.IComponent)" />
       </Docs>
@@ -207,6 +209,7 @@
       <MemberSignature Language="DocId" Value="M:System.ComponentModel.NestedContainer.GetService(System.Type)" />
       <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetService (service As Type) As Object" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Object ^ GetService(Type ^ service);" />
+      <MemberSignature Language="F#" Value="override this.GetService : Type -&gt; obj" Usage="nestedContainer.GetService service" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -236,7 +239,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo esegue l'override di <xref:System.ComponentModel.Container.GetService%2A?displayProperty=nameWithType> metodo. Questa implementazione risolve solo le richieste per il <xref:System.ComponentModel.INestedContainer> e <xref:System.ComponentModel.IContainer> servizi.  
+ Questo metodo esegue l'override di <xref:System.ComponentModel.Container.GetService%2A?displayProperty=nameWithType> metodo. Questa implementazione viene risolta solo le richieste per il <xref:System.ComponentModel.INestedContainer> e <xref:System.ComponentModel.IContainer> servizi.  
   
  ]]></format>
         </remarks>
@@ -250,6 +253,7 @@
       <MemberSignature Language="DocId" Value="P:System.ComponentModel.NestedContainer.Owner" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Owner As IComponent" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ComponentModel::IComponent ^ Owner { System::ComponentModel::IComponent ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Owner : System.ComponentModel.IComponent" Usage="System.ComponentModel.NestedContainer.Owner" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.ComponentModel.INestedContainer.Owner</InterfaceMember>
@@ -293,6 +297,7 @@
       <MemberSignature Language="DocId" Value="P:System.ComponentModel.NestedContainer.OwnerName" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable ReadOnly Property OwnerName As String" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual property System::String ^ OwnerName { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.OwnerName : string" Usage="System.ComponentModel.NestedContainer.OwnerName" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -318,7 +323,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questa proprietà può essere sottoposto a override per fornire un nome di proprietario personalizzato. L'implementazione predefinita esegue una ricerca nel sito del proprietario per <xref:System.ComponentModel.INestedSite> e chiama <xref:System.ComponentModel.INestedSite.FullName%2A>, o <xref:System.ComponentModel.ISite.Name%2A> se è presente alcun sito annidato. Se non sono disponibili, questa proprietà restituisce `null`.  
+ Questa proprietà può essere sostituita per fornire un nome di proprietario personalizzato. L'implementazione predefinita esegue la ricerca nel sito del proprietario per <xref:System.ComponentModel.INestedSite> e chiama <xref:System.ComponentModel.INestedSite.FullName%2A>, o <xref:System.ComponentModel.ISite.Name%2A> se non è presente alcun sito annidato. Se non è disponibile, questa proprietà restituisce `null`.  
   
  ]]></format>
         </remarks>
