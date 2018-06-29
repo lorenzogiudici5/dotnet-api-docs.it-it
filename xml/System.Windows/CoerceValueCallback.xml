@@ -1,17 +1,18 @@
 <Type Name="CoerceValueCallback" FullName="System.Windows.CoerceValueCallback">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="edddfb39d197bb5c7d9ebb6e4c366a99eae21935" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="1e616e4ddce4ac249d5636d5cd6f017ded4ec5fa" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30674545" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36461733" />
   </Metadata>
   <TypeSignature Language="C#" Value="public delegate object CoerceValueCallback(DependencyObject d, object baseValue);" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CoerceValueCallback extends System.MulticastDelegate" />
   <TypeSignature Language="DocId" Value="T:System.Windows.CoerceValueCallback" />
   <TypeSignature Language="VB.NET" Value="Public Delegate Function CoerceValueCallback(d As DependencyObject, baseValue As Object) As Object " />
   <TypeSignature Language="C++ CLI" Value="public delegate System::Object ^ CoerceValueCallback(DependencyObject ^ d, System::Object ^ baseValue);" />
+  <TypeSignature Language="F#" Value="type CoerceValueCallback = delegate of DependencyObject * obj -&gt; obj" />
   <AssemblyInfo>
     <AssemblyName>WindowsBase</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -35,7 +36,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- I callback basati su <xref:System.Windows.CoerceValueCallback> può essere assegnato a una proprietà di dipendenza tramite alcune tecniche diverse. Ognuna di queste tecniche è necessario creare innanzitutto un nuovo oggetto di metadati di proprietà (<xref:System.Windows.PropertyMetadata>, o una classe derivata, ad esempio <xref:System.Windows.FrameworkPropertyMetadata>). Creare l'oggetto di metadati utilizzando una firma del costruttore che accetta il `coerceValueCallback` parametro e assegnare tale parametro al gestore del callback. O creare i metadati da qualsiasi firma e un set di <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> proprietà prima di portare i metadati in uso.  
+ I callback basati su <xref:System.Windows.CoerceValueCallback> può essere assegnato a una proprietà di dipendenza tramite alcune tecniche diverse. Ognuna di queste tecniche è necessario creare innanzitutto un nuovo oggetto di metadati di proprietà (<xref:System.Windows.PropertyMetadata>, o una classe derivata, ad esempio <xref:System.Windows.FrameworkPropertyMetadata>). Creare l'oggetto di metadati utilizzando una firma del costruttore che accetta il `coerceValueCallback` parametro e assegnare tale parametro per il gestore di callback. O creare i metadati da qualsiasi firma e impostare il <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> proprietà prima di inserire i metadati in uso.  
   
  Quando si dispone di questi metadati, è possibile:  
   
@@ -45,18 +46,18 @@
   
 -   Aggiungere una proprietà di dipendenza esistente a una nuova <xref:System.Windows.DependencyObject> classe, utilizzando i nuovi metadati, chiamando <xref:System.Windows.DependencyProperty.AddOwner%28System.Type%2CSystem.Windows.PropertyMetadata%29>.  
   
- Le implementazioni di questo callback devono controllare il valore `baseValue` e determinare in base il valore o il tipo se si tratta di un valore che deve essere ulteriormente assegnato.  
+ Le implementazioni di questo callback devono controllare il valore `baseValue` e determinare in base al valore o il tipo se si tratta di un valore che deve essere ulteriormente assegnato.  
   
- Il <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> per una dipendenza di proprietà viene richiamata ogni volta che il sistema di proprietà o altri chiamanti chiamano <xref:System.Windows.DependencyObject.CoerceValue%2A> su un <xref:System.Windows.DependencyObject> istanza, specificando l'identificatore della proprietà come il `dp`.  
+ Il <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> per una dipendenza di proprietà viene richiamata ogni volta che il sistema di proprietà o qualsiasi altro chiamante chiama <xref:System.Windows.DependencyObject.CoerceValue%2A> in un <xref:System.Windows.DependencyObject> istanza, specificando l'identificatore della proprietà come il `dp`.  
   
  Le modifiche al valore della proprietà potrebbero provenire da un partecipante possibili nel sistema di proprietà. Sono inclusi gli stili, invalidazione generica, trigger, ereditarietà del valore di proprietà e impostazione del valore locale.  
   
- In genere, è consigliabile evitare di specificare più di una <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> per una determinata proprietà di dipendenza (si esegue l'override o l'aggiunta di nuovi metadati per una proprietà di dipendenza che dispone già di un <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A>). Solo uno dei callback sarà in grado di agire. Il callback che agisce sarà quello che è stato applicato alla classe più derivata nell'ereditarietà rispetto al <xref:System.Windows.DependencyObject> chiamante. Quando viene eseguito l'override dei metadati, vengono sostituiti gli altri callback assegnati ai metadati per la proprietà di dipendenza esistenti superiore nella gerarchia del proprietario.  
+ In genere, è consigliabile evitare di specificare più di una <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A> per una determinata proprietà di dipendenza (si esegue l'override o l'aggiunta di nuovi metadati per una proprietà di dipendenza che dispone già di un <xref:System.Windows.PropertyMetadata.CoerceValueCallback%2A>). Solo uno dei callback sarà in grado di agire. Il callback che agisce sarà quello che è stato applicato alla classe più derivata nell'ereditarietà rispetto a quanto il <xref:System.Windows.DependencyObject> chiamante. Gli altri callback assegnati ai metadati della proprietà di dipendenza esistenti su un valore maggiore nella gerarchia proprietario vengono sostituiti quando si esegue l'override dei metadati.  
   
    
   
 ## Examples  
- L'esempio seguente include un'implementazione di questo callback per assegnare il valore memorizzato di una proprietà di dipendenza basata su altri input, ad esempio il valore della proprietà. In questo caso, il callback verifica se il `ShirtType` proprietà corrisponde a un tipo di camicia con pulsanti; in caso affermativo stabilisce un colore iniziale predefinito per il `ButtonColor`, se il tipo di camicia non dispone di alcun pulsante, assegna il `ButtonColor` valore in un valore inizio, che comporta la [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] (non illustrato) per rimuovere l'elenco a discesa dalle scelte effettive.  
+ L'esempio seguente include un'implementazione di questo callback per assegnare il valore memorizzato di una proprietà di dipendenza basata su altri input, ad esempio un altro valore di proprietà. In questo caso, il callback controlla per vedere se il `ShirtType` proprietà corrisponde a un tipo di camicia con pulsanti; in caso affermativo stabilisce un colore iniziale predefinito per il `ButtonColor`, se il tipo di camicia non dispone di alcun pulsante, forzata la `ButtonColor` valore su un valore inizio, che comporta l'esecuzione di [!INCLUDE[TLA2#tla_ui](~/includes/tla2sharptla-ui-md.md)] (non illustrato) per rimuovere l'elenco a discesa usando le scelte valide.  
   
  [!code-csharp[DPCustom#CoerceValueCallback](~/samples/snippets/csharp/VS_Snippets_Wpf/DPCustom/CSharp/default.xaml.cs#coercevaluecallback)]
  [!code-vb[DPCustom#CoerceValueCallback](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DPCustom/visualbasic/default.xaml.vb#coercevaluecallback)]  
