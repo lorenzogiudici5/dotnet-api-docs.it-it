@@ -1,17 +1,18 @@
 <Type Name="EncoderFallbackBuffer" FullName="System.Text.EncoderFallbackBuffer">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="116c4743750d62c78bf7a85e6e5dff453828390b" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="0b4058ee79c75eee473ca4b7373c36ade4ead876" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30529075" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36407776" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class EncoderFallbackBuffer" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit EncoderFallbackBuffer extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Text.EncoderFallbackBuffer" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class EncoderFallbackBuffer" />
   <TypeSignature Language="C++ CLI" Value="public ref class EncoderFallbackBuffer abstract" />
+  <TypeSignature Language="F#" Value="type EncoderFallbackBuffer = class" />
   <AssemblyInfo>
     <AssemblyName>System.Text.Encoding</AssemblyName>
     <AssemblyVersion>4.0.10.0</AssemblyVersion>
@@ -42,27 +43,27 @@
 ## Remarks  
  Una codifica definisce un mapping tra un carattere Unicode e una sequenza di byte codificata. Un'operazione di codifica, che converte un carattere di input in una sequenza di byte di output, non riesce se per un particolare carattere è definito alcun mapping.  
   
- .NET Framework fornisce un meccanismo, denominato fallback, se non è possibile eseguire una conversione di gestione degli errori. Tutti i gestori di fallback del codificatore devono implementare le operazioni seguenti:  
+ .NET Framework fornisce un meccanismo, denominato fallback, se non è possibile eseguire una conversione di gestione degli errori. Tutti i gestori di fallback del codificatore devono implementare il seguente:  
   
--   Un fallback del codificatore, rappresentato da una classe derivata dalla <xref:System.Text.EncoderFallback> classe.  
+-   Un fallback del codificatore, è rappresentato da una classe derivata dal <xref:System.Text.EncoderFallback> classe.  
   
--   Un buffer di fallback del codificatore, è rappresentato da un tipo derivato dalla <xref:System.Text.EncoderFallbackBuffer> classe che può restituire una stringa per l'operazione di conversione.  
+-   Un buffer di fallback del codificatore, rappresentati da un tipo derivato dal <xref:System.Text.EncoderFallbackBuffer> classe che può restituire una stringa per l'operazione di conversione.  
   
  Fallback è possono utilizzare tre strategie per gestire gli errori di conversione:  
   
--   Fallback con mapping. Il buffer di fallback del codificatore può restituire una stringa che rappresenta un'approssimazione molto vicina al carattere di input. .NET Framework non fornisce un mapping più appropriato pubblico <xref:System.Text.EncoderFallbackBuffer> implementazione.  
+-   Mapping più appropriato. Il buffer di fallback del codificatore può restituire una stringa che rappresenta un'approssimazione molto vicina al carattere di input. .NET Framework non fornisce un mapping più appropriato aggiuntivo pubblico <xref:System.Text.EncoderFallbackBuffer> implementazione.  
   
 -   Sostituzione. Il buffer di fallback del codificatore può restituire una stringa, ad esempio un punto interrogativo ("?"), che indica che un carattere non può essere codificato. In .NET Framework, il <xref:System.Text.EncoderReplacementFallback> e <xref:System.Text.EncoderReplacementFallbackBuffer> classi forniscono un'implementazione di buffer di fallback di sostituzione pubblica. Il costruttore del <xref:System.Text.EncoderReplacementFallback> classe consente di definire la stringa di sostituzione.  
   
--   Eccezione. Il <xref:System.Text.EncoderFallbackBuffer> implementazione genera un'eccezione, che indica che un carattere non può essere codificato e termina l'operazione di codifica. In questo caso, il gestore di fallback è necessario fornire un <xref:System.Text.EncoderFallbackBuffer> implementazione, anche se non restituisce una stringa al codificatore. In .NET Framework, il <xref:System.Text.EncoderExceptionFallback> e <xref:System.Text.EncoderExceptionFallbackBuffer> classi forniscono un'implementazione del fallback di eccezione pubblica che genera un <xref:System.Text.EncoderFallbackException> quando un carattere non può essere codificato.  
+-   Eccezione. Il <xref:System.Text.EncoderFallbackBuffer> implementazione genera un'eccezione, che indica che un carattere non può essere codificato e termina l'operazione di codifica. In questo caso, il gestore di fallback deve fornire un <xref:System.Text.EncoderFallbackBuffer> implementazione, anche se non restituisce una stringa al codificatore. In .NET Framework, il <xref:System.Text.EncoderExceptionFallback> e <xref:System.Text.EncoderExceptionFallbackBuffer> classi forniscono un'implementazione del fallback di eccezione pubblica che genera un <xref:System.Text.EncoderFallbackException> quando un carattere non può essere codificato.  
   
- Buffer in un <xref:System.Text.EncoderFallbackBuffer> implementazione rappresenta l'intera stringa da restituire al codificatore in risposta a un codificatore di fallback. In genere, le implementazioni includono anche le informazioni sullo stato, ad esempio l'indice del carattere successivo da restituire al codificatore e il numero di caratteri rimanenti da restituire. Poiché <xref:System.Text.EncoderFallbackBuffer> è una classe astratta, richiede alle classi derivate di implementare i membri seguenti almeno:  
+ Buffer in un <xref:System.Text.EncoderFallbackBuffer> implementazione rappresenta l'intera stringa da restituire al codificatore in risposta a un codificatore di fallback. In genere, le implementazioni includono anche le informazioni sullo stato, ad esempio l'indice del carattere successivo da restituire per il codificatore e il numero di caratteri rimanenti da restituire. Poiché <xref:System.Text.EncoderFallbackBuffer> è una classe astratta, richiede alle classi derivate di implementare i membri seguenti come minimo:  
   
--   Di overload <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo, che viene chiamato dal codificatore quando non è possibile codificare un carattere. Il codificatore passa due tipi di informazioni per l'implementazione del buffer di fallback: il carattere o coppia di surrogati che non può essere codificato e l'indice del carattere di input. In un gestore di eccezioni fallback del codificatore, viene generata l'eccezione in questo metodo. In caso contrario, il metodo restituisce `true` se contiene un fallback, o `false` in caso contrario.  
+-   Di overload <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo, che viene chiamato dal codificatore quando non può codificare un carattere. Il codificatore passa due tipi di informazioni per l'implementazione del buffer di fallback: il carattere o coppia di surrogati che non può essere codificato e l'indice del carattere di input. In un gestore di eccezioni di fallback del codificatore, in questo metodo viene generata l'eccezione. In caso contrario, il metodo restituisce `true` se fornisce un fallback o `false` se non esiste.  
   
--   Il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> (metodo), che viene chiamato ripetutamente dal codificatore se il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> restituisce `true`. Nelle chiamate successive, il gestore deve restituire ogni carattere nel buffer. Se ha restituito tutti i caratteri, deve restituire U + 0000. Un gestore di eccezioni restituisce sempre U + 0000.  
+-   Il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo, che viene chiamato ripetutamente dal codificatore se il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> restituisce `true`. Nelle chiamate successive, il gestore deve restituire ogni carattere nel buffer. Se ha restituito tutti i caratteri, deve restituire u+0000. Un gestore di eccezioni restituisce sempre u+0000.  
   
--   Il <xref:System.Text.EncoderFallbackBuffer.MovePrevious%2A> metodo che tenta di spostare il puntatore alla posizione precedente nel buffer e indica se lo spostamento è riuscito. Restituisce sempre un gestore di eccezioni `false`.  
+-   Il <xref:System.Text.EncoderFallbackBuffer.MovePrevious%2A> metodo, che tenta di spostare il puntatore alla posizione precedente nel buffer e indica se lo spostamento è riuscito. Restituisce sempre un gestore di eccezioni `false`.  
   
 -   Il <xref:System.Text.EncoderFallbackBuffer.Remaining%2A> proprietà, che indica il numero di caratteri rimanenti da restituire al codificatore. Un gestore di fallback di eccezione restituisce sempre zero.  
   
@@ -117,6 +118,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function Fallback (charUnknown As Char, index As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract bool Fallback(char charUnknown, int index);" />
+      <MemberSignature Language="F#" Value="abstract member Fallback : char * int -&gt; bool" Usage="encoderFallbackBuffer.Fallback (charUnknown, index)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -165,6 +167,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncoderFallbackBuffer.Fallback(System.Char,System.Char,System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function Fallback (charUnknownHigh As Char, charUnknownLow As Char, index As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract bool Fallback(char charUnknownHigh, char charUnknownLow, int index);" />
+      <MemberSignature Language="F#" Value="abstract member Fallback : char * char * int -&gt; bool" Usage="encoderFallbackBuffer.Fallback (charUnknownHigh, charUnknownLow, index)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -203,7 +206,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Text.Encoding.GetBytes%2A?displayProperty=nameWithType> e <xref:System.Text.Encoder.Convert%2A?displayProperty=nameWithType> chiamata di metodi <xref:System.Text.EncoderFallbackBuffer.Fallback%28System.Char%2CSystem.Char%2CSystem.Int32%29> se viene rilevata una coppia di surrogati nell'input. Valore restituito di `true` indica che il buffer di fallback può elaborare la coppia di surrogati, che determina la chiamata al metodo chiamare il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> per ottenere ogni carattere nel buffer di fallback.  Poiché non elabora i singoli caratteri, il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo in un gestore di fallback di eccezione viene generata un'eccezione.  
+ Il <xref:System.Text.Encoding.GetBytes%2A?displayProperty=nameWithType> e <xref:System.Text.Encoder.Convert%2A?displayProperty=nameWithType> chiamata di metodi <xref:System.Text.EncoderFallbackBuffer.Fallback%28System.Char%2CSystem.Char%2CSystem.Int32%29> se incontrano una coppia di surrogati nell'input. Valore restituito di `true` indica che il buffer di fallback può elaborare la coppia di surrogati, che determina la chiamata al metodo chiamare il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> per ottenere ogni carattere nel buffer di fallback.  Poiché non elabora i singoli caratteri, il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo in un gestore di fallback di eccezione viene generata un'eccezione.  
   
  ]]></format>
         </remarks>
@@ -215,6 +218,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncoderFallbackBuffer.GetNextChar" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetNextChar () As Char" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract char GetNextChar();" />
+      <MemberSignature Language="F#" Value="abstract member GetNextChar : unit -&gt; char" Usage="encoderFallbackBuffer.GetNextChar " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -245,9 +249,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiama un'operazione di codifica di <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo se l'operazione viene rilevato un carattere sconosciuto o una coppia di surrogati nell'input. Ad esempio, nel caso di una sostituzione fallback, se il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> restituisce `true`, esiste una stringa di sostituzione che possono essere codificati anziché dell'input sconosciuto. Operazione di codifica chiama il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo ripetutamente e ottiene la stringa di sostituzione di un carattere alla volta. Quando sono stati restituiti tutti i caratteri nel buffer di fallback per il codificatore, il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo dovrebbe restituire U + 0000.  
+ Chiama un'operazione di codifica il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo se l'operazione viene rilevato un carattere sconosciuto o una coppia di surrogati nell'input. Ad esempio, nel caso di una sostituzione fallback, se il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> restituisce `true`, esiste una stringa di sostituzione che possono essere codificati anziché dell'input sconosciuto. Operazione di codifica chiama il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo ripetutamente e ottiene la stringa di sostituzione di un carattere alla volta. Quando sono stati restituiti tutti i caratteri nel buffer di fallback per il codificatore di <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo dovrebbe restituire u+0000.  
   
- Per un gestore di fallback di eccezione, il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo dovrebbe restituire U + 0000.  
+ Per un gestore di fallback di eccezione, il <xref:System.Text.EncoderFallbackBuffer.GetNextChar%2A> metodo dovrebbe restituire u+0000.  
   
  ]]></format>
         </remarks>
@@ -259,6 +263,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncoderFallbackBuffer.MovePrevious" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function MovePrevious () As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract bool MovePrevious();" />
+      <MemberSignature Language="F#" Value="abstract member MovePrevious : unit -&gt; bool" Usage="encoderFallbackBuffer.MovePrevious " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -302,6 +307,7 @@
       <MemberSignature Language="DocId" Value="P:System.Text.EncoderFallbackBuffer.Remaining" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property Remaining As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property int Remaining { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.Remaining : int" Usage="System.Text.EncoderFallbackBuffer.Remaining" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -331,9 +337,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> restituisce `true` se <xref:System.Text.EncoderFallbackBuffer.Remaining%2A> è un valore diverso da zero.  
+ Il <xref:System.Text.EncoderFallbackBuffer.Fallback%2A> metodo restituisce `true` se <xref:System.Text.EncoderFallbackBuffer.Remaining%2A> è un valore diverso da zero.  
   
- Per un gestore di fallback di eccezione, il <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> metodo deve restituire zero.  
+ Per un gestore di fallback di eccezione, il <xref:System.Text.DecoderFallbackBuffer.Remaining%2A> metodo dovrebbe restituire zero.  
   
  ]]></format>
         </remarks>
@@ -345,6 +351,7 @@
       <MemberSignature Language="DocId" Value="M:System.Text.EncoderFallbackBuffer.Reset" />
       <MemberSignature Language="VB.NET" Value="Public Overridable Sub Reset ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Reset();" />
+      <MemberSignature Language="F#" Value="abstract member Reset : unit -&gt; unit&#xA;override this.Reset : unit -&gt; unit" Usage="encoderFallbackBuffer.Reset " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Text.Encoding</AssemblyName>
@@ -372,7 +379,7 @@
         <summary>Inizializza tutti i dati e le informazioni sullo stato relativamente a questo buffer di fallback.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Dopo la chiamata di <see cref="M:System.Text.EncoderFallbackBuffer.Reset" /> (metodo), il <see cref="P:System.Text.EncoderFallbackBuffer.Remaining" /> proprietà deve restituire 0, il <see cref="M:System.Text.EncoderFallbackBuffer.GetNextChar" /> metodo dovrebbe restituire U + 0000 e <see cref="M:System.Text.EncoderFallbackBuffer.MovePrevious" /> metodo deve restituire <see langword="false" />.</para>
+          <para>Dopo la chiamata di <see cref="M:System.Text.EncoderFallbackBuffer.Reset" /> metodo, il <see cref="P:System.Text.EncoderFallbackBuffer.Remaining" /> proprietà deve restituire 0, il <see cref="M:System.Text.EncoderFallbackBuffer.GetNextChar" /> metodo dovrebbe restituire u+0000 e il <see cref="M:System.Text.EncoderFallbackBuffer.MovePrevious" /> metodo dovrebbe restituire <see langword="false" />.</para>
         </block>
       </Docs>
     </Member>
