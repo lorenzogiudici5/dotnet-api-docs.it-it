@@ -1,17 +1,18 @@
 <Type Name="ReaderWriterLock" FullName="System.Threading.ReaderWriterLock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fc1a0c88765040869d8ad919aeb575e304c71bde" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="ed9a740eab700d16f5778c2b6c1ce675521e870e" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30531035" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36605890" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ReaderWriterLock : System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReaderWriterLock extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
   <TypeSignature Language="DocId" Value="T:System.Threading.ReaderWriterLock" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ReaderWriterLock&#xA;Inherits CriticalFinalizerObject" />
   <TypeSignature Language="C++ CLI" Value="public ref class ReaderWriterLock sealed : System::Runtime::ConstrainedExecution::CriticalFinalizerObject" />
+  <TypeSignature Language="F#" Value="type ReaderWriterLock = class&#xA;    inherit CriticalFinalizerObject" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -45,34 +46,34 @@
 > [!IMPORTANT]
 >  [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] include due blocchi in lettura/scrittura, ovvero <xref:System.Threading.ReaderWriterLockSlim> e <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> è consigliato per tutte le nuove fasi di sviluppo. <xref:System.Threading.ReaderWriterLockSlim> è simile a <xref:System.Threading.ReaderWriterLock>, ma include regole semplificate per la ricorsione e per l'aggiornamento e il downgrade dello stato del blocco. <xref:System.Threading.ReaderWriterLockSlim> evita molti casi di deadlock potenziale. Inoltre, le prestazioni di <xref:System.Threading.ReaderWriterLockSlim> sono significativamente migliori di <xref:System.Threading.ReaderWriterLock>.  
   
- <xref:System.Threading.ReaderWriterLock> viene utilizzato per sincronizzare l'accesso a una risorsa. In qualsiasi momento, consente l'accesso in lettura simultanea di più thread o l'accesso in scrittura per un singolo thread. In una situazione in cui una risorsa modificata raramente, un `ReaderWriterLock` fornisce una migliore velocità effettiva rispetto a un semplice blocco uno alla volta, ad esempio <xref:System.Threading.Monitor>.  
+ <xref:System.Threading.ReaderWriterLock> viene utilizzato per sincronizzare l'accesso a una risorsa. In qualsiasi momento, consente l'accesso simultaneo in lettura per più thread o l'accesso in scrittura per un singolo thread. In una situazione in cui una risorsa modificata raramente, un' `ReaderWriterLock` fornisce una migliore velocità effettiva rispetto a un semplice blocco uno alla volta, ad esempio <xref:System.Threading.Monitor>.  
   
- `ReaderWriterLock` più adatto in cui la maggior parte degli accessi sono operazioni di lettura, in operazioni di scrittura sono poco frequenti e di breve durata. Più lettori alternano con i writer singoli, in modo che i lettori né i writer vengono bloccati per lunghi periodi di tempo.  
+ `ReaderWriterLock` più adatto in cui accede la maggior parte dei casi si letture, scritture poco frequenti e di breve durata. Più lettori alternano con i writer singoli, in modo che i lettori né i writer vengono bloccati per lunghi periodi di tempo.  
   
 > [!NOTE]
->  Mantenimento di blocchi di lettura o scrittura per lunghi periodi di tempo è dannoso per gli altri thread. Per prestazioni ottimali, provare a ristrutturare l'applicazione per ridurre al minimo la durata delle operazioni di scrittura.  
+>  Mantenimento blocchi lettore o writer per lunghi periodi di tempo è dannoso per gli altri thread. Per prestazioni ottimali, provare a ristrutturare l'applicazione per ridurre al minimo la durata delle operazioni di scrittura.  
   
- Un thread può contenere un lettore di blocco o un blocco del writer, ma non entrambi contemporaneamente. Anziché rilasciare un blocco del lettore per acquisire il blocco del writer, è possibile utilizzare <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> e <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
+ Un thread può contenere un lettore di blocco o un blocco del writer, ma non entrambi allo stesso tempo. Anziché rilasciare un blocco del lettore per acquisire il blocco del writer, è possibile utilizzare <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> e <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
   
  Le richieste di blocco ricorsiva aumentano il conteggio dei blocchi in un blocco.  
   
- Lettori e writer vengono accodati separatamente. Quando un thread rilascia il blocco del writer, tutti i thread in attesa nella coda di lettura in quel preciso momento vengono concessi i blocchi di lettura. Quando tutti i blocchi di lettura sono stati rilasciati, il thread successivo in attesa il writer della coda, se presente, viene concesso il blocco del writer e così via. In altre parole, `ReaderWriterLock` Alterna tra un insieme di lettori e un writer.  
+ Lettori e writer vengono messe in coda separatamente. Quando un thread rilascia il blocco del writer, tutti i thread in attesa nella coda di lettura in quel preciso momento vengono concessi i blocchi di lettura. Quando tutti i blocchi di lettura sono stati rilasciati, il thread successivo in attesa nel writer coda, se presente, viene concesso il blocco del writer e così via. In altre parole, `ReaderWriterLock` Alterna tra un insieme di lettori e un writer.  
   
- Durante l'attesa di un thread nella coda di scrittura per il rilascio di blocchi di lettura attivi, thread che richiedono nuovi blocchi di lettura si accumulano nella coda di lettura. Le richieste non vengono soddisfatte, anche se condividono Impossibile accesso simultaneo con titolari del blocco esistente; Ciò consente di proteggere i writer sul blocco indefinito dai lettori.  
+ Mentre un thread nella coda del writer è in attesa di rilascio dei blocchi reader attivo, thread che richiedono nuovi blocchi di lettura si accumulano nella coda di lettura. Le richieste non vengono soddisfatte, anche se è stato possibile condividono l'accesso simultaneo con titolari del blocco esistente; Ciò consente di proteggere i writer rispetto a un valore indefinito blocco dai lettori.  
   
- La maggior parte dei metodi per acquisire blocchi su un `ReaderWriterLock` accettano valori di timeout. Utilizzare i timeout per evitare deadlock nell'applicazione. Ad esempio, un thread può acquisire il blocco del writer in una risorsa e quindi richiedere un blocco di lettura su una seconda risorsa. Nel frattempo, un altro thread può acquisire il blocco del writer dalla seconda risorsa e richiedere un blocco del lettore sul primo. A meno che non vengono utilizzati i valori di timeout, il deadlock di thread.  
+ La maggior parte dei metodi per l'acquisizione dei blocchi in un `ReaderWriterLock` accettare i valori di timeout. Utilizzare i timeout per evitare deadlock nell'applicazione. Ad esempio, un thread può acquisire il blocco del writer su una risorsa e quindi richiedere un blocco del lettore su una risorsa secondo; Nel frattempo, un altro thread potrebbe acquisire il blocco di scrittura nella risorsa secondo e richiedere un blocco del lettore sul primo. A meno che non vengono utilizzati valori di timeout, il deadlock di thread.  
   
  Se l'intervallo di timeout scade e non è stata concessa la richiesta di blocco, il metodo restituisce il controllo al thread chiamante generando un <xref:System.ApplicationException>. Un thread può rilevare questa eccezione e determinare l'azione da intraprendere in seguito.  
   
- I timeout sono espressi in millisecondi. Se si utilizza un <xref:System.TimeSpan?displayProperty=nameWithType> per specificare il timeout, il valore utilizzato è il numero totale di millisecondi interi rappresentato dal <xref:System.TimeSpan>. Nella tabella seguente vengono illustrati i valori di timeout valido in millisecondi.  
+ I timeout sono espressi in millisecondi. Se si usa un <xref:System.TimeSpan?displayProperty=nameWithType> per specificare il timeout, il valore utilizzato è il numero totale di millisecondi interi rappresentato dal <xref:System.TimeSpan>. Nella tabella seguente vengono illustrati i valori validi di timeout in millisecondi.  
   
 |Valore|Descrizione|  
 |-----------|-----------------|  
 |-1|Il thread attende fino a quando non viene acquisito il blocco, indipendentemente dal tempo necessario. Per i metodi che specificano i timeout intero, la costante <xref:System.Threading.Timeout.Infinite> può essere utilizzato.|  
-|0|Il thread non viene attesa di acquisire il blocco. Se non è possibile acquisire il blocco immediatamente, il metodo restituisce.|  
+|0|Il thread non attendere di acquisire il blocco. Se il blocco non è possibile acquisire immediatamente, il metodo restituisce.|  
 |>0|Numero di millisecondi di attesa.|  
   
- Fatta eccezione per -1, i valori di timeout negativi non sono consentiti. Se si specifica un numero intero negativo diverso da -1, viene invece utilizzato un valore di timeout pari a zero. (Ovvero, il metodo restituisce senza attendere, se non è possibile acquisire il blocco immediatamente.) Se si specifica un <xref:System.TimeSpan> che rappresenta un numero negativo di millisecondi diverso da -1, <xref:System.ArgumentOutOfRangeException> viene generata un'eccezione.  
+ Fatta eccezione per -1, i valori di timeout negativi non sono consentiti. Se si specifica un numero intero negativo diverso da -1, viene invece utilizzato un valore di timeout pari a zero. (Vale a dire, il metodo restituisce senza attendere, se il blocco non è possibile acquisire immediatamente.) Se si specifica un <xref:System.TimeSpan> che rappresenta un numero negativo di millisecondi diverso da -1, <xref:System.ArgumentOutOfRangeException> viene generata un'eccezione.  
   
    
   
@@ -118,7 +119,7 @@
 ## Examples  
  Nell'esempio di codice riportato di seguito viene illustrato come creare una nuova istanza della classe <xref:System.Threading.ReaderWriterLock>.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -147,6 +148,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireReaderLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AcquireReaderLock (millisecondsTimeout As Integer)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireReaderLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.AcquireReaderLock : int -&gt; unit" Usage="readerWriterLock.AcquireReaderLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -175,23 +177,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread ha il blocco del writer, o se almeno un thread è in attesa del blocco del writer.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread dispone del blocco del writer, o se almeno un thread è in attesa del blocco del writer.  
   
 > [!NOTE]
->  Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco di lettura. Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer. Ciò impedisce che un thread blocchi nel proprio blocco del writer. Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando il rilascio del blocco del writer.  
+>  Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco del lettore. Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer. Ciò impedisce che un thread di eventuali blocchi nel proprio blocco del writer. Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando viene rilasciato il blocco del writer.  
   
- `AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi. Ovvero, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.  
+ `AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi. Vale a dire, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi su zero immediatamente.  
   
- Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda di lettura. Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.  
+ Le richieste di blocco ricorsiva sono sempre concessi immediatamente, senza inserire il thread di richiesta nella coda di lettura. Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del lettore e come gestire l'eccezione generata quando scade una richiesta.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -205,8 +207,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
       </Docs>
     </Member>
     <Member MemberName="AcquireReaderLock">
@@ -215,6 +216,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireReaderLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AcquireReaderLock (timeout As TimeSpan)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireReaderLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.AcquireReaderLock : TimeSpan -&gt; unit" Usage="readerWriterLock.AcquireReaderLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -243,23 +245,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread ha il blocco del writer, o se almeno un thread è in attesa del blocco del writer.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> blocca se un altro thread dispone del blocco del writer, o se almeno un thread è in attesa del blocco del writer.  
   
 > [!NOTE]
->  Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco di lettura. Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer. Ciò impedisce che un thread blocchi nel proprio blocco del writer. Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando il rilascio del blocco del writer.  
+>  Se il thread corrente contiene già il blocco del writer, non viene acquisito alcun blocco del lettore. Al contrario, viene incrementato il conteggio dei blocchi nel blocco del writer. Ciò impedisce che un thread di eventuali blocchi nel proprio blocco del writer. Il risultato è esattamente come per la chiamata <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>e una chiamata aggiuntiva al <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> è obbligatorio quando viene rilasciato il blocco del writer.  
   
- `AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi. Ovvero, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.  
+ `AcquireReaderLock` supporta le richieste di blocco di lettura ricorsivi. Vale a dire, un thread può chiamare AcquireReaderLock più volte, il quale il conteggio dei blocchi viene incrementato ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> una volta per ogni volta che si chiama `AcquireReaderLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi su zero immediatamente.  
   
- Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda di lettura. Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.  
+ Le richieste di blocco ricorsiva sono sempre concessi immediatamente, senza inserire il thread di richiesta nella coda di lettura. Utilizzare blocchi ricorsivi con cautela, per evitare di bloccare le richieste di blocco del writer per lunghi periodi.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="AcquireWriterLock">
@@ -278,6 +278,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireWriterLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AcquireWriterLock (millisecondsTimeout As Integer)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireWriterLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.AcquireWriterLock : int -&gt; unit" Usage="readerWriterLock.AcquireWriterLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -306,25 +307,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si blocca se un altro thread ha un blocco di lettura o di un blocco del writer. Per una descrizione del modo in cui il blocco del writer si alterna con più blocchi di lettura simultanei, vedere la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo metodo si blocca se un altro thread ha un blocco del lettore o blocco del writer. Per una descrizione del modo in cui il blocco del writer alterna con più blocchi di lettura simultanei, vedere il <xref:System.Threading.ReaderWriterLock> classe.  
   
- Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco di lettura prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco del lettore prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock. Per evitare questi deadlock, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.  
+>  Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock. Per evitare deadlock di questo tipo, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.  
   
- `AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva. Ovvero, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.  
+ `AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva. Vale a dire, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi su zero immediatamente.  
   
- Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda del writer.  
+ Le richieste di blocco ricorsiva sono sempre concessi immediatamente, senza inserire il thread di richiesta nella coda del writer.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del writer e come gestire l'eccezione generata quando scade una richiesta.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -338,8 +339,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
       </Docs>
     </Member>
     <Member MemberName="AcquireWriterLock">
@@ -348,6 +348,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AcquireWriterLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AcquireWriterLock (timeout As TimeSpan)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AcquireWriterLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.AcquireWriterLock : TimeSpan -&gt; unit" Usage="readerWriterLock.AcquireWriterLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -376,25 +377,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si blocca se un altro thread ha un blocco di lettura o di un blocco del writer. Per una descrizione del modo in cui il blocco del writer si alterna con più blocchi di lettura simultanei, vedere la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo metodo si blocca se un altro thread ha un blocco del lettore o blocco del writer. Per una descrizione del modo in cui il blocco del writer alterna con più blocchi di lettura simultanei, vedere il <xref:System.Threading.ReaderWriterLock> classe.  
   
- Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco di lettura prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ Un thread che dispone già di un blocco del lettore può acquisire il blocco del writer in uno dei due modi: rilasciando il blocco del lettore prima di chiamare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, oppure chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock. Per evitare questi deadlock, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.  
+>  Se un thread chiama `AcquireWriterLock` mentre è ancora un blocco del lettore, bloccherà il proprio blocco del lettore; se viene specificato un timeout infinito, il thread di un deadlock. Per evitare deadlock di questo tipo, utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> per determinare se il thread corrente ha già un blocco del lettore.  
   
- `AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva. Ovvero, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi per azzerare immediatamente.  
+ `AcquireWriterLock` supporta le richieste di blocco del writer ricorsiva. Vale a dire, un thread può chiamare `AcquireWriterLock` più volte, il quale viene incrementato il conteggio dei blocchi ogni volta. È necessario chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> una volta per ogni volta che si chiama `AcquireWriterLock`. In alternativa, è possibile chiamare <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> per ridurre il conteggio dei blocchi su zero immediatamente.  
   
- Le richieste di blocco ricorsiva vengono sempre soddisfatte immediatamente, senza inserire il thread di richiesta nella coda del writer.  
+ Le richieste di blocco ricorsiva sono sempre concessi immediatamente, senza inserire il thread di richiesta nella coda del writer.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
       </Docs>
     </Member>
     <Member MemberName="AnyWritersSince">
@@ -403,6 +402,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.AnyWritersSince(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Function AnyWritersSince (seqNum As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool AnyWritersSince(int seqNum);" />
+      <MemberSignature Language="F#" Value="member this.AnyWritersSince : int -&gt; bool" Usage="readerWriterLock.AnyWritersSince seqNum" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -433,16 +433,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile utilizzare <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> e `AnyWritersSince` per migliorare le prestazioni dell'applicazione. Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene mentre è attivo un blocco del lettore. Dopo il rilascio e la successiva riacquisizione del blocco, il thread è possibile utilizzare `AnyWritersSince` per determinare se altri thread è scritti per la risorsa nel frattempo; in caso contrario, è possono utilizzare le informazioni memorizzate nella cache. Questa tecnica è utile in cui la lettura delle informazioni protette dal blocco è costosa; ad esempio, eseguire una query sul database.  
+ È possibile utilizzare <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> e `AnyWritersSince` per migliorare le prestazioni dell'applicazione. Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene tenendo un blocco del lettore. Dopo il rilascio e versioni successive la riacquisizione del blocco, il thread è possibile utilizzare `AnyWritersSince` per determinare se altri thread è scritti per la risorsa nel frattempo; in caso contrario, le informazioni memorizzate nella cache possono essere utilizzate. Questa tecnica è utile in cui la lettura delle informazioni protette dal blocco è costosa; ad esempio, eseguire una query sul database.  
   
- Il chiamante deve contenere un blocco di lettura o di un blocco del writer affinché il numero di sequenza essere utile.  
+ Il chiamante deve contenere un blocco del lettore o un blocco del writer affinché il numero di sequenza essere utile.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> (metodo) e <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente rimane ultimo blocco del writer.  
+ Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> metodo e il <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente rimane ultimo blocco del writer.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -464,6 +464,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.DowngradeFromWriterLock(System.Threading.LockCookie@)" />
       <MemberSignature Language="VB.NET" Value="Public Sub DowngradeFromWriterLock (ByRef lockCookie As LockCookie)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DowngradeFromWriterLock(System::Threading::LockCookie % lockCookie);" />
+      <MemberSignature Language="F#" Value="member this.DowngradeFromWriterLock :  -&gt; unit" Usage="readerWriterLock.DowngradeFromWriterLock lockCookie" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -495,16 +496,16 @@
  <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> rilascia il blocco del writer, indipendentemente dal conteggio dei blocchi di ricorsivi e ripristina il blocco del lettore che è stato mantenuto dal thread prima dell'aggiornamento al blocco del writer. Viene ripristinato il conteggio dei blocchi nel blocco del lettore.  
   
 > [!NOTE]
->  `DowngradeFromWriterLock` accetta un <xref:System.Threading.LockCookie> ottenuto chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. Non utilizzare un `LockCookie` restituito da <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
+>  `DowngradeFromWriterLock` accetta una <xref:System.Threading.LockCookie> ottenuto chiamando <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. Non utilizzare un `LockCookie` restituito da <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
   
- Un thread si blocca quando si esegue il downgrade da blocchi del writer, anche se altri thread in attesa del blocco del writer, perché tutte le richieste di blocco di lettura vengono concesse quando viene rilasciato il blocco del writer.  
+ Un thread si blocca quando si esegue il downgrade da blocchi del writer, anche se altri thread in attesa del blocco del writer, poiché tutte le richieste di blocco di lettura vengono concesse quando viene rilasciato il blocco del writer.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come richiedere un blocco del lettore, aggiornare il blocco di lettura a un blocco del writer e di effettuare il downgrade a un blocco del lettore.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -528,6 +529,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.Finalize" />
       <MemberSignature Language="VB.NET" Value="Finalize ()" />
       <MemberSignature Language="C++ CLI" Value="!ReaderWriterLock ()" />
+      <MemberSignature Language="F#" Value="override this.Finalize : unit -&gt; unit" Usage="readerWriterLock.Finalize " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -549,7 +551,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il garbage collector chiama <xref:System.Threading.ReaderWriterLock.Finalize%2A> quando corrente <xref:System.Threading.ReaderWriterLock> oggetto è pronto per essere completato.  
+ Il garbage collector chiama <xref:System.Threading.ReaderWriterLock.Finalize%2A> quando corrente <xref:System.Threading.ReaderWriterLock> oggetto è pronto per essere finalizzati.  
   
  ]]></format>
         </remarks>
@@ -561,6 +563,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.IsReaderLockHeld" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsReaderLockHeld As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsReaderLockHeld { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsReaderLockHeld : bool" Usage="System.Threading.ReaderWriterLock.IsReaderLockHeld" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -608,6 +611,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.IsWriterLockHeld" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsWriterLockHeld As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsWriterLockHeld { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsWriterLockHeld : bool" Usage="System.Threading.ReaderWriterLock.IsWriterLockHeld" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -639,7 +643,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Esempio di codice seguente viene dimostrato che quando viene effettuato un tentativo di acquisire un blocco del lettore su un thread che dispone di un blocco del writer, `ReaderWriterLock` non concede il blocco di lettura, ma aumenta il conteggio dei blocchi nel blocco del writer.  
+ Esempio di codice seguente viene dimostrato che quando viene effettuato un tentativo di acquisire un blocco del lettore su un thread che ha un blocco del writer, `ReaderWriterLock` non concede il blocco del lettore, ma aumenta il conteggio dei blocchi nel blocco del writer.  
   
  [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
@@ -655,6 +659,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseLock" />
       <MemberSignature Language="VB.NET" Value="Public Function ReleaseLock () As LockCookie" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie ReleaseLock();" />
+      <MemberSignature Language="F#" Value="member this.ReleaseLock : unit -&gt; System.Threading.LockCookie" Usage="readerWriterLock.ReleaseLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -681,14 +686,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> rilascia il blocco del lettore o writer, indipendentemente dal conteggio dei blocchi ricorsivi. Per ripristinare lo stato del blocco, incluso il conteggio dei blocchi, passare il <xref:System.Threading.LockCookie> a <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> rilascia il blocco del lettore o blocco del writer, indipendentemente dal conteggio dei blocchi ricorsivi. Per ripristinare lo stato del blocco, incluso il conteggio dei blocchi, passare il <xref:System.Threading.LockCookie> a <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte viene acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.  
+ Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte è stato acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -710,6 +715,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseReaderLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub ReleaseReaderLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseReaderLock();" />
+      <MemberSignature Language="F#" Value="member this.ReleaseReaderLock : unit -&gt; unit" Usage="readerWriterLock.ReleaseReaderLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -743,14 +749,14 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> Decrementa il conteggio dei blocchi. Quando il conteggio raggiunge lo zero, il blocco viene rilasciato.  
   
 > [!NOTE]
->  Se un thread del blocco del writer, la chiamata `ReleaseReaderLock` ha lo stesso effetto della chiamata <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Se un thread non dispone di alcun blocco, la chiamata `ReleaseReaderLock` genera un <xref:System.ApplicationException>.  
+>  Se un thread dispone del blocco del writer, la chiamata `ReleaseReaderLock` equivale a chiamare <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Se un thread non dispone di alcun blocco, la chiamata `ReleaseReaderLock` genera un <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del lettore e come gestire l'eccezione generata quando scade una richiesta.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -773,6 +779,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.ReleaseWriterLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub ReleaseWriterLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseWriterLock();" />
+      <MemberSignature Language="F#" Value="member this.ReleaseWriterLock : unit -&gt; unit" Usage="readerWriterLock.ReleaseWriterLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -806,14 +813,14 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> Decrementa conteggio del blocco del writer. Quando il conteggio raggiunge lo zero, viene rilasciato il blocco del writer.  
   
 > [!NOTE]
->  Se un thread dispone di un blocco del lettore o alcun blocco, la chiamata `ReleaseWriterLock` genera un <xref:System.ApplicationException>.  
+>  Se un thread contiene un blocco del lettore o alcun blocco, la chiamata `ReleaseWriterLock` genera un <xref:System.ApplicationException>.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come acquisire e rilasciare un blocco del writer e come gestire l'eccezione generata quando scade una richiesta.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -836,6 +843,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.RestoreLock(System.Threading.LockCookie@)" />
       <MemberSignature Language="VB.NET" Value="Public Sub RestoreLock (ByRef lockCookie As LockCookie)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void RestoreLock(System::Threading::LockCookie % lockCookie);" />
+      <MemberSignature Language="F#" Value="member this.RestoreLock :  -&gt; unit" Usage="readerWriterLock.RestoreLock lockCookie" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -864,21 +872,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lo stato ripristinato da `RestoreLock` include il conteggio dei blocchi ricorsivi.  
+ Lo stato ripristinato da `RestoreLock` include il conteggio dei blocchi ricorsiva.  
   
- Un thread si blocca se tenta di ripristinare un blocco del lettore dopo che un altro thread ha acquisito il blocco del writer, o se tenta di ripristinare il blocco del writer dopo che un altro thread ha acquisito un blocco di lettura o di un blocco del writer. Poiché `RestoreLock` non accetta un timeout, è necessario prestare attenzione per evitare possibili deadlock.  
+ Un thread si blocca se tenta di ripristinare un blocco del lettore dopo che un altro thread ha acquisito il blocco del writer, o se tenta di ripristinare il blocco del writer dopo che un altro thread ha acquisito un blocco del lettore o blocco del writer. Poiché `RestoreLock` non accetta un timeout, è necessario prestare attenzione per evitare possibili deadlock.  
   
 > [!CAUTION]
->  Prima di chiamare `RestoreLock`, assicurarsi che sia stata rilasciata tutti i blocchi acquisiti dopo la chiamata a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Ad esempio, un thread deadlock se acquisisce un blocco del lettore e quindi tenta di ripristinare un blocco del writer precedenti. Utilizzare <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> e <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> per rilevare tali blocchi aggiuntivi.  
+>  Prima di chiamare `RestoreLock`, assicurarsi di aver rilasciato tutti i blocchi acquisiti dall'ultima chiamata a <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Ad esempio, un thread deadlock se acquisisce un blocco del lettore e quindi tenta di ripristinare un blocco del writer precedente. Uso <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> e <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> per rilevare tali blocchi aggiuntivi.  
   
  Non utilizzare un <xref:System.Threading.LockCookie> restituito da <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte viene acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.  
+ Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> metodo per rilasciare il blocco, indipendentemente da quante volte è stato acquisito dal thread e come ripristinare lo stato del blocco in un secondo momento.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -911,6 +919,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Function UpgradeToWriterLock (millisecondsTimeout As Integer) As LockCookie" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie UpgradeToWriterLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.UpgradeToWriterLock : int -&gt; System.Threading.LockCookie" Usage="readerWriterLock.UpgradeToWriterLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -940,23 +949,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco di lettura, indipendentemente dal numero di blocchi, e il thread viene spostato alla fine della coda per il blocco del writer. In questo modo, altri thread possono scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.  
+ Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco del lettore, indipendentemente dal conteggio dei blocchi, e il thread viene spostato alla fine della coda per il blocco del writer. In questo modo, altri thread potrà scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.  
   
 > [!IMPORTANT]
->  Thread che ha chiamato non viene generata l'eccezione di timeout di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo riacquisire il blocco del lettore. Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente. Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato il <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non può riacquisire il blocco di lettura fino a quando tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer. Questo vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.  
+>  Non viene generata l'eccezione di timeout finché il thread che ha chiamato la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo possibile riacquisire il blocco del lettore. Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente. Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non è possibile riacquisire il blocco del lettore finché tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer. Ciò vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.  
   
- Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`. Non utilizzare questo `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`. Non utilizzare questa `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Quando un thread non ha alcun blocco di lettura, non utilizzare `UpgradeToWriterLock`. In alternativa, usare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
  Esempio di codice seguente viene illustrato come richiedere un blocco del lettore, aggiornare il blocco di lettura a un blocco del writer e di effettuare il downgrade a un blocco del lettore.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
@@ -970,8 +979,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="millisecondsTimeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
       </Docs>
     </Member>
     <Member MemberName="UpgradeToWriterLock">
@@ -980,6 +988,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLock.UpgradeToWriterLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Function UpgradeToWriterLock (timeout As TimeSpan) As LockCookie" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::LockCookie UpgradeToWriterLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.UpgradeToWriterLock : TimeSpan -&gt; System.Threading.LockCookie" Usage="readerWriterLock.UpgradeToWriterLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1009,23 +1018,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco di lettura, indipendentemente dal numero di blocchi, e il thread viene spostato alla fine della coda per il blocco del writer. In questo modo, altri thread possono scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.  
+ Quando un thread chiama `UpgradeToWriterLock` viene rilasciato il blocco del lettore, indipendentemente dal conteggio dei blocchi, e il thread viene spostato alla fine della coda per il blocco del writer. In questo modo, altri thread potrà scrivere nella risorsa prima che il thread che ha richiesto che l'aggiornamento viene concesso il blocco del writer.  
   
 > [!IMPORTANT]
->  Thread che ha chiamato non viene generata l'eccezione di timeout di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo riacquisire il blocco del lettore. Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente. Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato il <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non può riacquisire il blocco di lettura fino a quando tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer. Questo vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.  
+>  Non viene generata l'eccezione di timeout finché il thread che ha chiamato la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo possibile riacquisire il blocco del lettore. Se non sono presenti altri thread in attesa del blocco del writer, questo si verifica immediatamente. Tuttavia, se un altro thread è in coda per il blocco del writer, il thread che ha chiamato la <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (metodo) non è possibile riacquisire il blocco del lettore finché tutti i lettori correnti sono rilasciati i blocchi e un thread ha acquisito e rilasciato il blocco del writer. Ciò vale anche se l'altro thread che ha richiesto il blocco del writer ne ha richiesto dopo la chiamata al thread corrente di <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> metodo.  
   
- Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`. Non utilizzare questo `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
+ Per ripristinare lo stato del blocco, chiamare <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> utilizzando il <xref:System.Threading.LockCookie> restituito da `UpgradeToWriterLock`. Non utilizzare questa `LockCookie` con <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
  Quando un thread non ha alcun blocco di lettura, non utilizzare `UpgradeToWriterLock`. In alternativa, usare <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
   
- Per i valori di timeout validi, vedere <xref:System.Threading.ReaderWriterLock>.  
+ Per i valori di timeout valido, vedere <xref:System.Threading.ReaderWriterLock>.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">
-          L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">
-          Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
+        <exception cref="T:System.ApplicationException">L'intervallo <paramref name="timeout" /> scade prima che la richiesta di blocco sia stata soddisfatta.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">Il parametro <paramref name="timeout" /> specifica un valore negativo diverso da -1 millisecondi.</exception>
       </Docs>
     </Member>
     <Member MemberName="WriterSeqNum">
@@ -1034,6 +1041,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLock.WriterSeqNum" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WriterSeqNum As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WriterSeqNum { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.WriterSeqNum : int" Usage="System.Threading.ReaderWriterLock.WriterSeqNum" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1061,16 +1069,16 @@
 ## Remarks  
  Il numero di sequenza aumenta ogni volta che un thread acquisisce un blocco del writer. È possibile salvare il numero di sequenza e passarlo a <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> in un secondo momento, se si desidera determinare se nel frattempo altri thread hanno acquisito il blocco del writer.  
   
- È possibile utilizzare `WriterSeqNum` per migliorare le prestazioni dell'applicazione. Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene mentre è attivo un blocco del lettore. Dopo il rilascio e la successiva riacquisizione del blocco, il thread può determinare se altri thread è scritte per la risorsa chiamando `AnyWritersSince`; se non è possibile utilizzare le informazioni memorizzate nella cache. Questa tecnica è utile quando la lettura delle informazioni protette dal blocco è dispendiosa; ad esempio, eseguire una query sul database.  
+ È possibile utilizzare `WriterSeqNum` per migliorare le prestazioni dell'applicazione. Ad esempio, un thread possibile memorizzare nella cache le informazioni che ottiene tenendo un blocco del lettore. Dopo il rilascio e versioni successive la riacquisizione del blocco, il thread può determinare se altri thread è scritte per la risorsa chiamando `AnyWritersSince`; Se No, le informazioni memorizzate nella cache possono essere utilizzate. Questa tecnica è utile quando la lettura delle informazioni protette dal blocco è dispendiosa; ad esempio, eseguire una query sul database.  
   
- Il chiamante deve contenere un blocco di lettura o di un blocco del writer affinché il numero di sequenza essere utile.  
+ Il chiamante deve contenere un blocco del lettore o un blocco del writer affinché il numero di sequenza essere utile.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà e <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> metodo per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente viene mantenuto ultimo blocco del writer.  
+ Esempio di codice seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> proprietà e il <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> metodo per determinare se un altro thread ha acquisito il blocco di scrittura nella risorsa protetta perché il thread corrente mantenuto ultimo blocco del writer.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLock> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLock> classe.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#2)]
  [!code-csharp[System.Threading.ReaderWriterLock#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#2)]
