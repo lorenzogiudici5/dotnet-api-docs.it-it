@@ -1,17 +1,18 @@
 <Type Name="SecurityState" FullName="System.Security.SecurityState">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="9b18ca92d9595b1878bca9db0b0a0effd82153c6" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="92c3b5262cf696d4aed556592356305fe9d1ba4c" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30497665" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36423847" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SecurityState" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SecurityState extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Security.SecurityState" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class SecurityState" />
   <TypeSignature Language="C++ CLI" Value="public ref class SecurityState abstract" />
+  <TypeSignature Language="F#" Value="type SecurityState = class" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -31,9 +32,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È necessario ereditare da questa classe per fornire una classe che include una proprietà che specifica l'azione di protezione da eseguire. Il <xref:System.Security.SecurityState> oggetto che viene creata un'istanza della classe derivata viene passato per il <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> metodo per determinare se l'host consente l'azione da eseguire. L'implementazione predefinita del <xref:System.AppDomainManager.CheckSecuritySettings%2A> metodo restituisce sempre `false`.  Il metodo deve essere sostituito per rilevare le azioni che sono consentite.  
+ È necessario ereditare da questa classe per fornire una classe che include una proprietà che specifica l'azione sensibili alla sicurezza da eseguire. Il <xref:System.Security.SecurityState> oggetto che viene creata un'istanza della classe derivata viene passato per il <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> metodo per determinare se l'host consente tale azione da eseguire. L'implementazione predefinita del <xref:System.AppDomainManager.CheckSecuritySettings%2A> metodo restituisce sempre `false`.  Il metodo deve essere sostituito per rilevare le azioni che sono consentite.  
   
- Ad esempio, se si desidera accedere a una webcam nel codice di libreria, si creerà un `WebcamSecurityState` oggetto e chiamare il <xref:System.Security.SecurityState.EnsureState%2A> metodo per determinare se l'host consente l'accesso alla webcam, come illustrato nell'esempio seguente.  (È possibile trovare il codice per `WebcamSecurityState` nella sezione "Esempio".)  
+ Ad esempio, se si desidera accedere a una webcam nel codice di libreria, si creerà un `WebcamSecurityState` oggetti e chiamare il <xref:System.Security.SecurityState.EnsureState%2A> metodo per determinare se l'host consente l'accesso alla webcam, come illustrato nell'esempio seguente.  (È possibile trovare il codice per `WebcamSecurityState` nella sezione "Esempio".)  
   
 ```  
 WebcamSecurityState securityState = new WebcamSecurityState("Safe access to Webcam", WebcamSecurityOptions.SafeAccess);  
@@ -49,7 +50,7 @@ catch (ApplicationException e)
 }  
 ```  
   
- Per elaborare la chiamata di <xref:System.AppDomainManager> deve essere informati del `WebcamSecurityState` tramite un override del <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> (metodo), come illustrato nell'esempio seguente.  
+ Per elaborare la chiamata di <xref:System.AppDomainManager> deve essere a conoscenza di `WebcamSecurityState` tramite un override del <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> (metodo), come illustrato nell'esempio seguente.  
   
 ```  
 [SecurityCritical]  
@@ -112,8 +113,8 @@ public class WebcamSecurityState : SecurityState
   
  ]]></format>
     </remarks>
-    <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questa classe non può essere utilizzata da codice parzialmente attendibile o trasparente.</permission>
-    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">per l'attendibilità totale per gli eredi. Questa classe non può essere ereditata da codice parzialmente attendibile.</permission>
+    <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. Questa classe non può essere utilizzata da codice parzialmente attendibile o trasparente.</permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">per l'attendibilità totale per gli eredi di. Questa classe non può essere ereditata da codice parzialmente attendibile.</permission>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -136,7 +137,7 @@ public class WebcamSecurityState : SecurityState
       <Docs>
         <summary>Inizializza una nuova istanza della classe <see cref="T:System.Security.SecurityState" />.</summary>
         <remarks>To be added.</remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
       </Docs>
     </Member>
     <Member MemberName="EnsureState">
@@ -145,6 +146,7 @@ public class WebcamSecurityState : SecurityState
       <MemberSignature Language="DocId" Value="M:System.Security.SecurityState.EnsureState" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Sub EnsureState ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void EnsureState();" />
+      <MemberSignature Language="F#" Value="abstract member EnsureState : unit -&gt; unit" Usage="securityState.EnsureState " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -186,6 +188,7 @@ public override void EnsureState()
       <MemberSignature Language="DocId" Value="M:System.Security.SecurityState.IsStateAvailable" />
       <MemberSignature Language="VB.NET" Value="Public Function IsStateAvailable () As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool IsStateAvailable();" />
+      <MemberSignature Language="F#" Value="member this.IsStateAvailable : unit -&gt; bool" Usage="securityState.IsStateAvailable " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -208,13 +211,13 @@ public override void EnsureState()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.SecurityState.IsStateAvailable%2A> chiamate di <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> metodo per determinare se lo stato rappresentato da questa classe è disponibile nell'host.  
+ <xref:System.Security.SecurityState.IsStateAvailable%2A> chiamate di <xref:System.AppDomainManager.CheckSecuritySettings%2A?displayProperty=nameWithType> metodo per determinare se lo stato è rappresentato da questa classe è disponibile nell'host.  
   
- Vedere il <xref:System.Security.SecurityState> classe per un esempio di implementazione del <xref:System.AppDomainManager.CheckSecuritySettings%2A> metodo.  
+ Vedere la <xref:System.Security.SecurityState> classe per un esempio di implementazione del <xref:System.AppDomainManager.CheckSecuritySettings%2A> metodo.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
       </Docs>
     </Member>
   </Members>
