@@ -1,17 +1,18 @@
 <Type Name="TaskScheduler" FullName="System.Threading.Tasks.TaskScheduler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ddd94061f594e353cba8674c76ffcb77a643ddb1" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="4d9adf13c8a7e851e5512c4b8b0e6ada78afa563" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30530655" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36407620" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class TaskScheduler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TaskScheduler extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Tasks.TaskScheduler" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class TaskScheduler" />
   <TypeSignature Language="C++ CLI" Value="public ref class TaskScheduler abstract" />
+  <TypeSignature Language="F#" Value="type TaskScheduler = class" />
   <AssemblyInfo>
     <AssemblyName>System.Threading.Tasks</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -53,76 +54,76 @@
   
  L'utilità di pianificazione predefinita si basa su pool di thread .NET Framework 4, che fornisce l'acquisizione del lavoro per il bilanciamento del carico, l'aggiunta/ritiro dei thread per la velocità effettiva massima e buone prestazioni complessive. Dovrebbe essere sufficiente per la maggior parte degli scenari.  
   
- La <xref:System.Threading.Tasks.TaskScheduler> classe funge anche da punto di estensione per tutta la logica pianificazione personalizzabile.  Questo include meccanismi, ad esempio come pianificare un'attività per l'esecuzione e come le attività pianificate deve essere esposte al debugger. Se sono necessarie funzionalità speciali, è possibile creare un'utilità di pianificazione personalizzata e abilitarla per attività o query specifiche.  
+ Il <xref:System.Threading.Tasks.TaskScheduler> classe funge anche da punto di estensione per tutta la logica di programmazione personalizzabile.  Ciò include meccanismi, ad esempio come pianificare un'attività per l'esecuzione e come le attività pianificate deve essere esposte al debugger. Se sono necessarie funzionalità speciali, è possibile creare un'utilità di pianificazione personalizzata e abilitarla per attività specifiche o per le query.  
   
  In questo argomento  
 [Utilità di pianificazione predefinita e il pool di thread](#Default)  
  [Coda globale e code locali](#Queues)  
  [Acquisizione del lavoro](#Stealing)  
  [Attività a esecuzione prolungata](#LongRunning)  
- [Attività inline](#Inlining)  
+ [L'inline dell'attività](#Inlining)  
 [Specificare un contesto di sincronizzazione](#Sync)  
   
 <a name="Default"></a>   
 ## <a name="the-default-task-scheduler-and-the-thread-pool"></a>Utilità di pianificazione predefinita e il pool di thread  
- Utilità di pianificazione predefinita per la libreria Task Parallel Library e PLINQ Usa pool di thread .NET Framework, è rappresentato dal <xref:System.Threading.ThreadPool> (classe), per accodare ed eseguire il lavoro. Il pool di thread utilizza le informazioni che viene eseguite il <xref:System.Threading.Tasks.Task> tipo da supportare in modo efficiente il parallelismo con granularità fine (unità di lavoro di breve durata) che attività e query parallele spesso rappresentano.  
+ L'utilità di pianificazione predefinita per la Task Parallel Library e PLINQ Usa pool di thread .NET Framework, che è rappresentato dal <xref:System.Threading.ThreadPool> (classe), per accodare ed eseguire il lavoro. Il pool di thread utilizza le informazioni fornite dal <xref:System.Threading.Tasks.Task> tipo da supportare in modo efficiente il parallelismo con granularità fine (unità di lavoro di breve durata) che attività e query parallele spesso rappresentano.  
   
 <a name="Queues"></a>   
 ### <a name="the-global-queue-vs-local-queues"></a>Coda globale e code locali  
- Il pool di thread gestisce una globale FIFO (first-in First-Out) coda di lavoro per i thread in ogni dominio applicazione. Ogni volta che un programma chiama il <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (o <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) metodo, il lavoro viene inserito in questa coda condivisa e infine rimosso dalla coda al primo thread che diventa disponibile. A partire da .NET Framework 4, la coda è stata migliorata per usare un algoritmo senza blocco analogo la <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. Tramite questa implementazione senza blocco, il pool di thread possibile impiegare meno tempo per l'accodamento e coda degli elementi di lavoro. Questo miglioramento delle prestazioni è disponibile per tutti i programmi che utilizzano il pool di thread.  
+ Il pool di thread gestisce una FIFO (first-in First-Out) globale coda di lavoro per i thread in ogni dominio applicazione. Ogni volta che un programma chiama i <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (o <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) metodo, il lavoro viene inserito in questa coda condivisa e infine rimossi dalla coda al primo thread che diventa disponibile. A partire da .NET Framework 4, la coda è stata migliorata per usare un algoritmo senza blocco analogo il <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. Tramite questa implementazione senza blocco, il pool di thread impiega meno tempo quando si inseriscono elementi di lavoro nella coda. Questo miglioramento delle prestazioni è disponibile per tutti i programmi che utilizzano il pool di thread.  
   
- Le attività di primo livello, ovvero quelle non create nell'ambito di un'altra attività, vengono inserite nella coda globale come qualsiasi altro elemento di lavoro. Tuttavia le attività annidate o figlio, create nell'ambito di un'altra attività, vengono gestite in modo molto diverso. Un'attività figlio o annidata viene inserita in una coda locale specifica del thread in cui è in esecuzione l'attività padre. L'attività padre può essere un'attività di primo livello o anche l'elemento figlio di un'altra attività. Quando questo thread è disponibile per altro lavoro, esegue innanzitutto una ricerca nella coda locale. Se sono presenti elementi di lavoro in attesa, è possibile accedervi rapidamente. Le code locali sono accessibili in last-in, First-Out ordine LIFO () per mantenere la località della cache e ridurre i conflitti. Per ulteriori informazioni sulle attività figlio e le attività annidate, vedere [attività connesse e disconnesse figlio](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
+ Le attività di primo livello, ovvero quelle non create nell'ambito di un'altra attività, vengono inserite nella coda globale come qualsiasi altro elemento di lavoro. Tuttavia le attività annidate o figlio, create nell'ambito di un'altra attività, vengono gestite in modo molto diverso. Un'attività figlio o annidata viene inserita in una coda locale specifica del thread in cui è in esecuzione l'attività padre. L'attività padre può essere un'attività di primo livello o anche l'elemento figlio di un'altra attività. Quando questo thread è disponibile per altro lavoro, esegue innanzitutto una ricerca nella coda locale. Se sono presenti elementi di lavoro in attesa, è possibile accedervi rapidamente. Le code locali sono accessibili partire last-in, First-Out (LIFO) consente di conservare la località della cache e ridurre le contese. Per ulteriori informazioni sulle attività annidate e attività figlio, vedere [attività connesse e disconnesse figlio](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
   
- L'utilizzo delle code locali non solo riduce la pressione sulla coda globale, ma consente anche di sfruttare la località dei dati. Coda di elementi di lavoro locale spesso fanno riferimento a strutture dati che sono fisicamente una accanto a altra in memoria. In questi casi, i dati sono già nella cache dopo la prima attività è stata eseguita ed è possibile accedervi rapidamente. Entrambi [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) e <xref:System.Threading.Tasks.Parallel> classe ampiamente attività annidate e attività figlio e aumentano considerevolmente usando le code di lavoro locale.  
+ L'utilizzo di code locali non solo riduce la pressione sulla coda globale, ma consente anche di sfruttare la località dei dati. Gli elementi di lavoro locale coda spesso le strutture di dati di riferimento sono fisicamente vicine in memoria. In questi casi, i dati sono già nella cache dopo la prima attività è stato eseguito ed è possibile accedervi rapidamente. Entrambi [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) e il <xref:System.Threading.Tasks.Parallel> classe ampiamente le attività annidate e attività figlio e considerevolmente usando le code di lavoro locale.  
   
 <a name="Stealing"></a>   
 ### <a name="work-stealing"></a>Acquisizione del lavoro  
- A partire da .NET Framework 4, il pool di thread offre inoltre un algoritmo di acquisizione del lavoro per assicurarsi che nessun thread sia inattivo mentre altri hanno ancora lavoro nelle code. Quando un thread del pool di thread è disponibile per altro lavoro, effettua prima una ricerca all'inizio della propria coda locale, quindi nella coda globale e infine nelle code locali degli altri thread. Se trova un elemento di lavoro nella coda locale di un altro thread, prima applica l'euristica per avere la certezza di poter eseguire il lavoro in modo efficiente. In caso contrario, la coda l'elemento di lavoro dalla fine della coda (in ordine FIFO). In questo modo viene ridotto il conflitto in ogni coda locale e viene mantenuta la località dei dati. Questa architettura consente il bilanciamento del carico thread del pool di lavoro in modo più efficiente rispetto alle versioni precedenti.  
+ A partire da .NET Framework 4, il pool di thread offre inoltre un algoritmo di acquisizione del lavoro che permette di assicurarsi che nessun thread sia inattivo mentre altri hanno ancora lavoro nelle code. Quando un thread del pool di thread è disponibile per altro lavoro, effettua prima una ricerca all'inizio della propria coda locale, quindi nella coda globale e infine nelle code locali degli altri thread. Se trova un elemento di lavoro nella coda locale di un altro thread, prima applica l'euristica per avere la certezza di poter eseguire il lavoro in modo efficiente. In caso contrario, inseriscono nella coda l'elemento di lavoro dalla fine della coda (in ordine FIFO). In questo modo viene ridotto il conflitto in ogni coda locale e viene mantenuta la località dei dati. Questa architettura consente il thread del pool il bilanciamento del carico di lavoro in modo più efficiente rispetto alle versioni precedenti.  
   
 <a name="LongRunning"></a>   
 ### <a name="long-running-tasks"></a>Attività a esecuzione prolungata  
  Può essere opportuno impedire in modo esplicito l'inserimento di un'attività in una coda locale. Ad esempio, si potrebbe sapere che un particolare elemento di lavoro verrà eseguito per un tempo relativamente lungo e probabilmente bloccherà tutti gli altri elementi di lavoro nella coda locale. In questo caso, è possibile specificare l'opzione <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType>, che fornisce all'utilità di pianificazione il suggerimento che per l'attività potrebbe essere necessario un altro thread in modo che non blocchi l'avanzamento di altri thread o elementi di lavoro nella coda locale. Utilizzando questa opzione si evita il pool di thread completamente, incluse le code locali e globali.  
   
 <a name="Inlining"></a>   
-### <a name="task-inlining"></a>Attività inline  
- In alcuni casi, quando un <xref:System.Threading.Tasks.Task> viene attesa, può essere eseguita in modo sincrono sul thread che sta eseguendo l'operazione di attesa. Ciò migliora le prestazioni evitando la necessità di un altro thread e utilizzando invece il thread esistente che sarebbe stato bloccato in caso contrario. Per evitare errori dovuti alla reentrancy, l'inline dell'attività si verifica solo quando viene trovata la destinazione in attesa nella coda locale del thread pertinente.  
+### <a name="task-inlining"></a>L'inline dell'attività  
+ In alcuni casi, quando un <xref:System.Threading.Tasks.Task> viene attesa, può essere eseguita in modo sincrono sul thread che sta eseguendo l'operazione di attesa. Ciò migliora le prestazioni evitando la necessità di un altro thread e utilizzando invece il thread esistente, che sarebbe stato bloccato in caso contrario. Per evitare errori dovuti alla reentrancy, l'inline dell'attività si verifica solo quando viene trovata la destinazione in attesa nella coda locale del thread pertinente.  
   
 <a name="Sync"></a>   
 ## <a name="specifying-a-synchronization-context"></a>Specificare un contesto di sincronizzazione  
  È possibile usare il metodo <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> per specificare che è necessario pianificare l'esecuzione di un'attività in un particolare thread. Ciò risulta utile in framework come Windows Form e Windows Presentation Foundation dove l'accesso agli oggetti dell'interfaccia utente è spesso limitato alla coda in esecuzione nello stesso thread in cui è stato creato l'oggetto dell'interfaccia utente.  
   
- L'esempio seguente usa il <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> metodo in un'app di Windows Presentation Foundation (WPF) per pianificare un'attività nello stesso thread a cui è stato creato il controllo dell'interfaccia utente.   Nell'esempio viene creato un mosaico di immagini che vengono selezionate casualmente da una directory specificata. Gli oggetti WPF vengono utilizzati per caricare e ridimensionare le immagini. Pixel non elaborati vengono quindi passati a un'attività che utilizza un <xref:System.Threading.Tasks.Parallel.For%2A> ciclo per scrivere i dati di pixel in una matrice a byte singolo di grandi dimensioni. È necessaria alcuna sincronizzazione poiché non esistono due sezioni occupano gli stessi elementi di matrice. I riquadri possono essere scritti in qualsiasi ordine perché la loro posizione viene calcolata in modo indipendente da qualsiasi altra tessera. La matrice di grandi dimensioni viene quindi passata a un'attività in esecuzione sul thread dell'interfaccia utente, in cui i dati pixel viene caricati in un controllo immagine.  
+ L'esempio seguente usa il <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> metodo in un'app di Windows Presentation Foundation (WPF) per pianificare un'attività nello stesso thread a cui è stato creato il controllo dell'interfaccia utente.   Nell'esempio viene creato un mosaico di immagini che vengono selezionate casualmente da una directory specificata. Gli oggetti WPF vengono utilizzati per caricare e ridimensionare le immagini. Il pixel non elaborati vengono quindi passati a un'attività che utilizza un <xref:System.Threading.Tasks.Parallel.For%2A> ciclo per scrivere i dati di pixel in una matrice a byte singolo di grandi dimensioni. È necessaria alcuna sincronizzazione poiché non esistono due sezioni occupano gli stessi elementi di matrice. I riquadri possono anche essere scritti in qualsiasi ordine perché la loro posizione viene calcolata in modo indipendente da qualsiasi altro riquadro. La matrice di grandi dimensioni viene quindi passata a un'attività che viene eseguita sul thread dell'interfaccia utente, in cui i dati pixel viene caricati in un controllo immagine.  
   
- L'esempio sposta i dati dal thread dell'interfaccia utente, modifica con cicli paralleli e <xref:System.Threading.Tasks.Task> degli oggetti e quindi lo passa nuovamente a un'attività in esecuzione sul thread dell'interfaccia utente. Questo approccio è utile quando è necessario utilizzare Task Parallel Library per eseguire operazioni che non sono supportate dall'API di WPF, o non sono sufficientemente veloci. Un altro modo per creare un mosaico di immagini in WPF è utilizzare un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controllare e aggiungere le immagini. Il <xref:System.Windows.Controls.WrapPanel> gestisce le operazioni di posizionamento i riquadri. Tuttavia, questa operazione può essere eseguita solo nel thread UI.  
+ Nell'esempio consente di spostare dati dal thread dell'interfaccia utente, modifica utilizzando cicli paralleli e <xref:System.Threading.Tasks.Task> degli oggetti e quindi passa nuovamente a un'attività che viene eseguito nel thread UI. Questo approccio è utile quando è necessario usare Task Parallel Library per eseguire operazioni che non sono supportate dall'API di WPF, o non sono sufficientemente veloci. Un altro modo per creare un mosaico di immagini in WPF consiste nell'utilizzare un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> controllare e aggiungere le immagini. Il <xref:System.Windows.Controls.WrapPanel> gestisce le operazioni di posizionamento i riquadri. Tuttavia, questa operazione può essere eseguita solo nel thread UI.  
   
  [!code-csharp[TPL_SyncContext#01](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_synccontext/cs/mainwindow.xaml.cs#01)]
  [!code-vb[TPL_SyncContext#01](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_synccontext/vb/MainWindow.xaml.vb#01)]  
   
  Per creare l'esempio, creare un progetto di applicazione WPF in Visual Studio e assegnargli un nome di propria scelta. Quindi eseguire le operazioni seguenti:  
   
-1.  In visualizzazione progettazione, trascinare un <xref:System.Windows.Controls.Image> controllo il **della casella degli strumenti** all'area di progettazione. Nella visualizzazione XAML, specificare l'allineamento orizzontale come "Left". La dimensione non è importante perché il controllo viene ridimensionato in modo dinamico in fase di esecuzione. Accettare il nome predefinito, "image".  
+1.  Nella visualizzazione progettazione, trascinare un <xref:System.Windows.Controls.Image> controllare dal **casella degli strumenti** all'area di progettazione. Nella visualizzazione XAML, specificare l'allineamento orizzontale come "Left". La dimensione non è importante perché il controllo viene ridimensionato in modo dinamico in fase di esecuzione. Accettare il nome predefinito, "image".  
   
-2.  Trascinare un <xref:System.Windows.Controls.Button> controllo il **della casella degli strumenti** nella parte inferiore sinistra della finestra dell'applicazione. Fare doppio clic sul pulsante per aggiungere un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> gestore dell'evento. Nella visualizzazione XAML, specificare il <xref:System.Windows.Controls.ContentControl.Content%2A> proprietà del pulsante come "Hanno un mosaico" e specificare l'allineamento orizzontale "Left". Accettare il nome predefinito, "button".  
+2.  Trascinare un <xref:System.Windows.Controls.Button> controllare dal **casella degli strumenti** nella parte inferiore sinistra della finestra dell'applicazione. Fare doppio clic sul pulsante per aggiungere un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> gestore dell'evento. Nella visualizzazione XAML, specificare il <xref:System.Windows.Controls.ContentControl.Content%2A> proprietà del pulsante "Prendono un mosaico" e specificare l'allineamento orizzontale come "Left". Accettare il nome predefinito, "button".  
   
-3.  Sostituire tutto il contenuto del file MainWindow.xaml.cs o. Xaml. vb con il codice di questo esempio. Assicurarsi che il nome dell'area di lavoro corrisponda al nome del progetto.  
+3.  Sostituire tutto il contenuto del file. Xaml. vb o MainWindow.xaml.cs con il codice di questo esempio. Assicurarsi che il nome dell'area di lavoro corrisponda al nome del progetto.  
   
 4.  Nell'esempio viene letto le immagini JPEG da una directory denominata immagini C:\Users\Public\Pictures\Sample\\. Creare la directory e posizionare alcune immagini in essa contenuti o modificare il percorso per fare riferimento a altre directory che contiene immagini.  
   
- L'esempio include alcune limitazioni. Ad esempio, sono supportate immagini solo 32-bit per pixel; le immagini in altri formati sono danneggiate per il <xref:System.Windows.Media.Imaging.BitmapImage> dell'oggetto durante l'operazione di ridimensionamento. Inoltre, le immagini di origine devono essere tutti maggiore delle dimensioni del riquadro. Come esercizio ulteriore, è possibile aggiungere la funzionalità per gestire più formati di pixel e dimensioni dei file.  
+ L'esempio include alcune limitazioni. Ad esempio, sono supportate immagini solo 32-bit per pixel; le immagini in altri formati sono danneggiate per il <xref:System.Windows.Media.Imaging.BitmapImage> dell'oggetto durante l'operazione di ridimensionamento. Inoltre, le immagini di origine devono essere tutti maggiore delle dimensioni di riquadro. Come esercizio ulteriore, è possibile aggiungere funzionalità che consente di gestire più formati di pixel e dimensioni dei file.  
   
    
   
 ## Examples  
- L'esempio seguente è tratto dal [esempi per la programmazione parallela con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) nel sito Web MSDN Code Gallery.  Crea un'utilità di pianificazione di attività personalizzata che limita il numero di thread utilizzati dall'applicazione. Quindi avviati due set di attività e visualizza le informazioni sull'attività e il thread su cui è in esecuzione l'attività.  
+ Nell'esempio seguente riguarda il [esempi per la programmazione parallela con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) nel sito Web MSDN Code Gallery.  Crea un'utilità di pianificazione di attività personalizzata che limita il numero di thread utilizzati dall'applicazione. Quindi avviati due set di attività e visualizza le informazioni sull'attività e il thread su cui è in esecuzione l'attività.  
   
  [!code-csharp[TPL_Schedulers#02](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_schedulers/cs/limitex1.cs#02)]
  [!code-vb[TPL_Schedulers#02](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_schedulers/vb/module2.vb#02)]  
   
- Inoltre, sono disponibili diverse utilità di pianificazione delle attività di esempio in Code Gallery: [esempi per la programmazione parallela con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).  
+ Inoltre, diverse utilità di pianificazione delle attività di esempio sono disponibili in Code Gallery: [esempi per la programmazione parallela con .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).  
   
  ]]></format>
     </remarks>
-    <threadsafe>Tutti i membri della classe astratta <see cref="T:System.Threading.Tasks.TaskScheduler" /> tipo sono thread-safe e possono essere utilizzati da più thread contemporaneamente.</threadsafe>
+    <threadsafe>Tutti i membri della classe astratta <see cref="T:System.Threading.Tasks.TaskScheduler" /> tipo sono thread-safe e possono essere utilizzate contemporaneamente da più thread.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -163,6 +164,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Current" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Current As TaskScheduler" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Threading::Tasks::TaskScheduler ^ Current { System::Threading::Tasks::TaskScheduler ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Current : System.Threading.Tasks.TaskScheduler" Usage="System.Threading.Tasks.TaskScheduler.Current" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -193,7 +195,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando viene chiamato dall'interno di un'attività, <xref:System.Threading.Tasks.TaskScheduler.Current%2A> restituirà il <xref:System.Threading.Tasks.TaskScheduler.Default%2A> dell'utilità di pianificazione.  
+ Quando viene chiamato dall'interno un'attività <xref:System.Threading.Tasks.TaskScheduler.Current%2A> restituirà il <xref:System.Threading.Tasks.TaskScheduler.Default%2A> dell'utilità di pianificazione.  
   
  Per ulteriori informazioni, vedere <xref:System.Threading.Tasks.TaskScheduler>.  
   
@@ -207,6 +209,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Default" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Default As TaskScheduler" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Threading::Tasks::TaskScheduler ^ Default { System::Threading::Tasks::TaskScheduler ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Default : System.Threading.Tasks.TaskScheduler" Usage="System.Threading.Tasks.TaskScheduler.Default" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -237,7 +240,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -249,6 +252,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function FromCurrentSynchronizationContext () As TaskScheduler" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::TaskScheduler ^ FromCurrentSynchronizationContext();" />
+      <MemberSignature Language="F#" Value="static member FromCurrentSynchronizationContext : unit -&gt; System.Threading.Tasks.TaskScheduler" Usage="System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -280,9 +284,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Tutti <xref:System.Threading.Tasks.Task> istanze in coda all'utilità di pianificazione verrà eseguita tramite una chiamata al <xref:System.Threading.SynchronizationContext.Post%2A> metodo su tale contesto.  
+ Tutti i <xref:System.Threading.Tasks.Task> istanze in coda all'utilità di pianificazione verrà eseguita tramite una chiamata al <xref:System.Threading.SynchronizationContext.Post%2A> metodo su tale contesto.  
   
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -295,6 +299,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.GetScheduledTasks" />
       <MemberSignature Language="VB.NET" Value="Protected MustOverride Function GetScheduledTasks () As IEnumerable(Of Task)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract System::Collections::Generic::IEnumerable&lt;System::Threading::Tasks::Task ^&gt; ^ GetScheduledTasks();" />
+      <MemberSignature Language="F#" Value="abstract member GetScheduledTasks : unit -&gt; seq&lt;System.Threading.Tasks.Task&gt;" Usage="taskScheduler.GetScheduledTasks " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -331,9 +336,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una classe derivata da <xref:System.Threading.Tasks.TaskScheduler> implementa questo metodo per supportare l'integrazione con i debugger. Questo metodo verrà chiamato solo da .NET Framework quando il debugger richiede l'accesso ai dati. L'enumerabile restituito verrà attraversato dall'utilità di debug per accedere alle attività attualmente in coda all'utilità di pianificazione, consentendo al debugger di fornire una rappresentazione di queste informazioni nell'interfaccia utente.  
+ Una classe derivata da <xref:System.Threading.Tasks.TaskScheduler> implementa questo metodo per supportare l'integrazione con i debugger. Questo metodo verrà chiamato solo da .NET Framework quando il debugger richiede l'accesso ai dati. L'enumerabile restituito verrà attraversato dall'utilità di debug per accedere alle attività attualmente in coda per l'utilità di pianificazione, consentendo al debugger di fornire una rappresentazione di queste informazioni nell'interfaccia utente.  
   
- È importante notare che, quando viene chiamato questo metodo, tutti gli altri thread nel processo verrà bloccata. Pertanto, è importante evitare una sincronizzazione con altri thread che potrebbero causare problemi di blocco. Se è necessaria la sincronizzazione e non è possibile acquisire il blocco di questo metodo, è necessario generare un'eccezione in modo che il debugger non si blocchi. Nell'esempio seguente viene illustrato un possibile approccio in c#:  
+ È importante notare che, quando viene chiamato questo metodo, tutti gli altri thread nel processo verrà bloccato. Pertanto, è importante evitare la sincronizzazione con altri thread che possono causare il blocco. La sincronizzazione è necessaria, se si è in grado di acquisire il blocco in questo metodo, è necessario generare un'eccezione in modo che il debugger non si blocchi. Nell'esempio seguente viene illustrato un possibile approccio in c#:  
   
 ```  
 protected override IEnumerable<Task> GetScheduledTasks()  
@@ -354,11 +359,11 @@ protected override IEnumerable<Task> GetScheduledTasks()
     }}  
 ```  
   
- Inoltre, questo metodo ed enumerabile restituita non deve modificare qualsiasi stato visibile a livello globale.  
+ Inoltre, questo metodo e l'enumerabile restituita non deve modificare qualsiasi stato visibile a livello globale.  
   
- L'enumerabile restituito non deve mai essere null. Se non esistono attualmente in coda attività, deve essere restituito invece un enumerabile vuoto.  
+ L'enumerabile restituito non deve mai essere null. Se non sono presenti attualmente in coda attività, deve essere restituito invece un enumerabile vuoto.  
   
- Gli sviluppatori che siano eseguendo l'implementazione di debugger personalizzati non devono chiamare questo metodo direttamente, ma deve utilizzare il metodo wrapper `GetScheduledTasksForDebugger` invece: `internal Task[] GetScheduledTasksForDebugger()`. Questo metodo wrapper restituisce una matrice delle attività anziché un oggetto enumerabile. Per recuperare un elenco di utilità di pianificazione attive, utilizzare il metodo interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Questo metodo statico restituisce una matrice di tutte attive <xref:System.Threading.Tasks.TaskScheduler> istanze. È quindi possibile utilizzare `GetScheduledTasksForDebugger` in ciascuna istanza dell'utilità di pianificazione per recuperare l'elenco delle attività pianificate.  
+ Gli sviluppatori che siano eseguendo l'implementazione di debugger personalizzati non devono chiamare questo metodo direttamente, ma deve utilizzare il metodo wrapper interna `GetScheduledTasksForDebugger` invece: `internal Task[] GetScheduledTasksForDebugger()`. Questo metodo wrapper restituisce una matrice delle attività anziché un oggetto enumerabile. Per recuperare un elenco di utilità di pianificazione attive, utilizzare il metodo interno `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Questo metodo statico restituisce una matrice di tutte attive <xref:System.Threading.Tasks.TaskScheduler> istanze. È quindi possibile usare `GetScheduledTasksForDebugger` in ciascuna istanza dell'utilità di pianificazione per recuperare l'elenco delle attività pianificate.  
   
  ]]></format>
         </remarks>
@@ -371,6 +376,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Id" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Id As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Id { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.Id : int" Usage="System.Threading.Tasks.TaskScheduler.Id" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -401,7 +407,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -413,6 +419,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.MaximumConcurrencyLevel" />
       <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property MaximumConcurrencyLevel As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int MaximumConcurrencyLevel { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.MaximumConcurrencyLevel : int" Usage="System.Threading.Tasks.TaskScheduler.MaximumConcurrencyLevel" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -443,7 +450,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -454,6 +461,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void QueueTask(class System.Threading.Tasks.Task task) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.QueueTask(System.Threading.Tasks.Task)" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract void QueueTask(System::Threading::Tasks::Task ^ task);" />
+      <MemberSignature Language="F#" Value="abstract member QueueTask : System.Threading.Tasks.Task -&gt; unit" Usage="taskScheduler.QueueTask task" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -494,9 +502,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Una classe derivata da <xref:System.Threading.Tasks.TaskScheduler> implementa questo metodo per accettare le attività pianificate nell'utilità di pianificazione.  
   
- Un'implementazione tipica archivia l'attività in una struttura dati interna, che potrebbe essere gestita dal thread che eseguirà le attività in un momento in futuro.  
+ Un'implementazione tipica archivia l'attività in una struttura dati interna, che potrebbe essere gestita dal thread che verrebbe eseguito queste attività in un momento in futuro.  
   
- Questo metodo è destinato solo a una chiamata da .NET Framework e non deve essere chiamato direttamente dalla classe derivata. Ciò è necessario per mantenere la coerenza del sistema.  
+ Questo metodo solo deve essere chiamato da .NET Framework e non deve essere chiamato direttamente dalla classe derivata. Ciò è necessario per mantenere la coerenza del sistema.  
   
  ]]></format>
         </remarks>
@@ -508,6 +516,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance bool TryDequeue(class System.Threading.Tasks.Task task) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryDequeue(System.Threading.Tasks.Task)" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual bool TryDequeue(System::Threading::Tasks::Task ^ task);" />
+      <MemberSignature Language="F#" Value="abstract member TryDequeue : System.Threading.Tasks.Task -&gt; bool&#xA;override this.TryDequeue : System.Threading.Tasks.Task -&gt; bool" Usage="taskScheduler.TryDequeue task" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -547,9 +556,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
- Questo metodo può essere eseguita un blocco finally; Pertanto, deve restituire il più rapidamente possibile in modo che le risorse, ad esempio <xref:System.Threading.CancellationTokenRegistration> oggetti possano essere eliminati in modo tempestivo.  
+ Questo metodo può essere eseguita un blocco finally; Pertanto, deve restituire più rapidamente possibile in modo che le risorse, ad esempio <xref:System.Threading.CancellationTokenRegistration> oggetti possano essere eliminati in modo tempestivo.  
   
  ]]></format>
         </remarks>
@@ -561,6 +570,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance bool TryExecuteTask(class System.Threading.Tasks.Task task) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryExecuteTask(System.Threading.Tasks.Task)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; bool TryExecuteTask(System::Threading::Tasks::Task ^ task);" />
+      <MemberSignature Language="F#" Value="member this.TryExecuteTask : System.Threading.Tasks.Task -&gt; bool" Usage="taskScheduler.TryExecuteTask task" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -600,9 +610,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le implementazioni dell'utilità di pianificazione vengono fornite con <xref:System.Threading.Tasks.Task> istanze deve essere eseguito tramite il <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> metodo o <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> metodo. Quando si ritiene appropriata per eseguire l'attività specificata, l'utilità di pianificazione <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve essere utilizzato per eseguire questa operazione. TryExecuteTask gestisce tutti gli aspetti dell'esecuzione di un'attività, tra cui l'azione viene richiamata, la gestione delle eccezioni, gestione dello stato e controllo del ciclo di vita.  
+ Le implementazioni dell'utilità di pianificazione vengono fornite con <xref:System.Threading.Tasks.Task> istanze deve essere eseguito tramite il <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> metodo o la <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> metodo. Quando l'utilità di pianificazione considera appropriate per eseguire l'attività specificata, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve essere utilizzato per eseguire questa operazione. TryExecuteTask gestisce tutti gli aspetti dell'esecuzione di un'attività, tra cui chiamata di un'azione, la gestione delle eccezioni, gestione dello stato e il controllo del ciclo di vita.  
   
- <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve essere usato solo per le attività fornite all'utilità di pianificazione per l'infrastruttura .NET Framework. E non deve essere utilizzato per eseguire attività arbitrarie ottenute tramite meccanismi personalizzati.  
+ <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> deve essere usata solo per le attività fornite all'utilità di pianificazione per l'infrastruttura .NET Framework. E non deve essere usato per eseguire attività arbitrarie ottenute tramite meccanismi personalizzati.  
   
  ]]></format>
         </remarks>
@@ -615,6 +625,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance bool TryExecuteTaskInline(class System.Threading.Tasks.Task task, bool taskWasPreviouslyQueued) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task,System.Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract bool TryExecuteTaskInline(System::Threading::Tasks::Task ^ task, bool taskWasPreviouslyQueued);" />
+      <MemberSignature Language="F#" Value="abstract member TryExecuteTaskInline : System.Threading.Tasks.Task * bool -&gt; bool" Usage="taskScheduler.TryExecuteTaskInline (task, taskWasPreviouslyQueued)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -656,13 +667,13 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una classe derivata da <xref:System.Threading.Tasks.TaskScheduler> implementa questa funzione per supportare l'esecuzione di inline di un'attività su un thread che inizia un'attesa su tale oggetto dell'attività. Esecuzione inline è facoltativo, e la richiesta può essere rifiutata restituendo false. Tuttavia, le altre attività che possono essere impostati come inline, migliori saranno le utilità di pianificazione consente di scalare. Infatti, un'utilità di pianificazione che si incorpora troppo poco può essere soggetto a deadlock. Un'implementazione appropriata deve assicurare che una richiesta eseguita in base ai criteri garantiti dall'utilità di pianificazione possa correttamente inline. Ad esempio, se un'utilità di pianificazione utilizza un thread dedicato per eseguire attività, qualsiasi richiesta inline da tale thread dovrebbe avere esito positivo.  
+ Una classe derivata da <xref:System.Threading.Tasks.TaskScheduler> implementa questa funzione per supportare l'esecuzione di inline di un'attività in un thread che avvia un'attesa su tale oggetto dell'attività. L'esecuzione inline è facoltativo, e la richiesta può essere rifiutata restituendo false. Tuttavia, le altre attività che possono essere impostati come inline, migliori saranno le utilità di pianificazione consente di scalare. Infatti, un'utilità di pianificazione che si incorpora troppo poco può essere soggetto a deadlock. Un'implementazione appropriata deve assicurare che una richiesta eseguita in base ai criteri garantiti dall'utilità di pianificazione possa correttamente inline. Ad esempio, se un'utilità di pianificazione Usa un thread dedicato per eseguire attività, qualsiasi richiesta inline da thread in questione deve avere esito positivo.  
   
- Se un'utilità di pianificazione decide di eseguire l'esecuzione inline, deve farlo chiamando il metodo per l'oggetto TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> (metodo) con l'oggetto dell'attività fornita, il valore restituito di propagazione. Potrebbe anche essere appropriato per l'utilità di pianificazione rimuovere un'attività inline relative strutture dati interne se decide di accettare la richiesta di incorporamento. Si noti, tuttavia, che in alcune circostanze, un'utilità di pianificazione potrebbe essere necessario inline un'attività che non è stata fornita in precedenza con il <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> metodo.  
+ Se un'utilità di pianificazione decide di eseguire l'esecuzione inline, è necessario farlo chiamando il metodo per l'oggetto TaskScheduler basa <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> (metodo) con l'oggetto dell'attività fornita, propaga il valore restituito. Potrebbe inoltre essere appropriata per l'utilità di pianificazione rimuovere un'attività inline relative strutture dati interne se decide di soddisfano la richiesta di incorporamento. Si noti, tuttavia, che in alcune circostanze un'utilità di pianificazione potrebbe essere necessario inline un'attività che non è stata fornita in precedenza a esso con il <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> metodo.  
   
- L'utilità di pianificazione derivata è responsabilità di assicurarsi che il thread chiamante è adatto per l'esecuzione dell'attività specificata per la pianificazione e criteri di esecuzione sono interessati.  
+ L'utilità di pianificazione derivata è responsabilità di assicurarsi che il thread chiamante è adatto per l'esecuzione di attività specifica per quanto riguarda la pianificazione e criteri di esecuzione sono interessati.  
   
- Per ulteriori informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Per altre informazioni, vedere [le utilità di pianificazione](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -676,6 +687,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
       <MemberSignature Language="DocId" Value="E:System.Threading.Tasks.TaskScheduler.UnobservedTaskException" />
       <MemberSignature Language="VB.NET" Value="Public Shared Custom Event UnobservedTaskException As EventHandler(Of UnobservedTaskExceptionEventArgs) " />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static event EventHandler&lt;System::Threading::Tasks::UnobservedTaskExceptionEventArgs ^&gt; ^ UnobservedTaskException;" />
+      <MemberSignature Language="F#" Value="member this.UnobservedTaskException : EventHandler&lt;System.Threading.Tasks.UnobservedTaskExceptionEventArgs&gt; " Usage="member this.UnobservedTaskException : System.EventHandler&lt;System.Threading.Tasks.UnobservedTaskExceptionEventArgs&gt; " />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks</AssemblyName>
@@ -713,9 +725,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo evento a livello di dominio di applicazione fornisce un meccanismo per evitare che i criteri di escalation di eccezioni (ovvero, per impostazione predefinita, terminano il processo) da attivare.  
+ Questo evento di livello di dominio applicazione fornisce un meccanismo per evitare che i criteri di escalation di eccezioni (ovvero, per impostazione predefinita, terminano il processo) da attivare.  
   
- Per semplificare agli sviluppatori di scrivere codice asincrono basato su attività, il [!INCLUDE[net_v45](~/includes/net-v45-md.md)] viene modificato il comportamento predefinito dell'eccezione per le eccezioni non osservate. Anche se le eccezioni non osservate ancora generano il <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> eccezione, il processo non viene interrotto per impostazione predefinita. Al contrario, l'eccezione viene gestita dal runtime dopo l'evento viene generato, indipendentemente dal fatto che un gestore eventi rileva l'eccezione. Questo comportamento può essere configurato. A partire dal [!INCLUDE[net_v45](~/includes/net-v45-md.md)], è possibile utilizzare l'elemento di configurazione per ripristinare il comportamento del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] e terminare il processo:  
+ Per semplificare la scrittura di codice asincrono basato su attività, per gli sviluppatori di [!INCLUDE[net_v45](~/includes/net-v45-md.md)] viene modificato il comportamento predefinito dell'eccezione per le eccezioni non osservate. Anche se le eccezioni non osservate ancora generano il <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> eccezione, il processo non viene interrotto per impostazione predefinita. Al contrario, l'eccezione viene gestita dal runtime dopo l'evento viene generato, indipendentemente dal fatto che un gestore eventi rileva l'eccezione. Questo comportamento può essere configurato. Inizia con il [!INCLUDE[net_v45](~/includes/net-v45-md.md)], è possibile utilizzare l'elemento di configurazione per ripristinare il comportamento del [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] e terminare il processo:  
   
 ```xml  
 <configuration>   

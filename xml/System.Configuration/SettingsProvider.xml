@@ -1,17 +1,18 @@
 <Type Name="SettingsProvider" FullName="System.Configuration.SettingsProvider">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e349899c9a9eaa082e51bfa42237de5a3090e2dc" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="a6609dbdddee7d64b28694235456bdc3abe06e07" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30379665" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36694979" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SettingsProvider : System.Configuration.Provider.ProviderBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SettingsProvider extends System.Configuration.Provider.ProviderBase" />
   <TypeSignature Language="DocId" Value="T:System.Configuration.SettingsProvider" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class SettingsProvider&#xA;Inherits ProviderBase" />
   <TypeSignature Language="C++ CLI" Value="public ref class SettingsProvider abstract : System::Configuration::Provider::ProviderBase" />
+  <TypeSignature Language="F#" Value="type SettingsProvider = class&#xA;    inherit ProviderBase" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -30,21 +31,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un provider di impostazioni definisce il meccanismo per archiviare i dati di configurazione utilizzati nell'architettura Impostazioni applicazione. .NET Framework contiene un solo impostazioni provider predefinito, <xref:System.Configuration.LocalFileSettingsProvider>, che archivia i dati di configurazione per il file system locale. Tuttavia, è possibile creare meccanismi di archiviazione alternativo derivandolo dalla classe astratta <xref:System.Configuration.SettingsProvider> classe. Il provider utilizzato da una classe wrapper viene determinato tramite la classe wrapper con la <xref:System.Configuration.SettingsProviderAttribute>. Se questo attributo viene omesso, il valore predefinito, <xref:System.Configuration.LocalFileSettingsProvider>, viene utilizzato.  
+ Un provider di impostazioni definisce il meccanismo per archiviare i dati di configurazione usati nell'architettura Impostazioni applicazione. .NET Framework contiene un solo impostazioni provider predefinito, <xref:System.Configuration.LocalFileSettingsProvider>, che archivia i dati di configurazione per il file system locale. Tuttavia, è possibile creare meccanismi di archiviazione alternativo derivandolo dalla classe astratta <xref:System.Configuration.SettingsProvider> classe. Il provider utilizzato da una classe wrapper è determinato dichiarando la classe wrapper con la <xref:System.Configuration.SettingsProviderAttribute>. Se questo attributo viene omesso, il valore predefinito, <xref:System.Configuration.LocalFileSettingsProvider>, viene utilizzato.  
   
  Quando si crea un provider di impostazioni personalizzate, come minimo, è necessario fornire implementazioni per i tre metodi di questa classe: <xref:System.Configuration.SettingsProvider.GetPropertyValues%2A>, <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> e <xref:System.Configuration.SettingsProvider.ApplicationName%2A>.  
   
- Per le applicazioni client, è possibile aggiungere altre funzionalità standard per un provider personalizzato anche implementando il <xref:System.Configuration.IApplicationSettingsProvider> interfaccia. Mirroring dei metodi, vedere il <xref:System.Configuration.ApplicationSettingsBase> (classe), che consente principalmente di supporto delle versioni.  
+ Per le applicazioni client, è possibile aggiungere altre funzionalità standard per un provider personalizzato implementando anche il <xref:System.Configuration.IApplicationSettingsProvider> interfaccia. Questa interfaccia rispecchia metodi presenti nel <xref:System.Configuration.ApplicationSettingsBase> (classe), che consente principalmente a supporto delle versioni.  
   
- In genere, è consigliabile progettare i provider di impostazioni di istanza singola per evitare conflitti di risorse di archiviazione. I provider devono inoltre essere thread-safe, perché può essere chiamati simultaneamente da più istanze di wrapper in un singolo dominio applicazione o da più applicazioni in domini diversi.  
+ In genere, è consigliabile progettare i provider di impostazioni sia a istanza singola per evitare conflitti di risorse di archiviazione. I provider devono inoltre essere thread-safe perché può essere chiamati simultaneamente da più istanze di wrapper in un singolo dominio applicazione o da più applicazioni in domini diversi.  
   
- Come minimo, un provider di impostazioni deve riconoscere i tre attributi:<xref:System.Configuration.ApplicationScopedSettingAttribute>, <xref:System.Configuration.UserScopedSettingAttribute>, e <xref:System.Configuration.DefaultSettingValueAttribute>. Per un elenco completo degli attributi che possono essere applicati alle impostazioni dell'applicazione, vedere [gli attributi di impostazioni applicazione](~/docs/framework/winforms/advanced/application-settings-attributes.md). Un provider di impostazioni personalizzato deve risolvere gli attributi applicati alle proprietà delle impostazioni nel modo seguente:  
+ Come minimo, un provider di impostazioni deve riconoscere i tre attributi, ovvero<xref:System.Configuration.ApplicationScopedSettingAttribute>, <xref:System.Configuration.UserScopedSettingAttribute>, e <xref:System.Configuration.DefaultSettingValueAttribute>. Per un elenco completo degli attributi che possono essere applicati alle impostazioni dell'applicazione, vedere [attributi delle impostazioni dell'applicazione](~/docs/framework/winforms/advanced/application-settings-attributes.md). Un provider di impostazioni personalizzato dovrebbe risolvere gli attributi applicati alle proprietà delle impostazioni nel modo seguente:  
   
-1.  Se il provider può soddisfare la richiesta in cui è inclusa l'attributo, ovviamente, è necessario farlo.  
+1.  Se il provider può soddisfare la richiesta in cui è inclusa l'attributo, ovviamente deve farlo.  
   
-2.  Se il provider non è possibile soddisfare la richiesta, è necessario ignorarla automaticamente.  
+2.  Se il provider non è possibile soddisfare la richiesta, è necessario ignorarla invisibile all'utente.  
   
-3.  Se due o più proprietà in conflitto; ad esempio, una proprietà viene decorata con <xref:System.Configuration.ApplicationScopedSettingAttribute> e <xref:System.Configuration.UserScopedSettingAttribute>; il provider deve generare un <xref:System.Configuration.ConfigurationException>.  
+3.  Se due o più proprietà sono in conflitto; ad esempio, una proprietà in corso decorata con <xref:System.Configuration.ApplicationScopedSettingAttribute> e <xref:System.Configuration.UserScopedSettingAttribute>; il provider deve generare un <xref:System.Configuration.ConfigurationException>.  
   
  ]]></format>
     </remarks>
@@ -81,7 +82,7 @@
   
  Il codice client in genere non creino direttamente un provider di impostazioni. Utilizzare invece la procedura seguente per trovare un provider di impostazioni per una determinata proprietà delle impostazioni:  
   
-1.  Chiamare il <xref:System.ComponentModel.Component.GetService%2A> metodo sull'oggetto corrente <xref:System.ComponentModel.Component> o <xref:System.ComponentModel.ISite> per restituire un riferimento all'oggetto corrente <xref:System.Configuration.ISettingsProviderService>.  
+1.  Chiamare il <xref:System.ComponentModel.Component.GetService%2A> metodo sull'oggetto corrente <xref:System.ComponentModel.Component> oppure <xref:System.ComponentModel.ISite> per restituire un riferimento all'oggetto corrente <xref:System.Configuration.ISettingsProviderService>.  
   
 2.  Chiamare il <xref:System.Configuration.ISettingsProviderService.GetSettingsProvider%2A> metodo il <xref:System.Configuration.ISettingsProviderService> recuperato nel primo passaggio per restituire il provider di impostazioni.  
   
@@ -98,6 +99,7 @@
       <MemberSignature Language="DocId" Value="P:System.Configuration.SettingsProvider.ApplicationName" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Property ApplicationName As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::String ^ ApplicationName { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.ApplicationName : string with get, set" Usage="System.Configuration.SettingsProvider.ApplicationName" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -112,7 +114,7 @@
       </ReturnValue>
       <Docs>
         <summary>Ottiene o imposta il nome dell'applicazione attualmente in esecuzione.</summary>
-        <value>Oggetto <see cref="T:System.String" /> che contiene nome abbreviato dell'applicazione, che non contiene un percorso completo o l'estensione, ad esempio, <c>SimpleAppSettings</c>.</value>
+        <value>Un <see cref="T:System.String" /> che contiene il nome dell'applicazione abbreviata, che non contiene un percorso completo o l'estensione, ad esempio, <c>SimpleAppSettings</c>.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -130,6 +132,7 @@
       <MemberSignature Language="DocId" Value="M:System.Configuration.SettingsProvider.GetPropertyValues(System.Configuration.SettingsContext,System.Configuration.SettingsPropertyCollection)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Function GetPropertyValues (context As SettingsContext, collection As SettingsPropertyCollection) As SettingsPropertyValueCollection" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Configuration::SettingsPropertyValueCollection ^ GetPropertyValues(System::Configuration::SettingsContext ^ context, System::Configuration::SettingsPropertyCollection ^ collection);" />
+      <MemberSignature Language="F#" Value="abstract member GetPropertyValues : System.Configuration.SettingsContext * System.Configuration.SettingsPropertyCollection -&gt; System.Configuration.SettingsPropertyValueCollection" Usage="settingsProvider.GetPropertyValues (context, collection)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -169,6 +172,7 @@
       <MemberSignature Language="DocId" Value="M:System.Configuration.SettingsProvider.SetPropertyValues(System.Configuration.SettingsContext,System.Configuration.SettingsPropertyValueCollection)" />
       <MemberSignature Language="VB.NET" Value="Public MustOverride Sub SetPropertyValues (context As SettingsContext, collection As SettingsPropertyValueCollection)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract void SetPropertyValues(System::Configuration::SettingsContext ^ context, System::Configuration::SettingsPropertyValueCollection ^ collection);" />
+      <MemberSignature Language="F#" Value="abstract member SetPropertyValues : System.Configuration.SettingsContext * System.Configuration.SettingsPropertyValueCollection -&gt; unit" Usage="settingsProvider.SetPropertyValues (context, collection)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -193,11 +197,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Configuration.ApplicationSettingsBase> contiene il <xref:System.Configuration.ApplicationSettingsBase.Save%2A> metodo, che viene chiamato per mantenere i valori di tutte le proprietà delle impostazioni. Questo metodo enumera tutte le impostazioni i provider associati a impostazioni proprietà e chiamate di <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> metodo per ogni <xref:System.Configuration.SettingsProvider> per eseguire l'operazione di serializzazione effettiva.  
+ <xref:System.Configuration.ApplicationSettingsBase> contiene il <xref:System.Configuration.ApplicationSettingsBase.Save%2A> metodo, che viene chiamato per rendere persistenti i valori di tutte le proprietà delle impostazioni. Questo metodo enumera tutte le impostazioni del provider associato con la proprietà delle impostazioni e viene chiamato il <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> metodo per ogni <xref:System.Configuration.SettingsProvider> per eseguire l'operazione di serializzazione effettiva.  
   
  Il <xref:System.Configuration.SettingsProvider.SetPropertyValues%2A> metodo deve essere implementato con particolare attenzione alla sicurezza:  
   
--   Per aggiornare le impostazioni dell'applicazione deve essere consentito solo il codice completamente attendibile. Codice parzialmente attendibile deve essere consentito l'aggiornamento solo le impostazioni dell'applicazione. Codice non attendibile non è in genere possibile aggiornare le impostazioni dell'applicazione.  
+-   Solo il codice completamente attendibile deve essere consentito per aggiornare le impostazioni dell'applicazione. Codice parzialmente attendibile deve essere consentito l'aggiornamento solo le impostazioni dell'applicazione utente. Codice non attendibile non è in genere consentito aggiornare le impostazioni dell'applicazione.  
   
 -   Le quote di utilizzo devono essere considerati come salvaguardarsi da attacchi di risorse da applicazioni parzialmente attendibili.  
   

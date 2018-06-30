@@ -1,17 +1,18 @@
 <Type Name="FaultContractAttribute" FullName="System.ServiceModel.FaultContractAttribute">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="795373f1ce9ff0f09829174199e504959b08004f" />
-    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
+    <Meta Name="ms.openlocfilehash" Value="89bc38b0d324c5acef904d36980d3cbed4c16a1d" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/14/2018" />
-    <Meta Name="ms.locfileid" Value="34316840" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36610852" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class FaultContractAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit FaultContractAttribute extends System.Attribute" />
   <TypeSignature Language="DocId" Value="T:System.ServiceModel.FaultContractAttribute" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class FaultContractAttribute&#xA;Inherits Attribute" />
   <TypeSignature Language="C++ CLI" Value="public ref class FaultContractAttribute sealed : Attribute" />
+  <TypeSignature Language="F#" Value="type FaultContractAttribute = class&#xA;    inherit Attribute" />
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -61,12 +62,12 @@
   
 -   Se si seleziona un'associazione non sicura (ad esempio, nell'associazione <xref:System.ServiceModel.BasicHttpBinding?displayProperty=nameWithType> la sicurezza è disabilitata per impostazione predefinita) e non si imposta in modo esplicito la proprietà <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A>, nessun dato dell'applicazione viene protetto.  
   
- In molti casi per proteggere i messaggi di errore è sufficiente impostare la proprietà <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A> su <xref:System.Net.Security.ProtectionLevel.EncryptAndSign>. Per ulteriori informazioni, vedere [livello di protezione delle informazioni sui](~/docs/framework/wcf/understanding-protection-level.md).  
+ In molti casi per proteggere i messaggi di errore è sufficiente impostare la proprietà <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A> su <xref:System.Net.Security.ProtectionLevel.EncryptAndSign>. Per informazioni dettagliate, vedere [Understanding Protection Level](~/docs/framework/wcf/understanding-protection-level.md).  
   
  Affinché un'operazione contrassegnata con l'attributo <xref:System.ServiceModel.FaultContractAttribute> restituisca un determinato errore quando durante l'operazione si verifica un'eccezione gestita è possibile generare un'eccezione <xref:System.ServiceModel.FaultException%601> in cui il parametro di tipo corrisponde alle informazioni sull'errore serializzabile. Le applicazioni client WCF superficie dell'errore SOAP come lo stesso tipo, come è stata generata nell'implementazione del client, vale a dire, come un <xref:System.ServiceModel.FaultException%601> (dove il typeparameter rappresenta le informazioni sull'errore serializzabile). L'attributo <xref:System.ServiceModel.FaultContractAttribute> può essere utilizzato solo per specificare errori SOAP relativi a operazioni di servizio bidirezionali e a coppie di operazioni asincrone. Le operazioni unidirezionali non supportano gli errori SOAP e pertanto non supportano l'attributo <xref:System.ServiceModel.FaultContractAttribute>.  
   
 > [!NOTE]
->  Per trasmettere le informazioni sull'errore è possibile utilizzare qualsiasi tipo serializzabile. L'unica restrizione in questa versione di WCF è che i tipi specificati un <xref:System.ServiceModel.FaultContractAttribute> deve essere serializzabile dal <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=nameWithType>. Per il supporto di serializzazione di <xref:System.Runtime.Serialization.DataContractSerializer> fornisce, vedere [serializzatore dei contratti dati](~/docs/framework/wcf/feature-details/data-contract-serializer.md).  
+>  Per trasmettere le informazioni sull'errore è possibile utilizzare qualsiasi tipo serializzabile. L'unica restrizione in questa versione di WCF è che i tipi specificati un <xref:System.ServiceModel.FaultContractAttribute> deve essere serializzabile dal <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=nameWithType>. Per il supporto della serializzazione il <xref:System.Runtime.Serialization.DataContractSerializer> offre, vedere [serializzatore dei contratti dati](~/docs/framework/wcf/feature-details/data-contract-serializer.md).  
   
  Ad esempio, per specificare che i client possono ricevere un errore SOAP contenente un elemento di tipo <xref:System.Int32> è sufficiente includere tale parametro di tipo nell'attributo <xref:System.ServiceModel.FaultContractAttribute> del metodo di servizio.  
   
@@ -88,7 +89,7 @@
   
  Per controllare in modo esplicito il comportamento dell'applicazione quando viene generata un'eccezione o un'eccezione <xref:System.ServiceModel.FaultException%601>, implementare l'interfaccia <xref:System.ServiceModel.Dispatcher.IErrorHandler?displayProperty=nameWithType> su un comportamento <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType> o <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType> e quindi assegnarla alla proprietà <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A?displayProperty=nameWithType>. <xref:System.ServiceModel.Dispatcher.IErrorHandler> Consente di controllare in modo esplicito l'errore SOAP generato e stabilire se inviarlo al client.  
   
- Per facilitare il debug, impostare il <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> a `true` nel codice o è possibile utilizzare il <xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> in un file di configurazione dell'applicazione. Quando abilitato, il servizio restituisce automaticamente al chiamante le informazioni sull'eccezione. Il client considera questi errori come eccezioni <xref:System.ServiceModel.FaultException>.  
+ Per facilitare il debug, impostare il <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> al `true` nel codice o è possibile utilizzare il <xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> in un file di configurazione dell'applicazione. Quando abilitato, il servizio restituisce automaticamente al chiamante le informazioni sull'eccezione. Il client considera questi errori come eccezioni <xref:System.ServiceModel.FaultException>.  
   
 > [!IMPORTANT]
 >  Poiché le eccezioni gestite possono esporre informazioni interne dell'applicazione, se si imposta <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> oppure <xref:System.ServiceModel.Description.ServiceDebugBehavior.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType> a `true` può consentire ai client WCF di ottenere informazioni sulle eccezioni delle operazioni interne del servizio, incluse le informazioni informazioni personali o comunque riservate.  
@@ -118,6 +119,7 @@
       <MemberSignature Language="DocId" Value="M:System.ServiceModel.FaultContractAttribute.#ctor(System.Type)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (detailType As Type)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; FaultContractAttribute(Type ^ detailType);" />
+      <MemberSignature Language="F#" Value="new System.ServiceModel.FaultContractAttribute : Type -&gt; System.ServiceModel.FaultContractAttribute" Usage="new System.ServiceModel.FaultContractAttribute detailType" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -161,6 +163,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.Action" />
       <MemberSignature Language="VB.NET" Value="Public Property Action As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Action { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.Action : string with get, set" Usage="System.ServiceModel.FaultContractAttribute.Action" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -195,6 +198,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.DetailType" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property DetailType As Type" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Type ^ DetailType { Type ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.DetailType : Type" Usage="System.ServiceModel.FaultContractAttribute.DetailType" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -232,6 +236,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.HasProtectionLevel" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property HasProtectionLevel As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool HasProtectionLevel { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.HasProtectionLevel : bool" Usage="System.ServiceModel.FaultContractAttribute.HasProtectionLevel" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -261,6 +266,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.Name" />
       <MemberSignature Language="VB.NET" Value="Public Property Name As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Name { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.Name : string with get, set" Usage="System.ServiceModel.FaultContractAttribute.Name" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -288,6 +294,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.Namespace" />
       <MemberSignature Language="VB.NET" Value="Public Property Namespace As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Namespace { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.Namespace : string with get, set" Usage="System.ServiceModel.FaultContractAttribute.Namespace" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -315,6 +322,7 @@
       <MemberSignature Language="DocId" Value="P:System.ServiceModel.FaultContractAttribute.ProtectionLevel" />
       <MemberSignature Language="VB.NET" Value="Public Property ProtectionLevel As ProtectionLevel" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Net::Security::ProtectionLevel ProtectionLevel { System::Net::Security::ProtectionLevel get(); void set(System::Net::Security::ProtectionLevel value); };" />
+      <MemberSignature Language="F#" Value="member this.ProtectionLevel : System.Net.Security.ProtectionLevel with get, set" Usage="System.ServiceModel.FaultContractAttribute.ProtectionLevel" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
@@ -331,7 +339,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare la proprietà <xref:System.ServiceModel.Description.FaultDescription.ProtectionLevel%2A?displayProperty=nameWithType> per specificare il livello di sicurezza dei meccanismi di crittografia, di firma o di entrambi i tipi applicati dall'associazione durante l'invio dell'errore SOAP. È consigliabile garantire che negli errori delle operazioni i requisiti del livello di protezione riguardanti il contratto siano definiti in modo esplicito. Il livello di protezione predefinito è <xref:System.Net.Security.ProtectionLevel.None?displayProperty=nameWithType>. Tale livello prevede che il messaggio di errore SOAP che si sta definendo non richieda alcun meccanismo di crittografia o firma digitale. È tuttavia possibile che l'associazione sia configurata in modo da offrire questo tipo di supporto. Se un messaggio di errore contiene informazioni riservate o può comportare problemi di sicurezza, è consigliabile impostare la proprietà <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A> su <xref:System.Net.Security.ProtectionLevel.EncryptAndSign?displayProperty=nameWithType>. Per ulteriori informazioni sui problemi di sicurezza, vedere [livello di protezione delle informazioni sui](~/docs/framework/wcf/understanding-protection-level.md).  
+ Utilizzare la proprietà <xref:System.ServiceModel.Description.FaultDescription.ProtectionLevel%2A?displayProperty=nameWithType> per specificare il livello di sicurezza dei meccanismi di crittografia, di firma o di entrambi i tipi applicati dall'associazione durante l'invio dell'errore SOAP. È consigliabile garantire che negli errori delle operazioni i requisiti del livello di protezione riguardanti il contratto siano definiti in modo esplicito. Il livello di protezione predefinito è <xref:System.Net.Security.ProtectionLevel.None?displayProperty=nameWithType>. Tale livello prevede che il messaggio di errore SOAP che si sta definendo non richieda alcun meccanismo di crittografia o firma digitale. È tuttavia possibile che l'associazione sia configurata in modo da offrire questo tipo di supporto. Se un messaggio di errore contiene informazioni riservate o può comportare problemi di sicurezza, è consigliabile impostare la proprietà <xref:System.ServiceModel.FaultContractAttribute.ProtectionLevel%2A> su <xref:System.Net.Security.ProtectionLevel.EncryptAndSign?displayProperty=nameWithType>. Per altre informazioni su problemi di sicurezza, vedere [Understanding Protection Level](~/docs/framework/wcf/understanding-protection-level.md).  
   
  Il comportamento della protezione in fase di esecuzione deriva dall'unione delle proprietà a livello di protezione che presentano una struttura gerarchica. La configurazione del valore esterno determina l'impostazione predefinita per tutti gli ambiti più ristretti a meno che non venga impostato esplicitamente un valore diverso per un ambito più ristretto. In questo caso, il valore esterno rimane l'impostazione predefinita per tutti gli ambiti più ristretti, ad eccezione di quello impostato in modo specifico.  
   
