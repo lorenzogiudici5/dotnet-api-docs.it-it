@@ -1,17 +1,18 @@
 <Type Name="ValueTask&lt;TResult&gt;" FullName="System.Threading.Tasks.ValueTask&lt;TResult&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="946e9ceec2676cfbc1b9aed30223dbac578baafd" />
-    <Meta Name="ms.sourcegitcommit" Value="f9e3295b6cc303a611a73a84c4b27f9da792ad0d" />
+    <Meta Name="ms.openlocfilehash" Value="a87a03e250539c4f13f9c7f115f45efb6c3db9bf" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/26/2018" />
-    <Meta Name="ms.locfileid" Value="31910609" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36406934" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ValueTask&lt;TResult&gt; : IEquatable&lt;System.Threading.Tasks.ValueTask&lt;TResult&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ValueTask`1&lt;TResult&gt; extends System.ValueType implements class System.IEquatable`1&lt;valuetype System.Threading.Tasks.ValueTask`1&lt;!TResult&gt;&gt;" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Tasks.ValueTask`1" />
   <TypeSignature Language="VB.NET" Value="Public Structure ValueTask(Of TResult)&#xA;Implements IEquatable(Of ValueTask(Of TResult))" />
   <TypeSignature Language="C++ CLI" Value="generic &lt;typename TResult&gt;&#xA;public value class ValueTask : IEquatable&lt;System::Threading::Tasks::ValueTask&lt;TResult&gt;&gt;" />
+  <TypeSignature Language="F#" Value="type ValueTask&lt;'Result&gt; = struct" />
   <AssemblyInfo>
     <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -48,16 +49,16 @@
       <format type="text/markdown"><![CDATA[ 
 
 ## Remarks  
-Un metodo può restituire un'istanza di questo tipo di valore se è probabile che il risultato dell'operazione sarà disponibile in modo sincrono e quando sono previsti essere richiamato in modo frequente che il costo di allocazione di un nuovo <xref:System.Threading.Tasks.Task%601> per ogni chiamata sarà troppo elevato.   
+Un metodo può restituire un'istanza di questo tipo di valore se è probabile che il risultato dell'operazione del saranno disponibile in modo sincrono, e quando sono previsti essere richiamato con una frequenza che il costo di allocare un nuovo <xref:System.Threading.Tasks.Task%601> per ogni chiamata sarà eccessivo.   
 
-Sono disponibili i compromessi relativi all'utilizzo di un <xref:System.Threading.Tasks.ValueTask%601> anziché un <xref:System.Threading.Tasks.Task%601>. Ad esempio, mentre un <xref:System.Threading.Tasks.ValueTask%601> consentono di evitare un'allocazione nel caso in cui il risultato positivo è disponibile in modo sincrono, contiene inoltre due campi, mentre un <xref:System.Threading.Tasks.Task%601> come riferimento di tipo è un singolo campo. Ciò significa che una chiamata al metodo restituisce due campi vale la pena di dati invece di uno, che altri dati da copiare. Significa anche, che se un metodo che restituisce un <xref:System.Threading.Tasks.ValueTask%601> attesa all'interno di un metodo asincrono, la macchina a stati per tale metodo async sarà maggiore, poiché è necessario archiviare una struttura contenente due campi anziché un singolo riferimento.   
+Esistono compromessi all'utilizzo di un <xref:System.Threading.Tasks.ValueTask%601> anziché un <xref:System.Threading.Tasks.Task%601>. Ad esempio, mentre un <xref:System.Threading.Tasks.ValueTask%601> consentono di evitare un'allocazione nel caso in cui il risultato positivo è disponibile in modo sincrono, include inoltre due campi, mentre un <xref:System.Threading.Tasks.Task%601> come un riferimento di tipo è un singolo campo. Ciò significa che una chiamata al metodo restituisce due campi vale la pena di dati anziché a uno, che più dati da copiare. Inoltre pertanto, se un metodo che restituisce un <xref:System.Threading.Tasks.ValueTask%601> atteso all'interno di un metodo asincrono, la macchina a stati per tale metodo async sarà maggiore, poiché è necessario archiviare una struttura contenente due campi anziché un singolo riferimento.   
 
-Per usi diversi da utilizzano il risultato di un'operazione asincrona mediante await, <xref:System.Threading.Tasks.ValueTask%601> può portare a un modello di programmazione più complessa che richiede ulteriori allocazioni. Si consideri ad esempio un metodo che può restituire un <xref:System.Threading.Tasks.Task%601> con un'attività memorizzata nella cache come un risultato comune o un <xref:System.Threading.Tasks.ValueTask%601>. Se il consumer del risultato desidera utilizzare come un <xref:System.Threading.Tasks.Task%601> in un metodo come <xref:System.Threading.Tasks.Task.WhenAll%2A> o <xref:System.Threading.Tasks.Task.WhenAny%2A>, <xref:System.Threading.Tasks.ValueTask%601> deve prima essere convertito in un <xref:System.Threading.Tasks.Task%601> utilizzando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>, i punti iniziali per un'allocazione che potrebbe essere evitata se un memorizzato nella cache <xref:System.Threading.Tasks.Task%601> fosse stata utilizzata in primo luogo.   
+Per utilizzi diversi da utilizzano il risultato di un'operazione asincrona mediante await, <xref:System.Threading.Tasks.ValueTask%601> può portare a un modello di programmazione più complessa che richiede ulteriori allocazioni. Ad esempio, considerare un metodo che è stato possibile restituire un <xref:System.Threading.Tasks.Task%601> con un'attività memorizzata nella cache di conseguenza comune o un <xref:System.Threading.Tasks.ValueTask%601>. Se il consumer del risultato decide di usare la classe come un <xref:System.Threading.Tasks.Task%601> in un metodo, ad esempio <xref:System.Threading.Tasks.Task.WhenAll%2A> o <xref:System.Threading.Tasks.Task.WhenAny%2A>, il <xref:System.Threading.Tasks.ValueTask%601> deve prima essere convertito in un <xref:System.Threading.Tasks.Task%601> utilizzando <xref:System.Threading.Tasks.ValueTask%601.AsTask%2A>, i punti iniziali per un'allocazione che sarebbe stata evitata se un memorizzato nella cache <xref:System.Threading.Tasks.Task%601> fosse utilizzato in primo luogo.   
 
-Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asincroni per restituire un <xref:System.Threading.Tasks.Task> o <xref:System.Threading.Tasks.Task%601>. Necessario solo se l'analisi delle prestazioni risulta utile un <xref:System.Threading.Tasks.ValueTask%601> anziché un <xref:System.Threading.Tasks.Task%601>. Non è una versione non generica di <xref:System.Threading.Tasks.ValueTask%601>, come il <xref:System.Threading.Tasks.Task.CompletedTask> proprietà può essere utilizzata a restituire un singleton completato correttamente, nel caso in cui un metodo che restituisce un <xref:System.Threading.Tasks.Task> completa in modo sincrono e completata.   
+Di conseguenza, deve essere la scelta predefinita per tutti i metodi asincroni per restituire un <xref:System.Threading.Tasks.Task> o <xref:System.Threading.Tasks.Task%601>. Solo se l'analisi delle prestazioni dimostra utile deve un <xref:System.Threading.Tasks.ValueTask%601> anziché un <xref:System.Threading.Tasks.Task%601>. Nessuna versione non generica di <xref:System.Threading.Tasks.ValueTask%601>, come il <xref:System.Threading.Tasks.Task.CompletedTask> proprietà può essere utilizzata a restituire un singleton è stato completato nel caso in cui un metodo restituendo un <xref:System.Threading.Tasks.Task> completa in modo sincrono e completata.   
 
 > [!NOTE]
->  L'utilizzo del <xref:System.Threading.Tasks.ValueTask%601> è supportata a partire da c# 7, tipo e non è supportato da una qualsiasi versione di Visual Basic.
+>  L'utilizzo del <xref:System.Threading.Tasks.ValueTask%601> tipo è supportato a partire da C# 7 e non è supportato da una qualsiasi versione di Visual Basic.
  ]]></format>
     </remarks>
   </Docs>
@@ -68,6 +69,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.#ctor(System.Threading.Tasks.Task{`0})" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (task As Task(Of TResult))" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; ValueTask(System::Threading::Tasks::Task&lt;TResult&gt; ^ task);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Tasks.ValueTask&lt;'Result&gt; : System.Threading.Tasks.Task&lt;'Result&gt; -&gt; System.Threading.Tasks.ValueTask&lt;'Result&gt;" Usage="new System.Threading.Tasks.ValueTask&lt;'Result&gt; task" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -95,6 +97,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.#ctor(`0)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (result As TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; ValueTask(TResult result);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Tasks.ValueTask&lt;'Result&gt; : 'Result -&gt; System.Threading.Tasks.ValueTask&lt;'Result&gt;" Usage="new System.Threading.Tasks.ValueTask&lt;'Result&gt; result" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -121,6 +124,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.#ctor(System.Threading.Tasks.Sources.IValueTaskSource{`0},System.Int16)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (source As IValueTaskSource(Of TResult), token As Short)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; ValueTask(System::Threading::Tasks::Sources::IValueTaskSource&lt;TResult&gt; ^ source, short token);" />
+      <MemberSignature Language="F#" Value="new System.Threading.Tasks.ValueTask&lt;'Result&gt; : System.Threading.Tasks.Sources.IValueTaskSource&lt;'Result&gt; * int16 -&gt; System.Threading.Tasks.ValueTask&lt;'Result&gt;" Usage="new System.Threading.Tasks.ValueTask&lt;'Result&gt; (source, token)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -143,6 +147,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.AsTask" />
       <MemberSignature Language="VB.NET" Value="Public Function AsTask () As Task(Of TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::Task&lt;TResult&gt; ^ AsTask();" />
+      <MemberSignature Language="F#" Value="member this.AsTask : unit -&gt; System.Threading.Tasks.Task&lt;'Result&gt;" Usage="valueTask.AsTask " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -170,6 +175,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.ConfigureAwait(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Function ConfigureAwait (continueOnCapturedContext As Boolean) As ConfiguredValueTaskAwaitable(Of TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Runtime::CompilerServices::ConfiguredValueTaskAwaitable&lt;TResult&gt; ConfigureAwait(bool continueOnCapturedContext);" />
+      <MemberSignature Language="F#" Value="member this.ConfigureAwait : bool -&gt; System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable&lt;'Result&gt;" Usage="valueTask.ConfigureAwait continueOnCapturedContext" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -201,6 +207,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.CreateAsyncMethodBuilder" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function CreateAsyncMethodBuilder () As AsyncValueTaskMethodBuilder(Of TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Runtime::CompilerServices::AsyncValueTaskMethodBuilder&lt;TResult&gt; CreateAsyncMethodBuilder();" />
+      <MemberSignature Language="F#" Value="static member CreateAsyncMethodBuilder : unit -&gt; System.Runtime.CompilerServices.AsyncValueTaskMethodBuilder&lt;'Result&gt;" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.CreateAsyncMethodBuilder " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -232,6 +239,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.Equals(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (obj As Object) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="override this.Equals : obj -&gt; bool" Usage="valueTask.Equals obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -263,6 +271,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.Equals(System.Threading.Tasks.ValueTask{`0})" />
       <MemberSignature Language="VB.NET" Value="Public Function Equals (other As ValueTask(Of TResult)) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual bool Equals(System::Threading::Tasks::ValueTask&lt;TResult&gt; other);" />
+      <MemberSignature Language="F#" Value="override this.Equals : System.Threading.Tasks.ValueTask&lt;'Result&gt; -&gt; bool" Usage="valueTask.Equals other" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.IEquatable`1.Equals(`0)</InterfaceMember>
@@ -297,6 +306,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.GetAwaiter" />
       <MemberSignature Language="VB.NET" Value="Public Function GetAwaiter () As ValueTaskAwaiter(Of TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Runtime::CompilerServices::ValueTaskAwaiter&lt;TResult&gt; GetAwaiter();" />
+      <MemberSignature Language="F#" Value="member this.GetAwaiter : unit -&gt; System.Runtime.CompilerServices.ValueTaskAwaiter&lt;'Result&gt;" Usage="valueTask.GetAwaiter " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -324,6 +334,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.GetHashCode" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberSignature Language="F#" Value="override this.GetHashCode : unit -&gt; int" Usage="valueTask.GetHashCode " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -351,6 +362,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.ValueTask`1.IsCanceled" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCanceled As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCanceled { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsCanceled : bool" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.IsCanceled" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -378,6 +390,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.ValueTask`1.IsCompleted" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCompleted As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCompleted { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsCompleted : bool" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.IsCompleted" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -395,7 +408,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <Docs>
         <summary>Ottiene un valore che indica se l'oggetto rappresenta un'operazione completata.</summary>
         <value>
-          <see langword="true" /> Se questo oggetto rappresenta un'operazione completata. in caso contrario, <see langword="false" />.</value>
+          <see langword="true" /> Se questo oggetto rappresenta un'operazione completata; in caso contrario, <see langword="false" />.</value>
         <remarks></remarks>
       </Docs>
     </Member>
@@ -405,6 +418,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.ValueTask`1.IsCompletedSuccessfully" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsCompletedSuccessfully As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsCompletedSuccessfully { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsCompletedSuccessfully : bool" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.IsCompletedSuccessfully" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -432,6 +446,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.ValueTask`1.IsFaulted" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsFaulted As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsFaulted { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsFaulted : bool" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.IsFaulted" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -459,6 +474,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.op_Equality(System.Threading.Tasks.ValueTask{`0},System.Threading.Tasks.ValueTask{`0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Operator == (left As ValueTask(Of TResult), right As ValueTask(Of TResult)) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator ==(System::Threading::Tasks::ValueTask&lt;TResult&gt; left, System::Threading::Tasks::ValueTask&lt;TResult&gt; right);" />
+      <MemberSignature Language="F#" Value="static member ( = ) : System.Threading.Tasks.ValueTask&lt;'Result&gt; * System.Threading.Tasks.ValueTask&lt;'Result&gt; -&gt; bool" Usage="left = right" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -492,6 +508,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.op_Inequality(System.Threading.Tasks.ValueTask{`0},System.Threading.Tasks.ValueTask{`0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Operator != (left As ValueTask(Of TResult), right As ValueTask(Of TResult)) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool operator !=(System::Threading::Tasks::ValueTask&lt;TResult&gt; left, System::Threading::Tasks::ValueTask&lt;TResult&gt; right);" />
+      <MemberSignature Language="F#" Value="static member op_Inequality : System.Threading.Tasks.ValueTask&lt;'Result&gt; * System.Threading.Tasks.ValueTask&lt;'Result&gt; -&gt; bool" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.op_Inequality (left, right)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -525,6 +542,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.Preserve" />
       <MemberSignature Language="VB.NET" Value="Public Function Preserve () As ValueTask(Of TResult)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Threading::Tasks::ValueTask&lt;TResult&gt; Preserve();" />
+      <MemberSignature Language="F#" Value="member this.Preserve : unit -&gt; System.Threading.Tasks.ValueTask&lt;'Result&gt;" Usage="valueTask.Preserve " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -546,6 +564,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.ValueTask`1.Result" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Result As TResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property TResult Result { TResult get(); };" />
+      <MemberSignature Language="F#" Value="member this.Result : 'Result" Usage="System.Threading.Tasks.ValueTask&lt;'Result&gt;.Result" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
@@ -568,7 +587,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
 ## Remarks  
  Se questo <xref:System.Threading.Tasks.ValueTask%601> esegue il wrapping di un risultato positivo, questa proprietà restituisce direttamente.
 
- Se esegue il wrapping di un <xref:System.Threading.Tasks.Task%601>, il comportamento di <xref:System.Threading.Tasks.ValueTask%601.Result%2A> è simile al comportamento dell'accesso a <xref:System.Threading.Tasks.Task%601.Result%2A> dell'attività sottoposta a wrapping: se l'attività non è stata completata, l'accesso alla proprietà blocca il thread chiamante finché non viene completato; se l'attività è stata completata correttamente, la proprietà restituisce il risultato. Se l'attività si è verificati errori o è stata cancellecd, l'accesso alla proprietà genera un'eccezione. L'eccezione generata non è stato eseguito il wrapping in un <xref:System.AggregateException>, che è diverso dal comportamento di <xref:System.Threading.Tasks.Task%601.Result%2A> nella stessa situazione.
+ Se esegue il wrapping di un <xref:System.Threading.Tasks.Task%601>, il comportamento di <xref:System.Threading.Tasks.ValueTask%601.Result%2A> è simile al comportamento dell'accesso a <xref:System.Threading.Tasks.Task%601.Result%2A> dell'attività sottoposta a wrapping: se l'attività non è ancora stata completata, l'accesso alla proprietà blocca il thread chiamante finché non verrà completata; se l'attività è stata completata correttamente, la proprietà restituisce il risultato. Se l'attività si è verificati errori o è stata cancellecd, l'accesso alla proprietà genera un'eccezione. L'eccezione generata non è stato eseguito il wrapping in un' <xref:System.AggregateException>, che è diverso dal comportamento di <xref:System.Threading.Tasks.Task%601.Result%2A> nella stessa situazione.
   
  ]]></format>
         </remarks>
@@ -580,6 +599,7 @@ Di conseguenza, in cui deve essere la scelta predefinita per tutti i metodi asin
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.ValueTask`1.ToString" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function ToString () As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ ToString();" />
+      <MemberSignature Language="F#" Value="override this.ToString : unit -&gt; string" Usage="valueTask.ToString " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Extensions</AssemblyName>
