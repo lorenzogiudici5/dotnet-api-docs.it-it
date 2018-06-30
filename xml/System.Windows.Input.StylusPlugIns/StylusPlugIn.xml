@@ -1,17 +1,18 @@
 <Type Name="StylusPlugIn" FullName="System.Windows.Input.StylusPlugIns.StylusPlugIn">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1ae9f84e25ceaac7c50286883530f73076795f77" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="169d2fba4788d99a6c9bd37533454a7810971b20" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30649705" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36508581" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class StylusPlugIn" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit StylusPlugIn extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Windows.Input.StylusPlugIns.StylusPlugIn" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class StylusPlugIn" />
   <TypeSignature Language="C++ CLI" Value="public ref class StylusPlugIn abstract" />
+  <TypeSignature Language="F#" Value="type StylusPlugIn = class" />
   <AssemblyInfo>
     <AssemblyName>PresentationCore</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -26,9 +27,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> consente di modificare <xref:System.Windows.Input.StylusPoint> oggetti su un thread separato. In modo che l'input penna venga rappresentato come dati di input penna di Tablet PC anche se l'applicazione sta eseguendo altre operazioni, vengono utilizzati i thread separato.  
+ Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> consente di modificare <xref:System.Windows.Input.StylusPoint> oggetti thread distinti. Vengono utilizzati i thread separati in modo che l'input penna ancora viene eseguito il rendering come dati di input penna di Tablet PC anche se l'applicazione sta eseguendo altre operazioni.  
   
- Per intercettare i punti dello stilo dall'hardware, creare una classe che eredita la <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> classe.  Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> classe dispone dei metodi seguenti che è possibile eseguire l'override per modificare <xref:System.Windows.Input.StylusPoint> oggetti su un thread in penna pool di thread.  
+ Per intercettare i punti dello stilo dall'hardware, creare una classe che eredita il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> classe.  Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> classe dispone dei metodi seguenti che è possibile eseguire l'override per modificare <xref:System.Windows.Input.StylusPoint> oggetti in un thread in penna pool di thread.  
   
 -   <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A>  
   
@@ -40,10 +41,10 @@
   
 -   <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusLeave%2A>  
   
- L'input di penna viene indirizzato a un elemento <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> sul thread di penna. Dall'hit test accurati non può essere eseguita sul thread di penna, alcuni elementi possono a volte ricevere input con stilo destinato ad altri elementi. Se è necessario assicurarsi che l'input sia stato indirizzato correttamente prima di eseguire un'operazione, sottoscrivere ed eseguire l'operazione di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDownProcessed%2A>, <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A>, o <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo. Questi metodi vengono richiamati dal thread principale dell'applicazione dopo l'esecuzione di hit test accurati. Per sottoscrivere questi metodi, chiamare il <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> metodo nel metodo che si verifica nel thread di penna. Ad esempio, se si chiama <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A>, <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A> si verifica.  
+ L'input di penna viene indirizzato a un elemento <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> sul thread di penna. Perché hit test accurati non può essere eseguita sul thread di penna, alcuni elementi occasionalmente possono ricevere input con stilo destinato ad altri elementi. Se è necessario assicurarsi che l'input sia stato indirizzato correttamente prima di eseguire un'operazione, sottoscrivere ed eseguire l'operazione nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDownProcessed%2A>, <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A>, o <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo. Questi metodi vengono richiamati dal thread principale dell'applicazione dopo l'esecuzione di hit test accurati. Per eseguire la sottoscrizione a questi metodi, chiamare il <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> metodo nel metodo che si verifica nel thread penna. Ad esempio, se si chiama <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A>, il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A> si verifica.  
   
 > [!NOTE]
->  Se si utilizza un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> all'interno di un controllo, è consigliabile testare il plug-in e controlli rigorosi per assicurarsi che non generi eccezioni impreviste.  
+>  Se si utilizza un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> all'interno di un controllo, è consigliabile testare il plug-in e controllare in modo esteso per assicurarsi che non generi eccezioni impreviste.  
   
 <a name="xamlTextUsage_StylusPlugIn"></a>   
 ## <a name="xaml-text-usage"></a>Utilizzo di testo XAML  
@@ -52,7 +53,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene creato un oggetto personalizzato <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che vincola l'input penna a una determinata area del controllo.  
+ L'esempio seguente crea un oggetto personalizzato <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che vincola l'input penna in una determinata area del controllo.  
   
  [!code-csharp[StylusPluginSamples#1](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/FilterPlugin.cs#1)]
  [!code-vb[StylusPluginSamples#1](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/FilterPlugin.vb#1)]  
@@ -84,6 +85,7 @@
       <MemberSignature Language="DocId" Value="P:System.Windows.Input.StylusPlugIns.StylusPlugIn.Element" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Element As UIElement" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::UIElement ^ Element { System::Windows::UIElement ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Element : System.Windows.UIElement" Usage="System.Windows.Input.StylusPlugIns.StylusPlugIn.Element" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -114,6 +116,7 @@
       <MemberSignature Language="DocId" Value="P:System.Windows.Input.StylusPlugIns.StylusPlugIn.ElementBounds" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property ElementBounds As Rect" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Rect ElementBounds { System::Windows::Rect get(); };" />
+      <MemberSignature Language="F#" Value="member this.ElementBounds : System.Windows.Rect" Usage="System.Windows.Input.StylusPlugIns.StylusPlugIn.ElementBounds" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -134,7 +137,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come un <xref:System.Windows.Input.StylusPlugIns.DynamicRenderer>, che eredita da <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn>, Usa un <xref:System.Windows.Media.ImageBrush> per eseguire il rendering di un tratto.  Pennello disegna parzialmente il file di immagine specificato da `imageFile`.  
+ Nell'esempio seguente viene illustrato come un <xref:System.Windows.Input.StylusPlugIns.DynamicRenderer>, che eredita dalla classe <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn>, viene utilizzato un <xref:System.Windows.Media.ImageBrush> per eseguire il rendering di un tratto.  Pennello disegna parzialmente il file di immagine specificato da `imageFile`.  
   
  [!code-csharp[StylusPluginSamples#17](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/ImageRenderer.cs#17)]
  [!code-vb[StylusPluginSamples#17](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/ImageRenderer.vb#17)]  
@@ -149,6 +152,7 @@
       <MemberSignature Language="DocId" Value="P:System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled" />
       <MemberSignature Language="VB.NET" Value="Public Property Enabled As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Enabled { bool get(); void set(bool value); };" />
+      <MemberSignature Language="F#" Value="member this.Enabled : bool with get, set" Usage="System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -173,7 +177,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene controllato il valore della <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled%2A> proprietà il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnEnabledChanged%2A> metodo.  
+ Nell'esempio seguente controlla il valore del <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled%2A> proprietà di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnEnabledChanged%2A> (metodo).  
   
  [!code-csharp[StylusPluginSamples#16](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/CustomDynamicRenderer.cs#16)]
  [!code-vb[StylusPluginSamples#16](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/CustomDynamicRenderer.vb#16)]  
@@ -188,6 +192,7 @@
       <MemberSignature Language="DocId" Value="P:System.Windows.Input.StylusPlugIns.StylusPlugIn.IsActiveForInput" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsActiveForInput As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsActiveForInput { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsActiveForInput : bool" Usage="System.Windows.Input.StylusPlugIns.StylusPlugIn.IsActiveForInput" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -213,7 +218,7 @@
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo.  
+ Nell'esempio seguente viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo.  
   
  [!code-csharp[StylusPluginSamples#18](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/CustomDynamicRenderer.cs#18)]
  [!code-vb[StylusPluginSamples#18](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/CustomDynamicRenderer.vb#18)]  
@@ -228,6 +233,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnAdded" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnAdded ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnAdded();" />
+      <MemberSignature Language="F#" Value="abstract member OnAdded : unit -&gt; unit&#xA;override this.OnAdded : unit -&gt; unit" Usage="stylusPlugIn.OnAdded " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -258,6 +264,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnEnabledChanged" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnEnabledChanged ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnEnabledChanged();" />
+      <MemberSignature Language="F#" Value="abstract member OnEnabledChanged : unit -&gt; unit&#xA;override this.OnEnabledChanged : unit -&gt; unit" Usage="stylusPlugIn.OnEnabledChanged " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -273,7 +280,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio seguente viene controllato il valore della <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled%2A> proprietà il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnEnabledChanged%2A> metodo.  
+ Nell'esempio seguente controlla il valore del <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.Enabled%2A> proprietà di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnEnabledChanged%2A> (metodo).  
   
  [!code-csharp[StylusPluginSamples#16](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/CustomDynamicRenderer.cs#16)]
  [!code-vb[StylusPluginSamples#16](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/CustomDynamicRenderer.vb#16)]  
@@ -288,6 +295,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnIsActiveForInputChanged ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnIsActiveForInputChanged();" />
+      <MemberSignature Language="F#" Value="abstract member OnIsActiveForInputChanged : unit -&gt; unit&#xA;override this.OnIsActiveForInputChanged : unit -&gt; unit" Usage="stylusPlugIn.OnIsActiveForInputChanged " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -303,12 +311,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo per allocare e liberare le risorse usate dal <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn>.  
+ Usare la <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo per allocare e liberare le risorse usate dal <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn>.  
   
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo.  
+ Nell'esempio seguente viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnIsActiveForInputChanged%2A> metodo.  
   
  [!code-csharp[StylusPluginSamples#18](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/CustomDynamicRenderer.cs#18)]
  [!code-vb[StylusPluginSamples#18](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/CustomDynamicRenderer.vb#18)]  
@@ -323,6 +331,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnRemoved" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnRemoved ()" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnRemoved();" />
+      <MemberSignature Language="F#" Value="abstract member OnRemoved : unit -&gt; unit&#xA;override this.OnRemoved : unit -&gt; unit" Usage="stylusPlugIn.OnRemoved " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -342,6 +351,7 @@
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnStylusDown(class System.Windows.Input.StylusPlugIns.RawStylusInput rawStylusInput) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown(System.Windows.Input.StylusPlugIns.RawStylusInput)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusDown(System::Windows::Input::StylusPlugIns::RawStylusInput ^ rawStylusInput);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusDown : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit&#xA;override this.OnStylusDown : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit" Usage="stylusPlugIn.OnStylusDown rawStylusInput" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -361,12 +371,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si verifica in un thread di penna, quindi ridurre al minimo il lavoro in questo metodo per evitare di influire sulle prestazioni.  
+ Questo metodo si verifica in un thread di penna, ridurre così lavoro in questo metodo per evitare di influire sulle prestazioni.  
   
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> metodo. Per creare un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
+ Nell'esempio seguente viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> metodo. Per creare una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
   
  [!code-csharp[StylusPluginSamples#8](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/FilterPlugin.cs#8)]
  [!code-vb[StylusPluginSamples#8](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/FilterPlugin.vb#8)]  
@@ -381,6 +391,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDownProcessed(System.Object,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnStylusDownProcessed (callbackData As Object, targetVerified As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusDownProcessed(System::Object ^ callbackData, bool targetVerified);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusDownProcessed : obj * bool -&gt; unit&#xA;override this.OnStylusDownProcessed : obj * bool -&gt; unit" Usage="stylusPlugIn.OnStylusDownProcessed (callbackData, targetVerified)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -402,12 +413,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> metodo.  
+ Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nella <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> metodo.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che verifica la presenza di <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> chiamate <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> per sottoscrivere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione. La relazione tra <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> e <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDownProcessed%2A> è identico.  
+ Nell'esempio seguente viene creata una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che controlla il <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> chiamate <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> per sottoscrivere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione. La relazione tra <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDown%2A> e nella <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusDownProcessed%2A> è identico.  
   
  [!code-csharp[StylusPluginSamples#12](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/RecognizerPlugin.cs#12)]
  [!code-vb[StylusPluginSamples#12](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/RecognizerPlugin.vb#12)]  
@@ -421,6 +432,7 @@
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnStylusEnter(class System.Windows.Input.StylusPlugIns.RawStylusInput rawStylusInput, bool confirmed) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusEnter(System.Windows.Input.StylusPlugIns.RawStylusInput,System.Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusEnter(System::Windows::Input::StylusPlugIns::RawStylusInput ^ rawStylusInput, bool confirmed);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusEnter : System.Windows.Input.StylusPlugIns.RawStylusInput * bool -&gt; unit&#xA;override this.OnStylusEnter : System.Windows.Input.StylusPlugIns.RawStylusInput * bool -&gt; unit" Usage="stylusPlugIn.OnStylusEnter (rawStylusInput, confirmed)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -443,7 +455,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si verifica in un thread di penna, quindi ridurre al minimo il lavoro in questo metodo per evitare di influire sulle prestazioni.  
+ Questo metodo si verifica in un thread di penna, ridurre così lavoro in questo metodo per evitare di influire sulle prestazioni.  
   
  ]]></format>
         </remarks>
@@ -454,6 +466,7 @@
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnStylusLeave(class System.Windows.Input.StylusPlugIns.RawStylusInput rawStylusInput, bool confirmed) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusLeave(System.Windows.Input.StylusPlugIns.RawStylusInput,System.Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusLeave(System::Windows::Input::StylusPlugIns::RawStylusInput ^ rawStylusInput, bool confirmed);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusLeave : System.Windows.Input.StylusPlugIns.RawStylusInput * bool -&gt; unit&#xA;override this.OnStylusLeave : System.Windows.Input.StylusPlugIns.RawStylusInput * bool -&gt; unit" Usage="stylusPlugIn.OnStylusLeave (rawStylusInput, confirmed)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -476,7 +489,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si verifica in un thread di penna, quindi ridurre al minimo il lavoro in questo metodo per evitare di influire sulle prestazioni.  
+ Questo metodo si verifica in un thread di penna, ridurre così lavoro in questo metodo per evitare di influire sulle prestazioni.  
   
    
   
@@ -497,6 +510,7 @@
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnStylusMove(class System.Windows.Input.StylusPlugIns.RawStylusInput rawStylusInput) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove(System.Windows.Input.StylusPlugIns.RawStylusInput)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusMove(System::Windows::Input::StylusPlugIns::RawStylusInput ^ rawStylusInput);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusMove : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit&#xA;override this.OnStylusMove : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit" Usage="stylusPlugIn.OnStylusMove rawStylusInput" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -516,12 +530,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si verifica in un thread di penna, quindi ridurre al minimo il lavoro in questo metodo per evitare di influire sulle prestazioni.  
+ Questo metodo si verifica in un thread di penna, ridurre così lavoro in questo metodo per evitare di influire sulle prestazioni.  
   
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> metodo. Per creare un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
+ Nell'esempio seguente viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> metodo. Per creare una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
   
  [!code-csharp[StylusPluginSamples#9](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/FilterPlugin.cs#9)]
  [!code-vb[StylusPluginSamples#9](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/FilterPlugin.vb#9)]  
@@ -536,6 +550,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed(System.Object,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnStylusMoveProcessed (callbackData As Object, targetVerified As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusMoveProcessed(System::Object ^ callbackData, bool targetVerified);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusMoveProcessed : obj * bool -&gt; unit&#xA;override this.OnStylusMoveProcessed : obj * bool -&gt; unit" Usage="stylusPlugIn.OnStylusMoveProcessed (callbackData, targetVerified)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -557,12 +572,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> (metodo)  
+ Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nella <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> (metodo)  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che verifica la presenza di <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> chiamate <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> per sottoscrivere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione. La relazione tra <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> e <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A> è identico.  
+ Nell'esempio seguente viene creata una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che controlla il <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> chiamate <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> in <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> per sottoscrivere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione. La relazione tra <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMove%2A> e nella <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusMoveProcessed%2A> è identico.  
   
  [!code-csharp[StylusPluginSamples#12](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/RecognizerPlugin.cs#12)]
  [!code-vb[StylusPluginSamples#12](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/RecognizerPlugin.vb#12)]  
@@ -576,6 +591,7 @@
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnStylusUp(class System.Windows.Input.StylusPlugIns.RawStylusInput rawStylusInput) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp(System.Windows.Input.StylusPlugIns.RawStylusInput)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusUp(System::Windows::Input::StylusPlugIns::RawStylusInput ^ rawStylusInput);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusUp : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit&#xA;override this.OnStylusUp : System.Windows.Input.StylusPlugIns.RawStylusInput -&gt; unit" Usage="stylusPlugIn.OnStylusUp rawStylusInput" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -595,12 +611,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si verifica in un thread di penna, quindi ridurre al minimo il lavoro in questo metodo per evitare di influire sulle prestazioni.  
+ Questo metodo si verifica in un thread di penna, ridurre così lavoro in questo metodo per evitare di influire sulle prestazioni.  
   
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> metodo. Per creare un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
+ Nell'esempio seguente viene illustrato come eseguire l'override di <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> metodo. Per creare una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che limita l'input penna a una determinata area, vedere il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Panoramica.  
   
  [!code-csharp[StylusPluginSamples#10](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/FilterPlugin.cs#10)]
  [!code-vb[StylusPluginSamples#10](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/FilterPlugin.vb#10)]  
@@ -615,6 +631,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed(System.Object,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Protected Overridable Sub OnStylusUpProcessed (callbackData As Object, targetVerified As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void OnStylusUpProcessed(System::Object ^ callbackData, bool targetVerified);" />
+      <MemberSignature Language="F#" Value="abstract member OnStylusUpProcessed : obj * bool -&gt; unit&#xA;override this.OnStylusUpProcessed : obj * bool -&gt; unit" Usage="stylusPlugIn.OnStylusUpProcessed (callbackData, targetVerified)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
@@ -636,12 +653,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> (metodo)  
+ Per eseguire la sottoscrizione a questo metodo, chiamare <xref:System.Windows.Input.StylusPlugIns.RawStylusInput.NotifyWhenProcessed%2A> nella <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUp%2A> (metodo)  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che verifica la presenza di <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> verifica il movimento nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione.  
+ Nell'esempio seguente viene creata una <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> che controlla il <xref:System.Windows.Ink.ApplicationGesture.Down> movimenti. Il <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn> Cerca il movimento nel <xref:System.Windows.Input.StylusPlugIns.StylusPlugIn.OnStylusUpProcessed%2A> metodo, che viene chiamato dal thread dell'interfaccia utente dell'applicazione.  
   
  [!code-csharp[StylusPluginSamples#12](~/samples/snippets/csharp/VS_Snippets_Wpf/StylusPluginSamples/CSharp/RecognizerPlugin.cs#12)]
  [!code-vb[StylusPluginSamples#12](~/samples/snippets/visualbasic/VS_Snippets_Wpf/StylusPluginSamples/VisualBasic/RecognizerPlugin.vb#12)]  
