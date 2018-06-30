@@ -1,17 +1,18 @@
 <Type Name="ElapsedEventArgs" FullName="System.Timers.ElapsedEventArgs">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="054276d76f47da80b3b5509fe52a79591bb5b8dc" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="72a34db2282a94779876af67262c3fe6f5b4dcb3" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30526645" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36406138" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ElapsedEventArgs : EventArgs" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ElapsedEventArgs extends System.EventArgs" />
   <TypeSignature Language="DocId" Value="T:System.Timers.ElapsedEventArgs" />
   <TypeSignature Language="VB.NET" Value="Public Class ElapsedEventArgs&#xA;Inherits EventArgs" />
   <TypeSignature Language="C++ CLI" Value="public ref class ElapsedEventArgs : EventArgs" />
+  <TypeSignature Language="F#" Value="type ElapsedEventArgs = class&#xA;    inherit EventArgs" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -36,7 +37,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio seguente viene creata un'istanza di un <xref:System.Timers.Timer> oggetto che genera il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento ogni due secondi (2000 millisecondi), consente di impostare un gestore eventi per l'evento e avvia il timer. Il gestore eventi visualizza il valore di <xref:System.Timers.ElapsedEventArgs.SignalTime%2A?displayProperty=nameWithType> proprietà ogni volta che viene generato.  
+ Nell'esempio seguente viene creata un'istanza una <xref:System.Timers.Timer> oggetto che attiva il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento ogni due secondi (2000 millisecondi), consente di impostare un gestore eventi per l'evento e avvia il timer. Il gestore eventi visualizza il valore di <xref:System.Timers.ElapsedEventArgs.SignalTime%2A?displayProperty=nameWithType> proprietà ogni volta che viene generato.  
   
  [!code-cpp[System.Timers.Timer#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.timers.timer/cpp/timer1.cpp#1)]
  [!code-csharp[System.Timers.Timer#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timers.timer/cs/timer1.cs#1)]
@@ -52,6 +53,7 @@
       <MemberSignature Language="DocId" Value="P:System.Timers.ElapsedEventArgs.SignalTime" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property SignalTime As DateTime" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property DateTime SignalTime { DateTime get(); };" />
+      <MemberSignature Language="F#" Value="member this.SignalTime : DateTime" Usage="System.Timers.ElapsedEventArgs.SignalTime" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
@@ -77,12 +79,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento viene generato in un <xref:System.Threading.ThreadPool> thread, pertanto il metodo di gestione degli eventi può essere eseguito in un solo thread con lo stesso momento in cui una chiamata al <xref:System.Timers.Timer.Stop%2A?displayProperty=nameWithType> metodo viene eseguito in un altro thread. Ciò potrebbe comportare il <xref:System.Timers.Timer.Elapsed> evento generato dopo il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato. Questa situazione non può essere evitata semplicemente confrontando il <xref:System.Timers.ElapsedEventArgs.SignalTime%2A> proprietà con il tempo quando la <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato, poiché il metodo di gestione degli eventi potrebbe già essere in esecuzione quando il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato, o potrebbe iniziare tra il momento in esecuzione quando il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato e il momento in cui viene salvato l'ora di arresto. Se è fondamentale per impedire al thread che chiama il <xref:System.Timers.Timer.Stop%2A> metodo di proseguire mentre il metodo di gestione degli eventi è ancora in esecuzione, utilizzare un meccanismo di sincronizzazione più affidabile, ad esempio il <xref:System.Threading.Monitor> classe o <xref:System.Threading.Interlocked.CompareExchange%2A> metodo. Codice che usa il <xref:System.Threading.Interlocked.CompareExchange%2A> metodo, vedere l'esempio per il <xref:System.Timers.Timer.Stop%2A?displayProperty=nameWithType> metodo.  
+ Il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento viene generato in un <xref:System.Threading.ThreadPool> thread, pertanto il metodo di gestione degli eventi può essere eseguito in un unico thread allo stesso tempo che una chiamata al <xref:System.Timers.Timer.Stop%2A?displayProperty=nameWithType> metodo viene eseguito in un altro thread. Ciò potrebbe comportare il <xref:System.Timers.Timer.Elapsed> evento generato dopo il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato. Tale race condition non possono essere prevenute semplicemente confrontando il <xref:System.Timers.ElapsedEventArgs.SignalTime%2A> proprietà con il tempo quando le <xref:System.Timers.Timer.Stop%2A> viene chiamato, perché il metodo di gestione degli eventi potrebbe già essere in esecuzione quando il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato o potrebbe iniziare l'esecuzione tra il momento in cui quando il <xref:System.Timers.Timer.Stop%2A> metodo viene chiamato e il momento in cui viene salvato l'ora di arresto. Se è fondamentale per impedire al thread che chiama la <xref:System.Timers.Timer.Stop%2A> metodo di proseguire mentre il metodo di gestione degli eventi è ancora in esecuzione, utilizzare un meccanismo di sincronizzazione più affidabile, ad esempio il <xref:System.Threading.Monitor> classe o il <xref:System.Threading.Interlocked.CompareExchange%2A> metodo. Codice che usa il <xref:System.Threading.Interlocked.CompareExchange%2A> è possibile trovare metodi nell'esempio per il <xref:System.Timers.Timer.Stop%2A?displayProperty=nameWithType> metodo.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creata un'istanza di un <xref:System.Timers.Timer> oggetto che genera il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento ogni due secondi (2000 millisecondi), consente di impostare un gestore eventi per l'evento e avvia il timer. Il gestore eventi visualizza il valore di <xref:System.Timers.ElapsedEventArgs.SignalTime%2A?displayProperty=nameWithType> proprietà ogni volta che viene generato.  
+ Nell'esempio seguente viene creata un'istanza una <xref:System.Timers.Timer> oggetto che attiva il <xref:System.Timers.Timer.Elapsed?displayProperty=nameWithType> evento ogni due secondi (2000 millisecondi), consente di impostare un gestore eventi per l'evento e avvia il timer. Il gestore eventi visualizza il valore di <xref:System.Timers.ElapsedEventArgs.SignalTime%2A?displayProperty=nameWithType> proprietà ogni volta che viene generato.  
   
  [!code-cpp[System.Timers.Timer#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.timers.timer/cpp/timer1.cpp#1)]
  [!code-csharp[System.Timers.Timer#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.timers.timer/cs/timer1.cs#1)]
