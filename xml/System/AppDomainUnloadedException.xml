@@ -1,17 +1,18 @@
 <Type Name="AppDomainUnloadedException" FullName="System.AppDomainUnloadedException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bd11553089e034ffc94389fed29dcbcdd9da860c" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="15acc01f045f8e4fdf704849419ae630e76acf43" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30727525" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36432986" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class AppDomainUnloadedException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit AppDomainUnloadedException extends System.SystemException" />
   <TypeSignature Language="DocId" Value="T:System.AppDomainUnloadedException" />
   <TypeSignature Language="VB.NET" Value="Public Class AppDomainUnloadedException&#xA;Inherits SystemException" />
   <TypeSignature Language="C++ CLI" Value="public ref class AppDomainUnloadedException : SystemException" />
+  <TypeSignature Language="F#" Value="type AppDomainUnloadedException = class&#xA;    inherit SystemException" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -41,13 +42,13 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- In .NET Framework versione 2.0, un <xref:System.AppDomainUnloadedException> che rappresenta l'utente non gestita in codice produce l'effetto seguente:  
+ In .NET Framework versione 2.0, un <xref:System.AppDomainUnloadedException> vale a dire l'utente non gestito nel codice produce l'effetto seguente:  
   
--   Se è stato avviato un thread in codice gestito, viene terminata. L'eccezione non gestita non è possibile terminare l'applicazione.  
+-   Se è stato avviato un thread in codice gestito, viene terminata. L'eccezione non gestita non è consentita terminare l'applicazione.  
   
--   Se un'attività è in esecuzione su un <xref:System.Threading.ThreadPool> thread, viene terminata e il thread viene restituito al pool di thread. L'eccezione non gestita non è possibile terminare l'applicazione.  
+-   Se un'attività viene eseguita su un <xref:System.Threading.ThreadPool> thread, viene terminata e il thread viene restituito al pool di thread. L'eccezione non gestita non è consentita terminare l'applicazione.  
   
--   Se avviato da un thread in codice non gestito, ad esempio il thread principale dell'applicazione, viene terminata. L'eccezione non gestita viene consentita di procedere, e il sistema operativo termina l'applicazione.  
+-   Se un thread avviate in codice non gestito, ad esempio il thread principale dell'applicazione, viene terminato. L'eccezione non gestita può continuare, e il sistema operativo termina l'applicazione.  
   
  <xref:System.AppDomainUnloadedException> utilizza HRESULT COR_E_APPDOMAINUNLOADED, con valore 0x80131014.  
   
@@ -60,16 +61,16 @@
   
  Esempio 1  
   
- L'esempio di codice seguente definisce un `TestClass` classe che può essere sottoposto a marshalling attraverso i limiti del dominio applicazione e un `Example` classe contenente un `static` (`Shared` in Visual Basic) `ThreadProc` metodo. Il `ThreadProc` metodo crea un dominio applicazione, crea un `TestClass` oggetto nel dominio e chiama un metodo di `TestClass` che consente di scaricare il dominio in esecuzione, causando un <xref:System.AppDomainUnloadedException>.  
+ L'esempio di codice seguente definisce una `TestClass` classe che può essere sottoposto a marshalling attraverso i limiti del dominio applicazione e un' `Example` classe contenente un `static` (`Shared` in Visual Basic) `ThreadProc` metodo. Il `ThreadProc` metodo crea un dominio dell'applicazione, un `TestClass` oggetto nel dominio e chiama un metodo di `TestClass` che consente di scaricare il dominio in esecuzione, causando un <xref:System.AppDomainUnloadedException>.  
   
- Il `TestClass` metodo viene eseguito senza eccezioni da un <xref:System.Threading.ThreadPool> thread e da un thread ordinario, dimostrando che l'eccezione non gestita termina l'attività o thread, ma non l'applicazione. Viene quindi eseguita con e senza eccezioni dal thread principale dell'applicazione, dimostrando che chiude l'applicazione se non gestita.  
+ Il `TestClass` metodo viene eseguito senza eccezioni da un <xref:System.Threading.ThreadPool> thread e da un thread ordinario, dimostrando che l'eccezione non gestita termina l'attività o thread ma non l'applicazione. Viene quindi eseguita con e senza eccezioni dal thread principale dell'applicazione, dimostrando che lo termina l'applicazione se non gestita.  
   
  [!code-csharp[AppDomainUnloadedException#1](~/samples/snippets/csharp/VS_Snippets_CLR/AppDomainUnloadedException/cs/Sample.cs#1)]
  [!code-vb[AppDomainUnloadedException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/AppDomainUnloadedException/vb/Sample.vb#1)]  
   
  Esempio 2  
   
- Esempio di codice seguente crea e scaricamento di un dominio applicazione e viene dimostrato che una <xref:System.AppDomainUnloadedException> viene generata in un successivo tentativo di accedere al dominio non scaricato.  
+ Esempio di codice seguente crea e scaricamento di un dominio applicazione e viene dimostrato che una <xref:System.AppDomainUnloadedException> viene generata in un successivo tentativo di accedere al dominio scaricato.  
   
  [!code-cpp[ADUnload#1](~/samples/snippets/cpp/VS_Snippets_CLR/ADUnload/CPP/adunload.cpp#1)]
  [!code-csharp[ADUnload#1](~/samples/snippets/csharp/VS_Snippets_CLR/ADUnload/CS/adunload.cs#1)]
@@ -138,6 +139,7 @@
       <MemberSignature Language="DocId" Value="M:System.AppDomainUnloadedException.#ctor(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (message As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; AppDomainUnloadedException(System::String ^ message);" />
+      <MemberSignature Language="F#" Value="new AppDomainUnloadedException : string -&gt; AppDomainUnloadedException" Usage="new System.AppDomainUnloadedException message" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -182,6 +184,7 @@
       <MemberSignature Language="DocId" Value="M:System.AppDomainUnloadedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
       <MemberSignature Language="VB.NET" Value="Protected Sub New (info As SerializationInfo, context As StreamingContext)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; AppDomainUnloadedException(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
+      <MemberSignature Language="F#" Value="new AppDomainUnloadedException : System.Runtime.Serialization.SerializationInfo * System.Runtime.Serialization.StreamingContext -&gt; AppDomainUnloadedException" Usage="new System.AppDomainUnloadedException (info, context)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -209,7 +212,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo costruttore viene chiamato durante la deserializzazione per ricostituire l'oggetto eccezione trasmesso su un flusso. Per ulteriori informazioni, vedere [serializzazione XML e SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).  
+ Questo costruttore viene chiamato durante la deserializzazione per ricostituire l'oggetto eccezione trasmesso su un flusso. Per altre informazioni, vedere [serializzazione XML e SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).  
   
  ]]></format>
         </remarks>
@@ -221,6 +224,7 @@
       <MemberSignature Language="DocId" Value="M:System.AppDomainUnloadedException.#ctor(System.String,System.Exception)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (message As String, innerException As Exception)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; AppDomainUnloadedException(System::String ^ message, Exception ^ innerException);" />
+      <MemberSignature Language="F#" Value="new AppDomainUnloadedException : string * Exception -&gt; AppDomainUnloadedException" Usage="new System.AppDomainUnloadedException (message, innerException)" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
