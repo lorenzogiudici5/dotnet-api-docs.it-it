@@ -1,17 +1,18 @@
 <Type Name="AssemblyBuilder" FullName="System.Reflection.Emit.AssemblyBuilder">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d001b909d723aab64ee7a512c441007aa82727d4" />
-    <Meta Name="ms.sourcegitcommit" Value="29c771f79cf4eac4f49e5fae5f1aa8b457acf146" />
+    <Meta Name="ms.openlocfilehash" Value="0b92ac3b5f1f997c42aefa84e77a107a8c39f415" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/21/2018" />
-    <Meta Name="ms.locfileid" Value="36298856" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36470267" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class AssemblyBuilder : System.Reflection.Assembly, System.Runtime.InteropServices._AssemblyBuilder" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AssemblyBuilder extends System.Reflection.Assembly implements class System.Runtime.InteropServices._AssemblyBuilder" />
   <TypeSignature Language="DocId" Value="T:System.Reflection.Emit.AssemblyBuilder" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class AssemblyBuilder&#xA;Inherits Assembly&#xA;Implements _AssemblyBuilder" />
   <TypeSignature Language="C++ CLI" Value="public ref class AssemblyBuilder sealed : System::Reflection::Assembly, System::Runtime::InteropServices::_AssemblyBuilder" />
+  <TypeSignature Language="F#" Value="type AssemblyBuilder = class&#xA;    inherit Assembly&#xA;    interface _AssemblyBuilder" />
   <AssemblyInfo>
     <AssemblyName>System.Reflection.Emit</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -48,49 +49,49 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly dinamico è un assembly creato utilizzando le API di Reflection Emit. I moduli dinamici nell'assembly vengono salvati quando viene salvato l'assembly dinamico usando il <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> metodo. Per generare un file eseguibile di <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> metodo deve essere chiamato per identificare il metodo che rappresenta il punto di ingresso dell'assembly. Gli assembly vengono salvati come DLL per impostazione predefinita, a meno che il <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> metodo richiede la generazione di un'applicazione console o un'applicazione basata su Windows.  
+ Un assembly dinamico è un assembly che viene creato utilizzando le API di Reflection Emit. I moduli dinamici nell'assembly vengono salvati quando viene salvato l'assembly dinamico usando il <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> metodo. Per generare un file eseguibile, la <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> metodo deve essere chiamato per identificare il metodo che costituisce il punto di ingresso dell'assembly. Gli assembly vengono salvati come DLL per impostazione predefinita, a meno che non la <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> metodo richiede la generazione di un'applicazione console o un'applicazione basata su Windows.  
   
  Se un assembly dinamico contiene più di un modulo dinamico, nome del file manifesto dell'assembly deve corrispondere al nome del modulo che viene specificato come primo argomento per il <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A> metodo.  
   
- Alcuni metodi sulla base <xref:System.Reflection.Assembly> classe, ad esempio `GetModules` e `GetLoadedModules`, non funzionerà correttamente quando viene chiamato da <xref:System.Reflection.Emit.AssemblyBuilder> oggetti. È possibile caricare l'assembly dinamico definito e chiamare i metodi nell'assembly caricato. Ad esempio, per garantire che i moduli delle risorse sono inclusi nell'elenco dei moduli restituito, chiamare `GetModules` su caricato <xref:System.Reflection.Assembly> oggetto.  
+ Alcuni metodi in base <xref:System.Reflection.Assembly> class, ad esempio `GetModules` e `GetLoadedModules`, non funzionerà correttamente quando viene chiamato da <xref:System.Reflection.Emit.AssemblyBuilder> oggetti. È possibile caricare l'assembly dinamico definito e chiamare i metodi nell'assembly caricato. Ad esempio, per garantire che i moduli delle risorse sono inclusi nell'elenco dei moduli restituito, chiamare `GetModules` su caricato <xref:System.Reflection.Assembly> oggetto.  
   
  La firma di un assembly dinamico usando <xref:System.Reflection.AssemblyName.KeyPair%2A> viene applicata solo l'assembly viene salvato su disco. In tal caso, i nomi sicuri non funzionerà con gli assembly dinamici temporanei.  
   
- Per ottenere un <xref:System.Reflection.Emit.AssemblyBuilder> oggetto, usare il <xref:System.AppDomain.DefineDynamicAssembly%2A?displayProperty=nameWithType> metodo.  
+ Per ottenere un <xref:System.Reflection.Emit.AssemblyBuilder> dell'oggetto, utilizzare il <xref:System.AppDomain.DefineDynamicAssembly%2A?displayProperty=nameWithType> metodo.  
   
 ## <a name="reflection-emit-dynamic-assembly-scenarios"></a>Assembly dinamico scenari della reflection emit  
- Di seguito sono illustrati alcuni aspetti da considerare quando si utilizza la <xref:System.Reflection.Emit.AssemblyBuilder> classe per creare assembly dinamici.  
+ Di seguito sono illustrati alcuni aspetti da considerare quando si utilizza il <xref:System.Reflection.Emit.AssemblyBuilder> classe per creare assembly dinamici.  
   
 ### <a name="dynamic-modules"></a>Moduli dinamici  
  La reflection emit supporta la creazione di moduli dinamici definiti in assembly dinamici. Un modulo dinamico creato in un assembly dinamico può essere temporaneo o persistente.  
   
 ### <a name="restrictions-on-type-references"></a>Restrizioni per i riferimenti di tipo  
- Gli assembly possono fare riferimento a tipi definiti in un altro assembly. Un assembly dinamico temporaneo in modo sicuro può fare riferimento a tipi definiti in un altro assembly dinamico temporaneo, un assembly dinamico persistente o un assembly statico. Tuttavia, common language runtime non consente un modulo dinamico persistente fare riferimento a un tipo definito in un modulo dinamico temporaneo. Infatti, quando il modulo dinamico persistente viene caricato dopo essere stato salvato su disco, il runtime non è possibile risolvere i riferimenti ai tipi definiti nel modulo dinamico temporaneo.  
+ Gli assembly possono fare riferimento a tipi definiti in un altro assembly. Un assembly dinamico temporaneo in modo sicuro può fare riferimento a tipi definiti in un altro assembly dinamico temporaneo, un assembly dinamico persistente o un assembly statico. Tuttavia, common language runtime non consente un modulo dinamico persistente fare riferimento a un tipo definito in un modulo dinamico temporaneo. Infatti, quando viene caricato il modulo dinamico persistente dopo essere stato salvato su disco, il runtime non è possibile risolvere i riferimenti ai tipi definiti nel modulo dinamico temporaneo.  
   
 ### <a name="restrictions-on-emitting-to-remote-application-domains"></a>Restrizioni alla creazione di domini applicazione remota  
- Alcuni scenari richiedono un assembly dinamico creato e l'esecuzione in un dominio applicazione remota. La reflection emit non consente un assembly dinamico essere inviati direttamente a un dominio applicazione remota. La soluzione viene creato l'assembly dinamico nel dominio applicazione corrente, salvare l'assembly dinamico creato su disco e quindi caricare l'assembly dinamico nel dominio applicazione remota.  
+ Alcuni scenari richiedono un assembly dinamico creato e l'esecuzione in un dominio applicazione remota. La reflection emit non consente un assembly dinamico essere inviati direttamente a un dominio applicazione remota. La soluzione è di creare l'assembly dinamico nel dominio applicazione corrente, salvare l'assembly dinamico creato su disco e quindi caricare l'assembly dinamico nel dominio applicazione remota.  
   
 ### <a name="dynamic-assembly-access-modes"></a>Modalità di accesso assembly dinamico  
- È possibile creare assembly dinamici mediante una delle modalità di accesso seguenti:  
+ È possibile creare assembly dinamici utilizzando una delle modalità di accesso seguenti:  
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.Run?displayProperty=nameWithType>  
   
-     L'assembly dinamico, rappresentato da un <xref:System.Reflection.Emit.AssemblyBuilder> oggetto è temporaneo. L'assembly dinamico è utilizzabile solo per eseguire il codice generato.  
+     L'assembly dinamico, rappresentato da un <xref:System.Reflection.Emit.AssemblyBuilder> oggetto è temporaneo. L'assembly dinamico sono utilizzabili solo per eseguire il codice generato.  
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.Save?displayProperty=nameWithType>  
   
-     L'assembly dinamico, rappresentato da un <xref:System.Reflection.Emit.AssemblyBuilder> oggetto è persistente ma non può essere eseguito fino a quando il file salvato eseguibile portabile (PE) è stato caricato dal disco.  
+     L'assembly dinamico, rappresentato da un <xref:System.Reflection.Emit.AssemblyBuilder> oggetto è persistente ma non può essere eseguito fino a quando il file salvato file eseguibile portabile (PE) è stato caricato dal disco.  
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave?displayProperty=nameWithType>  
   
      L'assembly dinamico, rappresentato da un <xref:System.Reflection.Emit.AssemblyBuilder> dell'oggetto è persistente, ma possono essere eseguite anche prima e/o dopo che l'assembly viene salvato su disco.  
   
- La modalità di accesso deve essere specificata fornendo appropriata <xref:System.Reflection.Emit.AssemblyBuilderAccess> valore nella chiamata al <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly%2A?displayProperty=nameWithType> metodo quando l'assembly dinamico è definito e non può essere modificato in un secondo momento. Per ottimizzare la rappresentazione interna dell'assembly, il runtime usa la modalità di accesso di un assembly dinamico.  
+ La modalità di accesso deve essere specificata fornendo l'appropriato <xref:System.Reflection.Emit.AssemblyBuilderAccess> valore nella chiamata al <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly%2A?displayProperty=nameWithType> metodo quando l'assembly dinamico è definito e non può essere modificato in un secondo momento. Il runtime usa la modalità di accesso di un assembly dinamico per ottimizzare la rappresentazione interna dell'assembly.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come definire un assembly dinamico con un modulo. Il modulo nell'assembly di esempio contiene un solo tipo, `MyDynamicType`, che dispone di un campo privato, una proprietà che ottiene e imposta il campo privato, costruttori che inizializzano il campo privato e un metodo che moltiplica un numero fornito dall'utente per il campo privato il valore e restituisce il risultato.  
+ Esempio di codice seguente viene illustrato come definire un assembly dinamico con un modulo. Il modulo nell'assembly di esempio contiene un solo tipo, `MyDynamicType`, che presenta un campo privato, una proprietà che ottiene e imposta il campo privato, i costruttori che inizializzano il campo privato e un metodo che moltiplica un numero fornito dall'utente per il campo privato il valore e restituisce il risultato.  
   
  <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave?displayProperty=nameWithType> viene specificato quando viene creato l'assembly. Il codice assembly viene utilizzato immediatamente e l'assembly viene salvato anche su disco in modo che possono essere esaminata con [Ildasm.exe (Disassembler IL)](~/docs/framework/tools/ildasm-exe-il-disassembler.md) o utilizzata in un altro programma.  
   
@@ -100,7 +101,7 @@
   
  ]]></format>
     </remarks>
-    <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+    <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
     <altmember cref="Overload:System.AppDomain.DefineDynamicAssembly" />
   </Docs>
   <Members>
@@ -137,6 +138,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.AddResourceFile(System.String,System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AddResourceFile (name As String, fileName As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddResourceFile(System::String ^ name, System::String ^ fileName);" />
+      <MemberSignature Language="F#" Value="member this.AddResourceFile : string * string -&gt; unit" Usage="assemblyBuilder.AddResourceFile (name, fileName)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -158,14 +160,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `fileName` deve essere uguale a quello di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
+ `fileName` non deve essere uguale a quella di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
   
  Si presuppone che le risorse gestite nel file sono pubblici.  
   
  File di risorse specificato deve essere nella directory in cui verrà salvato l'assembly.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -183,7 +185,7 @@
           <paramref name="name" /> o <paramref name="fileName" /> è <see langword="null" />.</exception>
         <exception cref="T:System.IO.FileNotFoundException">Il file <paramref name="fileName" /> non è stato trovato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">L'autorizzazione FileIOPermissionAccess. Read è necessaria per accedere al file di risorse <paramref name="resourceFileName" />.</permission>
       </Docs>
     </Member>
@@ -193,6 +195,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.AddResourceFile(System.String,System.String,System.Reflection.ResourceAttributes)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AddResourceFile (name As String, fileName As String, attribute As ResourceAttributes)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddResourceFile(System::String ^ name, System::String ^ fileName, System::Reflection::ResourceAttributes attribute);" />
+      <MemberSignature Language="F#" Value="member this.AddResourceFile : string * string * System.Reflection.ResourceAttributes -&gt; unit" Usage="assemblyBuilder.AddResourceFile (name, fileName, attribute)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -216,14 +219,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `fileName` deve essere uguale a quello di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
+ `fileName` non deve essere uguale a quella di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
   
  È possibile specificare gli attributi per la risorsa gestita.  
   
  File di risorse specificato deve essere nella directory in cui verrà salvato l'assembly.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -241,7 +244,7 @@
           <paramref name="name" /> o <paramref name="fileName" /> è <see langword="null" />.</exception>
         <exception cref="T:System.IO.FileNotFoundException">Il file <paramref name="fileName" /> non è stato trovato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">L'autorizzazione FileIOPermissionAccess. Read è necessaria per accedere al file di risorse <paramref name="resourceFileName" />.</permission>
       </Docs>
     </Member>
@@ -251,6 +254,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.CodeBase" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property CodeBase As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ CodeBase { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.CodeBase : string" Usage="System.Reflection.Emit.AssemblyBuilder.CodeBase" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -267,13 +271,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ottenere il percorso assoluto del file caricato che contiene manifesto, utilizzare il <xref:System.Reflection.Assembly.Location%2A?displayProperty=nameWithType> proprietà.  
+ Per ottenere il percorso assoluto del file caricato che contiene manifesto, usare il <xref:System.Reflection.Assembly.Location%2A?displayProperty=nameWithType> proprietà.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="DefinedTypes">
@@ -282,6 +286,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.DefinedTypes" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property DefinedTypes As IEnumerable(Of TypeInfo)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::Generic::IEnumerable&lt;System::Reflection::TypeInfo ^&gt; ^ DefinedTypes { System::Collections::Generic::IEnumerable&lt;System::Reflection::TypeInfo ^&gt; ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.DefinedTypes : seq&lt;System.Reflection.TypeInfo&gt;" Usage="System.Reflection.Emit.AssemblyBuilder.DefinedTypes" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -312,6 +317,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function DefineDynamicAssembly (name As AssemblyName, access As AssemblyBuilderAccess) As AssemblyBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::AssemblyBuilder ^ DefineDynamicAssembly(System::Reflection::AssemblyName ^ name, System::Reflection::Emit::AssemblyBuilderAccess access);" />
+      <MemberSignature Language="F#" Value="static member DefineDynamicAssembly : System.Reflection.AssemblyName * System.Reflection.Emit.AssemblyBuilderAccess -&gt; System.Reflection.Emit.AssemblyBuilder" Usage="System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly (name, access)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -345,6 +351,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(System.Reflection.AssemblyName,System.Reflection.Emit.AssemblyBuilderAccess,System.Collections.Generic.IEnumerable{System.Reflection.Emit.CustomAttributeBuilder})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function DefineDynamicAssembly (name As AssemblyName, access As AssemblyBuilderAccess, assemblyAttributes As IEnumerable(Of CustomAttributeBuilder)) As AssemblyBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Reflection::Emit::AssemblyBuilder ^ DefineDynamicAssembly(System::Reflection::AssemblyName ^ name, System::Reflection::Emit::AssemblyBuilderAccess access, System::Collections::Generic::IEnumerable&lt;System::Reflection::Emit::CustomAttributeBuilder ^&gt; ^ assemblyAttributes);" />
+      <MemberSignature Language="F#" Value="static member DefineDynamicAssembly : System.Reflection.AssemblyName * System.Reflection.Emit.AssemblyBuilderAccess * seq&lt;System.Reflection.Emit.CustomAttributeBuilder&gt; -&gt; System.Reflection.Emit.AssemblyBuilder" Usage="System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly (name, access, assemblyAttributes)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -390,6 +397,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineDynamicModule (name As String) As ModuleBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Reflection::Emit::ModuleBuilder ^ DefineDynamicModule(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="member this.DefineDynamicModule : string -&gt; System.Reflection.Emit.ModuleBuilder" Usage="assemblyBuilder.DefineDynamicModule name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -416,22 +424,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile definire più moduli dinamici con lo stesso nome in un assembly.  
+ È un errore definire più moduli dinamici con lo stesso nome in un assembly.  
   
- Il modulo dinamico definito è temporaneo. Il modulo dinamico non viene salvato, anche se l'assembly dinamico padre è stato creato con <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
+ Il modulo dinamico definito è temporaneo. Il modulo dinamico non viene salvato, anche se è stato creato l'assembly dinamico padre con <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
   
 > [!NOTE]
 >  Per eliminare le ottimizzazioni durante il debug di moduli dinamici, applicare il <xref:System.Diagnostics.DebuggableAttribute> attributo all'assembly dinamico prima di chiamare <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Creare un'istanza di <xref:System.Diagnostics.DebuggableAttribute> con il <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> flag e applicarla mediante il <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> metodo. L'attributo deve essere applicato all'assembly dinamico. Non ha alcun effetto se applicato al modulo.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
 ## Examples  
  [Visual Basic, c#]  
   
- Esempio di codice seguente viene illustrato come creare un modulo dinamico temporaneo tramite `DefineDynamicModule`.  
+ Esempio di codice seguente viene illustrato come creare un modulo dinamico temporaneo utilizzando `DefineDynamicModule`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CS/source.cs#1)]
@@ -445,7 +453,7 @@
           <paramref name="name" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
         <exception cref="T:System.ExecutionEngineException">L'assembly per il writer di simboli predefinito non può essere caricato.  - oppure- Non è possibile trovare il tipo che implementa l'interfaccia del writer di simboli predefinito.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="DefineDynamicModule">
@@ -454,6 +462,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineDynamicModule (name As String, emitSymbolInfo As Boolean) As ModuleBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Reflection::Emit::ModuleBuilder ^ DefineDynamicModule(System::String ^ name, bool emitSymbolInfo);" />
+      <MemberSignature Language="F#" Value="member this.DefineDynamicModule : string * bool -&gt; System.Reflection.Emit.ModuleBuilder" Usage="assemblyBuilder.DefineDynamicModule (name, emitSymbolInfo)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -477,22 +486,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile definire più moduli dinamici con lo stesso nome in un assembly.  
+ È un errore definire più moduli dinamici con lo stesso nome in un assembly.  
   
- Il modulo dinamico non viene salvato, anche se l'assembly dinamico padre è stato creato con <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
+ Il modulo dinamico non viene salvato, anche se è stato creato l'assembly dinamico padre con <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
   
 > [!NOTE]
 >  Per eliminare le ottimizzazioni durante il debug di moduli dinamici, applicare il <xref:System.Diagnostics.DebuggableAttribute> attributo all'assembly dinamico prima di chiamare <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Creare un'istanza di <xref:System.Diagnostics.DebuggableAttribute> con il <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> flag e applicarla mediante il <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> metodo. L'attributo deve essere applicato all'assembly dinamico. Non ha alcun effetto se applicato al modulo.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
 ## Examples  
  [Visual Basic, c#]  
   
- Esempio di codice seguente viene illustrato come creare un modulo dinamico temporaneo tramite `DefineDynamicModule`, eliminando le informazioni sui simboli.  
+ Esempio di codice seguente viene illustrato come creare un modulo dinamico temporaneo utilizzando `DefineDynamicModule`, eliminando le informazioni sui simboli.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CPP/source.cpp#2)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CS/source.cs#2)]
@@ -506,7 +515,7 @@
           <paramref name="name" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ExecutionEngineException">L'assembly per il writer di simboli predefinito non può essere caricato.  - oppure- Non è possibile trovare il tipo che implementa l'interfaccia del writer di simboli predefinito.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="DefineDynamicModule">
@@ -515,6 +524,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineDynamicModule (name As String, fileName As String) As ModuleBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Reflection::Emit::ModuleBuilder ^ DefineDynamicModule(System::String ^ name, System::String ^ fileName);" />
+      <MemberSignature Language="F#" Value="member this.DefineDynamicModule : string * string -&gt; System.Reflection.Emit.ModuleBuilder" Usage="assemblyBuilder.DefineDynamicModule (name, fileName)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -539,7 +549,7 @@
 ## Remarks  
  Per definire un modulo dinamico persistente, è necessario che l'assembly creato con il <xref:System.Reflection.Emit.AssemblyBuilderAccess.Save> o <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave> attributo.  
   
- Se si desidera che il modulo contiene il manifesto dell'assembly, `name` deve essere identico al nome dell'assembly (vale a dire il <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=nameWithType> proprietà del <xref:System.Reflection.AssemblyName> utilizzato per creare l'assembly dinamico) e `fileName` deve corrispondere al nome del file specificato quando si salva l'assembly.  
+ Se si desidera che il modulo contiene il manifesto dell'assembly, `name` deve essere identico al nome dell'assembly (vale a dire, il <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=nameWithType> proprietà del <xref:System.Reflection.AssemblyName> utilizzato per creare l'assembly dinamico) e `fileName` deve essere identico il nome del file specificato quando si salva l'assembly.  
   
  In un assembly con un solo modulo, il modulo deve contenere il manifesto dell'assembly.  
   
@@ -547,7 +557,7 @@
 >  Per eliminare le ottimizzazioni durante il debug di moduli dinamici, applicare il <xref:System.Diagnostics.DebuggableAttribute> attributo all'assembly dinamico prima di chiamare <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Creare un'istanza di <xref:System.Diagnostics.DebuggableAttribute> con il <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> flag e applicarla mediante il <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> metodo. L'attributo deve essere applicato all'assembly dinamico. Non ha alcun effetto se applicato al modulo.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -569,7 +579,7 @@
         <exception cref="T:System.NotSupportedException">Questo assembly è stato chiamato in un assembly dinamico con l'attributo <see cref="F:System.Reflection.Emit.AssemblyBuilderAccess.Run" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
         <exception cref="T:System.ExecutionEngineException">L'assembly per il writer di simboli predefinito non può essere caricato.  - oppure- Non è possibile trovare il tipo che implementa l'interfaccia del writer di simboli predefinito.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true è necessario salvare il modulo</permission>
       </Docs>
     </Member>
@@ -579,6 +589,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule(System.String,System.String,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineDynamicModule (name As String, fileName As String, emitSymbolInfo As Boolean) As ModuleBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Reflection::Emit::ModuleBuilder ^ DefineDynamicModule(System::String ^ name, System::String ^ fileName, bool emitSymbolInfo);" />
+      <MemberSignature Language="F#" Value="member this.DefineDynamicModule : string * string * bool -&gt; System.Reflection.Emit.ModuleBuilder" Usage="assemblyBuilder.DefineDynamicModule (name, fileName, emitSymbolInfo)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -605,7 +616,7 @@
 ## Remarks  
  Per definire un modulo dinamico persistente, è necessario che l'assembly creato con il <xref:System.Reflection.Emit.AssemblyBuilderAccess.Save> o <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave> attributo.  
   
- Se si desidera che il modulo contiene il manifesto dell'assembly, `name` deve essere identico al nome dell'assembly (vale a dire il <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=nameWithType> proprietà del <xref:System.Reflection.AssemblyName> utilizzato per creare l'assembly dinamico) e `fileName` deve corrispondere al nome del file specificato quando si salva l'assembly.  
+ Se si desidera che il modulo contiene il manifesto dell'assembly, `name` deve essere identico al nome dell'assembly (vale a dire, il <xref:System.Reflection.AssemblyName.Name%2A?displayProperty=nameWithType> proprietà del <xref:System.Reflection.AssemblyName> utilizzato per creare l'assembly dinamico) e `fileName` deve essere identico il nome del file specificato quando si salva l'assembly.  
   
  In un assembly con un solo modulo, il modulo deve contenere il manifesto dell'assembly.  
   
@@ -613,7 +624,7 @@
 >  Per eliminare le ottimizzazioni durante il debug di moduli dinamici, applicare il <xref:System.Diagnostics.DebuggableAttribute> attributo all'assembly dinamico prima di chiamare <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Creare un'istanza di <xref:System.Diagnostics.DebuggableAttribute> con il <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> flag e applicarla mediante il <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> metodo. L'attributo deve essere applicato all'assembly dinamico. Non ha alcun effetto se applicato al modulo.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -635,7 +646,7 @@
         <exception cref="T:System.NotSupportedException">Questo assembly è stato chiamato in un assembly dinamico con l'attributo <see cref="F:System.Reflection.Emit.AssemblyBuilderAccess.Run" />.</exception>
         <exception cref="T:System.ExecutionEngineException">L'assembly per il writer di simboli predefinito non può essere caricato.  - oppure- Non è possibile trovare il tipo che implementa l'interfaccia del writer di simboli predefinito.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true è necessario salvare questo modulo</permission>
       </Docs>
     </Member>
@@ -655,6 +666,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineResource(System.String,System.String,System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineResource (name As String, description As String, fileName As String) As IResourceWriter" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Resources::IResourceWriter ^ DefineResource(System::String ^ name, System::String ^ description, System::String ^ fileName);" />
+      <MemberSignature Language="F#" Value="member this.DefineResource : string * string * string -&gt; System.Resources.IResourceWriter" Usage="assemblyBuilder.DefineResource (name, description, fileName)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -679,14 +691,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Singole risorse possono essere aggiunti con l'oggetto restituito <xref:System.Resources.ResourceWriter> chiamando <xref:System.Resources.ResourceWriter.AddResource%2A>.  
+ È possibile aggiungere risorse grana con l'oggetto restituito <xref:System.Resources.ResourceWriter> chiamando <xref:System.Resources.ResourceWriter.AddResource%2A>.  
   
- `fileName` deve essere uguale a quello di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
+ `fileName` non deve essere uguale a quella di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
   
  Il runtime chiama il <xref:System.Resources.ResourceWriter.Close%2A> metodo quando viene salvato l'assembly dinamico.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -703,7 +715,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="name" /> o <paramref name="fileName" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true</permission>
       </Docs>
     </Member>
@@ -713,6 +725,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineResource(System.String,System.String,System.String,System.Reflection.ResourceAttributes)" />
       <MemberSignature Language="VB.NET" Value="Public Function DefineResource (name As String, description As String, fileName As String, attribute As ResourceAttributes) As IResourceWriter" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Resources::IResourceWriter ^ DefineResource(System::String ^ name, System::String ^ description, System::String ^ fileName, System::Reflection::ResourceAttributes attribute);" />
+      <MemberSignature Language="F#" Value="member this.DefineResource : string * string * string * System.Reflection.ResourceAttributes -&gt; System.Resources.IResourceWriter" Usage="assemblyBuilder.DefineResource (name, description, fileName, attribute)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -739,14 +752,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Singole risorse possono essere aggiunti con l'oggetto restituito <xref:System.Resources.ResourceWriter> chiamando <xref:System.Resources.ResourceWriter.AddResource%2A>.  
+ Le risorse con granularità fine possono essere aggiunte con l'oggetto restituito <xref:System.Resources.ResourceWriter> chiamando <xref:System.Resources.ResourceWriter.AddResource%2A>.  
   
- `fileName` deve essere uguale a quello di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
+ `fileName` non deve essere uguale a quella di qualsiasi altro modulo persistente, risorsa gestita autonoma o del file manifesto autonomo.  
   
  Il runtime chiama il <xref:System.Resources.ResourceWriter.Close%2A> metodo quando viene salvato l'assembly dinamico.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
  ]]></format>
         </remarks>
@@ -755,7 +768,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="name" /> o <paramref name="fileName" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true</permission>
       </Docs>
     </Member>
@@ -775,6 +788,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(System.Byte[])" />
       <MemberSignature Language="VB.NET" Value="Public Sub DefineUnmanagedResource (resource As Byte())" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DefineUnmanagedResource(cli::array &lt;System::Byte&gt; ^ resource);" />
+      <MemberSignature Language="F#" Value="member this.DefineUnmanagedResource : byte[] -&gt; unit" Usage="assemblyBuilder.DefineUnmanagedResource resource" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -794,12 +808,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly può essere associato solo a una risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza genererà ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con common language runtime).  
+ Un assembly può essere associato a una sola risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza, verrà generata ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con common language runtime).  
   
    
   
 ## Examples  
- Esempio di codice seguente crea e collega una matrice di byte che rappresenta una risorsa non gestita a un assembly dinamico tramite `DefineUnmanagedResource`.  
+ L'esempio di codice seguente crea e collega una matrice di byte che rappresenta una risorsa non gestita a un assembly dinamico, utilizzando `DefineUnmanagedResource`.  
   
  [!code-cpp[AssemblyBuilder_DefineUnmanagedResource2#1](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource2/CPP/assemblybuilder_defineunmanagedresource2.cpp#1)]
  [!code-csharp[AssemblyBuilder_DefineUnmanagedResource2#1](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource2/CS/assemblybuilder_defineunmanagedresource2.cs#1)]
@@ -811,7 +825,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="resource" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="DefineUnmanagedResource">
@@ -820,6 +834,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub DefineUnmanagedResource (resourceFileName As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DefineUnmanagedResource(System::String ^ resourceFileName);" />
+      <MemberSignature Language="F#" Value="member this.DefineUnmanagedResource : string -&gt; unit" Usage="assemblyBuilder.DefineUnmanagedResource resourceFileName" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -839,15 +854,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly può essere associato solo a una risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con common language runtime).  
+ Un assembly può essere associato a una sola risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza, verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con common language runtime).  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come chiamare `DefineUnmanagedResource`, il passaggio di un file di risorse esterne.  
+ Nell'esempio seguente viene illustrato come chiamare `DefineUnmanagedResource`, passando un file di risorse esterne.  
   
  [!code-cpp[AssemblyBuilder_DefineUnmanagedResource#3](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource/CPP/assemblybuilder_defineunmanagedresource.cpp#3)]
  [!code-csharp[AssemblyBuilder_DefineUnmanagedResource#3](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilder_DefineUnmanagedResource/CS/assemblybuilder_defineunmanagedresource.cs#3)]
@@ -861,7 +876,7 @@
         <exception cref="T:System.IO.FileNotFoundException">
           <paramref name="resourceFileName" /> non trovata.  -oppure- <paramref name="resourceFileName" /> è una directory.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
         <permission cref="T:System.Security.Permissions.FileIOPermission">L'autorizzazione FileIOPermissionAccess. Read è necessaria per accedere al file di risorse <paramref name="resourceFileName" />.</permission>
       </Docs>
     </Member>
@@ -881,6 +896,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource" />
       <MemberSignature Language="VB.NET" Value="Public Sub DefineVersionInfoResource ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DefineVersionInfoResource();" />
+      <MemberSignature Language="F#" Value="member this.DefineVersionInfoResource : unit -&gt; unit" Usage="assemblyBuilder.DefineVersionInfoResource " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -897,14 +913,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly può essere associato solo a una risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con il SDK di common language runtime).  
+ Un assembly può essere associato a una sola risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza, verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale l'utilità Microsoft ResMerge (non fornita con il SDK di common language runtime).  
   
- Stringhe di argomenti vuoto vengono scritte come spazio singolo. Gli spazi vengono sostituiti dai caratteri null nelle stringhe di argomento.  
+ Le stringhe di argomenti vuoto vengono scritte come spazio singolo. Gli spazi vengono sostituiti dai caratteri null nelle stringhe di argomento.  
   
- Le informazioni vengono derivate dal `AssemblyName` oggetto utilizzato per definire l'assembly dinamico. Attributi personalizzati dell'assembly di eseguire l'override specificate nelle informazioni di `AssemblyName` oggetto.  
+ Le informazioni vengono derivate dal `AssemblyName` oggetto utilizzato per definire l'assembly dinamico. Attributi personalizzati dell'assembly di eseguire l'override informazioni specificate nel `AssemblyName` oggetto.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -919,7 +935,7 @@
         </remarks>
         <exception cref="T:System.ArgumentException">Una risorsa di informazioni sulla versione non gestita è stata definita in precedenza.  - oppure - Le informazioni sulla versione non gestita hanno una dimensione eccessiva per essere persistenti.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="DefineVersionInfoResource">
@@ -928,6 +944,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource(System.String,System.String,System.String,System.String,System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub DefineVersionInfoResource (product As String, productVersion As String, company As String, copyright As String, trademark As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void DefineVersionInfoResource(System::String ^ product, System::String ^ productVersion, System::String ^ company, System::String ^ copyright, System::String ^ trademark);" />
+      <MemberSignature Language="F#" Value="member this.DefineVersionInfoResource : string * string * string * string * string -&gt; unit" Usage="assemblyBuilder.DefineVersionInfoResource (product, productVersion, company, copyright, trademark)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -955,14 +972,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly può essere associato solo a una risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale Microsoft `ResMerge` utilità (non fornita con il SDK di common language runtime).  
+ Un assembly può essere associato a una sola risorsa non gestita. Ciò significa che la chiamata <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> o <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> dopo che uno dei metodi è stato chiamato in precedenza, verrà generata l'eccezione System. ArgumentException. Più risorse non gestite devono essere unite tramite uno strumento quale Microsoft `ResMerge` utilità (non fornita con il SDK di common language runtime).  
   
- Stringhe di argomenti vuoto vengono scritte come spazio singolo. Gli spazi vengono sostituiti dai caratteri null nelle stringhe di argomento.  
+ Le stringhe di argomenti vuoto vengono scritte come spazio singolo. Gli spazi vengono sostituiti dai caratteri null nelle stringhe di argomento.  
   
  La struttura della risorsa versione include i dati che identifica la versione, lingua e alla distribuzione del file. Programmi di installazione di utilizzano le funzioni della libreria di installazione di file (Ver. DLL) per recuperare la risorsa di informazioni sulla versione da un file e per estrarre i blocchi di informazioni di versione dalla risorsa.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
@@ -977,7 +994,7 @@
         </remarks>
         <exception cref="T:System.ArgumentException">Una risorsa di informazioni sulla versione non gestita è stata definita in precedenza.  - oppure - Le informazioni sulla versione non gestita hanno una dimensione eccessiva per essere persistenti.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="EntryPoint">
@@ -986,6 +1003,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.EntryPoint" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property EntryPoint As MethodInfo" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Reflection::MethodInfo ^ EntryPoint { System::Reflection::MethodInfo ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.EntryPoint : System.Reflection.MethodInfo" Usage="System.Reflection.Emit.AssemblyBuilder.EntryPoint" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1000,7 +1018,7 @@
         <value>Punto di ingresso di questo assembly.</value>
         <remarks>To be added.</remarks>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="Equals">
@@ -1009,6 +1027,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.Equals(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (obj As Object) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="override this.Equals : obj -&gt; bool" Usage="assemblyBuilder.Equals obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1041,6 +1060,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.Evidence" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Evidence As Evidence" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Security::Policy::Evidence ^ Evidence { System::Security::Policy::Evidence ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Evidence : System.Security.Policy.Evidence" Usage="System.Reflection.Emit.AssemblyBuilder.Evidence" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1061,6 +1081,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.FullName" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property FullName As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ FullName { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.FullName : string" Usage="System.Reflection.Emit.AssemblyBuilder.FullName" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1105,6 +1126,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetCustomAttributes (inherit As Boolean) As Object()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::Object ^&gt; ^ GetCustomAttributes(bool inherit);" />
+      <MemberSignature Language="F#" Value="override this.GetCustomAttributes : bool -&gt; obj[]" Usage="assemblyBuilder.GetCustomAttributes inherit" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1130,6 +1152,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetCustomAttributes(System.Type,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetCustomAttributes (attributeType As Type, inherit As Boolean) As Object()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::Object ^&gt; ^ GetCustomAttributes(Type ^ attributeType, bool inherit);" />
+      <MemberSignature Language="F#" Value="override this.GetCustomAttributes : Type * bool -&gt; obj[]" Usage="assemblyBuilder.GetCustomAttributes (attributeType, inherit)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1161,6 +1184,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetCustomAttributesData" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetCustomAttributesData () As IList(Of CustomAttributeData)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Collections::Generic::IList&lt;System::Reflection::CustomAttributeData ^&gt; ^ GetCustomAttributesData();" />
+      <MemberSignature Language="F#" Value="override this.GetCustomAttributesData : unit -&gt; System.Collections.Generic.IList&lt;System.Reflection.CustomAttributeData&gt;" Usage="assemblyBuilder.GetCustomAttributesData " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1177,7 +1201,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questo metodo per esaminare gli attributi personalizzati del codice nel contesto ReflectionOnly, in casi in cui gli attributi personalizzati sono definiti nel codice caricato nel contesto reflection-only. I metodi come <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=nameWithType> e <xref:System.Reflection.Assembly.GetCustomAttributes%2A?displayProperty=nameWithType> non può essere utilizzato in questi casi, perché creano istanze degli attributi. Impossibile eseguire il codice nel contesto reflection-only. Per ulteriori informazioni e ad esempio di codice, vedere la <xref:System.Reflection.CustomAttributeData> classe.  
+ Utilizzare questo metodo per esaminare gli attributi personalizzati del codice nel contesto ReflectionOnly, in casi in cui gli attributi personalizzati sono definiti nel codice caricato nel contesto reflection-only. I metodi come <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=nameWithType> e <xref:System.Reflection.Assembly.GetCustomAttributes%2A?displayProperty=nameWithType> non può essere utilizzato in questi casi, poiché creano le istanze degli attributi. Impossibile eseguire codice nel contesto reflection-only. Per ulteriori informazioni e ad esempio di codice, vedere il <xref:System.Reflection.CustomAttributeData> classe.  
   
  ]]></format>
         </remarks>
@@ -1189,6 +1213,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetDynamicModule(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Function GetDynamicModule (name As String) As ModuleBuilder" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Reflection::Emit::ModuleBuilder ^ GetDynamicModule(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="member this.GetDynamicModule : string -&gt; System.Reflection.Emit.ModuleBuilder" Usage="assemblyBuilder.GetDynamicModule name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1216,7 +1241,7 @@
           <paramref name="name" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La lunghezza di <paramref name="name" /> è zero.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetExportedTypes">
@@ -1225,6 +1250,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetExportedTypes" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetExportedTypes () As Type()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;Type ^&gt; ^ GetExportedTypes();" />
+      <MemberSignature Language="F#" Value="override this.GetExportedTypes : unit -&gt; Type[]" Usage="assemblyBuilder.GetExportedTypes " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1241,7 +1267,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è implementato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetFile">
@@ -1250,6 +1276,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetFile(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetFile (name As String) As FileStream" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::IO::FileStream ^ GetFile(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="override this.GetFile : string -&gt; System.IO.FileStream" Usage="assemblyBuilder.GetFile name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1276,7 +1303,7 @@
         </remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetFiles">
@@ -1285,6 +1312,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetFiles(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetFiles (getResourceModules As Boolean) As FileStream()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::IO::FileStream ^&gt; ^ GetFiles(bool getResourceModules);" />
+      <MemberSignature Language="F#" Value="override this.GetFiles : bool -&gt; System.IO.FileStream[]" Usage="assemblyBuilder.GetFiles getResourceModules" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1305,7 +1333,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -1314,6 +1342,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetHashCode" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberSignature Language="F#" Value="override this.GetHashCode : unit -&gt; int" Usage="assemblyBuilder.GetHashCode " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1342,6 +1371,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetLoadedModules(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetLoadedModules (getResourceModules As Boolean) As Module()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::Reflection::Module ^&gt; ^ GetLoadedModules(bool getResourceModules);" />
+      <MemberSignature Language="F#" Value="override this.GetLoadedModules : bool -&gt; System.Reflection.Module[]" Usage="assemblyBuilder.GetLoadedModules getResourceModules" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1368,6 +1398,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetManifestResourceInfo(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetManifestResourceInfo (resourceName As String) As ManifestResourceInfo" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Reflection::ManifestResourceInfo ^ GetManifestResourceInfo(System::String ^ resourceName);" />
+      <MemberSignature Language="F#" Value="override this.GetManifestResourceInfo : string -&gt; System.Reflection.ManifestResourceInfo" Usage="assemblyBuilder.GetManifestResourceInfo resourceName" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1393,7 +1424,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetManifestResourceNames">
@@ -1402,6 +1433,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetManifestResourceNames" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetManifestResourceNames () As String()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::String ^&gt; ^ GetManifestResourceNames();" />
+      <MemberSignature Language="F#" Value="override this.GetManifestResourceNames : unit -&gt; string[]" Usage="assemblyBuilder.GetManifestResourceNames " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1424,7 +1456,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è supportato in un assembly dinamico. Per ottenere i nomi di risorsa di manifesto, usare <see cref="M:System.Reflection.Assembly.GetManifestResourceNames" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="GetManifestResourceStream">
@@ -1443,6 +1475,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetManifestResourceStream (name As String) As Stream" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::IO::Stream ^ GetManifestResourceStream(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="override this.GetManifestResourceStream : string -&gt; System.IO.Stream" Usage="assemblyBuilder.GetManifestResourceStream name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1468,7 +1501,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetManifestResourceStream">
@@ -1476,6 +1509,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.IO.Stream GetManifestResourceStream(class System.Type type, string name) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetManifestResourceStream(System.Type,System.String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::IO::Stream ^ GetManifestResourceStream(Type ^ type, System::String ^ name);" />
+      <MemberSignature Language="F#" Value="override this.GetManifestResourceStream : Type * string -&gt; System.IO.Stream" Usage="assemblyBuilder.GetManifestResourceStream (type, name)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1509,7 +1543,7 @@
         </remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetModule">
@@ -1518,6 +1552,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetModule(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetModule (name As String) As Module" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Reflection::Module ^ GetModule(System::String ^ name);" />
+      <MemberSignature Language="F#" Value="override this.GetModule : string -&gt; System.Reflection.Module" Usage="assemblyBuilder.GetModule name" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1543,6 +1578,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetModules(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetModules (getResourceModules As Boolean) As Module()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::Reflection::Module ^&gt; ^ GetModules(bool getResourceModules);" />
+      <MemberSignature Language="F#" Value="override this.GetModules : bool -&gt; System.Reflection.Module[]" Usage="assemblyBuilder.GetModules getResourceModules" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1569,6 +1605,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetName(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetName (copiedName As Boolean) As AssemblyName" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Reflection::AssemblyName ^ GetName(bool copiedName);" />
+      <MemberSignature Language="F#" Value="override this.GetName : bool -&gt; System.Reflection.AssemblyName" Usage="assemblyBuilder.GetName copiedName" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1595,6 +1632,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetReferencedAssemblies" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetReferencedAssemblies () As AssemblyName()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override cli::array &lt;System::Reflection::AssemblyName ^&gt; ^ GetReferencedAssemblies();" />
+      <MemberSignature Language="F#" Value="override this.GetReferencedAssemblies : unit -&gt; System.Reflection.AssemblyName[]" Usage="assemblyBuilder.GetReferencedAssemblies " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1612,7 +1650,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo non restituisce un elenco completo di assembly di riferimento. Ad esempio, se si applica un attributo personalizzato di <xref:System.Reflection.Emit.AssemblyBuilder>, l'assembly in cui è stato definito l'attributo è incluso nell'elenco restituito da questo metodo. Tuttavia, se si utilizza un <xref:System.Type> oggetto per specificare il tipo del tipo non è incluso un parametro di metodo.  
+ Questo metodo non restituisce un elenco completo di assembly di riferimento. Ad esempio, se si applica un attributo personalizzato per il <xref:System.Reflection.Emit.AssemblyBuilder>, l'assembly in cui è stato definito l'attributo è incluso nell'elenco restituito da questo metodo. Tuttavia, se si utilizza un <xref:System.Type> oggetto per specificare il tipo di un parametro di metodo, tale tipo non viene incluso.  
   
  Per ottenere un elenco completo di assembly di riferimento, salvare l'assembly, caricarlo in un altro dominio applicazione e chiamare il <xref:System.Reflection.Assembly.GetReferencedAssemblies%2A?displayProperty=nameWithType> metodo.  
   
@@ -1636,6 +1674,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(System.Globalization.CultureInfo)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetSatelliteAssembly (culture As CultureInfo) As Assembly" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Reflection::Assembly ^ GetSatelliteAssembly(System::Globalization::CultureInfo ^ culture);" />
+      <MemberSignature Language="F#" Value="override this.GetSatelliteAssembly : System.Globalization.CultureInfo -&gt; System.Reflection.Assembly" Usage="assemblyBuilder.GetSatelliteAssembly culture" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1674,6 +1713,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Reflection.Assembly GetSatelliteAssembly(class System.Globalization.CultureInfo culture, class System.Version version) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetSatelliteAssembly(System.Globalization.CultureInfo,System.Version)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Reflection::Assembly ^ GetSatelliteAssembly(System::Globalization::CultureInfo ^ culture, Version ^ version);" />
+      <MemberSignature Language="F#" Value="override this.GetSatelliteAssembly : System.Globalization.CultureInfo * Version -&gt; System.Reflection.Assembly" Usage="assemblyBuilder.GetSatelliteAssembly (culture, version)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1715,6 +1755,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.GetType(System.String,System.Boolean,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function GetType (name As String, throwOnError As Boolean, ignoreCase As Boolean) As Type" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override Type ^ GetType(System::String ^ name, bool throwOnError, bool ignoreCase);" />
+      <MemberSignature Language="F#" Value="override this.GetType : string * bool * bool -&gt; Type" Usage="assemblyBuilder.GetType (name, throwOnError, ignoreCase)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1753,6 +1794,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.GlobalAssemblyCache" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property GlobalAssemblyCache As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool GlobalAssemblyCache { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.GlobalAssemblyCache : bool" Usage="System.Reflection.Emit.AssemblyBuilder.GlobalAssemblyCache" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1781,6 +1823,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.HostContext" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property HostContext As Long" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property long HostContext { long get(); };" />
+      <MemberSignature Language="F#" Value="member this.HostContext : int64" Usage="System.Reflection.Emit.AssemblyBuilder.HostContext" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1801,6 +1844,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.ImageRuntimeVersion" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property ImageRuntimeVersion As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ ImageRuntimeVersion { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.ImageRuntimeVersion : string" Usage="System.Reflection.Emit.AssemblyBuilder.ImageRuntimeVersion" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1815,7 +1859,7 @@
         <value>Stringa che rappresenta la versione di Common Language Runtime.</value>
         <remarks>To be added.</remarks>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="IsDefined">
@@ -1824,6 +1868,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.IsDefined(System.Type,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Overrides Function IsDefined (attributeType As Type, inherit As Boolean) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool IsDefined(Type ^ attributeType, bool inherit);" />
+      <MemberSignature Language="F#" Value="override this.IsDefined : Type * bool -&gt; bool" Usage="assemblyBuilder.IsDefined (attributeType, inherit)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1852,6 +1897,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.IsDynamic" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property IsDynamic As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool IsDynamic { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsDynamic : bool" Usage="System.Reflection.Emit.AssemblyBuilder.IsDynamic" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1886,6 +1932,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.Location" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Location As String" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ Location { System::String ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Location : string" Usage="System.Reflection.Emit.AssemblyBuilder.Location" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1901,7 +1948,7 @@
         <remarks>To be added.</remarks>
         <exception cref="T:System.NotSupportedException">Questo metodo non è attualmente supportato.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="ManifestModule">
@@ -1910,6 +1957,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.ManifestModule" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property ManifestModule As Module" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Reflection::Module ^ ManifestModule { System::Reflection::Module ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.ManifestModule : System.Reflection.Module" Usage="System.Reflection.Emit.AssemblyBuilder.ManifestModule" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1937,6 +1985,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.Modules" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property Modules As IEnumerable(Of Module)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Collections::Generic::IEnumerable&lt;System::Reflection::Module ^&gt; ^ Modules { System::Collections::Generic::IEnumerable&lt;System::Reflection::Module ^&gt; ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.Modules : seq&lt;System.Reflection.Module&gt;" Usage="System.Reflection.Emit.AssemblyBuilder.Modules" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -1957,6 +2006,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.PermissionSet" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property PermissionSet As PermissionSet" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Security::PermissionSet ^ PermissionSet { System::Security::PermissionSet ^ get(); };" />
+      <MemberSignature Language="F#" Value="member this.PermissionSet : System.Security.PermissionSet" Usage="System.Reflection.Emit.AssemblyBuilder.PermissionSet" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1977,11 +2027,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.PermissionSet> gli oggetti possono contenere informazioni riservate, ad esempio i percorsi. Pertanto, l'attendibilità totale deve accedere a questi oggetti.  
+ <xref:System.Security.PermissionSet> gli oggetti possono contenere informazioni riservate, ad esempio i percorsi. Pertanto, con attendibilità totale deve accedere a questi oggetti.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
       </Docs>
     </Member>
     <Member MemberName="ReflectionOnly">
@@ -1990,6 +2040,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.ReflectionOnly" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property ReflectionOnly As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property bool ReflectionOnly { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.ReflectionOnly : bool" Usage="System.Reflection.Emit.AssemblyBuilder.ReflectionOnly" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2007,7 +2058,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per generare un assembly dinamico nel contesto reflection-only, specificare <xref:System.Reflection.Emit.AssemblyBuilderAccess.ReflectionOnly?displayProperty=nameWithType> quando si crea il <xref:System.Reflection.Emit.AssemblyBuilder>. Se un assembly dinamico viene generato nel contesto reflection-only, non è possibile eseguirne il codice.  
+ Per generare un assembly dinamico nel contesto reflection-only, specificare <xref:System.Reflection.Emit.AssemblyBuilderAccess.ReflectionOnly?displayProperty=nameWithType> quando si crea il <xref:System.Reflection.Emit.AssemblyBuilder>. Se viene generato un assembly dinamico nel contesto reflection-only, il codice viene non può essere eseguito.  
   
 > [!NOTE]
 >  Dopo aver salvato un assembly dinamico su disco, è possibile utilizzare il <xref:System.Reflection.Assembly.ReflectionOnlyLoad%2A?displayProperty=nameWithType> metodo per caricare l'assembly completato nel contesto reflection-only. Tuttavia, l'assembly non può più essere modificato.  
@@ -2034,6 +2085,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.Save(System.String)" />
       <MemberSignature Language="VB.NET" Value="Public Sub Save (assemblyFileName As String)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Save(System::String ^ assemblyFileName);" />
+      <MemberSignature Language="F#" Value="member this.Save : string -&gt; unit" Usage="assemblyBuilder.Save assemblyFileName" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2053,9 +2105,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo salva tutti i moduli dinamici non temporaneo definiti nell'assembly dinamico. Moduli dinamici temporanei non vengono salvati. Il nome del file di assembly può essere lo stesso nome di uno dei moduli. In questo caso, il manifesto dell'assembly è archiviata all'interno di tale modulo. `assemblyFileName` può essere diverso dai nomi di tutti i moduli contenuti nell'assembly. In questo caso, il file di assembly contiene solo il manifesto dell'assembly.  
+ Questo metodo consente di salvare tutti i moduli dinamici non temporaneo definiti nell'assembly dinamico. I moduli dinamici temporanei non vengono salvati. Il nome del file assembly può essere identico al nome di uno dei moduli. In tal caso, il manifesto dell'assembly è archiviata all'interno di tale modulo. `assemblyFileName` può essere diverso dai nomi di tutti i moduli contenuti nell'assembly. In tal caso, il file di assembly contiene solo il manifesto dell'assembly.  
   
- Per ogni <xref:System.Resources.ResourceWriter> ottenuto utilizzando <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, questo metodo scrive il file. Resources e chiama <xref:System.Resources.ResourceWriter.Close%2A> per chiudere il flusso.  
+ Per ogni <xref:System.Resources.ResourceWriter> ottenute mediante <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, questo metodo scrive il file. Resources e chiama <xref:System.Resources.ResourceWriter.Close%2A> per chiudere il flusso.  
   
  Il `assemblyFileName` deve essere un semplice nome file senza un componente di unità o directory. Per creare un assembly in una directory specifica, utilizzare uno del <xref:System.AppDomain.DefineDynamicAssembly%2A> metodi che accetta un argomento di directory di destinazione.  
   
@@ -2064,7 +2116,7 @@
    
   
 ## Examples  
- Esempio di codice seguente crea un assembly dinamico che viene reso persistente in un disco locale tramite `Save`.  
+ L'esempio di codice seguente crea un assembly dinamico e lo rende persistente in un disco locale tramite `Save`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.Save Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.Save Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.Save Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.Save Example/CS/source.cs#1)]
@@ -2079,7 +2131,7 @@
         <exception cref="T:System.IO.IOException">Durante il salvataggio si verifica un errore di output.</exception>
         <exception cref="T:System.NotSupportedException">Il metodo <see cref="M:System.Reflection.Emit.TypeBuilder.CreateType" /> non è stato chiamato per i tipi presenti nei moduli dell'assembly da scrivere sul disco.</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true è necessario salvare questo assembly per il nome file specificato.</permission>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="Save">
@@ -2087,6 +2139,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Save(string assemblyFileName, valuetype System.Reflection.PortableExecutableKinds portableExecutableKind, valuetype System.Reflection.ImageFileMachine imageFileMachine) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.Save(System.String,System.Reflection.PortableExecutableKinds,System.Reflection.ImageFileMachine)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Save(System::String ^ assemblyFileName, System::Reflection::PortableExecutableKinds portableExecutableKind, System::Reflection::ImageFileMachine imageFileMachine);" />
+      <MemberSignature Language="F#" Value="member this.Save : string * System.Reflection.PortableExecutableKinds * System.Reflection.ImageFileMachine -&gt; unit" Usage="assemblyBuilder.Save (assemblyFileName, portableExecutableKind, imageFileMachine)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2110,11 +2163,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `imageFileMachine` e `portableExecutableKind` non sono compatibili, `imageFileMachine` ha la precedenza su `portableExecutableKind`. Non viene generata alcuna eccezione. Ad esempio, se si specifica <xref:System.Reflection.ImageFileMachine.I386?displayProperty=nameWithType> con <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType>, <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType> viene ignorato.  
+ Se `imageFileMachine` e `portableExecutableKind` sono incompatibili, `imageFileMachine` ha la precedenza su `portableExecutableKind`. Non viene generata alcuna eccezione. Ad esempio, se si specifica <xref:System.Reflection.ImageFileMachine.I386?displayProperty=nameWithType> con <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType>, <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType> viene ignorato.  
   
- Questo metodo salva tutti i moduli dinamici non temporaneo definiti nell'assembly dinamico. Moduli dinamici temporanei non vengono salvati. Il nome del file di assembly può essere lo stesso nome di uno dei moduli. In questo caso, il manifesto dell'assembly è archiviata all'interno di tale modulo. `assemblyFileName` può essere diverso dai nomi di tutti i moduli contenuti nell'assembly. In questo caso, il file di assembly contiene solo il manifesto dell'assembly.  
+ Questo metodo consente di salvare tutti i moduli dinamici non temporaneo definiti nell'assembly dinamico. I moduli dinamici temporanei non vengono salvati. Il nome del file assembly può essere identico al nome di uno dei moduli. In tal caso, il manifesto dell'assembly è archiviata all'interno di tale modulo. `assemblyFileName` può essere diverso dai nomi di tutti i moduli contenuti nell'assembly. In tal caso, il file di assembly contiene solo il manifesto dell'assembly.  
   
- Per ogni <xref:System.Resources.ResourceWriter> ottenuto utilizzando <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, questo metodo scrive il file. Resources e chiama <xref:System.Resources.ResourceWriter.Close%2A> per chiudere il flusso.  
+ Per ogni <xref:System.Resources.ResourceWriter> ottenute mediante <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, questo metodo scrive il file. Resources e chiama <xref:System.Resources.ResourceWriter.Close%2A> per chiudere il flusso.  
   
  Il `assemblyFileName` deve essere un semplice nome file senza un componente di unità o directory. Per creare un assembly in una directory specifica, utilizzare uno del <xref:System.AppDomain.DefineDynamicAssembly%2A> metodi che accetta un argomento di directory di destinazione.  
   
@@ -2127,7 +2180,7 @@
         <exception cref="T:System.IO.IOException">Durante il salvataggio si verifica un errore di output.</exception>
         <exception cref="T:System.NotSupportedException">Il metodo <see cref="M:System.Reflection.Emit.TypeBuilder.CreateType" /> non è stato chiamato per i tipi presenti nei moduli dell'assembly da scrivere sul disco.</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermission">Scrivere = true oppure Append = true è necessario salvare questo assembly per il nome file specificato.</permission>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="SecurityRuleSet">
@@ -2136,6 +2189,7 @@
       <MemberSignature Language="DocId" Value="P:System.Reflection.Emit.AssemblyBuilder.SecurityRuleSet" />
       <MemberSignature Language="VB.NET" Value="Public Overrides ReadOnly Property SecurityRuleSet As SecurityRuleSet" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Security::SecurityRuleSet SecurityRuleSet { System::Security::SecurityRuleSet get(); };" />
+      <MemberSignature Language="F#" Value="member this.SecurityRuleSet : System.Security.SecurityRuleSet" Usage="System.Reflection.Emit.AssemblyBuilder.SecurityRuleSet" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2173,6 +2227,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)" />
       <MemberSignature Language="VB.NET" Value="Public Sub SetCustomAttribute (customBuilder As CustomAttributeBuilder)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetCustomAttribute(System::Reflection::Emit::CustomAttributeBuilder ^ customBuilder);" />
+      <MemberSignature Language="F#" Value="member this.SetCustomAttribute : System.Reflection.Emit.CustomAttributeBuilder -&gt; unit" Usage="assemblyBuilder.SetCustomAttribute customBuilder" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -2203,12 +2258,12 @@
 >  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> non può essere utilizzato per impostare gli attributi di sicurezza dichiarativa. Utilizzare uno degli overload di <xref:System.AppDomain.DefineDynamicAssembly%2A> che accetta obbligatorio, facoltativo e autorizzazioni rifiutate.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato l'utilizzo di `SetCustomAttribute` all'interno di <xref:System.Reflection.Emit.AssemblyBuilder>, usando un <xref:System.Reflection.Emit.CustomAttributeBuilder>.  
+ L'esempio di codice seguente viene illustrato l'utilizzo di `SetCustomAttribute` all'interno <xref:System.Reflection.Emit.AssemblyBuilder>, usando un <xref:System.Reflection.Emit.CustomAttributeBuilder>.  
   
  [!code-cpp[AssemblyBuilder_SetCustomAttribute1#1](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute1/CPP/assemblybuilder_setcustomattribute1.cpp#1)]
  [!code-csharp[AssemblyBuilder_SetCustomAttribute1#1](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute1/CS/assemblybuilder_setcustomattribute1.cs#1)]
@@ -2219,7 +2274,7 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="con" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="SetCustomAttribute">
@@ -2228,6 +2283,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.ConstructorInfo,System.Byte[])" />
       <MemberSignature Language="VB.NET" Value="Public Sub SetCustomAttribute (con As ConstructorInfo, binaryAttribute As Byte())" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetCustomAttribute(System::Reflection::ConstructorInfo ^ con, cli::array &lt;System::Byte&gt; ^ binaryAttribute);" />
+      <MemberSignature Language="F#" Value="member this.SetCustomAttribute : System.Reflection.ConstructorInfo * byte[] -&gt; unit" Usage="assemblyBuilder.SetCustomAttribute (con, binaryAttribute)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Reflection.Emit</AssemblyName>
@@ -2260,20 +2316,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vedere le specifiche dei metadati nella documentazione di specifiche ECMA Partition II per informazioni dettagliate su come formattare `binaryAttribute`. La documentazione è disponibile online; vedere [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) (ECMA C# e standard di Common Language Infrastructure) in MSDN e [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) nel sito Web internazionale Ecma.  
+ Vedere le specifiche dei metadati nella documentazione di ECMA Partition II per informazioni dettagliate su come formattare `binaryAttribute`. La documentazione è disponibile online; vedere [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) (ECMA C# e standard di Common Language Infrastructure) in MSDN e [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) nel sito Web internazionale Ecma.  
   
- `RuntimeConstructorInfo` è un tipo speciale generato dal sistema. Deriva dal <xref:System.Reflection.ConstructorInfo> classe e qualsiasi <xref:System.Reflection.ConstructorInfo> oggetto ottenuto tramite reflection è in realtà un'istanza di `RuntimeConstructorInfo`.  
+ `RuntimeConstructorInfo` è un tipo speciale generato dal sistema. Deriva dal <xref:System.Reflection.ConstructorInfo> classe ed eventuali <xref:System.Reflection.ConstructorInfo> oggetto ottenuto tramite reflection è effettivamente un'istanza di `RuntimeConstructorInfo`.  
   
 > [!NOTE]
 >  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> non può essere utilizzato per impostare gli attributi di sicurezza dichiarativa. Utilizzare uno degli overload di <xref:System.AppDomain.DefineDynamicAssembly%2A> che accetta obbligatorio, facoltativo e autorizzazioni rifiutate.  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato l'utilizzo di `SetCustomAttribute` per associare un attributo personalizzato a un assembly generato dinamicamente.  
+ L'esempio di codice seguente viene illustrato l'utilizzo di `SetCustomAttribute` per associare un attributo personalizzato a un assembly generato dinamicamente.  
   
  [!code-cpp[AssemblyBuilder_SetCustomAttribute2#1](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute2/CPP/assemblybuilder_setcustomattribute2.cpp#1)]
  [!code-csharp[AssemblyBuilder_SetCustomAttribute2#1](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilder_SetCustomAttribute2/CS/assemblybuilder_setcustomattribute2.cs#1)]
@@ -2286,7 +2342,7 @@
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
         <exception cref="T:System.ArgumentException">
           <paramref name="con" /> non è un oggetto <see langword="RuntimeConstructorInfo" />.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <MemberGroup MemberName="SetEntryPoint">
@@ -2305,6 +2361,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo)" />
       <MemberSignature Language="VB.NET" Value="Public Sub SetEntryPoint (entryMethod As MethodInfo)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetEntryPoint(System::Reflection::MethodInfo ^ entryMethod);" />
+      <MemberSignature Language="F#" Value="member this.SetEntryPoint : System.Reflection.MethodInfo -&gt; unit" Usage="assemblyBuilder.SetEntryPoint entryMethod" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2326,7 +2383,7 @@
         <exception cref="T:System.InvalidOperationException">
           <paramref name="entryMethod" /> non è contenuto nell'assembly.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="SetEntryPoint">
@@ -2335,6 +2392,7 @@
       <MemberSignature Language="DocId" Value="M:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint(System.Reflection.MethodInfo,System.Reflection.Emit.PEFileKinds)" />
       <MemberSignature Language="VB.NET" Value="Public Sub SetEntryPoint (entryMethod As MethodInfo, fileKind As PEFileKinds)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetEntryPoint(System::Reflection::MethodInfo ^ entryMethod, System::Reflection::Emit::PEFileKinds fileKind);" />
+      <MemberSignature Language="F#" Value="member this.SetEntryPoint : System.Reflection.MethodInfo * System.Reflection.Emit.PEFileKinds -&gt; unit" Usage="assemblyBuilder.SetEntryPoint (entryMethod, fileKind)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -2358,7 +2416,7 @@
 ## Remarks  
   
 > [!NOTE]
->  A partire dal [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
+>  Inizia con il [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], questo membro non è più necessario <xref:System.Security.Permissions.ReflectionPermission> con il <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> flag. (Vedere [problemi di sicurezza nella Reflection Emit](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Per usare questa funzionalità, l'applicazione deve essere destinata a [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] o versione successiva.  
   
  ]]></format>
         </remarks>
@@ -2367,7 +2425,7 @@
         <exception cref="T:System.InvalidOperationException">
           <paramref name="entryMethod" /> non è contenuto nell'assembly.</exception>
         <exception cref="T:System.Security.SecurityException">Il chiamante non dispone dell'autorizzazione richiesta.</exception>
-        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato ad associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
+        <permission cref="T:System.Security.Permissions.ReflectionPermission">Quando viene richiamato con associazione tardiva tramite meccanismi, ad esempio <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Enumerazione associata: <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
     <Member MemberName="System.Runtime.InteropServices._AssemblyBuilder.GetIDsOfNames">
@@ -2406,7 +2464,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo consente l'accesso alle classi gestite da codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetIDsOfNames`, vedere MSDN Library.  
+ Questo metodo consente l'accesso a classi gestite dal codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetIDsOfNames`, vedere MSDN Library.  
   
  ]]></format>
         </remarks>
@@ -2445,7 +2503,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo consente l'accesso alle classi gestite da codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetTypeInfo`, vedere MSDN Library.  
+ Questo metodo consente l'accesso a classi gestite dal codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetTypeInfo`, vedere MSDN Library.  
   
  ]]></format>
         </remarks>
@@ -2480,7 +2538,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo consente l'accesso alle classi gestite da codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetTypeInfoCount`, vedere MSDN Library.  
+ Questo metodo consente l'accesso a classi gestite dal codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::GetTypeInfoCount`, vedere MSDN Library.  
   
  ]]></format>
         </remarks>
@@ -2529,7 +2587,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo consente l'accesso alle classi gestite da codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::Invoke`, vedere MSDN Library.  
+ Questo metodo consente l'accesso a classi gestite dal codice non gestito e non deve essere chiamato da codice gestito. Per ulteriori informazioni su `IDispatch::Invoke`, vedere MSDN Library.  
   
  ]]></format>
         </remarks>
