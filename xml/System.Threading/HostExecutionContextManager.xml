@@ -1,17 +1,18 @@
 <Type Name="HostExecutionContextManager" FullName="System.Threading.HostExecutionContextManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="337b99b403a59e4a7487df4f72ffc3a0d47b18e5" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="b2fef4c3d4247a4ae14335602fc0f7df245c3de2" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30527385" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36605945" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class HostExecutionContextManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit HostExecutionContextManager extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.HostExecutionContextManager" />
   <TypeSignature Language="VB.NET" Value="Public Class HostExecutionContextManager" />
   <TypeSignature Language="C++ CLI" Value="public ref class HostExecutionContextManager" />
+  <TypeSignature Language="F#" Value="type HostExecutionContextManager = class" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
@@ -31,12 +32,12 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Fornisce la funzionalità che consente a un host Common Language Runtime di partecipare al flusso, o migrazione, del contesto di esecuzione.</summary>
+    <summary>Provides the functionality that allows a common language runtime host to participate in the flow, or migration, of the execution context.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se corrente <xref:System.AppDomainManager> contiene un riferimento a un <xref:System.Threading.HostExecutionContextManager> nel relativo <xref:System.AppDomainManager.HostExecutionContextManager%2A> proprietà, quindi common language runtime chiama il gestore ogni volta che una chiamata al <xref:System.Threading.ExecutionContext.Run%2A?displayProperty=nameWithType> metodo si verifica, per consentire all'host di partecipare al flusso dell'esecuzione contesto.  
+ Se corrente <xref:System.AppDomainManager> contiene un riferimento a un <xref:System.Threading.HostExecutionContextManager> nel relativo <xref:System.AppDomainManager.HostExecutionContextManager%2A> proprietà, quindi common language runtime chiama il responsabile ogni volta che una chiamata al <xref:System.Threading.ExecutionContext.Run%2A?displayProperty=nameWithType> metodo si verifica, per consentire all'host di partecipare al flusso dell'esecuzione contesto.  
   
  ]]></format>
     </remarks>
@@ -65,7 +66,7 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.HostExecutionContextManager" />.</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.HostExecutionContextManager" /> class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -75,6 +76,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.HostExecutionContextManager.Capture" />
       <MemberSignature Language="VB.NET" Value="Public Overridable Function Capture () As HostExecutionContext" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Threading::HostExecutionContext ^ Capture();" />
+      <MemberSignature Language="F#" Value="abstract member Capture : unit -&gt; System.Threading.HostExecutionContext&#xA;override this.Capture : unit -&gt; System.Threading.HostExecutionContext" Usage="hostExecutionContextManager.Capture " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -95,8 +97,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Acquisisce il contesto di esecuzione dell'host dal thread corrente.</summary>
-        <returns>Oggetto <see cref="T:System.Threading.HostExecutionContext" /> che rappresenta il contesto di esecuzione dell'host del thread corrente.</returns>
+        <summary>Captures the host execution context from the current thread.</summary>
+        <returns>A <see cref="T:System.Threading.HostExecutionContext" /> object representing the host execution context of the current thread.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -113,6 +115,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.HostExecutionContextManager.Revert(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Overridable Sub Revert (previousState As Object)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Revert(System::Object ^ previousState);" />
+      <MemberSignature Language="F#" Value="abstract member Revert : obj -&gt; unit&#xA;override this.Revert : obj -&gt; unit" Usage="hostExecutionContextManager.Revert previousState" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -140,8 +143,8 @@
         <Parameter Name="previousState" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="previousState">Stato precedente del contesto da ripristinare.</param>
-        <summary>Ripristina lo stato precedente del contesto di esecuzione dell'host.</summary>
+        <param name="previousState">The previous context state to revert to.</param>
+        <summary>Restores the host execution context to its prior state.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -151,16 +154,8 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">
-          <paramref name="previousState" /> è <see langword="null" />.  
-  
- oppure  
-  
- <paramref name="previousState" /> non è stato creato sul thread corrente.  
-  
- oppure  
-  
- <paramref name="previousState" /> non è l'ultimo stato di <see cref="T:System.Threading.HostExecutionContext" />.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
+          <paramref name="previousState" /> is <see langword="null" />.  -or-  <paramref name="previousState" /> was not created on the current thread.  -or-  <paramref name="previousState" /> is not the last state for the <see cref="T:System.Threading.HostExecutionContext" />.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
       </Docs>
     </Member>
     <Member MemberName="SetHostExecutionContext">
@@ -168,6 +163,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object SetHostExecutionContext(class System.Threading.HostExecutionContext hostExecutionContext) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.HostExecutionContextManager.SetHostExecutionContext(System.Threading.HostExecutionContext)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Object ^ SetHostExecutionContext(System::Threading::HostExecutionContext ^ hostExecutionContext);" />
+      <MemberSignature Language="F#" Value="abstract member SetHostExecutionContext : System.Threading.HostExecutionContext -&gt; obj&#xA;override this.SetHostExecutionContext : System.Threading.HostExecutionContext -&gt; obj" Usage="hostExecutionContextManager.SetHostExecutionContext hostExecutionContext" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -190,26 +186,22 @@
         <Parameter Name="hostExecutionContext" Type="System.Threading.HostExecutionContext" />
       </Parameters>
       <Docs>
-        <param name="hostExecutionContext">Oggetto <see cref="T:System.Threading.HostExecutionContext" /> da impostare.</param>
-        <summary>Imposta il contesto di esecuzione dell'host corrente sul contesto di esecuzione dell'host specificato.</summary>
-        <returns>Oggetto per il ripristino dello stato precedente di <see cref="T:System.Threading.HostExecutionContext" />.</returns>
+        <param name="hostExecutionContext">The <see cref="T:System.Threading.HostExecutionContext" /> to be set.</param>
+        <summary>Sets the current host execution context to the specified host execution context.</summary>
+        <returns>An object for restoring the <see cref="T:System.Threading.HostExecutionContext" /> to its previous state.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Threading.HostExecutionContextManager.SetHostExecutionContext%2A> metodo imposta il contesto di esecuzione host per l'oggetto corrente <xref:System.Threading.HostExecutionContext>.  Oggetto <xref:System.Threading.HostExecutionContext> che è stato utilizzato come argomento a un altro <xref:System.Threading.HostExecutionContextManager.SetHostExecutionContext%2A> chiamata al metodo non può essere passata come parametro per questo metodo. Utilizzare invece il <xref:System.Threading.HostExecutionContext.CreateCopy%2A?displayProperty=nameWithType> metodo per creare una copia di un <xref:System.Threading.HostExecutionContext> dell'oggetto e quindi utilizzare la copia per impostare il contesto di esecuzione di host.  
+ Il <xref:System.Threading.HostExecutionContextManager.SetHostExecutionContext%2A> metodo imposta il contesto di esecuzione host per l'oggetto corrente <xref:System.Threading.HostExecutionContext>.  Un <xref:System.Threading.HostExecutionContext> che è stato utilizzato come argomento a un altro <xref:System.Threading.HostExecutionContextManager.SetHostExecutionContext%2A> chiamata al metodo non può essere passata come parametro per questo metodo. In alternativa, usare il <xref:System.Threading.HostExecutionContext.CreateCopy%2A?displayProperty=nameWithType> metodo per creare una copia di un <xref:System.Threading.HostExecutionContext> dell'oggetto e quindi utilizzare la copia per impostare il contesto di esecuzione di host.  
   
  Chiamare il <xref:System.Threading.HostExecutionContextManager.Revert%2A> metodo usando l'oggetto restituito da questo metodo per ripristinare il <xref:System.Threading.HostExecutionContext> allo stato precedente.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">
-          <paramref name="hostExecutionContext" /> non è stato acquisito tramite un'operazione di acquisizione.  
-  
- oppure  
-  
- <paramref name="hostExecutionContext" /> è stato l'argomento di una chiamata al metodo <see cref="M:System.Threading.HostExecutionContextManager.SetHostExecutionContext(System.Threading.HostExecutionContext)" /> precedente.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
+          <paramref name="hostExecutionContext" /> was not acquired through a capture operation.  -or-  <paramref name="hostExecutionContext" /> has been the argument to a previous <see cref="M:System.Threading.HostExecutionContextManager.SetHostExecutionContext(System.Threading.HostExecutionContext)" /> method call.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
       </Docs>
     </Member>
   </Members>
