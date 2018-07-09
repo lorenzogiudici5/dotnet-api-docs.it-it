@@ -1,11 +1,11 @@
 <Type Name="OdbcCommandBuilder" FullName="System.Data.Odbc.OdbcCommandBuilder">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="514d86b482b9de1d47380995839bb84e29be32ac" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="5bec20e62055d3256536ed7ca88ebddf36854346" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36686402" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37678063" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OdbcCommandBuilder : System.Data.Common.DbCommandBuilder" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OdbcCommandBuilder extends System.Data.Common.DbCommandBuilder" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type OdbcCommandBuilder = class&#xA;    inherit DbCommandBuilder" />
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -23,6 +25,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbCommandBuilder</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.ComponentModel.Component</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
@@ -31,23 +34,23 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Data.Odbc.OdbcDataAdapter> non genera automaticamente le istruzioni SQL necessarie per risolvere le differenze tra le modifiche apportate a un <xref:System.Data.DataSet> associata all'origine dati. Tuttavia, è possibile creare un <xref:System.Data.Odbc.OdbcCommandBuilder> oggetto che genera istruzioni SQL per tabella singola aggiornamenti impostando il <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà del <xref:System.Data.Odbc.OdbcDataAdapter>. Il <xref:System.Data.Odbc.OdbcCommandBuilder> genera quindi le istruzioni SQL aggiuntive che non si imposta.  
+ Il <xref:System.Data.Odbc.OdbcDataAdapter> non genera automaticamente le istruzioni SQL necessarie per risolvere le modifiche apportate a un <xref:System.Data.DataSet> associato all'origine dati. Tuttavia, è possibile creare un <xref:System.Data.Odbc.OdbcCommandBuilder> oggetto che genera istruzioni SQL per tabella singola aggiornamenti impostando la <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà del <xref:System.Data.Odbc.OdbcDataAdapter>. Il <xref:System.Data.Odbc.OdbcCommandBuilder> genera quindi le istruzioni SQL aggiuntive che non si imposta.  
   
- La relazione tra un <xref:System.Data.Odbc.OdbcDataAdapter> e il corrispondente <xref:System.Data.Odbc.OdbcCommandBuilder> è sempre uno a uno. Per creare questa corrispondenza, impostare il <xref:System.Data.Odbc.OdbcDataAdapter> proprietà del <xref:System.Data.Odbc.OdbcCommandBuilder> oggetto. In questo modo, il <xref:System.Data.Odbc.OdbcCommandBuilder> per registrare se stessa come un listener che produce l'output di <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> eventi che interessano il <xref:System.Data.DataSet>.  
+ La relazione tra un <xref:System.Data.Odbc.OdbcDataAdapter> e il corrispondente <xref:System.Data.Odbc.OdbcCommandBuilder> è sempre uno a uno. Per creare questa corrispondenza, si imposta la <xref:System.Data.Odbc.OdbcDataAdapter> proprietà del <xref:System.Data.Odbc.OdbcCommandBuilder> oggetto. In questo modo, il <xref:System.Data.Odbc.OdbcCommandBuilder> per registrarsi come un listener, che produce l'output di <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> eventi che interessano il <xref:System.Data.DataSet>.  
   
  Per generare istruzioni INSERT, UPDATE o DELETE, il <xref:System.Data.Odbc.OdbcCommandBuilder> utilizza il <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà per recuperare un set di metadati richiesto. Se si modifica il valore di <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> dopo aver recuperato i metadati, ad esempio dopo il primo aggiornamento, è necessario quindi chiamare il <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> metodo per aggiornare i metadati.  
   
 > [!NOTE]
->  Se l'istruzione SELECT viene assegnata la <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà utilizza nomi di colonna alias, risultante INSERT, UPDATE, e le istruzioni DELETE potrebbero non essere accurate o non riuscire. Se il driver ODBC sottostante non è possibile fornire il nome della colonna di base appropriato per il nome della colonna alias (utilizzando il valore SQL_DESC_BASE_COLUMN_NAME di `SQLColAttribute`), il nome di alias è stato utilizzato nelle istruzioni INSERT, UPDATE e DELETE generate. Ad esempio, il Driver ODBC di Microsoft per Oracle restituisce il nome dell'alias come il nome di colonna di base. Pertanto, le istruzioni INSERT, UPDATE e DELETE generate può provocare errori.  
+>  Se l'istruzione SELECT assegnato al <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà Usa nomi di colonna con alias, risultante INSERT, UPDATE e istruzioni DELETE potrebbero non essere corrette o non riuscire. Se il driver ODBC sottostante non è possibile specificare il nome di colonna di base appropriato per il nome della colonna alias (usando il valore SQL_DESC_BASE_COLUMN_NAME `SQLColAttribute`), il nome di alias può essere utilizzato nelle istruzioni INSERT, UPDATE e DELETE generate. Ad esempio, il Driver ODBC di Microsoft per Oracle restituisce il nome di alias come il nome di colonna di base. Le istruzioni INSERT, UPDATE e DELETE generate potrebbero pertanto provocare errori.  
   
- Il <xref:System.Data.Odbc.OdbcCommandBuilder> utilizza inoltre il <xref:System.Data.Odbc.OdbcCommand.Connection%2A>, <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>, e <xref:System.Data.Odbc.OdbcCommand.Transaction%2A> proprietà fa riferimento il <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>. L'utente deve chiamare <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se uno o più di queste proprietà vengono modificati o se il valore della <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> proprietà stessa viene modificato. In caso contrario, il <xref:System.Data.Odbc.OdbcDataAdapter.InsertCommand%2A>, <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>, e <xref:System.Data.Odbc.OdbcDataAdapter.DeleteCommand%2A> proprietà mantengono i valori precedenti.  
+ Il <xref:System.Data.Odbc.OdbcCommandBuilder> Usa anche il <xref:System.Data.Odbc.OdbcCommand.Connection%2A>, <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A>, e <xref:System.Data.Odbc.OdbcCommand.Transaction%2A> le proprietà a cui fanno riferimento le <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A>. L'utente deve chiamare <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se una o più di queste proprietà vengono modificate o se il valore della <xref:System.Data.Odbc.OdbcDataAdapter.SelectCommand%2A> stessa proprietà viene modificato. In caso contrario, il <xref:System.Data.Odbc.OdbcDataAdapter.InsertCommand%2A>, <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A>, e <xref:System.Data.Odbc.OdbcDataAdapter.DeleteCommand%2A> mantengono i valori precedenti.  
   
- Se si chiama <xref:System.ComponentModel.Component.Dispose%2A>, il <xref:System.Data.Odbc.OdbcCommandBuilder> dissociato dal <xref:System.Data.Odbc.OdbcDataAdapter>, e i comandi generati non vengono più utilizzati.  
+ Se si chiama <xref:System.ComponentModel.Component.Dispose%2A>, il <xref:System.Data.Odbc.OdbcCommandBuilder> viene dissociato il <xref:System.Data.Odbc.OdbcDataAdapter>, e i comandi generati non vengono più utilizzati.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene utilizzata <xref:System.Data.Odbc.OdbcCommand>, insieme a <xref:System.Data.Odbc.OdbcDataAdapter> e <xref:System.Data.Odbc.OdbcConnection>, selezionare le righe da un'origine dati. Nell'esempio viene passato un oggetto inizializzato <xref:System.Data.DataSet>, una stringa di connessione, una stringa di query che rappresenta un'istruzione SQL SELECT e una stringa che rappresenta il nome della tabella di origine dati. L'esempio crea quindi un <xref:System.Data.Odbc.OdbcCommandBuilder>.  
+ L'esempio seguente usa <xref:System.Data.Odbc.OdbcCommand>, in combinazione con <xref:System.Data.Odbc.OdbcDataAdapter> e <xref:System.Data.Odbc.OdbcConnection>, selezionare le righe da un'origine dati. Nell'esempio viene passato un oggetto inizializzato <xref:System.Data.DataSet>, una stringa di connessione, una stringa di query che rappresenta un'istruzione SQL SELECT e una stringa che rappresenta il nome della tabella di origine dati. L'esempio crea quindi un <xref:System.Data.Odbc.OdbcCommandBuilder>.  
   
  [!code-csharp[Classic WebData OdbcCommandBuilder#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcCommandBuilder/CS/mysample.cs#1)]
  [!code-vb[Classic WebData OdbcCommandBuilder#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcCommandBuilder/VB/mysample.vb#1)]  
@@ -74,6 +77,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -87,7 +92,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il costruttore basa Inizializza tutti i campi in base ai valori predefiniti.  
+ Il costruttore di base Inizializza tutti i campi per i relativi valori predefiniti.  
   
  ]]></format>
         </remarks>
@@ -103,6 +108,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -119,9 +126,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Data.Odbc.OdbcCommandBuilder> registra se stesso come un listener per <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> gli eventi generati dal <xref:System.Data.Odbc.OdbcDataAdapter> specificato in questa proprietà.  
+ Il <xref:System.Data.Odbc.OdbcCommandBuilder> registrata automaticamente come un listener per <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> gli eventi generati dal <xref:System.Data.Odbc.OdbcDataAdapter> specificati in questa proprietà.  
   
- Quando si crea una nuova istanza della <xref:System.Data.Odbc.OdbcCommandBuilder>, qualsiasi esistente <xref:System.Data.Odbc.OdbcCommandBuilder> associato a questo <xref:System.Data.Odbc.OdbcDataAdapter> viene rilasciato.  
+ Quando si crea una nuova istanza della <xref:System.Data.Odbc.OdbcCommandBuilder>, tutte le classi esistenti <xref:System.Data.Odbc.OdbcCommandBuilder> associato a questo <xref:System.Data.Odbc.OdbcDataAdapter> viene rilasciato.  
   
  ]]></format>
         </remarks>
@@ -136,6 +143,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -170,6 +178,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -191,9 +201,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Data.Odbc.OdbcCommandBuilder> registra se stesso come un listener per <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> gli eventi generati dal <xref:System.Data.Odbc.OdbcDataAdapter> specificato in questa proprietà.  
+ Il <xref:System.Data.Odbc.OdbcCommandBuilder> registrata automaticamente come un listener per <xref:System.Data.Odbc.OdbcDataAdapter.RowUpdating> gli eventi generati dal <xref:System.Data.Odbc.OdbcDataAdapter> specificati in questa proprietà.  
   
- Quando si crea una nuova istanza della <xref:System.Data.Odbc.OdbcCommandBuilder>, qualsiasi esistente <xref:System.Data.Odbc.OdbcCommandBuilder> associato a questo <xref:System.Data.Odbc.OdbcDataAdapter> viene rilasciato.  
+ Quando si crea una nuova istanza della <xref:System.Data.Odbc.OdbcCommandBuilder>, tutte le classi esistenti <xref:System.Data.Odbc.OdbcCommandBuilder> associato a questo <xref:System.Data.Odbc.OdbcDataAdapter> viene rilasciato.  
   
  ]]></format>
         </remarks>
@@ -209,6 +219,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -230,13 +242,37 @@
 ## Remarks  
  <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> sovrascrive qualsiasi informazione esistente sui parametri per il <xref:System.Data.Odbc.OdbcCommand>.  
   
- <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> richiede una chiamata aggiuntiva all'origine dati per ottenere le informazioni. Se le informazioni sui parametri è noto in anticipo, risulta più efficiente per popolare la raccolta di parametri impostando le informazioni in modo esplicito.  
+ <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> richiede una chiamata aggiuntiva nell'origine dati per ottenere le informazioni. Se le informazioni sui parametri è noto in anticipo, è più efficiente per popolare la raccolta di parametri impostando le informazioni in modo esplicito.  
   
- È possibile utilizzare solo <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> con le stored procedure. Non è possibile utilizzare <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> per popolare il <xref:System.Data.Odbc.OdbcParameterCollection> con le istruzioni Transact-SQL arbitrarie, ad esempio un'istruzione SELECT con parametri.  
+ È possibile usare solo <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> con le stored procedure. Non è possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.DeriveParameters%2A> per popolare il <xref:System.Data.Odbc.OdbcParameterCollection> con istruzioni Transact-SQL arbitrarie, ad esempio un'istruzione SELECT con parametri.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">Il driver ODBC sottostante non supporta la restituzione di informazioni su parametri di stored procedure o il testo del comando non è un nome di stored procedure valido o l'oggetto <see cref="T:System.Data.CommandType" /> specificato non è <see langword="CommandType.StoredProcedure" />.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void Dispose(bool disposing);" />
+      <MemberSignature Language="F#" Value="override this.Dispose : bool -&gt; unit" Usage="odbcCommandBuilder.Dispose disposing" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <MemberGroup MemberName="GetDeleteCommand">
@@ -250,11 +286,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -270,6 +306,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -287,11 +325,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -307,6 +345,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -327,19 +366,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetDeleteCommand%2A>.  
   
- Il comportamento predefinito, la generazione di nomi di parametro, consiste nell'utilizzare @p1, @p2, e così via per i diversi parametri. Passando `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Odbc.OdbcCommandBuilder> per generare i parametri in base invece i nomi delle colonne. Ciò ha esito positivo solo se vengono soddisfatte le condizioni seguenti:  
+ Il comportamento predefinito, durante la generazione di nomi di parametro, consiste nell'usare @p1, @p2, e così via per i diversi parametri. Il passaggio `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Odbc.OdbcCommandBuilder> per generare i parametri in base ai nomi delle colonne invece. L'esito è positivo solo se vengono soddisfatte le condizioni seguenti:  
   
--   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generato.  
+-   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generati.  
   
--   Il nome di parametro generato soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
+-   Il nome di parametro generati soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
   
--   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> specificato.  
+-   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> è specificato.  
   
  ]]></format>
         </remarks>
@@ -356,11 +395,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -376,6 +415,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -393,11 +434,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -413,6 +454,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -433,19 +475,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetInsertCommand%2A>.  
   
- Il comportamento predefinito, la generazione di nomi di parametro, consiste nell'utilizzare @p1, @p2, e così via per i diversi parametri. Passando `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Common.DbCommandBuilder> per generare i parametri in base invece i nomi delle colonne. Ciò ha esito positivo solo se vengono soddisfatte le condizioni seguenti:  
+ Il comportamento predefinito, durante la generazione di nomi di parametro, consiste nell'usare @p1, @p2, e così via per i diversi parametri. Il passaggio `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Common.DbCommandBuilder> per generare i parametri in base ai nomi delle colonne invece. L'esito è positivo solo se vengono soddisfatte le condizioni seguenti:  
   
--   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generato.  
+-   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generati.  
   
--   Il nome di parametro generato soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
+-   Il nome di parametro generati soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
   
--   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> specificato.  
+-   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> è specificato.  
   
  ]]></format>
         </remarks>
@@ -461,6 +503,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -490,6 +533,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -519,6 +563,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -549,11 +594,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> utilizzerà le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -569,6 +614,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -586,11 +633,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
   
  ]]></format>
         </remarks>
@@ -606,6 +653,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -626,19 +674,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile usare il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> metodo informativi o di risoluzione dei problemi relativi a scopo perché restituisce il <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
+ È possibile usare la <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> a scopo di metodo informativi o di risoluzione dei problemi perché restituisce la <xref:System.Data.Odbc.OdbcCommand> oggetto da eseguire.  
   
- È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base di un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
+ È anche possibile usare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> come base per un comando modificato. Ad esempio, è possibile chiamare <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> e modificare il <xref:System.Data.Odbc.OdbcCommand.CommandTimeout%2A> valore e quindi impostare in modo esplicito nel <xref:System.Data.Odbc.OdbcDataAdapter>.  
   
- Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se viene modificato l'istruzione in alcun modo. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
+ Dopo aver generata l'istruzione SQL, è necessario chiamare esplicitamente <xref:System.Data.Common.DbCommandBuilder.RefreshSchema%2A> se subisce delle modifiche in alcun modo l'istruzione. In caso contrario, il <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A> continuerà a utilizzare le informazioni incluse nell'istruzione precedente, che potrebbe non essere corretto. Le istruzioni SQL vengono generate quando l'applicazione chiama uno <xref:System.Data.Common.DbDataAdapter.Update%2A> o <xref:System.Data.Odbc.OdbcCommandBuilder.GetUpdateCommand%2A>.  
   
- Il comportamento predefinito, la generazione di nomi di parametro, consiste nell'utilizzare @p1, @p2, e così via per i diversi parametri. Passando `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Common.DbCommandBuilder> per generare i parametri in base invece i nomi delle colonne. Ciò ha esito positivo solo se vengono soddisfatte le condizioni seguenti:  
+ Il comportamento predefinito, durante la generazione di nomi di parametro, consiste nell'usare @p1, @p2, e così via per i diversi parametri. Il passaggio `true` per il `useColumnsForParameterNames` parametro consente di forzare il <xref:System.Data.Common.DbCommandBuilder> per generare i parametri in base ai nomi delle colonne invece. L'esito è positivo solo se vengono soddisfatte le condizioni seguenti:  
   
--   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generato.  
+-   Il <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> è stata specificata, e la sua lunghezza è uguale o maggiore rispetto al nome di parametro generati.  
   
--   Il nome di parametro generato soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
+-   Il nome di parametro generati soddisfa i criteri specificati nel <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> espressione regolare.  
   
--   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> specificato.  
+-   Oggetto <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> è specificato.  
   
  ]]></format>
         </remarks>
@@ -663,6 +711,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -692,6 +741,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -713,6 +763,85 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="QuotePrefix">
+      <MemberSignature Language="C#" Value="public string QuotePrefix { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string QuotePrefix" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcCommandBuilder.QuotePrefix" />
+      <MemberSignature Language="VB.NET" Value="Public Property QuotePrefix As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ QuotePrefix { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.QuotePrefix : string with get, set" Usage="System.Data.Odbc.OdbcCommandBuilder.QuotePrefix" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuoteSuffix">
+      <MemberSignature Language="C#" Value="public string QuoteSuffix { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string QuoteSuffix" />
+      <MemberSignature Language="DocId" Value="P:System.Data.Odbc.OdbcCommandBuilder.QuoteSuffix" />
+      <MemberSignature Language="VB.NET" Value="Public Property QuoteSuffix As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ QuoteSuffix { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberSignature Language="F#" Value="member this.QuoteSuffix : string with get, set" Usage="System.Data.Odbc.OdbcCommandBuilder.QuoteSuffix" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RefreshSchema">
+      <MemberSignature Language="C#" Value="public void RefreshSchema ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefreshSchema() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.Odbc.OdbcCommandBuilder.RefreshSchema" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RefreshSchema ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void RefreshSchema();" />
+      <MemberSignature Language="F#" Value="member this.RefreshSchema : unit -&gt; unit" Usage="odbcCommandBuilder.RefreshSchema " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SetRowUpdatingHandler">
       <MemberSignature Language="C#" Value="protected override void SetRowUpdatingHandler (System.Data.Common.DbDataAdapter adapter);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void SetRowUpdatingHandler(class System.Data.Common.DbDataAdapter adapter) cil managed" />
@@ -723,6 +852,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -760,6 +890,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -789,6 +920,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
