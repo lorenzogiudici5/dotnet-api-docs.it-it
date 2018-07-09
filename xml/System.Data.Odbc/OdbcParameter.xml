@@ -1,11 +1,11 @@
 <Type Name="OdbcParameter" FullName="System.Data.Odbc.OdbcParameter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="28832a71bec8dc374624438f5981ee69ae576d51" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="86f08384607fc2c28a39dbe1b2a62868cceb6355" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36685892" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37677771" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OdbcParameter : System.Data.Common.DbParameter, ICloneable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OdbcParameter extends System.Data.Common.DbParameter implements class System.Data.IDataParameter, class System.Data.IDbDataParameter, class System.ICloneable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type OdbcParameter = class&#xA;    inherit DbParameter&#xA;    interface ICloneable&#xA;    interface IDbDataParameter&#xA;    interface IDataParameter" />
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -23,6 +25,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbParameter</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.MarshalByRefObject</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -42,7 +45,7 @@
 ## Remarks  
  Ai nomi di parametro non viene applicata la distinzione tra maiuscole e minuscole.  
   
- Quando una query su un database Oracle tramite il Provider Microsoft OLE DB per Oracle (MSDAORA) e il Provider di dati ODBC .NET Framework, usando il `LIKE` clausola per cercare valori nei campi a lunghezza fissa potrebbe non restituire tutte le corrispondenze previste. Il motivo è che quando Oracle corrisponde ai valori dei campi a lunghezza fissa di una `LIKE` clausola, corrisponde all'intera lunghezza della stringa, inclusa la spaziatura interna gli spazi finali. Ad esempio, se una tabella in un database Oracle contiene un campo denominato "Field1" che viene definito come `char(3)`, e si immette il valore "a" in una riga della tabella, il codice seguente non restituirà la riga.  
+ Quando si esegue una query di un database Oracle mediante il Provider Microsoft OLE DB per Oracle (MSDAORA) e il Provider di dati .NET Framework di ODBC, utilizza il `LIKE` clausola per cercare valori nei campi a lunghezza fissa potrebbe non restituire tutte le corrispondenze previste. Il motivo è che quando Oracle corrisponde ai valori per i campi a lunghezza fissa in un `LIKE` clausola, corrisponde all'intera lunghezza della stringa, include eventuali spaziature interne spazi finali. Ad esempio, se una tabella in un database Oracle contiene un campo denominato "Field1" che viene definito come `char(3)`, e si immette il valore "a" in una riga della tabella, il codice seguente non restituirà la riga.  
   
 ```vb  
 Dim queryString As String = "SELECT * FROM Table1 WHERE Field1 LIKE ?"  
@@ -58,14 +61,14 @@ command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a";
 OleDbDataReader reader = command.ExecuteReader();  
 ```  
   
- Ciò si verifica perché Oracle memorizza il valore della colonna "a" (padding "a", con spazi finali, per la lunghezza del campo predefinito pari a 3), che Oracle non gestisce come una corrispondenza per il valore del parametro di "a" nel caso di un `LIKE` confronto di campi a lunghezza fissa.  
+ Ciò si verifica perché Oracle archivia il valore della colonna come "a" (padding "a", con spazi finali, per la lunghezza del campo predefinito di 3), quale Oracle non considera come una corrispondenza per il valore del parametro di "a" nel caso di un `LIKE` confronto dei campi a lunghezza fissa.  
   
- Per risolvere questo problema, aggiungere un carattere jolly di percentuale ("%") al valore del parametro (`"a%"`), oppure utilizzare un SQL `=` confronto invece.  
+ Per risolvere questo problema, aggiungere un carattere jolly di percentuale ("%") al valore del parametro (`"a%"`), oppure usare SQL `=` confronto invece.  
   
    
   
 ## Examples  
- L'esempio seguente crea più istanze di <xref:System.Data.Odbc.OdbcParameter> tramite il <xref:System.Data.Odbc.OdbcParameterCollection> all'interno di <xref:System.Data.Odbc.OdbcDataAdapter>. Questi parametri vengono utilizzati per selezionare dati dall'origine dati e inserire i dati nel <xref:System.Data.DataSet>. Questo esempio si presuppone che un <xref:System.Data.DataSet> e un <xref:System.Data.Odbc.OdbcDataAdapter> sono già stati creati utilizzando la connessione, i comandi e schema appropriato.  
+ L'esempio seguente crea più istanze di <xref:System.Data.Odbc.OdbcParameter> tramite il <xref:System.Data.Odbc.OdbcParameterCollection> all'interno di <xref:System.Data.Odbc.OdbcDataAdapter>. Questi parametri vengono utilizzati per selezionare dati dall'origine dati e inserire i dati nel <xref:System.Data.DataSet>. Questo esempio si presuppone che un <xref:System.Data.DataSet> e un <xref:System.Data.Odbc.OdbcDataAdapter> sono già stati creati con l'appropriato dello schema, i comandi e connessione.  
   
  [!code-csharp[Classic WebData OdbcParameter#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter/VB/source.vb#1)]  
@@ -92,6 +95,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -105,12 +110,12 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il costruttore basa Inizializza tutti i campi in base ai valori predefiniti.  
+ Il costruttore di base Inizializza tutti i campi per i relativi valori predefiniti.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter/VB/source.vb#1)]  
@@ -129,6 +134,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -147,7 +154,7 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter1#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter1/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter1#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter1/VB/source.vb#1)]  
@@ -167,6 +174,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -207,6 +216,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -227,7 +238,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter2#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter2/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter2#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter2/VB/source.vb#1)]  
@@ -247,6 +258,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -269,7 +282,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter3#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter3/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter3#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter3/VB/source.vb#1)]  
@@ -288,6 +301,8 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -296,7 +311,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -328,7 +343,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'esempio seguente crea un' <xref:System.Data.Odbc.OdbcParameter> e visualizza il <xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e visualizza il <xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>.  
   
  [!code-csharp[Classic WebData OdbcParameter.OdbcParameter4#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter4/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.OdbcParameter4#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.OdbcParameter4/VB/source.vb#1)]  
@@ -347,6 +362,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -355,7 +371,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -387,7 +403,7 @@ Parameter = new OdbcParameter("@pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'esempio seguente crea un' <xref:System.Data.Odbc.OdbcParameter> e visualizza il <xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e visualizza il <xref:System.Data.Odbc.OdbcParameter.ParameterName%2A>.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -424,6 +440,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -442,15 +460,15 @@ public void CreateOdbcParameter()
 ## Remarks  
  Il <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> e <xref:System.Data.Odbc.OdbcParameter.DbType%2A> collegate. Pertanto, l'impostazione di <xref:System.Data.Odbc.OdbcParameter.DbType%2A> modifiche il <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> a un tipo di supporto <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>.  
   
- Per un elenco di tipi di dati supportati, vedere appropriata <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> membro. Per altre informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
+ Per un elenco di tipi di dati supportati, vedere appropriato <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> membro. Per altre informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
 > [!NOTE]
->  <xref:System.Data.DbType.Object> non supportata dal Provider di dati Microsoft .NET Framework per ODBC.  
+>  <xref:System.Data.DbType.Object> non è è supportato dal Provider di dati Microsoft .NET Framework per ODBC.  
   
    
   
 ## Examples  
- L'esempio seguente chiama un **Stored Procedure** con tre parametri utilizzando ODBC provider gestito.  
+ L'esempio seguente chiama un **Stored Procedure** con tre parametri utilizzando ODBC gestite del provider.  
   
  [!code-csharp[Classic WebData OdbcParameter.DbType#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.DbType/CS/source.cs#1)]
  [!code-vb[Classic WebData OdbcParameter.DbType#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OdbcParameter.DbType/VB/source.vb#1)]  
@@ -473,6 +491,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -494,14 +514,14 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il <xref:System.Data.ParameterDirection> viene `Output`e l'esecuzione dell'oggetto associato <xref:System.Data.Odbc.OdbcCommand> non restituisce un valore, il <xref:System.Data.Odbc.OdbcParameter> conterrà un valore null. I valori null vengono gestiti tramite il <xref:System.DBNull> classe.  
+ Se il <xref:System.Data.ParameterDirection> viene `Output`e l'esecuzione dell'oggetto associato <xref:System.Data.Odbc.OdbcCommand> non restituisce un valore, il <xref:System.Data.Odbc.OdbcParameter> conterrà un valore null. I valori null vengono gestiti usando il <xref:System.DBNull> classe.  
   
- `Output`, `InputOut`, e `ReturnValue` parametri restituiti chiamando <xref:System.Data.Odbc.OdbcCommand.ExecuteReader%2A> non è accessibile finché non si chiama <xref:System.Data.Odbc.OdbcDataReader.Close%2A> oppure `Dispose` sul <xref:System.Data.Odbc.OdbcDataReader>.  
+ `Output`, `InputOut`, e `ReturnValue` parametri restituiti chiamando <xref:System.Data.Odbc.OdbcCommand.ExecuteReader%2A> non è possibile accedere fino a quando non si chiama <xref:System.Data.Odbc.OdbcDataReader.Close%2A> o `Dispose` sul <xref:System.Data.Odbc.OdbcDataReader>.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateMyProc(connection As OdbcConnection)  
@@ -541,6 +561,8 @@ public void CreateMyProc(OdbcConnection connection)
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -558,12 +580,12 @@ public void CreateMyProc(OdbcConnection connection)
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- I valori null vengono gestiti tramite il <xref:System.DBNull> classe.  
+ I valori null vengono gestiti usando il <xref:System.DBNull> classe.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -596,6 +618,8 @@ public void CreateOdbcParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -625,7 +649,7 @@ public void CreateOdbcParameter()
 ## Remarks  
  Il <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> e <xref:System.Data.Odbc.OdbcParameter.DbType%2A> collegate. Pertanto, l'impostazione di <xref:System.Data.Odbc.OdbcParameter.DbType%2A> modifiche il <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> a un tipo di supporto <xref:System.Data.Odbc.OdbcType>.  
   
- Per un elenco di tipi di dati supportati, vedere appropriata <xref:System.Data.Odbc.OdbcType> membro. Per altre informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
+ Per un elenco di tipi di dati supportati, vedere appropriato <xref:System.Data.Odbc.OdbcType> membro. Per altre informazioni, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
  ]]></format>
         </remarks>
@@ -648,7 +672,7 @@ public void CreateOdbcParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -673,6 +697,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -689,12 +715,12 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Anziché parametri denominati, il Provider ODBC .NET vengono utilizzati i parametri contrassegnati con un punto interrogativo (?) nella sintassi del testo del comando. Gli oggetti parametro il <xref:System.Data.Odbc.OdbcParameterCollection> e i parametri effettivi accettati dalla stored procedure o istruzione SQL con parametri corrispondono tra loro in base all'ordine in cui il <xref:System.Data.Odbc.OdbcParameter> gli oggetti vengono inseriti nella raccolta anziché mediante nome del parametro. I nomi dei parametri possono essere forniti, ma verranno ignorati durante l'associazione di oggetti parametro.  
+ Anziché i parametri denominati, il Provider .NET di ODBC utilizza i parametri posizionali che sono contrassegnati con un punto interrogativo (?) nella sintassi del testo del comando. Gli oggetti parametro la <xref:System.Data.Odbc.OdbcParameterCollection> e i parametri effettivi accettato dalla stored procedure o istruzione SQL con parametri corrispondenti tra loro in base all'ordine in cui il <xref:System.Data.Odbc.OdbcParameter> gli oggetti vengono inseriti nella raccolta anziché mediante nome del parametro. I nomi dei parametri può essere forniti, ma verranno ignorati durante l'associazione di oggetti parametro.  
   
    
   
 ## Examples  
- Nell'esempio seguente si presuppone che l'origine dati contiene un nome di tabella **MyTable** e una stored procedure denominata MyProc che viene definito come:  
+ Nell'esempio seguente si presuppone che l'origine dati ha un nome di tabella **MyTable** e una stored procedure denominata MyProc che viene definito come:  
   
 ```  
 CREATE TABLE MyTable (col1 int, col2 smallmoney, col3 decimal)  
@@ -745,6 +771,8 @@ public void CreateMyProc(OdbcConnection connection)
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -766,17 +794,17 @@ public void CreateMyProc(OdbcConnection connection)
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Impostando questa proprietà su un valore diverso da quello del database dipende dall'implementazione del provider di dati e può restituire dati di troncamento o della funzione round code, un errore.  
+ Impostando questa proprietà su un valore diverso da quello del database dipende dall'implementazione del provider di dati e può restituire un errore codice, troncamento e arrotondamento dati.  
   
  Il <xref:System.Data.Odbc.OdbcParameter.Precision%2A> proprietà influisce solo su parametri di cui <xref:System.Data.Odbc.OdbcType> viene `Decimal` o `Numeric`. Per altri tipi di dati, <xref:System.Data.Odbc.OdbcParameter.Precision%2A> viene ignorato.  
   
 > [!NOTE]
->  Utilizzo di questa proprietà da assegnare forzatamente i dati passati al database non è supportato. Per arrotondare, troncare o in caso contrario, vengono assegnati forzatamente i dati prima di passarlo al database, utilizzare il <xref:System.Math> classe che fa parte il `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.  
+>  Uso di questa proprietà da assegnare i dati passati al database non è supportato. Per arrotondare, troncare o in caso contrario, assegnare i dati prima di passarlo al database, usare il <xref:System.Math> classe che fa parte del `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -811,6 +839,7 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -827,9 +856,9 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è in grado di dedurre il tipo dal relativo valore. Chiamare questo metodo reimposta il parametro in modo che nuovamente possibile dedurre il tipo dal valore passato nel parametro. Chiamare questo metodo influisce su entrambe le <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> proprietà del <xref:System.Data.Odbc.OdbcParameter>.  
+ Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è dedotto dal relativo valore. Chiamare questo metodo reimposta il parametro in modo che anche in questo caso è possibile dedurne il tipo dal valore passato nel parametro. Chiamare questo metodo influisce su entrambe le <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> delle proprietà del <xref:System.Data.Odbc.OdbcParameter>.  
   
- La chiamata <xref:System.Data.Odbc.OdbcParameter.ResetDbType%2A> Reimposta <xref:System.Data.Odbc.OdbcParameter.DbType%2A> sul valore predefinito (String).  
+ La chiamata <xref:System.Data.Odbc.OdbcParameter.ResetDbType%2A> Reimposta <xref:System.Data.Odbc.OdbcParameter.DbType%2A> sul relativo valore predefinito (stringa).  
   
  ]]></format>
         </remarks>
@@ -845,6 +874,7 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -861,7 +891,7 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è in grado di dedurre il tipo dal relativo valore. Chiamare questo metodo reimposta il parametro in modo che nuovamente possibile dedurre il tipo dal valore passato nel parametro. Chiamare questo metodo influisce su entrambe le <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> proprietà del <xref:System.Data.Odbc.OdbcParameter>.  
+ Quando si esegue un comando che include i valori dei parametri, il tipo di un parametro può essere impostato in modo esplicito codice o il parametro è dedotto dal relativo valore. Chiamare questo metodo reimposta il parametro in modo che anche in questo caso è possibile dedurne il tipo dal valore passato nel parametro. Chiamare questo metodo influisce su entrambe le <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> delle proprietà del <xref:System.Data.Odbc.OdbcParameter>.  
   
  ]]></format>
         </remarks>
@@ -880,6 +910,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -903,22 +935,22 @@ public void CreateOdbcParameter()
 ## Remarks  
  Il <xref:System.Data.Odbc.OdbcParameter.Scale%2A> proprietà viene utilizzata solo per i parametri di input di tipo decimali e numerici.  
   
- L'effetto dell'impostazione di questa proprietà su un valore diverso da quello nel database dipende dall'implementazione del provider di dati e può restituire un codice di errore, troncare o arrotondare dati.  
+ L'effetto dell'impostazione di questa proprietà su un valore diverso da quello del database dipende dall'implementazione del provider di dati e può restituire un codice di errore o troncare o arrotondare i dati.  
   
  Il <xref:System.Data.Odbc.OdbcParameter.Scale%2A> proprietà influisce solo su parametri di cui <xref:System.Data.Odbc.OdbcType> viene `Decimal` o `Numeric`. Per altri tipi di dati, <xref:System.Data.Odbc.OdbcParameter.Scale%2A> viene ignorato.  
   
- Quando si utilizza SQL Server Native Client 10 (o versioni successive) per associare un parametro di tipo Decimal, Numeric, VarNumeric, DBDate o DBTimeStamp, è necessario specificare manualmente un valore di scala appropriato.  
+ Quando si usa SQL Server Native Client 10 (o versione successiva) per associare un parametro di tipo DBTimeStamp, DBDate, VarNumeric, numerici o decimali, è necessario specificare manualmente un valore di scala appropriato.  
   
 > [!NOTE]
->  Utilizzo di questa proprietà da assegnare forzatamente i dati passati al database non è supportato. Per arrotondare, troncare o in caso contrario, vengono assegnati forzatamente i dati prima di passarlo al database, utilizzare il <xref:System.Math> classe che fa parte il `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.  
+>  Uso di questa proprietà da assegnare i dati passati al database non è supportato. Per arrotondare, troncare o in caso contrario, assegnare i dati prima di passarlo al database, usare il <xref:System.Math> classe che fa parte del `System` dello spazio dei nomi prima dell'assegnazione di un valore per il parametro `Value` proprietà.  
   
 > [!NOTE]
->  Provider di dati .NET framework inclusi in .NET Framework versione 1.0 non verificare la `scale` di <xref:System.Decimal> i valori dei parametri. In questo modo i dati modificati da inserire nell'origine dati. Se si utilizza .NET Framework versione 1.0, convalidare la proprietà`cale` d`ecimal` valori prima di impostare il valore del parametro. Quando si usa .NET Framework versione 1.1 o versioni successive `scale` i valori che superano il `decimal` scala del parametro può solo essere troncata nella scala, se è il comportamento del driver ODBC sottostante.  
+>  Provider di dati .NET framework inclusi in .NET Framework versione 1.0 non verificare i `scale` di <xref:System.Decimal> i valori dei parametri. Ciò può causare i dati modificati da inserire nell'origine dati. Se si usa .NET Framework versione 1.0, convalidare la proprietà`cale` d`ecimal` valori prima di impostare il valore del parametro. Quando si usa .NET Framework versione 1.1 o versioni successive `scale` i valori che superano il `decimal` scala del parametro può solo essere troncata in larga scala, in questo caso il comportamento del driver ODBC sottostante.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -956,6 +988,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -972,25 +1006,25 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Data.Odbc.OdbcParameter.Size%2A> proprietà viene utilizzata per i tipi binari e di stringa.  
+ Il <xref:System.Data.Odbc.OdbcParameter.Size%2A> proprietà viene utilizzata per i tipi stringa e binari.  
   
- Per i tipi di dati e ANSI della stringa di dati di <xref:System.Data.Odbc.OdbcParameter.Size%2A> proprietà indica il numero di byte. Per i dati stringa Unicode, <xref:System.Data.Odbc.OdbcParameter.Size%2A> si riferisce al numero di caratteri. Il conteggio per le stringhe non include il carattere di terminazione.  
+ Per i tipi di dati e ANSI dati di tipo stringa il <xref:System.Data.Odbc.OdbcParameter.Size%2A> proprietà indica il numero di byte. Per i dati stringa Unicode, <xref:System.Data.Odbc.OdbcParameter.Size%2A> si riferisce al numero di caratteri. Il conteggio per le stringhe non include il carattere di terminazione.  
   
- Per i tipi di dati a lunghezza variabile, `Size` descrive la quantità massima di dati da trasmettere al server. Ad esempio, per un valore di stringa Unicode, `Size` potrebbe essere usato per limitare la quantità di dati inviati al server per i caratteri prima cento.  
+ Per i tipi di dati a lunghezza variabile, `Size` descrive la quantità massima di dati da trasmettere al server. Ad esempio, per un valore di stringa Unicode, `Size` potrebbe essere utilizzato per limitare la quantità di dati inviati al server per i caratteri prima di tutto cento.  
   
- Per i parametri di output e bidirezionale e valori restituiti, è necessario impostare il valore di `Size`. Non è obbligatorio per i parametri di input, e se non esplicitamente impostato, il valore viene dedotto dalle dimensioni effettive del parametro specificato quando viene eseguita un'istruzione con parametri.  
+ Per i parametri output e bidirezionale e valori restituiti, è necessario impostare il valore di `Size`. Non è obbligatorio per i parametri di input e se non esplicitamente impostate, il valore di viene dedotto dalla dimensione effettiva del parametro specificato quando viene eseguita un'istruzione con parametri.  
   
- Il <xref:System.Data.Common.DbParameter.DbType%2A>, <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>, e <xref:System.Data.Odbc.OdbcParameter.Size%2A> delle proprietà di un parametro possono essere dedotto impostando <xref:System.Data.Odbc.OdbcParameter.Value%2A>. Pertanto, non è necessario specificarli. Tuttavia, non sono esposti <xref:System.Data.Odbc.OdbcParameter> le impostazioni delle proprietà. Ad esempio, se le dimensioni del parametro sono stata dedotta, `Size` non contiene un valore dedotto dopo l'esecuzione dell'istruzione.  
+ Il <xref:System.Data.Common.DbParameter.DbType%2A>, <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A>, e <xref:System.Data.Odbc.OdbcParameter.Size%2A> delle proprietà di un parametro possono essere dedotto impostando <xref:System.Data.Odbc.OdbcParameter.Value%2A>. Pertanto, non è necessario specificarli. Tuttavia, non sono esposti <xref:System.Data.Odbc.OdbcParameter> le impostazioni delle proprietà. Ad esempio, se le dimensioni del parametro sono stata inferita, `Size` non contiene un valore dedotto dopo l'esecuzione dell'istruzione.  
   
 > [!NOTE]
 >  Per un `OdbcParameter` con un <xref:System.Data.Odbc.OdbcParameter.Direction%2A> dei `ParameterDirection.Output`, `ParameterDirection.InputOutput`, o `ParameterDirection.ReturnValue`, viene generata un'eccezione quando il comando viene eseguito se la dimensione del valore restituito dall'origine dati supera specificato `Size` del <xref:System.Data.Odbc.OdbcParameter>.  
   
- Per i tipi di dati a lunghezza fissa, il valore di `Size` viene ignorato. Può essere recuperato a scopo informativo e restituisce la quantità massima di byte utilizzata dal provider durante la trasmissione il valore del parametro per il server.  
+ Per i tipi di dati a lunghezza fissa, il valore di `Size` viene ignorato. Può essere recuperato a scopo informativo e restituisce la quantità massima di byte utilizzata dal provider durante la trasmissione del valore del parametro per il server.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1030,6 +1064,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1046,14 +1082,14 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si <xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A> è impostata su qualsiasi elemento diverso da una stringa vuota, il valore del parametro viene recuperato dalla colonna con il `SourceColumn` nome. Se <xref:System.Data.Odbc.OdbcParameter.Direction%2A> è impostata su `Input`, il valore viene recuperato dal <xref:System.Data.DataSet>. Se `Direction` è impostata su `Output`, il valore viene recuperato dall'origine dati. Un `Direction` di `InputOutput` è una combinazione di entrambi.  
+ Quando <xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A> è impostata su un valore qualsiasi diverso da una stringa vuota, il valore del parametro viene recuperato dalla colonna con il `SourceColumn` nome. Se <xref:System.Data.Odbc.OdbcParameter.Direction%2A> è impostata su `Input`, il valore viene recuperato dal <xref:System.Data.DataSet>. Se `Direction` è impostata su `Output`, il valore viene recuperato dall'origine dati. Oggetto `Direction` di `InputOutput` è una combinazione di entrambi.  
   
- Per ulteriori informazioni su come usare il <xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A> proprietà, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md) e [l'aggiornamento di origini dati con DataAdapter](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).  
+ Per altre informazioni su come usare il <xref:System.Data.Odbc.OdbcParameter.SourceColumn%2A> proprietà, vedere [parametri DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md) e [aggiornamento delle origini dati con DataAdapter](~/docs/framework/data/adonet/updating-data-sources-with-dataadapters.md).  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1084,6 +1120,7 @@ public void CreateOdbcParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1101,22 +1138,22 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> viene utilizzato il <xref:System.Data.Common.DbCommandBuilder> per generare correttamente i comandi di aggiornamento quando si lavora con le colonne che ammettono valori null. In generale, utilizzare <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> è limitato agli sviluppatori che eredita da <xref:System.Data.Common.DbCommandBuilder>.  
+ <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> viene usato per il <xref:System.Data.Common.DbCommandBuilder> per generare correttamente i comandi di aggiornamento quando si lavora con le colonne nullable. In generale, utilizzare <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> è limitata agli sviluppatori che eredita da <xref:System.Data.Common.DbCommandBuilder>.  
   
- <xref:System.Data.Common.DbCommandBuilder> utilizza questa proprietà per determinare se la colonna di origine ammette valori null e questa proprietà viene impostata su `true` se è ammette valori null, e `false` in caso contrario. Quando si <xref:System.Data.Common.DbCommandBuilder> è genera l'istruzione Update, esamina il <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> per ogni parametro. Se la proprietà `true`, <xref:System.Data.Common.DbCommandBuilder> clausole WHERE come nell'esempio seguente genera l'errore. In questa espressione di query, "FieldName" rappresenta il nome del campo:  
+ <xref:System.Data.Common.DbCommandBuilder> utilizza questa proprietà per determinare se la colonna di origine ammette valori null e la proprietà viene impostata `true` se è nullable, e `false` in caso contrario. Quando <xref:System.Data.Common.DbCommandBuilder> viene genera l'istruzione Update, esamina il <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> per ogni parametro. Se la proprietà `true`, <xref:System.Data.Common.DbCommandBuilder> genera una clausola WHERE simile all'esempio seguente. In questa espressione di query, "FieldName" rappresenta il nome del campo:  
   
 ```  
 ((@IsNull_FieldName = 1 AND FieldName IS NULL) OR   
   (FieldName = @Original_FieldName))  
 ```  
   
- Se <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> per il campo è false, <xref:System.Data.Common.DbCommandBuilder> genera la seguente clausola WHERE:  
+ Se <xref:System.Data.Odbc.OdbcParameter.SourceColumnNullMapping%2A> per il campo è impostato su false, <xref:System.Data.Common.DbCommandBuilder> genera la seguente clausola WHERE:  
   
 ```  
 FieldName = @OriginalFieldName  
 ```  
   
- Inoltre, @IsNull_FieldName contiene 1 se il campo di origine contiene valori null e 0 se non esiste. Questo meccanismo consente un'ottimizzazione delle prestazioni in SQL Server e fornisce un codice comune per più provider.  
+ Inoltre, @IsNull_FieldName contiene 1 se il campo di origine contiene null, 0 se non esiste. Questo meccanismo consente di ottimizzare le prestazioni in SQL Server e fornisce un codice comune per più provider.  
   
  ]]></format>
         </remarks>
@@ -1135,6 +1172,8 @@ FieldName = @OriginalFieldName
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1151,14 +1190,14 @@ FieldName = @OriginalFieldName
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `SourceVersion` viene utilizzato da <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A> durante un <xref:System.Data.Common.DbDataAdapter.Update*> operazione per determinare se il valore del parametro è impostato su ricerca corrente o originale. In questo modo le chiavi primarie da aggiornare.  
+ Il `SourceVersion` viene utilizzato dagli <xref:System.Data.Odbc.OdbcDataAdapter.UpdateCommand%2A> durante un <xref:System.Data.Common.DbDataAdapter.Update*> operazione per determinare se il valore del parametro è impostato su originale o corrente. In questo modo le chiavi primarie da aggiornare.  
   
- Questa proprietà è impostata per la versione del <xref:System.Data.DataRow> utilizzato da uno degli identificatori di `Item` proprietà (`DataRow` indicizzatore), o il <xref:System.Data.DataRow.GetChildRows%2A> (metodo).  
+ Questa proprietà è impostata per la versione del <xref:System.Data.DataRow> usato in uno dei modi il `Item` proprietà (`DataRow` indicizzatore), o <xref:System.Data.DataRow.GetChildRows%2A> (metodo).  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
@@ -1193,6 +1232,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1226,6 +1267,8 @@ public void CreateOdbcParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1255,6 +1298,8 @@ public void CreateOdbcParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1279,20 +1324,20 @@ public void CreateOdbcParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per i parametri di input, il valore è associato il <xref:System.Data.Odbc.OdbcCommand> che viene inviato al server. Per l'output e i parametri di valore restituito, il valore viene impostato al completamento dei <xref:System.Data.Odbc.OdbcCommand> e dopo il <xref:System.Data.Odbc.OdbcDataReader> viene chiuso.  
+ Per i parametri di input, il valore è associato ai <xref:System.Data.Odbc.OdbcCommand> che viene inviato al server. Per l'output e i parametri di valore restituito, il valore è impostato il completamento dei <xref:System.Data.Odbc.OdbcCommand> e dopo il <xref:System.Data.Odbc.OdbcDataReader> viene chiuso.  
   
- Quando si invia un valore di parametro null al server, l'utente deve specificare <xref:System.DBNull>, non è null. Un valore null nel sistema è un oggetto vuoto senza alcun valore. <xref:System.DBNull> viene usato per rappresentare i valori null. Se il parametro viene utilizzato per chiamare una stored procedure con parametri che hanno valori predefiniti, l'impostazione <xref:System.Data.Odbc.OdbcParameter.Value%2A> cause null il valore predefinito da utilizzare.  
+ Quando si invia un valore di parametro null al server, l'utente deve specificare <xref:System.DBNull>, non null. Un valore null nel sistema è un oggetto vuoto che non ha alcun valore. <xref:System.DBNull> viene usato per rappresentare i valori null. Se il parametro viene utilizzato per chiamare una stored procedure con parametri con valori predefiniti, l'impostazione <xref:System.Data.Odbc.OdbcParameter.Value%2A> cause null il valore predefinito da utilizzare.  
   
- Se l'applicazione specifica il tipo di database, il valore associato viene convertito al tipo quando il provider invia i dati al server. Il provider tenta di convertire qualsiasi tipo di valore se supporta il <xref:System.IConvertible> interfaccia. Se il tipo specificato non è compatibile con il valore, si potrebbe errori di conversione.  
+ Se l'applicazione specifica il tipo di database, il valore associato viene convertito al tipo quando il provider invia i dati al server. Il provider prova a convertire qualsiasi tipo di valore se supporta il <xref:System.IConvertible> interfaccia. Se il tipo specificato non è compatibile con il valore, possono verificarsi errori di conversione.  
   
- Sia il <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> possono essere dedotte impostando <xref:System.Data.Odbc.OdbcParameter.Value%2A>. Se applicabile, le dimensioni, precisione e scala è dedotti dal <xref:System.Data.Odbc.OdbcParameter.Value%2A> quando viene eseguita l'istruzione con parametri. Tuttavia, non vengano esposti i valori derivati all'utente.  
+ Sia la <xref:System.Data.Odbc.OdbcParameter.DbType%2A> e <xref:System.Data.Odbc.OdbcParameter.OdbcType%2A> possono essere dedotte impostando <xref:System.Data.Odbc.OdbcParameter.Value%2A>. Se applicabile, le dimensioni, precisione e scala viene anche dedotto da <xref:System.Data.Odbc.OdbcParameter.Value%2A> quando viene eseguita l'istruzione con parametri. Tuttavia, i valori dedotti vengono esposte all'utente.  
   
- Il <xref:System.Data.Odbc.OdbcParameter.Value%2A> proprietà verrà sovrascritti dal `Update` metodo.  
+ Il <xref:System.Data.Odbc.OdbcParameter.Value%2A> proprietà viene sovrascritto dal `Update` (metodo).  
   
    
   
 ## Examples  
- Nell'esempio seguente viene creato un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
+ L'esempio seguente crea un <xref:System.Data.Odbc.OdbcParameter> e vengono impostate alcune delle relative proprietà.  
   
 ```vb  
 Public Sub CreateOdbcParameter()  
