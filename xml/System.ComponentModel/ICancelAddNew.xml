@@ -1,11 +1,11 @@
 <Type Name="ICancelAddNew" FullName="System.ComponentModel.ICancelAddNew">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cd2446cbe765291b3c6b7f8c8df33e2f265e2481" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4a90ef799e4d00c36c06e1d73fd90e9c03baeab9" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36703042" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37692956" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ICancelAddNew" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ICancelAddNew" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ICancelAddNew = interface" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,22 +35,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.ComponentModel.ICancelAddNew> interfaccia consente a una raccolta per aggiungere un nuovo elemento in modo estensibile. Il nuovo elemento può successivamente eseguire il commit o rollback. Il <xref:System.ComponentModel.IBindingList.AddNew%2A> metodo della raccolta viene utilizzato per aggiungere temporaneamente l'elemento, che viene successivamente in transazioni tramite le operazioni seguenti:  
+ Il <xref:System.ComponentModel.ICancelAddNew> interfaccia consente a una raccolta aggiungere un nuovo elemento in una modalità estendibile. Il nuovo elemento può successivamente eseguire il commit o rollback. Il <xref:System.ComponentModel.IBindingList.AddNew%2A> metodo della raccolta viene utilizzato per aggiungere temporaneamente l'elemento, che viene successivamente in transazioni tramite le operazioni seguenti:  
   
 -   Il <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> metodo eseguirà il commit in modo esplicito l'aggiunta in sospeso.  
   
--   L'esecuzione di un'altra operazione di raccolta, ad esempio un inserimento, rimozione o spostamento eseguirà il commit in modo implicito l'aggiunta in sospeso.  
+-   Esecuzione di un'altra operazione di raccolta, ad esempio un inserimento, rimozione o spostamento eseguirà il commit in modo implicito l'aggiunta in sospeso.  
   
--   Il <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> metodo eseguirà il rollback dell'aggiunta in sospeso se non è già stato eseguito il commit.  
+-   Il <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> metodo eseguirà il rollback dell'operazione di aggiunta se non è già stato eseguito il commit.  
   
 > [!NOTE]
->  In alcuni scenari, ad esempio Windows Form data binding complesso, è possibile che venga visualizzato insieme <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> o <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> chiama per elementi diversi dall'elemento appena aggiunto. (Ogni elemento è in genere è una riga in una visualizzazione di dati). Ignorare queste chiamate; annullare o eseguire il commit del nuovo elemento solo quando viene specificato l'indice dell'elemento.  
+>  In alcuni scenari, ad esempio Windows Form data binding complesso, è possibile che venga visualizzato l'insieme <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> o <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> chiama per elementi diversi dall'elemento appena aggiunto. (Ogni elemento è in genere è una riga in una vista dati). Ignora queste chiamate; annullare o eseguire il commit del nuovo elemento solo quando viene specificato l'indice dell'elemento.  
   
- Esistono due modelli che consente l'aggiunta transazionale di un elemento a una raccolta associati a dati:  
+ Sono disponibili due modelli che consente l'aggiunta di transazionale di un elemento a una raccolta con associazione a dati:  
   
--   Il modello precedente si basa direttamente su una raccolta che implementa il <xref:System.ComponentModel.IBindingList> interfaccia ed è associato ai dati direttamente tramite il <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe. Il <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, e <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> metodi il <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe responsabile per il supporto transazionale per l'aggiunta di nuovi elementi. Tuttavia, questa funzionalità dipende dagli elementi che supportano il comportamento transazionale tramite il <xref:System.ComponentModel.IEditableObject> interfaccia. Se gli elementi non supportano questa interfaccia, sempre l'elemento verrà aggiunto all'elenco, indipendentemente dalle chiamate successive a <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
+-   Il modello precedente si basa direttamente su una raccolta che implementa il <xref:System.ComponentModel.IBindingList> interfaccia ed è associato ai dati direttamente tramite il <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe. Il <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, e <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> metodi del <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe sono responsabili per il supporto transazionale per l'aggiunta di nuovi elementi. Tuttavia, questa funzionalità dipende dagli elementi che supportano il comportamento transazionale tramite il <xref:System.ComponentModel.IEditableObject> interfaccia. Se gli elementi non supportano questa interfaccia, sempre l'elemento verrà aggiunto all'elenco, indipendentemente dalle chiamate successive a <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
   
--   Il modello più recente supporta uno scenario di associazione di dati più affidabile tramite il tipo generico <xref:System.ComponentModel.BindingList%601> classe che implementa le <xref:System.ComponentModel.IBindingList> e <xref:System.ComponentModel.ICancelAddNew> interfacce. In questo caso, il supporto transazionale è gestito dal <xref:System.ComponentModel.BindingList%601> raccolta direttamente.  
+-   Il modello più recente supporta uno scenario di associazione dati più affidabile tramite il tipo generico <xref:System.ComponentModel.BindingList%601> classe che implementa le <xref:System.ComponentModel.IBindingList> e <xref:System.ComponentModel.ICancelAddNew> interfacce. In questo caso, il supporto transazionale viene gestito dal <xref:System.ComponentModel.BindingList%601> raccolta direttamente.  
   
  ]]></format>
     </remarks>
@@ -69,6 +70,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -94,7 +96,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> metodo esegue il rollback di un'aggiunta in sospeso (<xref:System.ComponentModel.IBindingList.AddNew%2A>) di un elemento aggiunto in precedenza alla raccolta nella posizione `itemIndex`. Il parametro di indice è necessario perché diversi nuovi elementi possono essere contemporaneamente in sospeso.  
+ Il <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> metodo esegue il rollback di un'operazione di aggiunta (<xref:System.ComponentModel.IBindingList.AddNew%2A>) di un elemento aggiunto in precedenza alla raccolta nella posizione `itemIndex`. Il parametro di indice è necessario perché alcuni nuovi elementi possono essere contemporaneamente in sospeso.  
   
  ]]></format>
         </remarks>
@@ -113,6 +115,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -138,7 +141,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> viene eseguito il commit aggiunta in sospeso (<xref:System.ComponentModel.IBindingList.AddNew%2A>) di un elemento aggiunto in precedenza alla raccolta nella posizione `itemIndex`. Il parametro di indice è necessario perché diversi nuovi elementi possono essere contemporaneamente in sospeso.  
+ Il <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> esegue il commit di un'operazione di aggiunta (<xref:System.ComponentModel.IBindingList.AddNew%2A>) di un elemento aggiunto in precedenza alla raccolta nella posizione `itemIndex`. Il parametro di indice è necessario perché alcuni nuovi elementi possono essere contemporaneamente in sospeso.  
   
  ]]></format>
         </remarks>
