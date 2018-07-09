@@ -1,11 +1,11 @@
 <Type Name="SystemEvents" FullName="Microsoft.Win32.SystemEvents">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c517974716d9aca4ce942d8903397dfbf421327a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="457c13d6502a241ce92550145818bf19215321e1" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36657139" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37707353" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SystemEvents" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SystemEvents extends System.Object" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type SystemEvents = class" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -29,10 +31,10 @@
 ## Remarks  
  Il <xref:Microsoft.Win32.SystemEvents> classe offre la possibilità di rispondere a specifici tipi di eventi di sistema.  
   
- Quando viene generato un evento di sistema, i delegati associati all'evento vengono chiamati tramite il thread che esegue il monitoraggio per gli eventi di sistema. Pertanto, è consigliabile apportare tutte le chiamate dai gestori eventi thread-safe. Se è necessario chiamare un evento di sistema che non è esposta come un membro di questa classe, è possibile utilizzare il <xref:Microsoft.Win32.SystemEvents.InvokeOnEventsThread%2A> metodo.  
+ Quando viene generato un evento di sistema, tutti i delegati associati all'evento vengono chiamati tramite il thread che esegue il monitoraggio per gli eventi di sistema. Pertanto, è necessario effettuare tutte le chiamate da gestori di eventi thread-safe. Se è necessario chiamare un evento di sistema che non è esposta come un membro di questa classe, è possibile usare il <xref:Microsoft.Win32.SystemEvents.InvokeOnEventsThread%2A> (metodo).  
   
 > [!CAUTION]
->  Non eseguire l'elaborazione richiede molto tempo sul thread che genera un gestore di eventi di sistema perché potrebbero impedire il funzionamento di altre applicazioni.  
+>  Non eseguire l'elaborazione richiede molto tempo sul thread che genera un gestore di eventi di sistema, perché potrebbero impedire il funzionamento di altre applicazioni.  
   
 > [!NOTE]
 >  Alcuni eventi di sistema potrebbero non essere generati in [!INCLUDE[windowsver](~/includes/windowsver-md.md)]. Verificare che l'applicazione funzioni come previsto in [!INCLUDE[windowsver](~/includes/windowsver-md.md)].  
@@ -40,11 +42,11 @@
    
   
 ## Examples  
- Questa sezione sono riportati due esempi. Nel primo esempio viene illustrato come utilizzare gli eventi di sistema in un'applicazione normale e il secondo esempio viene illustrato come utilizzare gli eventi di sistema in un servizio Windows.  
+ In questa sezione sono riportati due esempi. Il primo esempio illustra come usare gli eventi di sistema in un'applicazione ordinaria e nel secondo esempio viene illustrato come utilizzare gli eventi di sistema in un servizio di Windows.  
   
  **Esempio 1**  
   
- Esempio di codice seguente registra l'interesse in alcuni eventi di sistema e quindi attende che uno di questi eventi si verifichi. L'output visualizzato si verifica se l'utente modifica la risoluzione dello schermo.  
+ Il codice seguente registra l'interesse dimostrato in alcuni eventi di sistema e quindi attende che uno di questi eventi si verificano. L'output illustrato si verifica se l'utente modifica la risoluzione dello schermo.  
   
  [!code-cpp[SystemEvents#1](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#1)]
  [!code-csharp[SystemEvents#1](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#1)]
@@ -52,23 +54,23 @@
   
  **Esempio 2**  
   
- Esempio di codice seguente viene illustrato un servizio Windows molto semplice che gestisce il <xref:Microsoft.Win32.SystemEvents.TimeChanged> e <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanged> eventi. L'esempio include un servizio denominato `SimpleService`, un form denominato `HiddenForm`e un programma di installazione. Il form fornisce il ciclo di messaggi richiesto da eventi di sistema.  
+ L'esempio di codice seguente illustra un servizio Windows molto semplice che gestisce il <xref:Microsoft.Win32.SystemEvents.TimeChanged> e <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanged> eventi. L'esempio include un servizio denominato `SimpleService`, un form denominato `HiddenForm`e un programma di installazione. Il form fornisce il ciclo di messaggi richiesto da eventi di sistema.  
   
 > [!NOTE]
->  Servizi non sono in cicli di messaggi, a meno che non possono interagire con il desktop. Se il ciclo di messaggi non viene fornito da un form nascosto, come in questo esempio, il servizio deve essere eseguito con l'account sistema locale e per consentire l'interazione con il desktop è richiesto l'intervento manuale. Vale a dire, l'amministratore deve controllare manualmente i **Consenti al servizio di interagire col desktop** casella di controllo il **Accedi** scheda della finestra di dialogo proprietà del servizio. In tal caso, viene fornito automaticamente un ciclo di messaggi. Questa opzione è disponibile solo quando il servizio viene eseguito con l'account sistema locale. L'interazione con il desktop non può essere abilitata a livello di codice.  
+>  Servizi non dispongono di cicli di messaggi, a meno che non possono interagire con il desktop. Se il ciclo di messaggi non viene fornito da un form nascosto, come in questo esempio, il servizio deve essere eseguito con l'account sistema locale e l'intervento manuale è necessaria per consentire l'interazione con il desktop. Vale a dire, l'amministratore deve verificare manualmente la **Consenti il servizio di interagire col desktop** casella di controllo la **Accedi** scheda della finestra di dialogo proprietà del servizio. In tal caso, viene fornito automaticamente un ciclo di messaggi. Questa opzione è disponibile solo quando il servizio viene eseguito con l'account sistema locale. L'interazione con il desktop non può essere abilitata a livello di codice.  
   
- Il servizio in questo esempio viene avviato un thread che esegue un'istanza di `HiddenForm`. Gli eventi sono agganciati e gestiti nel modulo. Gli eventi devono essere associati nell'evento di caricamento del modulo, per assicurarsi che il form sia stato completamente caricato per primo. in caso contrario, gli eventi non verrà generati.  
+ Il servizio in questo esempio viene avviato un thread che esegue un'istanza di `HiddenForm`. Gli eventi sono collegati e gestiti nel modulo. Gli eventi devono essere agganciati dell'evento load del form, assicurarsi che il form è completamente caricato per primo. in caso contrario, gli eventi non verrà generati.  
   
 > [!NOTE]
->  Nell'esempio viene tutto il codice necessario, incluso il codice di inizializzazione di form in genere generato dalle finestre di progettazione di Visual Studio. Se si sviluppa il servizio in Visual Studio, è possibile omettere la seconda classe parziale e usare la **delle proprietà** finestra per impostare l'altezza e la larghezza del form nascosto a zero, lo stile del bordo per <xref:System.Windows.Forms.FormBorderStyle.None?displayProperty=nameWithType>e lo stato della finestra per <xref:System.Windows.Forms.FormWindowState.Minimized?displayProperty=nameWithType>.  
+>  L'esempio fornisce tutto il codice necessario, incluso il codice di inizializzazione di form in genere generato dalle finestre di progettazione di Visual Studio. Se si sviluppa il servizio in Visual Studio, è possibile omettere la seconda classe parziale e usare la **delle proprietà** per impostare l'altezza e la larghezza del form nascosto su zero, lo stile del bordo di finestra <xref:System.Windows.Forms.FormBorderStyle.None?displayProperty=nameWithType>e lo stato della finestra di <xref:System.Windows.Forms.FormWindowState.Minimized?displayProperty=nameWithType>.  
   
  Per eseguire l'esempio:  
   
-1.  Compilare il codice dalla riga di comando. Il nome utilizzato per il file di origine non è importante.  
+1.  Compilare il codice dalla riga di comando. Il nome usato per il file di origine non è importante.  
   
-2.  Installare il servizio dalla riga di comando mediante il [Installutil.exe (strumento programma di installazione)](~/docs/framework/tools/installutil-exe-installer-tool.md) utilità. Ad esempio `InstallUtil example.exe` se il nome del file di origine `example.cs` o `example.vb`. È necessario essere un amministratore per installare il servizio.  
+2.  Installare il servizio dalla riga di comando tramite il [Installutil.exe (strumento Installer)](~/docs/framework/tools/installutil-exe-installer-tool.md) utilità. Ad esempio, `InstallUtil example.exe` se il nome del file di origine `example.cs` o `example.vb`. È necessario essere un amministratore per installare il servizio.  
   
-3.  Utilizzare la console servizi per avviare il servizio.  
+3.  Usare la console servizi per avviare il servizio.  
   
 4.  Modificare l'ora di sistema o modificare le preferenze dell'utente, ad esempio le proprietà del mouse.  
   
@@ -76,7 +78,7 @@
   
 6.  Utilizzare la console servizi per arrestare il servizio.  
   
-7.  Disinstallare il servizio dalla riga di comando utilizzando il `/u` opzione. Ad esempio `InstallUtil /u example.exe`.  
+7.  Disinstallare il servizio dalla riga di comando usando il `/u` opzione. Ad esempio `InstallUtil /u example.exe`.  
   
  [!code-csharp[ManagedWindowsService#1](~/samples/snippets/csharp/VS_Snippets_CLR/ManagedWindowsService/cs/source.cs#1)]
  [!code-vb[ManagedWindowsService#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ManagedWindowsService/VB/source.vb#1)]  
@@ -103,6 +105,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -131,6 +135,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -149,12 +155,12 @@
 ## Remarks  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
    
   
 ## Examples  
- Esempio di codice riportato di seguito viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.DisplaySettingsChanged> evento. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
+ Esempio di codice seguente viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.DisplaySettingsChanged> evento. Questo esempio di codice è parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]
@@ -177,6 +183,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -195,7 +202,7 @@
 ## Remarks  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -214,6 +221,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -230,10 +239,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo evento viene generato quando il thread in attesa di eventi di sistema sta per essere terminato. I delegati di eventi di sistema vengono richiamati tramite il thread in attesa di eventi di sistema.  
+ Questo evento viene generato quando il thread che attende gli eventi di sistema sta per essere terminato. I delegati di eventi di sistema vengono richiamati utilizzando il thread che attende gli eventi di sistema.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -251,6 +260,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -269,7 +280,7 @@
 ## Remarks  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -287,6 +298,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -307,9 +320,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È possibile utilizzare questo metodo ogni volta che è necessario gestire un evento di sistema che non è esposta in caso contrario, per il <xref:Microsoft.Win32.SystemEvents> classe.  
+ È possibile usare questo metodo ogni volta che è necessario gestire un evento di sistema che non sono esposti in caso contrario, per il <xref:Microsoft.Win32.SystemEvents> classe.  
   
- Quando si chiama questo metodo, il delegato specificato verrà richiamato dal thread nell'applicazione viene utilizzata per elaborare gli eventi di sistema.  
+ Quando si chiama questo metodo, il delegato specificato verrà richiamato dal thread che l'applicazione usa per elaborare gli eventi di sistema.  
   
  ]]></format>
         </remarks>
@@ -327,6 +340,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -353,6 +368,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -378,13 +395,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo evento esegue il wrapping del messaggio WM_COMPACTING. Questo messaggio viene inviato a tutte le finestre di primo livello quando il sistema rileva più di 12,5% dell'ora di sistema in un intervallo di tempo da 30 a 60 secondi viene impiegato per la compattazione della memoria. Ciò indica che la memoria di sistema è bassa.  
+ Questo evento di esegue il wrapping del messaggio WM_COMPACTING. Questo messaggio viene inviato a tutte le finestre di primo livello quando il sistema rileva 12,5 percento dell'ora di sistema in un intervallo di 30 a 60 secondi viene impiegato per la compattazione della memoria. Ciò indica che la memoria di sistema è bassa.  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -405,6 +422,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -423,15 +442,15 @@
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
    
   
 ## Examples  
- Esempio di codice riportato di seguito viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.PaletteChanged> evento. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
+ Esempio di codice seguente viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.PaletteChanged> evento. Questo esempio di codice è parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]
@@ -453,6 +472,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -471,10 +492,10 @@
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -495,6 +516,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -513,10 +536,10 @@
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -537,6 +560,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -553,11 +578,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si tratta di un evento annullabile. Impostazione di <xref:Microsoft.Win32.SessionEndingEventArgs.Cancel%2A> proprietà `true` richiede che la sessione rimane in esecuzione. Non fornisce alcuna garanzia che non termina la sessione.  
+ Si tratta di un evento annullabile. Impostando il <xref:Microsoft.Win32.SessionEndingEventArgs.Cancel%2A> proprietà `true` richiederà che la sessione rimane in esecuzione. Non fornisce alcuna garanzia che non terminerà la sessione.  
   
- Se si utilizza <xref:Microsoft.Win32.SystemEvents.SessionEnding> in un Windows form per rilevare un disconnessione dal sistema o un riavvio, non è deterministico per decidere se il <xref:System.Windows.Forms.Form.Closing> prima di questo evento viene generato l'evento.  
+ Se si usa <xref:Microsoft.Win32.SystemEvents.SessionEnding> in un modulo di Windows per rilevare un disconnessione dal sistema o un riavvio, non è possibile deterministica per decidere se il <xref:System.Windows.Forms.Form.Closing> prima di questo evento viene generato l'evento.  
   
- Se si desidera eseguire alcune attività speciale prima <xref:System.Windows.Forms.Form.Closing> è generato, è necessario assicurarsi che <xref:Microsoft.Win32.SystemEvents.SessionEnding> viene attivato prima <xref:System.Windows.Forms.Form.Closing>. A tale scopo, è necessario intercettare il `WM_QUERYENDSESSION` del modulo eseguendo l'override di `WndProc` (funzione).  In questo esempio viene illustrato come eseguire questa operazione.  
+ Se si desidera eseguire alcune attività speciali prima <xref:System.Windows.Forms.Form.Closing> è attivato, è necessario assicurarsi che <xref:Microsoft.Win32.SystemEvents.SessionEnding> viene attivato prima <xref:System.Windows.Forms.Form.Closing>. A tale scopo, è necessario intercettare la `WM_QUERYENDSESSION` del modulo eseguendo l'override di `WndProc` (funzione).  In questo esempio viene illustrato come eseguire questa operazione.  
   
 ```vb  
 Private Shared WM_QUERYENDSESSION As Integer = &H11  
@@ -626,13 +651,13 @@ private void Form1_Closing(
 ```  
   
 > [!IMPORTANT]
->  Applicazioni console non generano il <xref:Microsoft.Win32.SystemEvents.SessionEnding> evento.  
+>  Applicazioni console non generano la <xref:Microsoft.Win32.SystemEvents.SessionEnding> evento.  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -653,6 +678,7 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -671,10 +697,10 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -693,6 +719,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -711,10 +739,10 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -733,6 +761,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -746,10 +776,10 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -769,6 +799,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -787,10 +819,10 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
  ]]></format>
         </remarks>
@@ -811,6 +843,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -829,15 +863,15 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene utilizzato un form nascosto o il message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Questo evento viene generato solo se è in esecuzione il message pump. In un servizio di Windows, a meno che non viene usato un form nascosto o message pump avviato manualmente, questo evento non essere generato. Per un esempio di codice che illustra come gestire gli eventi di sistema tramite un form nascosto in un servizio di Windows, vedere il <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
->  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stata eliminata o perdite di memoria, verranno generato.  
+>  Poiché si tratta di un evento statico, è necessario disconnettere i gestori eventi quando l'applicazione è stato eliminato o causerà perdite di memoria.  
   
    
   
 ## Examples  
- Esempio di codice riportato di seguito viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanging> evento. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
+ Esempio di codice seguente viene illustrato come monitorare la <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanging> evento. Questo esempio di codice è parte di un esempio più esaustivo disponibile per il <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]
