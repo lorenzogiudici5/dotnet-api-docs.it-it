@@ -1,11 +1,11 @@
 <Type Name="TransferMode" FullName="System.ServiceModel.TransferMode">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fd27ea071ce2cdc686ce977d83a9516b7b04aeb8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="eb3a0b4f3d0f2b79019682d8846a12c4a818ab0a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36410297" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37611750" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum TransferMode" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed TransferMode extends System.Enum" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -39,7 +40,7 @@
   
 -   Trasferimento con flusso: in questa modalità vengono memorizzate nel buffer solo le intestazioni dei messaggi e il corpo del messaggio viene esposto come un flusso da cui è possibile leggere parti più piccole per volta.  
   
- Impostazione della modalità di trasferimento su Streamed consente la comunicazione con flusso in entrambe le direzioni. L'impostazione della modalità di trasferimento StreamedRequest o StreamedResponse consente la comunicazione con flusso soltanto nella direzione scelta.  
+ Impostazione della modalità di trasferimento su Streamed consente comunicazione con flusso in entrambe le direzioni. Impostazione della modalità di trasferimento su StreamedRequest o StreamedResponse consente comunicazione con flusso soltanto nella direzione scelta.  
   
  I trasferimenti con flusso possono migliorare la scalabilità di un servizio eliminando l'esigenza di utilizzare buffer di memoria di grandi dimensioni. La capacità di migliorare effettivamente la scalabilità mediante l'impostazione della modalità di trasferimento con flusso dipende di fatto dalle dimensioni dei messaggi da trasferire. I miglioramenti di scalabilità dovrebbero essere più evidenti nel caso di messaggi di grandi dimensioni che utilizzano trasferimenti con flusso anziché con memorizzazione nel buffer.  
   
@@ -49,20 +50,20 @@
   
  La scelta della modalità di trasferimento da utilizzare viene effettuata localmente dall'endpoint per i trasporti HTTP. Per i trasporti HTTP, la modalità di trasferimento non si propaga attraverso una connessione o ai server proxy e agli altri intermediari. L'impostazione della modalità di trasferimento non si riflette nella descrizione del contratto del servizio. Dopo aver generato un proxy per un servizio, è consentito, ma non obbligatorio, modificare il file di configurazione dei servizi per cui si desidera utilizzare il trasferimento con flusso per impostare la modalità di trasferimento. Per i trasporti TCP e named pipe, la modalità di trasferimento viene propagata come asserzione di criteri.  
   
- Si utilizza la modalità di trasferimento Streamed, il runtime WCF applicare alcune restrizioni.  
+ Usando la modalità di trasferimento Streamed fa sì che il runtime di WCF applicare alcune restrizioni.  
   
 -   Le operazioni che si verificano in un trasporto con flusso possono presentare un contratto avente al massimo un solo parametro di input e/o di output a livello del modello di programmazione. Questo parametro corrisponde al corpo intero del messaggio e deve essere un messaggio <xref:System.ServiceModel.Channels.Message>, un sottotipo di <xref:System.IO.Stream> oppure deve implementare l'interfaccia <xref:System.Xml.Serialization.IXmlSerializable>. Definire un valore restituito di un'operazione equivale a definire un parametro di output.  
   
--   Alcune funzionalità WCF, ad esempio la messaggistica affidabile e la sicurezza a livello di messaggio SOAP utilizzano memorizzazione nel buffer i messaggi per le trasmissioni. L'utilizzo di queste funzionalità può ridurre o eliminare del tutto i vantaggi in termini di prestazioni ottenuti mediante i flussi. Per proteggere un trasporto con flusso, utilizzare soltanto la sicurezza a livello di trasporto oppure utilizzare una sicurezza a modalità mista che combini le attestazioni WS-Security con la sicurezza del trasporto.  
+-   Alcune funzionalità WCF, ad esempio messaggistica affidabile e la sicurezza a livello di messaggio SOAP si basano su memorizzazione nel buffer i messaggi per le trasmissioni. L'utilizzo di queste funzionalità può ridurre o eliminare del tutto i vantaggi in termini di prestazioni ottenuti mediante i flussi. Per proteggere un trasporto con flusso, utilizzare soltanto la sicurezza a livello di trasporto oppure utilizzare una sicurezza a modalità mista che combini le attestazioni WS-Security con la sicurezza del trasporto.  
   
--   Intestazioni SOAP vengono sempre memorizzate, anche quando la modalità di trasferimento è impostata su Streamed. Le intestazioni di un messaggio non devono superare la quota di trasporto indicata nella proprietà MaxBufferSize esposta in varie associazioni ed elementi di associazione.  
+-   Intestazioni SOAP vengono sempre memorizzate, anche quando la modalità di trasferimento è Streamed. Le intestazioni di un messaggio non devono superare la quota di trasporto indicata nella proprietà MaxBufferSize esposta in varie associazioni ed elementi di associazione.  
   
  La modalità di trasferimento da memorizzati nel buffer a Streamed modifica anche la forma del canale nativo dei trasporti delle named pipe e TCP. Per i trasferimenti con memorizzazione nel buffer, la forma del canale nativo è <xref:System.ServiceModel.Channels.IDuplexSessionChannel>. Per i trasferimenti con flusso, i canali nativi sono <xref:System.ServiceModel.Channels.IRequestChannel> e <xref:System.ServiceModel.Channels.IReplyChannel>. Ne consegue che i contratti di servizio con sessione non vengono utilizzati con il flusso del trasporto.  
   
    
   
 ## Examples  
- L'esempio di codice seguente viene illustrata l'impostazione di <xref:System.ServiceModel.TransferMode> proprietà Streamed tramite codice:  
+ Esempio di codice seguente viene illustrata l'impostazione di <xref:System.ServiceModel.TransferMode> proprietà Streamed tramite codice:  
   
  **c#**  
   
@@ -73,7 +74,7 @@ BinaryMessageEncodingBindingElement encoder = new BinaryMessageEncodingBindingEl
 CustomBinding binding = new CustomBinding(encoder, transport);  
 ```  
   
- Nell'esempio seguente viene mostrato <xref:System.ServiceModel.TransferMode.Streamed> proprietà Streamed tramite la configurazione:  
+ L'esempio seguente descrive <xref:System.ServiceModel.TransferMode.Streamed> proprietà Streamed tramite configurazione:  
   
 ```  
 <customBinding>  
@@ -99,6 +100,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -126,6 +128,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -153,6 +156,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -180,6 +184,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
