@@ -1,11 +1,11 @@
 <Type Name="InvalidOperationException" FullName="System.InvalidOperationException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="310a76379e88bee1dcef1420b7010efdaf2c8a3d" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="2ae40b84e46667617b6aaac9cd9e2cc0d420fdb1" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36429909" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37480689" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class InvalidOperationException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit InvalidOperationException extends System.SystemException" />
@@ -24,6 +24,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -47,72 +49,72 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.InvalidOperationException> viene utilizzato nei casi durante il tentativo di richiamare un metodo è dovuto a motivi diversi da argomenti non validi. In genere, viene generata quando lo stato di un oggetto non supporta la chiamata al metodo. Ad esempio, un <xref:System.InvalidOperationException> eccezione viene generata dai metodi, ad esempio:  
+ <xref:System.InvalidOperationException> viene utilizzato nei casi quando l'impossibilità di richiamare un metodo è causato da motivi diversi da argomenti non validi. In genere, viene generata quando lo stato di un oggetto non supporta la chiamata al metodo. Ad esempio, un <xref:System.InvalidOperationException> eccezione viene generata dai metodi, ad esempio:  
   
--   <xref:System.Collections.IEnumerator.MoveNext%2A?displayProperty=nameWithType> Se gli oggetti di una raccolta vengono modificati dopo la creazione dell'enumeratore. Per altre informazioni, vedere [la modifica di una raccolta durante lo scorrimento](#Iterating).  
+-   <xref:System.Collections.IEnumerator.MoveNext%2A?displayProperty=nameWithType> Se gli oggetti di una raccolta vengono modificati dopo la creazione dell'enumeratore. Per altre informazioni, vedere [modifica di una raccolta durante lo scorrimento viene](#Iterating).  
   
--   <xref:System.Resources.ResourceSet.GetString%2A?displayProperty=nameWithType> Se il set di risorse viene chiuso prima viene effettuata la chiamata di metodo.  
+-   <xref:System.Resources.ResourceSet.GetString%2A?displayProperty=nameWithType> Se il set di risorse sia chiuso prima viene effettuata la chiamata di metodo.  
   
--   <xref:System.Xml.Linq.XContainer.Add%2A?displayProperty=nameWithType>, se l'oggetto o gli oggetti da aggiungere comporterebbe un documento XML strutturato in modo non corretto.  
+-   <xref:System.Xml.Linq.XContainer.Add%2A?displayProperty=nameWithType>, se gli oggetti da aggiungere comporterebbe un documento XML strutturato in modo non corretto.  
   
--   Un metodo che tenta di modificare l'interfaccia utente da un thread non principale o dell'interfaccia utente.  
+-   Un metodo che tenta di modificare l'interfaccia utente da un thread non principale o del thread dell'interfaccia utente.  
   
 > [!IMPORTANT]
->  Poiché il <xref:System.InvalidOperationException> eccezione può essere generata in una serie infinita di circostanze, è importante leggere il messaggio di eccezione restituito dal <xref:System.Exception.Message%2A> proprietà.  
+>  Poiché il <xref:System.InvalidOperationException> possono essere generate eccezioni in un'ampia gamma di circostanze, è importante leggere il messaggio di eccezione restituito dal <xref:System.Exception.Message%2A> proprietà.  
   
  Contenuto della sezione:  
   
  [Alcune cause comuni di eccezioni InvalidOperationException](#Causes)   
- [L'aggiornamento di un thread dell'interfaccia utente da un thread non dell'interfaccia utente](#UI)  
+ [L'aggiornamento di un thread dell'interfaccia utente da un thread non UI](#UI)  
  [Modifica di una raccolta durante lo scorrimento](#Iterating)  
  [L'ordinamento di una matrice o raccolta di oggetti di cui non è possibile confrontare](#Sorting)  
- [Cast di un oggetto Nullable&lt;T&gt; null al relativo tipo sottostante](#Nullable)   
- [Chiamata a un metodo Enumerable su una raccolta vuota](#Empty)  
- [La chiamata Enumerable o SingleOrDefault su una sequenza senza un elemento](#Single)  
- [Accesso al campo dinamico dominio tra applicazioni](#Emit)  
+ [Esegue il cast di un tipo Nullable&lt;T&gt; null al relativo tipo sottostante](#Nullable)   
+ [Chiamare un metodo Enumerable su una raccolta vuota](#Empty)  
+ [Chiamare il metodo Enumerable o SingleOrDefault su una sequenza senza un elemento](#Single)  
+ [Accesso al campo dinamico tra domini delle applicazioni](#Emit)  
 [Generare un'eccezione InvalidOperationException](#Throwing)  
 [Informazioni di vario tipo](#Misc)  
   
 <a name="Causes"></a>   
 ## <a name="some-common-causes-of-invalidoperationexception-exceptions"></a>Alcune cause comuni di eccezioni InvalidOperationException  
- Le sezioni seguenti mostrano come alcuni comuni casi in cui in <xref:System.InvalidOperationException> eccezione viene generata in un'app. Come gestire il problema dipende dalla situazione specifica. In genere, tuttavia, l'eccezione risultante dall'errore per sviluppatori e il <xref:System.InvalidOperationException> eccezione può essere previste ed evitata.  
+ Le sezioni seguenti mostrano come i casi in cui in alcuni comuni <xref:System.InvalidOperationException> eccezione viene generata in un'app. Modalità di gestione del problema varia a seconda della situazione specifica. In genere, tuttavia, l'eccezione risultante dall'errore per gli sviluppatori e il <xref:System.InvalidOperationException> eccezioni possono essere previste ed evitate.  
   
 <a name="UI"></a>   
-### <a name="updating-a-ui-thread-from-a-non-ui-thread"></a>L'aggiornamento di un thread dell'interfaccia utente da un thread non dell'interfaccia utente  
- Spesso, thread di lavoro vengono usati per eseguire alcune operazioni in background che prevede la raccolta dei dati da visualizzare nell'interfaccia utente dell'applicazione. Tuttavia. la maggior parte dei framework di applicazioni GUI (interfaccia utente grafica) per .NET Framework, ad esempio Windows Form e Windows Presentation Foundation (WPF), consentono di accedere agli oggetti della GUI solo dal thread che crea e gestisce l'interfaccia utente (il thread principale o dell'interfaccia utente). Un <xref:System.InvalidOperationException> viene generata quando si tenta di accedere a un elemento dell'interfaccia utente da un thread diverso dal thread dell'interfaccia utente.  Il testo del messaggio di eccezione viene visualizzato nella tabella seguente.  
+### <a name="updating-a-ui-thread-from-a-non-ui-thread"></a>L'aggiornamento di un thread dell'interfaccia utente da un thread non UI  
+ Thread di lavoro vengono spesso usati per eseguire alcune operazioni in background che include la raccolta di dati da visualizzare nell'interfaccia utente di un'applicazione. Tuttavia. la maggior parte dei framework di applicazione GUI (interfaccia utente grafica) per .NET Framework, ad esempio Windows Form e Windows Presentation Foundation (WPF), consentono di accedere agli oggetti della GUI solo dal thread che crea e gestisce l'interfaccia utente (il thread principale o dell'interfaccia utente). Un <xref:System.InvalidOperationException> viene generata quando si tenta di accedere a un elemento dell'interfaccia utente da un thread diverso da quello dell'interfaccia utente.  Nella tabella seguente viene mostrato il testo del messaggio dell'eccezione.  
   
 |Tipo di applicazione|Messaggio|  
 |----------------------|-------------|  
-|App WPF|**Il thread chiamante non è possibile accedere a questo oggetto perché è di proprietà di un altro thread.**|  
-|App UWP|**L'applicazione ha chiamato un'interfaccia che è stato sottoposto a marshalling per un thread differente.**|  
-|App di Windows Form|**Operazione cross-thread non valida: controllo 'TextBox1' accessibile da un thread diverso da quello del thread è stato creato.**|  
+|App WPF|**Il thread chiamante non può accedere a questo oggetto perché un altro thread ne è proprietario.**|  
+|App UWP|**L'applicazione ha chiamato un'interfaccia che è stato sottoposto a marshalling per un altro thread.**|  
+|App di Windows. Forms|**Operazione di cross-thread non è valido: controllo 'TextBox1' accessibile da un thread diverso da quello in cui è stato creato.**|  
   
- Framework dell'interfaccia utente per .NET Framework implementano un *dispatcher* modello che include un metodo per verificare se una chiamata a un membro di un elemento dell'interfaccia utente viene eseguita nel thread UI e altri metodi per pianificare la chiamata sul thread dell'interfaccia utente:  
+ Framework dell'interfaccia utente per .NET Framework implementano un *dispatcher* modello che include un metodo per verificare se una chiamata a un membro di un elemento dell'interfaccia utente viene eseguita sul thread UI e altri metodi per pianificare la chiamata sul thread dell'interfaccia utente:  
   
--   Nelle App WPF, chiamare il <xref:System.Windows.Threading.Dispatcher.CheckAccess%2A?displayProperty=nameWithType> metodo per determinare se un metodo è in esecuzione in un thread non dell'interfaccia utente. Viene restituito `true` se il metodo è in esecuzione nel thread UI e `false` in caso contrario. Chiamare uno degli overload del <xref:System.Windows.Threading.Dispatcher.Invoke%2A?displayProperty=nameWithType> metodo per pianificare la chiamata sul thread dell'interfaccia utente.  
+-   Nelle App WPF, chiamare il <xref:System.Windows.Threading.Dispatcher.CheckAccess%2A?displayProperty=nameWithType> metodo per determinare se un metodo è in esecuzione su un thread non dell'interfaccia utente. Viene restituito `true` se il metodo è in esecuzione sul thread UI e `false` in caso contrario. Chiamare uno degli overload del <xref:System.Windows.Threading.Dispatcher.Invoke%2A?displayProperty=nameWithType> metodo per pianificare la chiamata sul thread dell'interfaccia utente.  
   
--   Nelle App UWP, chiamare il [CoreDispatcher.HasThreadAccess](https://msdn.microsoft.com/library/windows/apps/windows.ui.core.coredispatcher.hasthreadaccess.aspx) metodo per determinare se un metodo è in esecuzione in un thread non dell'interfaccia utente. Chiamare il [CoreDispatcher.RunAsync](https://msdn.microsoft.com/library/windows/apps/windows.ui.core.coredispatcher.runasync.aspx) metodo da eseguire un delegato che aggiorna il thread dell'interfaccia utente. Usa il comando  
+-   Nelle App UWP, chiamare il [CoreDispatcher.HasThreadAccess](https://msdn.microsoft.com/library/windows/apps/windows.ui.core.coredispatcher.hasthreadaccess.aspx) metodo per determinare se un metodo è in esecuzione su un thread non dell'interfaccia utente. Chiamare il [CoreDispatcher.RunAsync](https://msdn.microsoft.com/library/windows/apps/windows.ui.core.coredispatcher.runasync.aspx) metodo da eseguire un delegato che aggiorna il thread dell'interfaccia utente. Usa il comando  
   
--   Nelle app di Windows Form, utilizzare il <xref:System.Windows.Forms.Control.InvokeRequired%2A?displayProperty=nameWithType> proprietà per determinare se un metodo è in esecuzione in un thread non dell'interfaccia utente. Chiamare uno degli overload del <xref:System.Windows.Forms.Control.Invoke%2A?displayProperty=nameWithType> metodo da eseguire un delegato che aggiorna il thread dell'interfaccia utente.  
+-   Nelle app di Windows Form, usare il <xref:System.Windows.Forms.Control.InvokeRequired%2A?displayProperty=nameWithType> proprietà per determinare se un metodo è in esecuzione su un thread non dell'interfaccia utente. Chiamare uno degli overload del <xref:System.Windows.Forms.Control.Invoke%2A?displayProperty=nameWithType> metodo da eseguire un delegato che aggiorna il thread dell'interfaccia utente.  
   
- Gli esempi seguenti illustrano il <xref:System.InvalidOperationException> eccezione generata quando si tenta di aggiornare un elemento dell'interfaccia utente da un thread diverso da quello che li ha creati.  Ogni esempio è necessario creare due controlli:  
+ Gli esempi seguenti illustrano il <xref:System.InvalidOperationException> eccezione generata quando si prova ad aggiornare un elemento dell'interfaccia utente da un thread diverso da quello che l'ha creata.  Ogni esempio è necessario creare due controlli:  
   
--   Un controllo casella di testo denominato `textBox1`.  In un'app di Windows Form, sarà necessario impostare il relativo <xref:System.Windows.Forms.TextBox.Multiline%2A> proprietà `true`.  
+-   Controllo casella di testo denominato `textBox1`.  In un'app di Windows Form, è consigliabile impostare relativi <xref:System.Windows.Forms.TextBox.Multiline%2A> proprietà `true`.  
   
--   Un pulsante denominato `threadExampleBtn`. Nell'esempio viene fornito un gestore `ThreadsExampleBtn_Click`, per il pulsante `Click` evento.  
+-   Un controllo button denominato `threadExampleBtn`. Nell'esempio viene fornito un gestore `ThreadsExampleBtn_Click`, per il pulsante `Click` evento.  
   
- In ogni caso, il `threadExampleBtn_Click` chiamate del gestore dell'evento di `DoSomeWork` metodo due volte. La prima chiamata viene eseguita in modo sincrono e ha esito positivo. Ma la seconda chiamata, poiché è in esecuzione in modo asincrono in un pool di thread, tenta di aggiornare l'interfaccia utente da un thread non dell'interfaccia utente. Ciò comporta un <xref:System.InvalidOperationException> (eccezione).  
+ In ogni caso, il `threadExampleBtn_Click` chiamate del gestore eventi di `DoSomeWork` metodo due volte. La prima chiamata viene eseguita in modo sincrono e ha esito positivo. Ma la seconda chiamata, in quanto viene eseguito in modo asincrono in un pool di thread, prova ad aggiornare l'interfaccia utente da un thread non dell'interfaccia utente. Ciò comporta un <xref:System.InvalidOperationException> eccezione.  
   
  App WPF e UWP  
  [!code-csharp[System.InvalidOperationException.Threading.WPF1#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wpf1/cs/MainWindow.xaml.cs#1)]
  [!code-vb[System.InvalidOperationException.Threading.WPF1#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wpf1/vb/MainWindow.xaml.vb#1)]  
   
- La seguente versione di `DoSomeWork` metodo elimina l'eccezione in un'applicazione WPF.  
+ La versione seguente del `DoSomeWork` metodo elimina l'eccezione in un'app WPF.  
   
  [!code-csharp[System.InvalidOperationException.Threading.WPF2#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wpf2/cs/MainWindowDispatcher.xaml.cs#3)]
  [!code-vb[System.InvalidOperationException.Threading.WPF2#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wpf2/vb/MainWindowDispatcher.xaml.vb#3)]  
   
- La seguente versione di `DoSomeWork` metodo elimina l'eccezione in un'app UWP.  
+ La versione seguente del `DoSomeWork` metodo elimina l'eccezione in un'app UWP.  
   
  [!code-csharp[System.InvalidOperationException.Threading.UWP#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception.threading.uwp/cs/MainPage.xaml.cs#4)]
  [!code-vb[System.InvalidOperationException.Threading.UWP#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception.threading.uwp/vb/MainPage.xaml.vb#4)]  
@@ -121,58 +123,58 @@
  [!code-csharp[System.InvalidOperationException.Threading.WF#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wf/cs/Form1.cs#2)]
  [!code-vb[System.InvalidOperationException.Threading.WF#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wf/vb/Form1.vb#2)]  
   
- La seguente versione di `DoSomeWork` metodo elimina l'eccezione in un'app di Windows Form.  
+ La versione seguente del `DoSomeWork` metodo elimina l'eccezione in un'app di Windows Form.  
   
  [!code-csharp[System.InvalidOperationException.Threading.WF2#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wf2/cs/Form1.cs#5)]
  [!code-vb[System.InvalidOperationException.Threading.WF2#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Invalidoperationexception.threading.wf2/vb/Form1.vb#5)]  
   
 <a name="Iterating"></a>   
 ### <a name="changing-a-collection-while-iterating-it"></a>Modifica di una raccolta durante lo scorrimento  
- Il `foreach` istruzione in c# o `For Each` istruzione in Visual Basic viene usata per scorrere i membri di una raccolta e per leggere o modificare i singoli elementi. Tuttavia, non è utilizzabile per aggiungere o rimuovere elementi dalla raccolta. In caso contrario viene generata una <xref:System.InvalidOperationException> eccezione con un messaggio che è simile a "**raccolta è stata modificata; Impossibile eseguire l'operazione di enumerazione. **"  
+ Il `foreach` istruzione in c# o `For Each` istruzione in Visual Basic viene utilizzata per scorrere i membri di una raccolta e per leggere o modificare i singoli elementi. Tuttavia, non può essere utilizzato per aggiungere o rimuovere elementi dalla raccolta. Tale operazione viene generata una <xref:System.InvalidOperationException> eccezione con un messaggio simile a, "**insieme è stato modificato; Impossibile eseguire l'operazione di enumerazione. **"  
   
- Nell'esempio seguente scorre che una raccolta di numeri interi tenta di aggiungere il quadrato di ogni valore integer alla raccolta. Nell'esempio viene generata una <xref:System.InvalidOperationException> con la prima chiamata al <xref:System.Collections.Generic.List%601.Add%2A?displayProperty=nameWithType> metodo.  
+ Nell'esempio seguente scorre che una raccolta di valori interi tenta di aggiungere il quadrato di ogni valore integer all'insieme. L'esempio genera una <xref:System.InvalidOperationException> con la prima chiamata al <xref:System.Collections.Generic.List%601.Add%2A?displayProperty=nameWithType> (metodo).  
   
  [!code-csharp[System.InvalidOperationException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Iterating1.cs#1)]
  [!code-vb[System.InvalidOperationException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Iterating1.vb#1)]  
   
  È possibile eliminare l'eccezione in uno dei due modi, a seconda della logica dell'applicazione:  
   
--   Se è necessario aggiungere elementi alla raccolta durante lo scorrimento, è possibile scorrere indice utilizzando il `for` istruzione anziché `foreach` o `For Each`. Nell'esempio seguente viene utilizzata l'istruzione aggiungere il quadrato dei numeri nella raccolta alla raccolta.  
+-   Se è necessario aggiungere elementi alla raccolta durante lo scorrimento, è possibile alternare indice usando il `for` istruzione anziché `foreach` o `For Each`. L'esempio seguente usa l'istruzione aggiungere il quadrato dei numeri nella raccolta alla raccolta.  
   
      [!code-csharp[System.InvalidOperationException#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Iterating2.cs#2)]
      [!code-vb[System.InvalidOperationException#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Iterating2.vb#2)]  
   
-     Si noti che è necessario stabilire il numero di iterazioni prima iterazione della raccolta tramite l'utilizzo di un contatore all'interno del ciclo che si interromperà appropraitely ciclo, eseguendo l'iterazione all'indietro, da `Count` - 1 a 0, o, come avviene nell'esempio, assegnando il numero di elementi nella matrice da una variabile e utilizzandolo per stabilire il limite superiore del ciclo. In caso contrario, se un elemento viene aggiunto alla raccolta in ogni iterazione, un ciclo infinito.  
+     Si noti che è necessario stabilire il numero di iterazioni prima di iterare la raccolta tramite l'utilizzo di un contatore all'interno del ciclo che terminerà il ciclo appropraitely, eseguendo l'iterazione all'indietro, da `Count` - 1 a 0, o, come avviene nell'esempio, assegnando il numero di elementi nella matrice a una variabile e usarlo per stabilire il limite superiore del ciclo. In caso contrario, se un elemento viene aggiunto alla raccolta in ogni iterazione, si verificherà un ciclo infinito.  
   
--   Se non è necessario aggiungere elementi alla raccolta durante lo scorrimento, è possibile archiviare gli elementi da aggiungere in una raccolta temporanea che si aggiunge quando ha terminato l'iterazione della raccolta.  Nell'esempio seguente viene utilizzato questo approccio per aggiungere il quadrato dei numeri in una raccolta per una raccolta temporanea, quindi per combinare le raccolte in un singolo oggetto di matrice.  
+-   Se non è necessario aggiungere elementi alla raccolta durante lo scorrimento, è possibile archiviare gli elementi da aggiungere in una raccolta temporanea che aggiungere quando ha terminato l'iterazione della raccolta.  L'esempio seguente usa questo approccio per aggiungere il quadrato dei numeri in una raccolta a una raccolta temporanea e poi combinare le raccolte in un singolo oggetto di matrice.  
   
      [!code-csharp[System.InvalidOperationException#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Iterating3.cs#3)]
      [!code-vb[System.InvalidOperationException#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Iterating3.vb#3)]  
   
 <a name="Sorting"></a>   
 ### <a name="sorting-an-array-or-collection-whose-objects-cannot-be-compared"></a>L'ordinamento di una matrice o raccolta di oggetti di cui non è possibile confrontare  
- Generico, ad esempio metodi, di ordinamento il <xref:System.Array.Sort%28System.Array%29?displayProperty=nameWithType> (metodo) o il <xref:System.Collections.Generic.List%601.Sort?displayProperty=nameWithType> metodo, in genere richiedono che almeno uno degli oggetti da ordinare implementare il <xref:System.IComparable%601> o il <xref:System.IComparable> interfaccia. Se non, raccolta o nella matrice non può essere ordinati, e il metodo genera un <xref:System.InvalidOperationException> (eccezione). L'esempio seguente definisce una `Person` classe archivi due `Person` oggetti in un oggetto generico <xref:System.Collections.Generic.List%601> oggetto e i tentativi di ordinarli. Come output illustrato nell'esempio, la chiamata ai <xref:System.Collections.Generic.List%601.Sort?displayProperty=nameWithType> metodo genera un <xref:System.InvalidOperationException>.  
+ Per utilizzo generico di ordinamento, ad esempio metodi, il <xref:System.Array.Sort%28System.Array%29?displayProperty=nameWithType> (metodo) o il <xref:System.Collections.Generic.List%601.Sort?displayProperty=nameWithType> metodo, in genere richiedono che almeno uno degli oggetti da ordinare implementare il <xref:System.IComparable%601> o il <xref:System.IComparable> interfaccia. Caso contrario, la raccolta o una matrice non può essere ordinati, e il metodo genera un <xref:System.InvalidOperationException> eccezione. L'esempio seguente definisce una `Person` classe archivia due `Person` gli oggetti in un oggetto generico <xref:System.Collections.Generic.List%601> oggetto e tenta di eseguirne l'ordinamento. Come l'output illustrato nell'esempio, la chiamata ai <xref:System.Collections.Generic.List%601.Sort?displayProperty=nameWithType> metodo genera un <xref:System.InvalidOperationException>.  
   
  [!code-csharp[System.InvalidOperationException#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/List_Sort1.cs#12)]
  [!code-vb[System.InvalidOperationException#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/List_Sort1.vb#12)]  
   
  È possibile eliminare l'eccezione in uno dei tre modi:  
   
--   Se si può essere proprietaria del tipo che si sta provando a eseguire l'ordinamento (vale a dire, se si controlla il codice sorgente), è possibile modificarlo per implementare il <xref:System.IComparable%601> o <xref:System.IComparable> interfaccia. Ciò richiede che si implementa il <xref:System.IComparable%601.CompareTo%2A?displayProperty=nameWithType> o il <xref:System.IComparable.CompareTo%2A> metodo. Aggiunta di un'implementazione di interfaccia a un tipo esistente non è una modifica sostanziale.  
+-   Se si può possedere il tipo che si sta tentando di eseguire l'ordinamento (vale a dire, se si controlla il codice sorgente), è possibile modificarlo per implementare il <xref:System.IComparable%601> o il <xref:System.IComparable> interfaccia. Ciò richiede che si implementa il <xref:System.IComparable%601.CompareTo%2A?displayProperty=nameWithType> o il <xref:System.IComparable.CompareTo%2A> (metodo). Aggiunta di un'implementazione dell'interfaccia a un tipo esistente non è una modifica sostanziale.  
   
-     Nell'esempio seguente viene utilizzato questo approccio per fornire un' <xref:System.IComparable%601> implementazione per il `Person` classe. È comunque possibile chiamare la raccolta o un metodo di ordinamento Generale della matrice e, come illustrato nell'output dell'esempio, la raccolta ordinati correttamente.  
+     L'esempio seguente usa questo approccio per fornire un' <xref:System.IComparable%601> implementazione per il `Person` classe. È comunque possibile chiamare la raccolta o un metodo di ordinamento generale dell'array e, come illustrato nell'output dell'esempio, la raccolta vengono ordinati correttamente.  
   
      [!code-csharp[System.InvalidOperationException#13](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/List_Sort2.cs#13)]
      [!code-vb[System.InvalidOperationException#13](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/List_Sort2.vb#13)]  
   
--   Se non è possibile modificare il codice sorgente per il tipo di cui si sta cercando di ordinamento, è possibile definire una classe di ordinamento con finalità speciali che implementa il <xref:System.Collections.Generic.IComparer%601> interfaccia.  È possibile chiamare un overload del `Sort` metodo che include un <xref:System.Collections.Generic.IComparer%601> parametro. Questo approccio è particolarmente utile se si desidera sviluppare una classe specializzata di ordinamento che è possibile ordinare gli oggetti in base a più criteri.  
+-   Se non è possibile modificare il codice sorgente per il tipo di cui si sta tentando di ordinamento, è possibile definire una classe di ordinamento con finalità speciali che implementa il <xref:System.Collections.Generic.IComparer%601> interfaccia.  È possibile chiamare un overload del `Sort` metodo che includa un <xref:System.Collections.Generic.IComparer%601> parametro. Questo approccio è particolarmente utile se si desidera sviluppare una classe specializzata di ordinamento che è possibile ordinare gli oggetti in base a più criteri.  
   
-     L'esempio seguente usa l'approccio per lo sviluppo di un oggetto personalizzato `PersonComparer` classe che viene utilizzato per ordinare `Person` raccolte.  Passa quindi un'istanza di questa classe per il <xref:System.Collections.Generic.List%601.Sort%28System.Collections.Generic.IComparer%7B%600%7D%29?displayProperty=nameWithType> metodo.  
+     L'esempio seguente usa l'approccio grazie allo sviluppo di una classe personalizzata `PersonComparer` classe utilizzata per ordinare `Person` raccolte.  Passa quindi un'istanza di questa classe per il <xref:System.Collections.Generic.List%601.Sort%28System.Collections.Generic.IComparer%7B%600%7D%29?displayProperty=nameWithType> (metodo).  
   
      [!code-csharp[System.InvalidOperationException#14](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/List_Sort3.cs#14)]
      [!code-vb[System.InvalidOperationException#14](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/List_Sort3.vb#14)]  
   
--   Se non è possibile modificare il codice sorgente per il tipo si sta provando a ordinamento, è possibile creare un <xref:System.Comparison%601> delegato per eseguire l'ordinamento. La firma del delegato è  
+-   Se non è possibile modificare il codice sorgente per il tipo si intende ordinare, è possibile creare un <xref:System.Comparison%601> delegato per eseguire l'ordinamento. La firma del delegato è  
   
     ```vb  
     Function Comparison(Of T)(x As T, y As T) As Integer  
@@ -182,14 +184,14 @@
     int Comparison<T>(T x, T y)  
     ```  
   
-     L'esempio seguente usa l'approccio definendo un `PersonComparison` metodo corrispondente al <xref:System.Comparison%601> firma del delegato.  Passa quindi questo delegato per il <xref:System.Collections.Generic.List%601.Sort%28System.Comparison%7B%600%7D%29?displayProperty=nameWithType> metodo.  
+     L'esempio seguente usa l'approccio definendo un `PersonComparison` metodo corrispondente il <xref:System.Comparison%601> firma del delegato.  Passa quindi questo delegato per il <xref:System.Collections.Generic.List%601.Sort%28System.Comparison%7B%600%7D%29?displayProperty=nameWithType> (metodo).  
   
      [!code-csharp[System.InvalidOperationException#15](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/List_Sort4.cs#15)]
      [!code-vb[System.InvalidOperationException#15](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/List_Sort4.vb#15)]  
   
 <a name="Nullable"></a>   
-### <a name="casting-a-nullablet-that-is-null-to-its-underlying-type"></a>Cast di un oggetto Nullable\<T > null al relativo tipo sottostante  
- Il tentativo di eseguire il cast una <xref:System.Nullable%601> valore che rappresenta `null` al relativo tipo sottostante genera un <xref:System.InvalidOperationException> eccezione e viene visualizzato il messaggio di errore "**oggetto Nullable deve avere un valore.**  
+### <a name="casting-a-nullablet-that-is-null-to-its-underlying-type"></a>Esegue il cast di un oggetto Nullable\<T > null al relativo tipo sottostante  
+ Il tentativo di eseguire il cast di un <xref:System.Nullable%601> valore che rappresenta `null` al relativo tipo sottostante genera un' <xref:System.InvalidOperationException> eccezione e visualizza il messaggio di errore "**oggetto Nullable deve avere un valore.**  
   
  Nell'esempio seguente genera un <xref:System.InvalidOperationException> eccezione quando tenta di eseguire l'iterazione di una matrice che include un `Nullable(Of Integer)` valore.  
   
@@ -198,44 +200,44 @@
   
  Per evitare l'eccezione:  
   
--   Usare la <xref:System.Nullable%601.HasValue%2A?displayProperty=nameWithType> proprietà per selezionare solo gli elementi che non sono `null`.  
+-   Usare la <xref:System.Nullable%601.HasValue%2A?displayProperty=nameWithType> per selezionare solo gli elementi che non sono proprietà `null`.  
   
--   Chiamare uno del <xref:System.Nullable%601.GetValueOrDefault%2A?displayProperty=nameWithType> overload per fornire un valore predefinito per un `null` valore.  
+-   Chiamare uno dei <xref:System.Nullable%601.GetValueOrDefault%2A?displayProperty=nameWithType> overload per fornire un valore predefinito per un `null` valore.  
   
- Nell'esempio seguente vengono entrambi per evitare il <xref:System.InvalidOperationException> (eccezione).  
+ Nell'esempio seguente esegue entrambe le operazioni da evitare il <xref:System.InvalidOperationException> eccezione.  
   
  [!code-csharp[System.InvalidOperationException#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Nullable2.cs#5)]
  [!code-vb[System.InvalidOperationException#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Nullable2.vb#5)]  
   
 <a name="Empty"></a>   
-### <a name="calling-a-systemlinqenumerable-method-on-an-empty-collection"></a>Chiamata a un metodo Enumerable su una raccolta vuota  
- Il <xref:System.Linq.Enumerable.Aggregate%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Average%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Last%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Max%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Min%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType>, e <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodi eseguono operazioni in una sequenza e restituiscono un singolo risultato.   Alcuni overload di questi metodi generano un' <xref:System.InvalidOperationException> eccezione quando la sequenza è vuota, mentre gli altri overload restituiscono `null`. Il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodo genera inoltre un <xref:System.InvalidOperationException> eccezione quando la sequenza contiene più di un elemento.  
+### <a name="calling-a-systemlinqenumerable-method-on-an-empty-collection"></a>Chiamare un metodo Enumerable su una raccolta vuota  
+ Il <xref:System.Linq.Enumerable.Aggregate%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Average%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Last%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Max%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Min%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType>, e <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodi eseguono operazioni in una sequenza e restituiscono un singolo risultato.   Alcuni overload di questi metodi generano un' <xref:System.InvalidOperationException> eccezione quando la sequenza è vuota, mentre altri overload restituiscono `null`. Il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodo genera inoltre un <xref:System.InvalidOperationException> eccezione quando la sequenza contiene più di un elemento.  
   
 > [!NOTE]
->  La maggior parte dei metodi che generano un <xref:System.InvalidOperationException> eccezione sono overload. Assicurarsi di comprendere il comportamento dell'overload scelto.  
+>  La maggior parte dei metodi che generano un <xref:System.InvalidOperationException> eccezione sono overload. Assicurarsi di aver compreso il comportamento dell'overload scelto.  
   
- Nella tabella seguente elenca i messaggi di eccezione dal <xref:System.InvalidOperationException> oggetti eccezione generati da chiamate ad alcune <xref:System.Linq.Enumerable?displayProperty=nameWithType> metodi.  
+ La tabella seguente elenca i messaggi di eccezione dal <xref:System.InvalidOperationException> generati da chiamate ad alcuni oggetti di eccezione <xref:System.Linq.Enumerable?displayProperty=nameWithType> metodi.  
   
 |Metodo|Messaggio|  
 |------------|-------------|  
 |`Aggregate` <br /> `Average` <br /> `Last` <br /> `Max` <br /> `Min`|**Sequenza non contiene elementi**|  
-|`First`|**Sequenza non contiene elementi corrispondenti**|  
-|`Single` <br /> `SingleOrDefault`|**La sequenza contiene più di un elemento corrispondente**|  
+|`First`|**La sequenza non contiene alcun elemento corrispondente**|  
+|`Single` <br /> `SingleOrDefault`|**La sequenza contiene più di un elemento corrisponda**|  
   
- Come eliminare o gestire l'eccezione dipende dal presupposti dell'applicazione e il metodo particolare chiamato.  
+ Come eliminare o gestire l'eccezione dipende dal presupposto dell'applicazione e il metodo specifico da chiamare.  
   
--   Quando si sceglie intenzionalmente chiama uno di questi metodi senza verificare la presenza di una sequenza vuota, si presuppone che la sequenza non vuota e che una sequenza vuota sia un'occorrenza imprevista. In questo caso, o rilevamento rigenerare l'eccezione è appropriato.  
+-   Quando si deliberatamente chiama uno di questi metodi senza verificare la presenza di una sequenza vuota, così facendo si presuppone che la sequenza non sia vuota e che una sequenza vuota sia un'occorrenza imprevista. In questo caso, rilevare o rigenerare l'eccezione è appropriato.  
   
--   Se accidentale l'impossibilità di verificare la presenza di una sequenza vuota, è possibile chiamare uno degli overload del <xref:System.Linq.Enumerable.Any%2A?displayProperty=nameWithType> overload per determinare se una sequenza contiene elementi.  
+-   Se l'impossibilità di verificare la presenza di una sequenza vuota è stata accidentale, è possibile chiamare uno degli overload del <xref:System.Linq.Enumerable.Any%2A?displayProperty=nameWithType> overload per determinare se una sequenza contiene elementi.  
   
     > [!TIP]
-    >  La chiamata di <xref:System.Linq.Enumerable.Any%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo prima di generare una sequenza può migliorare le prestazioni se i dati da elaborare potrebbero contenere un numero elevato di elementi o se l'operazione che genera la sequenza è onerosa.  
+    >  La chiamata di <xref:System.Linq.Enumerable.Any%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo prima di generare una sequenza può migliorare le prestazioni se l'elaborazione dei dati potrebbero contenere un numero elevato di elementi o se l'operazione che genera la sequenza è onerosa.  
   
--   Se è stato chiamato un metodo, ad esempio <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Last%2A?displayProperty=nameWithType>, o <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType>, è possibile sostituire un metodo alternativo, ad esempio <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.LastOrDefault%2A?displayProperty=nameWithType>, o <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType>, che restituisce un valore predefinito anziché da un membro della sequenza.  
+-   Se è stato chiamato un metodo, ad esempio <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.Last%2A?displayProperty=nameWithType>, o <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType>, è possibile sostituirlo con un metodo alternativo, ad esempio <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType>, <xref:System.Linq.Enumerable.LastOrDefault%2A?displayProperty=nameWithType>, o <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType>, che restituisce un valore predefinito anziché da un membro della sequenza.  
   
- Gli esempi di forniscono dettagli aggiuntivi.  
+ Gli esempi forniscono ulteriori dettagli.  
   
- L'esempio seguente usa il <xref:System.Linq.Enumerable.Average%2A?displayProperty=nameWithType> metodo per calcolare la media di una sequenza i cui valori sono maggiori di 4. Poiché nessun valori della matrice originale superano 4, valori non inclusi nella sequenza e il metodo genera un <xref:System.InvalidOperationException> (eccezione).  
+ L'esempio seguente usa il <xref:System.Linq.Enumerable.Average%2A?displayProperty=nameWithType> metodo per calcolare la media di una sequenza i cui valori sono superiori a 4. Poiché nessun valore della matrice originale di superare i 4, nessun valore sono inclusi nella sequenza e il metodo genera un <xref:System.InvalidOperationException> eccezione.  
   
  [!code-csharp[System.InvalidOperationException#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Enumerable1.cs#6)]
  [!code-vb[System.InvalidOperationException#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Enumerable1.vb#6)]  
@@ -247,59 +249,59 @@
   
  Il <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType> metodo restituisce il primo elemento in una sequenza o il primo elemento in una sequenza che soddisfa una condizione specificata. Se la sequenza è vuota e pertanto non ha un primo elemento, viene generata un' <xref:System.InvalidOperationException> eccezione.  
   
- Nell'esempio seguente, il <xref:System.Linq.Enumerable.First%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo genera un <xref:System.InvalidOperationException> eccezione perché la matrice di dbQueryResults non contiene un elemento maggiore di 4.  
+ Nell'esempio seguente, il <xref:System.Linq.Enumerable.First%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo genera un <xref:System.InvalidOperationException> eccezione perché l'array di dbQueryResults non contiene un elemento maggiore di 4.  
   
  [!code-csharp[System.InvalidOperationException#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Enumerable3.cs#8)]
  [!code-vb[System.InvalidOperationException#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Enumerable3.vb#8)]  
   
- È possibile chiamare il <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType> anziché <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType> per restituire un oggetto specificato o il valore predefinito. Se il metodo non trova un primo elemento nella sequenza, restituisce il valore predefinito per tale tipo di dati.  Il valore predefinito è `null` per un tipo riferimento, zero per un tipo di dati numerici, e <xref:System.DateTime.MinValue?displayProperty=nameWithType> per il <xref:System.DateTime> tipo.  
+ È possibile chiamare il <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType> invece del metodo <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType> per restituire un oggetto specificato o il valore predefinito. Se il metodo non viene trovato un primo elemento nella sequenza, restituisce il valore predefinito per tale tipo di dati.  Il valore predefinito è `null` per un tipo riferimento, zero per un tipo di dati numerici, e <xref:System.DateTime.MinValue?displayProperty=nameWithType> per il <xref:System.DateTime> tipo.  
   
 > [!NOTE]
->  Il valore restituito da interpretare il <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType> metodo è spesso complicato dal fatto che il valore predefinito del tipo può essere un valore valido nella sequenza. In questo caso, è una chiamata di <xref:System.Linq.Enumerable.Any%2A?displayProperty=nameWithType> metodo per determinare se la sequenza include membri validi prima di chiamare il <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType> metodo.  
+>  Il valore restituito dall'interpretazione il <xref:System.Linq.Enumerable.FirstOrDefault%2A?displayProperty=nameWithType> metodo spesso è ulteriormente complicato dal fatto che il valore predefinito del tipo può essere un valore valido nella sequenza. In questo caso, è una chiamata di <xref:System.Linq.Enumerable.Any%2A?displayProperty=nameWithType> metodo per determinare se la sequenza dispone di membri validi prima di chiamare il <xref:System.Linq.Enumerable.First%2A?displayProperty=nameWithType> (metodo).  
   
- L'esempio seguente chiama il <xref:System.Linq.Enumerable.FirstOrDefault%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo per evitare il <xref:System.InvalidOperationException> eccezione nell'esempio precedente.  
+ L'esempio seguente chiama il <xref:System.Linq.Enumerable.FirstOrDefault%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Func%7B%60%600%2CSystem.Boolean%7D%29?displayProperty=nameWithType> metodo per impedire la <xref:System.InvalidOperationException> eccezione generata nell'esempio precedente.  
   
  [!code-csharp[System.InvalidOperationException#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Enumerable4.cs#9)]
  [!code-vb[System.InvalidOperationException#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Enumerable4.vb#9)]  
   
 <a name="Single"></a>   
-### <a name="calling-enumerablesingle-or-enumerablesingleordefault-on-a-sequence-without-one-element"></a>La chiamata Enumerable o SingleOrDefault su una sequenza senza un elemento  
- Il <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> metodo restituisce l'unico elemento di una sequenza o l'unico elemento di una sequenza che soddisfa una condizione specificata.    Se non esiste alcun elemento nella sequenza, oppure se è presente più di un elemento, il metodo genera un <xref:System.InvalidOperationException> (eccezione).  
+### <a name="calling-enumerablesingle-or-enumerablesingleordefault-on-a-sequence-without-one-element"></a>Chiamare il metodo Enumerable o SingleOrDefault su una sequenza senza un elemento  
+ Il <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> metodo restituisce l'unico elemento di una sequenza o l'unico elemento di una sequenza che soddisfa una condizione specificata.    Se non esistono elementi nella sequenza oppure se è presente più di un elemento, il metodo genera un <xref:System.InvalidOperationException> eccezione.  
   
- È possibile utilizzare il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> per restituire un valore predefinito anziché generare un'eccezione quando la sequenza non contiene elementi. Tuttavia, il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodo genera comunque un <xref:System.InvalidOperationException> eccezione quando la sequenza contiene più di un elemento.  
+ È possibile usare il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> per restituire un valore predefinito anziché generare un'eccezione quando la sequenza non contiene elementi. Tuttavia, il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodo genera comunque un <xref:System.InvalidOperationException> eccezione quando la sequenza contiene più di un elemento.  
   
- Nella tabella seguente elenca i messaggi di eccezione dal <xref:System.InvalidOperationException> oggetti eccezione generati dalle chiamate al <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> e <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodi.  
+ La tabella seguente elenca i messaggi di eccezione dal <xref:System.InvalidOperationException> generati da chiamate agli oggetti di eccezione la <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> e <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodi.  
   
 |Metodo|Messaggio|  
 |------------|-------------|  
-|`Single`|**Sequenza non contiene elementi corrispondenti**|  
-|`Single` <br /> `SingleOrDefault`|**La sequenza contiene più di un elemento corrispondente**|  
+|`Single`|**La sequenza non contiene alcun elemento corrispondente**|  
+|`Single` <br /> `SingleOrDefault`|**La sequenza contiene più di un elemento corrisponda**|  
   
  Nell'esempio seguente, la chiamata ai <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> metodo genera un <xref:System.InvalidOperationException> eccezione perché la sequenza non dispone di un elemento maggiore di 4.  
   
  [!code-csharp[System.InvalidOperationException#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Enumerable5.cs#10)]
  [!code-vb[System.InvalidOperationException#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Enumerable5.vb#10)]  
   
- Nell'esempio seguente prova a impedire il <xref:System.InvalidOperationException> eccezione generata quando una sequenza è vuota, chiamare invece il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> metodo. Tuttavia, poiché questa sequenza restituisce più gli elementi il cui valore è maggiore di 2, genera inoltre un <xref:System.InvalidOperationException> (eccezione).  
+ Nell'esempio seguente prova a impedire il <xref:System.InvalidOperationException> eccezione generata quando una sequenza è vuota, chiamare invece il <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> (metodo). Tuttavia, poiché questa sequenza restituisce più elementi il cui valore è maggiore di 2, genera inoltre un <xref:System.InvalidOperationException> eccezione.  
   
  [!code-csharp[System.InvalidOperationException#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.invalidoperationexception/cs/Enumerable6.cs#11)]
  [!code-vb[System.InvalidOperationException#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.invalidoperationexception/vb/Enumerable6.vb#11)]  
   
- La chiamata di <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> metodo presuppone che una sequenza o la sequenza che soddisfa i criteri specificati contiene un solo elemento.  <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> si presuppone che una sequenza con zero o un risultato, ma non più. Se questa ipotesi sia intenzionale da parte dell'utente e non vengono soddisfatte queste condizioni, la rigenerazione o il rilevamento risultante <xref:System.InvalidOperationException> appropriato. In caso contrario, o se si prevede il verificano di condizioni non valide con una certa frequenza, è consigliabile usare un altro <xref:System.Linq.Enumerable> metodo, ad esempio <xref:System.Linq.Enumerable.FirstOrDefault%2A> o <xref:System.Linq.Enumerable.Where%2A>.  
+ La chiamata di <xref:System.Linq.Enumerable.Single%2A?displayProperty=nameWithType> metodo presuppone che una sequenza o la sequenza che soddisfa i criteri specificati contiene un solo elemento.  <xref:System.Linq.Enumerable.SingleOrDefault%2A?displayProperty=nameWithType> si presuppone che una sequenza con zero o un risultato, ma non oltre. Se questa ipotesi è intenzionale da parte dell'utente e non vengono soddisfatte queste condizioni, la rigenerazione o il rilevamento risultante <xref:System.InvalidOperationException> appropriato. In caso contrario, o se si prevede che si verificherà le condizioni non valide con una certa frequenza, è consigliabile usare un altro <xref:System.Linq.Enumerable> metodo, ad esempio <xref:System.Linq.Enumerable.FirstOrDefault%2A> o <xref:System.Linq.Enumerable.Where%2A>.  
   
 <a name="Emit"></a>   
-### <a name="dynamic-cross-application-domain-field-access"></a>Accesso al campo dinamico dominio tra applicazioni  
- Il <xref:System.Reflection.Emit.OpCodes.Ldflda?displayProperty=nameWithType> Microsoft intermediate language (MSIL) istruzione genera un <xref:System.InvalidOperationException> eccezione se l'oggetto che contiene il campo cui si sta tentando di recuperare l'indirizzo non è presente all'interno del dominio applicazione in cui il codice è in esecuzione. L'indirizzo di un campo è accessibile solo dal dominio applicazione in cui si trova.  
+### <a name="dynamic-cross-application-domain-field-access"></a>Accesso al campo dinamico tra domini delle applicazioni  
+ Il <xref:System.Reflection.Emit.OpCodes.Ldflda?displayProperty=nameWithType> Microsoft intermediate language (MSIL) istruzione genera un <xref:System.InvalidOperationException> eccezione se l'oggetto che contiene il campo cui si sta tentando di recuperare l'indirizzo non è presente all'interno del dominio applicazione in cui viene eseguito il codice. L'indirizzo di un campo è accessibile solo dal dominio dell'applicazione in cui si trova.  
   
 <a name="Throwing"></a>   
 ## <a name="throwing-an-invalidoperationexception-exception"></a>Generare un'eccezione InvalidOperationException  
- È necessario generare un <xref:System.InvalidOperationException> eccezione solo quando lo stato dell'oggetto per qualche motivo non supporta una particolare chiamata al metodo. Vale a dire, la chiamata al metodo è valida in alcune circostanze o contesti, ma non è valida in altri ambienti.  
+ È necessario generare un <xref:System.InvalidOperationException> eccezioni solo quando lo stato dell'oggetto per qualche motivo non supporta una particolare chiamata al metodo. Vale a dire, la chiamata al metodo è valida in alcune circostanze o contesti, ma non è valida in altri casi.  
   
- Se l'errore nella chiamata al metodo a causa di argomenti non validi, quindi <xref:System.ArgumentException> o una delle relative classi derivate <xref:System.ArgumentNullException> o <xref:System.ArgumentOutOfRangeException>, devono invece essere generata.  
+ Se l'errore nella chiamata al metodo è argomenti non validi, quindi <xref:System.ArgumentException> o una delle relative classi derivate <xref:System.ArgumentNullException> o <xref:System.ArgumentOutOfRangeException>, invece deve essere generata.  
   
 <a name="Misc"></a>   
 ## <a name="miscellaneous-information"></a>Informazioni di vario tipo  
- <xref:System.InvalidOperationException> utilizza COR_E_INVALIDOPERATION HRESULT, con valore 0x80131509.  
+ <xref:System.InvalidOperationException> utilizza COR_E_INVALIDOPERATION HRESULT, che ha il valore 0x80131509.  
   
  Per un elenco di valori di proprietà iniziali per un'istanza di <xref:System.InvalidOperationException>, vedere il <xref:System.InvalidOperationException.%23ctor%2A> costruttori.  
   
@@ -341,6 +343,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -355,7 +359,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo costruttore inizializza la <xref:System.Exception.Message%2A> proprietà della nuova istanza di un messaggio fornito dal sistema che descrive l'errore, ad esempio "non è possibile eseguire l'operazione richiesta". Questo messaggio prende in considerazione le impostazioni cultura correnti del sistema.  
+ Questo costruttore inizializza il <xref:System.Exception.Message%2A> proprietà della nuova istanza di un messaggio fornito dal sistema che descrive l'errore, ad esempio "non è possibile eseguire l'operazione richiesta". Questo messaggio prende in considerazione le impostazioni cultura correnti del sistema.  
   
  Nella tabella seguente vengono illustrati i valori di proprietà iniziali per un'istanza di <xref:System.InvalidOperationException>.  
   
@@ -387,6 +391,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -427,6 +433,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -451,7 +459,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo costruttore viene chiamato durante la deserializzazione per ricostituire l'oggetto eccezione trasmesso su un flusso. Per altre informazioni, vedere [serializzazione XML e SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).  
+ Questo costruttore viene chiamato durante la deserializzazione per ricostituire l'oggetto eccezione trasmesso su un flusso. Per altre informazioni, vedere [serializzazione SOAP e XML](~/docs/standard/serialization/xml-and-soap-serialization.md).  
   
  ]]></format>
         </remarks>
@@ -476,6 +484,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
