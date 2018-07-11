@@ -1,11 +1,11 @@
 <Type Name="IVersioningPersonalizable" FullName="System.Web.UI.WebControls.WebParts.IVersioningPersonalizable">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ba990e9a1811be12de26ceb37a98e5ec58df7b81" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="146c86dea1d7f9ca6cf145a5468147af1a58e04d" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36385870" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37594933" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IVersioningPersonalizable" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVersioningPersonalizable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IVersioningPersonalizable = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -24,7 +25,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si esegue l'aggiornamento di un controllo Web part a una versione più recente, potrebbero esserci modifiche alle proprietà personalizzabili nella classe aggiornata. Ad esempio, una versione aggiornata di un controllo Web part potrebbe non supportano più proprietà che non erano disponibili nelle versioni precedenti. In tale scenario, il set di controlli Web part potrebbe caricare i dati di personalizzazione dall'archivio dati sottostante, ma non includono proprietà in base a cui applicare questi dati. Se un controllo implementa il <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable> interfaccia, il controllo di Web part verrà passato i dati di personalizzazione isolati. L'applicazione può quindi utilizzare questi dati per aggiornare le proprietà della versione più recente o utilizzare i dati in altro modo. Si noti che se vengono rilevate proprietà isolate durante l'importazione di controlli Web part, il <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable.Load%2A> metodo viene chiamato anche.  
+ Quando si esegue l'aggiornamento di un controllo Web part a una versione più recente, potrebbero esserci modifiche alle proprietà nella classe aggiornata personalizzabili. Ad esempio, una versione aggiornata di un controllo Web part non è più potrebbe supportare le proprietà che non erano disponibili nelle versioni precedenti. In questo caso, il set di controlli Web part potrebbe caricare i dati sulla personalizzazione dall'archivio dati sottostante, ma non includono proprietà in base al quale applicare i dati. Se implementato da un controllo di <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable> interfaccia, il controllo Web part verrà passato i dati sulla personalizzazione orfani. L'applicazione può quindi utilizzare questi dati per aggiornare le proprietà della versione più recente o usare i dati in altro modo. Si noti che se le proprietà orfane vengono rilevate durante l'importazione di controlli Web part, i <xref:System.Web.UI.WebControls.WebParts.IVersioningPersonalizable.Load%2A> viene anche chiamato.  
   
  ]]></format>
     </remarks>
@@ -40,6 +41,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -55,11 +57,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `unknownProperties` parametro contiene una rappresentazione dei dati di personalizzazione sconosciuti, dell'ambito sia "User" e "Shared", che non è stato possibile applicare al controllo. Quando una pagina è in esecuzione nell'ambito di utente, l'ambito di utente sconosciuto vengono forniti valori, se disponibile, piuttosto che i valori di ambito condiviso sconosciuti. Queste informazioni vengono archiviate come una serie di coppie nome/valore in cui ogni nome è il nome di stringa di una proprietà che non è stato trovato nel controllo e ogni valore contiene il valore della proprietà. È responsabilità del controllo per eseguire il cast o convertire il valore nel tipo appropriato e svolgere un'ulteriore elaborazione (ad esempio, il mapping dei dati da una proprietà precedente a una nuova proprietà).  
+ Il `unknownProperties` parametro contiene una rappresentazione dei dati di personalizzazione sconosciuto, dell'ambito di "Utente" e "Condivisi", che non è stato possibile applicare al controllo. Quando una pagina è in esecuzione nell'ambito di utente, i valori di ambito di utente sconosciuto vengono forniti (se disponibile) anziché i valori sconosciuti di ambito condiviso. Queste informazioni vengono archiviate come una serie di coppie nome/valore in cui ciascun nome è il nome di stringa di una proprietà che non è stato trovato nel controllo e ogni valore contiene il valore della proprietà. È responsabilità del controllo per eseguire il cast o convertire il valore nel tipo appropriato ed eseguire un'ulteriore elaborazione (ad esempio, il mapping dei dati da una proprietà precedente a una nuova proprietà).  
   
- Se lo stato del controllo cambia, questo deve chiamare <xref:System.Web.UI.WebControls.WebParts.WebPart.SetPersonalizationDirty%2A> (il metodo ereditato o il metodo statico pubblico nel caso di un controllo che non deriva da <xref:System.Web.UI.WebControls.WebParts.WebPart>). Se un controllo si contrassegna in modo come "dirty", il set di controlli Web part verrà estrarre i dati di personalizzazione dal controllo, indipendentemente dallo stato "dirty" del controllo e salvarlo nuovamente all'archivio dati sottostante in un secondo momento nel ciclo di vita della personalizzazione. Un controllo deve contrassegnare se stesso come se "dirty", in seguito all'elaborazione i valori di `unknownProperties` parametro, è stato modificato lo stato del controllo.  
+ Se viene modificato lo stato di un controllo, questo deve chiamare <xref:System.Web.UI.WebControls.WebParts.WebPart.SetPersonalizationDirty%2A> (il metodo ereditato o il metodo statico pubblico nel caso di un controllo che non deriva da <xref:System.Web.UI.WebControls.WebParts.WebPart>). Se un controllo contrassegnato automaticamente come "modificati", il set di controlli Web part verrà estrarre i dati sulla personalizzazione dal controllo, indipendentemente dallo stato "dirty" del controllo e salvarlo nuovamente all'archivio dati sottostante in un secondo momento nel ciclo di vita della personalizzazione. Un controllo deve contrassegnare se stesso come se "dirty", in seguito all'elaborazione di valori nel `unknownProperties` parametro, è stato modificato lo stato del controllo.  
   
- Si noti che, se vengono rilevate proprietà orfane durante l'importazione dei controlli Web part, questo metodo viene chiamato automaticamente.  
+ Si noti che, se vengono rilevate orfane proprietà durante l'importazione dei controlli Web part, questo metodo viene chiamato automaticamente.  
   
  ]]></format>
         </remarks>
