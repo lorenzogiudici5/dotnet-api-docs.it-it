@@ -1,11 +1,11 @@
 <Type Name="IsolationLevel" FullName="System.Data.IsolationLevel">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="44b4b9a8652445499c5d7d32988d517f99975d92" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="c338d1a30e31915ae70914694b2d70ff4b6d1fe0" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36677471" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37668477" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum IsolationLevel" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed IsolationLevel extends System.Enum" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -39,12 +41,12 @@
 ## Remarks  
  Il <xref:System.Data.IsolationLevel> valori vengono utilizzati da un provider di dati .NET Framework durante l'esecuzione di una transazione.  
   
- Il <xref:System.Data.IsolationLevel> modificato rimane attiva fino a quando non in modo esplicito, ma può essere modificata in qualsiasi momento. Il nuovo valore viene utilizzato in fase di esecuzione, non in fase di analisi. Se modificata durante una transazione, il comportamento previsto del server consiste nell'applicare il nuovo livello di blocco per tutte le istruzioni rimanenti.  
+ Il <xref:System.Data.IsolationLevel> rimane attiva finché non viene esplicitamente modificato, ma può essere modificata in qualsiasi momento. Il nuovo valore viene utilizzato in fase di esecuzione, non in fase di analisi. Se modificato durante una transazione, il comportamento previsto del server consiste nell'applicare il nuovo livello di blocco per tutte le istruzioni rimanenti.  
   
    
   
 ## Examples  
- Questa applicazione viene illustrato come utilizzare <xref:System.Data.IsolationLevel> in <xref:System.Data.Common.DbTransaction>. L'esempio consentiranno di dimostrare che i comportamenti seguenti sono consentite in diversi livelli di isolamento:  
+ Questa applicazione viene illustrato come utilizzare <xref:System.Data.IsolationLevel> in <xref:System.Data.Common.DbTransaction>. L'esempio presenta i seguenti comportamenti consentiti in diversi livelli di isolamento:  
   
 -   Letture dirty.  
   
@@ -52,7 +54,7 @@
   
 -   Righe fantasma.  
   
- Questa applicazione verrà eseguita in livelli di isolamento seguenti:  
+ Questa applicazione verrà eseguiti in livelli di isolamento seguenti:  
   
 -   ReadUncommitted  
   
@@ -68,11 +70,11 @@
   
 -   Nel primo thread, selezionare il products(All).  
   
--   Nel secondo thread, inserire un nuovo prodotto.  
+-   In quest'ultimo, inserire un nuovo prodotto.  
   
 -   Eseguire il commit della transazione nel secondo thread.  
   
--   Selezionare i prodotti di nuovo.  
+-   Selezionare di nuovo i prodotti.  
   
 -   Eseguire il commit della transazione nel primo thread.  
   
@@ -82,7 +84,7 @@
   
 -   Nel primo thread, selezionare il product(ProductId=1).  
   
--   Nel secondo thread, aggiornare il value(ProductId=1) quantità.  
+-   In quest'ultimo, aggiornare il value(ProductId=1) Quantity.  
   
 -   Eseguire il commit della transazione nel secondo thread.  
   
@@ -92,29 +94,29 @@
   
  Se la transazione consente il comportamento, le due operazioni Select otterranno i risultati diversi.  
   
- La classe ExchangeValuesThreads viene illustrata la differenza tra la transazione Serializable e Snapshot. Per la transazione serializzabile, thread funzionerà nell'ordine seguente:  
+ La classe ExchangeValuesThreads illustra la differenza tra la transazione Serializable e Snapshot. Per la transazione serializzabile, thread funzionerà nell'ordine seguente:  
   
--   Nel primo thread, ottenere il prezzo di product(ProductId=2) e archivio nella variabile.  
+-   Nel primo thread, ottenere il prezzo dell'archivio e product(ProductId=2) nella variabile.  
   
 -   Nel primo thread, aggiornare il prezzo di product(ProductId=1) con il prezzo di product(ProductId=2).  
   
 -   Eseguire il commit della transazione nel primo thread.  
   
--   Nel secondo thread, ottenere il prezzo di product(ProductId=1) e archivio nella variabile.  
+-   Nel secondo thread, ottenere il prezzo dell'archivio e product(ProductId=1) nella variabile.  
   
 -   Nel secondo thread, aggiornare il prezzo di product(ProductId=2) con il prezzo di product(ProductId=1).  
   
 -   Eseguire il commit della transazione nel secondo thread.  
   
- Ora i valori del prezzo (ProductId = 1 e ProductId = 2) sono nello stesso come il prezzo di Product(ProductId=2) originale.  
+ Ora i valori del prezzo (ProductId = 1 e ProductId = 2) è uguale a quella di prezzo di Product(ProductId=2) originale.  
   
- Per la transazione Snapshot, thread funzionerà nell'ordine seguente:  
+ Per la transazione Snapshot, i thread funzionerà nell'ordine seguente:  
   
--   Nel primo thread, ottenere il prezzo di product(ProductId=2) e archivio nella variabile;  
+-   Nel primo thread, ottenere il prezzo dell'archivio e product(ProductId=2) nella variabile;  
   
 -   Nel primo thread, aggiornare il prezzo di product(ProductId=1) con il prezzo di product(ProductId=2).  
   
--   Nel secondo thread, ottenere il prezzo di product(ProductId=1) rispetto allo snapshot e archivia nella variabile.  
+-   Nel secondo thread, ottenere il prezzo di product(ProductId=1) dallo snapshot e archivia nella variabile.  
   
 -   Nel secondo thread, aggiornare il prezzo di product(ProductId=2) con il prezzo di product(ProductId=1).  
   
@@ -122,13 +124,13 @@
   
 -   Eseguire il commit della transazione nel primo thread.  
   
- Ora lo scambio dei prezzi dei prodotti (ProductId = 1 e ProductId = 2).  
+ A questo punto il prezzo dei prodotti di exchange (ProductId = 1 e ProductId = 2).  
   
  La classe DirtyReadThreads illustra se la transazione specifica consente il comportamento di lettura Dirty. Se la transazione consente il comportamento, i thread funzionerà nell'ordine seguente:  
   
--   Nel primo thread, iniziare una transazione e aggiungere il value(ProductId=1) quantità.  
+-   Nel primo thread, iniziare una transazione e aggiungere il value(ProductId=1) Quantity.  
   
--   Nel secondo thread, leggere il valore della quantità e aggiungere di nuovo il valore.  
+-   In quest'ultimo, leggere il valore della quantità e aggiungere di nuovo il valore.  
   
 -   Eseguire il commit della transazione nel secondo thread.  
   
@@ -136,7 +138,7 @@
   
  Se la transazione consente il comportamento, il valore della quantità verrà aggiunto due volte.  
   
- Progetti c# e Visual Basic con questo esempio di codice sono disponibili nel [esempi di codice degli sviluppatori](https://code.msdn.microsoft.com/site/search?query=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Value=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Type=SearchText&ac=4).  
+ I progetti c# e Visual Basic con questo esempio di codice sono reperibili sul [Developer Code Samples](https://code.msdn.microsoft.com/site/search?query=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Value=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Type=SearchText&ac=4).  
   
  [!code-csharp[system_data_IsolationLevel#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/system_data_isolationlevel/cs/source.cs#1)]
  [!code-vb[system_data_IsolationLevel#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/system_data_isolationlevel/vb/source.vb#1)]  
@@ -161,6 +163,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -192,6 +196,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -223,6 +229,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -254,6 +262,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -285,6 +295,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -316,6 +328,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -347,6 +360,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -364,7 +379,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si utilizza <xref:System.Data.Odbc.OdbcTransaction>, se non si imposta <xref:System.Data.IsolationLevel> o si impostano <xref:System.Data.IsolationLevel> a `Unspecified`, la transazione viene eseguita in base al livello di isolamento è determinato dal driver che è in uso.  
+ Quando si usa <xref:System.Data.Odbc.OdbcTransaction>, se non si imposta <xref:System.Data.IsolationLevel> o si impostano <xref:System.Data.IsolationLevel> a `Unspecified`, la transazione viene eseguita in base al livello di isolamento che è determinato dal driver in uso.  
   
  ]]></format>
         </remarks>
