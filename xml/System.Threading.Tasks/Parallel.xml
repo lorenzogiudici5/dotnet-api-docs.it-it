@@ -1,17 +1,18 @@
 <Type Name="Parallel" FullName="System.Threading.Tasks.Parallel">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c7a1e65ce8ea63b5af31713b9765bbef1a97a84a" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="0ccd8e8796d91623d453ef299472d90582525e77" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30531655" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36407711" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Parallel" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Parallel extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Tasks.Parallel" />
   <TypeSignature Language="VB.NET" Value="Public Class Parallel" />
   <TypeSignature Language="C++ CLI" Value="public ref class Parallel abstract sealed" />
+  <TypeSignature Language="F#" Value="type Parallel = class" />
   <AssemblyInfo>
     <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -36,12 +37,12 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.Threading.Tasks.Parallel> classe fornisce sostituzioni parallele di basata su raccolta dati per operazioni comuni quali cicli, per ogni cicli e l'esecuzione di un set di istruzioni.  
+ Il <xref:System.Threading.Tasks.Parallel> classe fornisce sostituzioni parallele basata su raccolta dati per operazioni comuni quali cicli, per ogni esecuzione di un set di istruzioni e cicli,.  
   
    
   
 ## Examples  
- Questo esempio illustra i diversi approcci per l'implementazione di un ciclo parallelo tramite più costrutti del linguaggio.  
+ Questo esempio illustra diversi approcci per l'implementazione di un ciclo parallelo tramite più costrutti del linguaggio.  
   
  [!code-csharp[System.Threading.Tasks.Parallel#07](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel/cs/parallelintro.cs#07)]
  [!code-vb[System.Threading.Tasks.Parallel#07](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel/vb/parallelintro.vb#07)]  
@@ -67,6 +68,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Action{System.Int32,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For (fromInclusive As Integer, toExclusive As Integer, body As Action(Of Integer, ParallelLoopState)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, Action&lt;int, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * Action&lt;int, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -104,27 +106,27 @@
   
 -   Un <xref:System.Int32> valore che rappresenta il conteggio delle iterazioni.  
   
--   Oggetto <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo. Il <xref:System.Threading.Tasks.ParallelLoopState> oggetto viene creato dal compilatore; non è possibile creare un'istanza nel codice utente.  
+-   Oggetto <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo. Il <xref:System.Threading.Tasks.ParallelLoopState> oggetto viene creato dal compilatore; non è possibile creare un'istanza nel codice utente.  
   
- La chiamata di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> metodo informa il `for` operazione che le iterazioni successive a quella corrente non sono necessario eseguire. Tuttavia, tutte le iterazioni prima di quella corrente uno sarà comunque necessario deve essere eseguito se è già stato fatto.  
+ Chiamata di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> metodo informa il `for` operazione che non dispongono di iterazioni successivo a quello corrente per l'esecuzione. Tuttavia, tutte le iterazioni prima corrente uno sarà comunque necessario deve essere eseguito se è già stato fatto.  
   
- Pertanto, la chiamata <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> è simile all'utilizzo di un'operazione di interruzione all'interno di una tradizionale `for` ciclo in un linguaggio come c#, ma non è un sostituto perfetto: ad esempio, non c'è garanzia che le iterazioni successive a quella corrente verranno sicuramente non eseguire.  
+ Pertanto, la chiamata <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> è simile all'utilizzo di un'operazione di interruzione all'interno di una tradizionale `for` ciclo in un linguaggio come c#, ma non è un sostituto perfetto: ad esempio, non è garantito che le iterazioni successivo a quello corrente verranno sicuramente non eseguire.  
   
- Se l'esecuzione di tutte le iterazioni prima di quella corrente non è necessario, utilizzare il <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> metodo anziché <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. La chiamata <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informa il `for` ciclo che può abbandonare tutti i rimanenti iterazioni, indipendentemente dal fatto che essi si prima o dopo l'iterazione corrente, in quanto tutte le necessarie lavoro sarà già stato completato. Tuttavia, come con <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, non vi sono garanzie riguardo a quali altre iterazioni non verranno eseguito.  
+ Se l'esecuzione di tutte le iterazioni prima di quella corrente non è necessario, utilizzare il <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> metodo anziché <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. La chiamata <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informa il `for` ciclo che può abbandonare tutti i rimanenti iterazioni, indipendentemente dal fatto che essi si prima o dopo l'iterazione corrente, in quanto tutte le necessarie lavoro verrà sono già stato completato. Tuttavia, come con <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, non vi sono garanzie riguardo a quali altre iterazioni non verranno eseguito.  
   
- Se è stato interrotta, a un ciclo di <xref:System.Threading.Tasks.ParallelLoopResult> struttura restituita conterrà le informazioni relative al completamento del ciclo.  
+ Se un ciclo termina prematuramente, il <xref:System.Threading.Tasks.ParallelLoopResult> struttura restituita conterrà le informazioni relative al completamento del ciclo.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo restituisce immediatamente senza eseguire alcuna iterazione.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene eseguita fino a 100 iterazioni di un ciclo in parallelo. Consente di sospendere ogni iterazione per un intervallo casuale compreso tra 1 e 1.000 millisecondi. Un valore generato casualmente determina a quali iterazione del ciclo di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo viene chiamato. Come illustrato nell'esempio, nessuna iterazione il cui indice è maggiore di output di <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType> inizio del valore proprietà dopo la chiamata al <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo.  
+ Nell'esempio seguente viene eseguita fino a 100 iterazioni di un ciclo in parallelo. Ogni iterazione viene sospeso per un intervallo casuale da 1 a 1.000 millisecondi. Un valore generato casualmente determina a quali iterazione del ciclo di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo viene chiamato. Come output illustrato nell'esempio, nessuna iterazione il cui indice è maggiore di <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType> inizio del valore proprietà dopo la chiamata al <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo.  
   
  [!code-csharp[System.Threading.Tasks.ParallelLoopState#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallelloopstate/cs/break1.cs#2)]
  [!code-vb[System.Threading.Tasks.ParallelLoopState#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallelloopstate/vb/break1.vb#2)]  
   
- Perché sono ancora soggetti a essere in esecuzione al termine delle iterazioni del ciclo di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo viene chiamato, le chiamate di ogni iterazione il <xref:System.Threading.Tasks.ParallelLoopState.ShouldExitCurrentIteration%2A?displayProperty=nameWithType> proprietà per verificare se un'altra iterazione è chiamato il <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo. Se il valore della proprietà `true`, l'iterazione controlla il valore del <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType> proprietà e, se è maggiore del valore di indice dell'iterazione corrente, termina immediatamente.  
+ Poiché le iterazioni del ciclo vengono ancora soggetti a essere in esecuzione al termine il <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> metodo viene chiamato, le chiamate di ogni iterazione il <xref:System.Threading.Tasks.ParallelLoopState.ShouldExitCurrentIteration%2A?displayProperty=nameWithType> proprietà per verificare se un'altra iterazione è chiamato il <xref:System.Threading.Tasks.ParallelLoopState.Break%2A?displayProperty=nameWithType> (metodo). Se il valore della proprietà `true`, l'iterazione controlla il valore del <xref:System.Threading.Tasks.ParallelLoopState.LowestBreakIteration%2A?displayProperty=nameWithType> proprietà e, se è maggiore del valore di indice dell'iterazione corrente, restituisce immediatamente.  
   
  ]]></format>
         </remarks>
@@ -139,6 +141,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Action{System.Int32})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For (fromInclusive As Integer, toExclusive As Integer, body As Action(Of Integer)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, Action&lt;int&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * Action&lt;int&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -174,12 +177,12 @@
 ## Remarks  
  Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con il conteggio delle iterazioni (<xref:System.Int32>) come parametro.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo restituisce immediatamente senza eseguire alcuna iterazione.  
   
    
   
 ## Examples  
- L'esempio seguente usa il <xref:System.Threading.Tasks.Parallel.For%2A> metodo per le chiamate di un delegato che genera l'errore byte casuali a 100 valori e calcola la somma.  
+ L'esempio seguente usa il <xref:System.Threading.Tasks.Parallel.For%2A> metodo per 100 chiamate di un delegato che genera l'errore byte casuali valori e calcola la somma.  
   
  [!code-csharp[System.Threading.Tasks.Parallel.For#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel.for/cs/for1.cs#1)]
  [!code-vb[System.Threading.Tasks.Parallel.For#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel.for/vb/for1.vb#1)]  
@@ -196,6 +199,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Action{System.Int64,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For (fromInclusive As Long, toExclusive As Long, body As Action(Of Long, ParallelLoopState)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, Action&lt;long, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * Action&lt;int64, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -229,17 +233,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo.  
   
- Chiamata di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> metodo informa il `for` operazione le iterazioni successive a quella corrente non devono essere eseguiti, ma eseguire tutte le iterazioni prima di quello corrente.  
+ Chiamata di <xref:System.Threading.Tasks.ParallelLoopState.Break%2A> metodo informa il `for` operazione iterazioni successiva a quella corrente non deve essere eseguito, ma eseguire tutte le iterazioni precedenti a quella corrente.  
   
- Pertanto, la chiamata di interruzione è simile all'utilizzo di un'operazione di interruzione all'interno di una tradizionale `for` ciclo in un linguaggio come c#, ma non è un sostituto perfetto: ad esempio, non c'è garanzia che le iterazioni dopo quello corrente sicuramente non verrà eseguiti.  
+ Pertanto, la chiamata di interruzione è simile all'utilizzo di un'operazione di interruzione all'interno di una tradizionale `for` ciclo in un linguaggio come c#, ma non è un sostituto perfetto: ad esempio, non è garantito che le iterazioni dopo quello corrente sicuramente non verrà eseguiti.  
   
- Se l'esecuzione di tutte le iterazioni prima di quella corrente non è necessario, utilizzare il <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> metodo anziché <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. La chiamata <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informa il `for` ciclo che può abbandonare tutti i rimanenti iterazioni, indipendentemente dal fatto che essi si prima o dopo l'iterazione corrente, in quanto tutte le necessarie lavoro sarà già stato completato. Tuttavia, come con <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, non vi sono garanzie riguardo a quali altre iterazioni non verranno eseguito.  
+ Se l'esecuzione di tutte le iterazioni prima di quella corrente non è necessario, utilizzare il <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> metodo anziché <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>. La chiamata <xref:System.Threading.Tasks.ParallelLoopState.Stop%2A> informa il `for` ciclo che può abbandonare tutti i rimanenti iterazioni, indipendentemente dal fatto che essi si prima o dopo l'iterazione corrente, in quanto tutte le necessarie lavoro verrà sono già stato completato. Tuttavia, come con <xref:System.Threading.Tasks.ParallelLoopState.Break%2A>, non vi sono garanzie riguardo a quali altre iterazioni non verranno eseguito.  
   
- Se è stato interrotta, a un ciclo di <xref:System.Threading.Tasks.ParallelLoopResult> struttura restituita conterrà le informazioni relative al completamento del ciclo.  
+ Se un ciclo termina prematuramente, il <xref:System.Threading.Tasks.ParallelLoopResult> struttura restituita conterrà le informazioni relative al completamento del ciclo.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
  ]]></format>
         </remarks>
@@ -253,6 +257,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Action{System.Int64})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For (fromInclusive As Long, toExclusive As Long, body As Action(Of Long)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, Action&lt;long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * Action&lt;int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -288,7 +293,7 @@
 ## Remarks  
  Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con il conteggio delle iterazioni (<xref:System.Int64>) come parametro.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo restituisce immediatamente senza eseguire alcuna iterazione.  
   
  ]]></format>
         </remarks>
@@ -301,6 +306,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For(int32 fromInclusive, int32 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`2&lt;int32, class System.Threading.Tasks.ParallelLoopState&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Action{System.Int32,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;int, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * System.Threading.Tasks.ParallelOptions * Action&lt;int, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -336,18 +342,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo restituisce immediatamente senza eseguire alcuna iterazione.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -357,6 +359,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For(int32 fromInclusive, int32 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`1&lt;int32&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Action{System.Int32})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;int&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * System.Threading.Tasks.ParallelOptions * Action&lt;int&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -394,7 +397,7 @@
 ## Remarks  
  Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con il conteggio delle iterazioni (<xref:System.Int32>) come parametro.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
    
   
@@ -407,11 +410,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -421,6 +420,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For(int64 fromInclusive, int64 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`2&lt;int64, class System.Threading.Tasks.ParallelLoopState&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Action{System.Int64,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;long, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * System.Threading.Tasks.ParallelOptions * Action&lt;int64, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -456,9 +456,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>) e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo restituisce immediatamente senza eseguire alcuna iterazione.  
   
    
   
@@ -471,11 +471,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -485,6 +481,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For(int64 fromInclusive, int64 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`1&lt;int64&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Action{System.Int64})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * System.Threading.Tasks.ParallelOptions * Action&lt;int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -522,7 +519,7 @@
 ## Remarks  
  Supporta gli indici a 64 bit. Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con il conteggio delle iterazioni (<xref:System.Int64>) come parametro.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
    
   
@@ -535,11 +532,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -550,6 +543,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For``1(System.Int32,System.Int32,System.Func{``0},System.Func{System.Int32,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For(Of TLocal) (fromInclusive As Integer, toExclusive As Integer, localInit As Func(Of TLocal), body As Func(Of Integer, ParallelLoopState, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, Func&lt;TLocal&gt; ^ localInit, Func&lt;int, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * Func&lt;'Local&gt; * Func&lt;int, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -591,27 +585,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni che vengono eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
- Per un esempio che utilizza questo metodo, vedere [procedura: scrivere un ciclo Parallel. for con variabili di Thread locali](~/docs/standard/parallel-programming/how-to-write-a-parallel-for-loop-with-thread-local-variables.md).  
+ Per un esempio che usa questo metodo, vedere [procedura: scrivere un ciclo Parallel. for con variabili Thread-Local](~/docs/standard/parallel-programming/how-to-write-a-parallel-for-loop-with-thread-local-variables.md).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -621,6 +607,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For``1(System.Int64,System.Int64,System.Func{``0},System.Func{System.Int64,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function For(Of TLocal) (fromInclusive As Long, toExclusive As Long, localInit As Func(Of TLocal), body As Func(Of Long, ParallelLoopState, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, Func&lt;TLocal&gt; ^ localInit, Func&lt;long, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * Func&lt;'Local&gt; * Func&lt;int64, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -662,27 +649,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite per la stessa attività.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite per la stessa attività.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
- Per un esempio che utilizza questo metodo, vedere [procedura: scrivere un ciclo Parallel. for con variabili di Thread locali](~/docs/standard/parallel-programming/how-to-write-a-parallel-for-loop-with-thread-local-variables.md).  
+ Per un esempio che usa questo metodo, vedere [procedura: scrivere un ciclo Parallel. for con variabili Thread-Local](~/docs/standard/parallel-programming/how-to-write-a-parallel-for-loop-with-thread-local-variables.md).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -691,6 +670,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For&lt;TLocal&gt;(int32 fromInclusive, int32 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`4&lt;int32, class System.Threading.Tasks.ParallelLoopState, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For``1(System.Int32,System.Int32,System.Threading.Tasks.ParallelOptions,System.Func{``0},System.Func{System.Int32,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult For(int fromInclusive, int toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;int, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member For : int * int * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;int, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -734,37 +714,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite per la stessa attività.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int32>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite per la stessa attività.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più thread. Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più thread. Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
    
   
 ## Examples  
- L'esempio seguente usa le variabili locali del thread per calcolare la somma dei risultati di molte operazioni di lunga durate. In questo esempio consente di limitare il grado di parallelismo a quattro.  
+ L'esempio seguente usa le variabili thread-local per calcolare la somma dei risultati di molte operazioni di lunga durate. In questo esempio consente di limitare il grado di parallelismo a quattro.  
   
  [!code-csharp[System.Threading.Tasks.Parallel#04](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel/cs/threadlocalforwithoptions.cs#04)]
  [!code-vb[System.Threading.Tasks.Parallel#04](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel/vb/threadlocalforwithoptions.vb#04)]  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
@@ -775,6 +743,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult For&lt;TLocal&gt;(int64 fromInclusive, int64 toExclusive, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`4&lt;int64, class System.Threading.Tasks.ParallelLoopState, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.For``1(System.Int64,System.Int64,System.Threading.Tasks.ParallelOptions,System.Func{``0},System.Func{System.Int64,System.Threading.Tasks.ParallelLoopState,``0,``0},System.Action{``0})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult For(long fromInclusive, long toExclusive, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;long, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member For : int64 * int64 * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;int64, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.For (fromInclusive, toExclusive, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -818,29 +787,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni che vengono eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni valore nell'intervallo di iterazione (`fromInclusive`, `toExclusive`). Viene fornito con i seguenti parametri: il conteggio delle iterazioni (<xref:System.Int64>), un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni thread che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuno di tali thread. Questi stati iniziali vengono passati al primo `body` chiamate in ogni thread. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni thread restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni thread. Questo delegato può essere chiamato simultaneamente su più thread. Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni thread che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuno di tali thread. Questi stati iniziali vengono passati al primo `body` chiamate in ogni thread. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni thread restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni thread. Questo delegato può essere chiamato simultaneamente su più thread. Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.For%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
- Se `fromInclusive` è maggiore o uguale a `toExclusive`, tramite il metodo viene restituito immediatamente senza eseguire nessuna iterazione.  
+ Se `fromInclusive` è maggiore o uguale a `toExclusive`, il metodo viene restituito immediatamente senza eseguire alcuna iterazione.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
@@ -862,6 +819,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.OrderablePartitioner{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As OrderablePartitioner(Of TSource), body As Action(Of TSource, ParallelLoopState, Long)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::OrderablePartitioner&lt;TSource&gt; ^ source, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.OrderablePartitioner&lt;'Source&gt; * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -897,24 +855,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- La proprietà <see cref="P:System.Collections.Concurrent.OrderablePartitioner`1.KeysNormalized" /> nel partitioner ordinabile di origine restituisce <see langword="false" />.  
-  
- oppure  
-  
- Qualsiasi metodo nel partitioner ordinabile di origine restituisce <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  -oppure- La proprietà <see cref="P:System.Collections.Concurrent.OrderablePartitioner`1.KeysNormalized" /> nel partitioner ordinabile di origine restituisce <see langword="false" />.  -oppure- Qualsiasi metodo nel partitioner ordinabile di origine restituisce <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -923,6 +869,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As Partitioner(Of TSource), body As Action(Of TSource, ParallelLoopState)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -958,24 +905,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- Un metodo nel partitioner <paramref name="source" /> restituisce <see langword="null" />.  
-  
- oppure  
-  
- Il metodo <see cref="M:System.Collections.Concurrent.Partitioner`1.GetPartitions(System.Int32)" /> nel partitioner <paramref name="source" /> non restituisce il numero corretto di partizioni.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  -oppure- Un metodo nel partitioner <paramref name="source" /> restituisce <see langword="null" />.  -oppure- Il metodo <see cref="M:System.Collections.Concurrent.Partitioner`1.GetPartitions(System.Int32)" /> nel partitioner <paramref name="source" /> non restituisce il numero corretto di partizioni.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -984,6 +919,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Action{``0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As Partitioner(Of TSource), body As Action(Of TSource)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, Action&lt;TSource&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * Action&lt;'Source&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1019,7 +955,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
    
   
@@ -1031,20 +967,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.  
-  
- oppure  
-  
- Il metodo <see cref="M:System.Collections.Concurrent.Partitioner`1.GetPartitions(System.Int32)" /> nel partitioner <paramref name="source" /> non restituisce il numero corretto di partizioni.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  -oppure- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.  -oppure- Il metodo <see cref="M:System.Collections.Concurrent.Partitioner`1.GetPartitions(System.Int32)" /> nel partitioner <paramref name="source" /> non restituisce il numero corretto di partizioni.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -1053,6 +977,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As IEnumerable(Of TSource), body As Action(Of TSource, ParallelLoopState, Long)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1088,15 +1013,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e l'indice dell'elemento corrente (<xref:System.Int64>).  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e l'indice dell'elemento corrente (<xref:System.Int64>).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -1106,6 +1027,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As IEnumerable(Of TSource), body As Action(Of TSource, ParallelLoopState)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1141,15 +1063,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -1159,6 +1077,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource) (source As IEnumerable(Of TSource), body As Action(Of TSource)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, Action&lt;TSource&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * Action&lt;'Source&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1199,18 +1118,14 @@
    
   
 ## Examples  
- L'esempio seguente usa il <xref:System.Threading.Tasks.Parallel.ForEach%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%7D%29> metodo per contare il numero di caratteri diversi da spazi in un file di testo e di vocali. In questo caso, il <xref:System.Threading.Tasks.ParallelLoopResult> valore restituito dal metodo viene ignorato. Si noti che, poiché le operazioni possono essere eseguiti in parallelo, è necessario assicurarsi che le variabili di contatore a incremento è un'operazione atomica, e che più thread non tentare di accedere alle variabili di contatore contemporaneamente. A tale scopo, nell'esempio viene utilizzato il `lock` istruzione (in c#) e `SyncLock` istruzione (in Visual Basic).  
+ L'esempio seguente usa il <xref:System.Threading.Tasks.Parallel.ForEach%60%601%28System.Collections.Generic.IEnumerable%7B%60%600%7D%2CSystem.Action%7B%60%600%7D%29> metodo per contare il numero di caratteri diversi da spazi in un file di testo e le vocali. In questo caso, il <xref:System.Threading.Tasks.ParallelLoopResult> valore restituito dal metodo viene ignorato. Si noti che, poiché le operazioni possono essere eseguiti in parallelo, è necessario assicurarsi che si incrementa le variabili di contatore è un'operazione atomica, e che più thread non tentare di accedere alle variabili di contatore contemporaneamente. A tale scopo, nell'esempio viene utilizzata la `lock` istruzione (in c#) e il `SyncLock` istruzione (in Visual Basic).  
   
  [!code-csharp[System.Threading.Tasks.Parallel.ForEach#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel.foreach/cs/foreach1.cs#1)]
  [!code-vb[System.Threading.Tasks.Parallel.ForEach#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel.foreach/vb/foreach1.vb#1)]  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -1219,6 +1134,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Concurrent.OrderablePartitioner`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`3&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, int64&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.OrderablePartitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::OrderablePartitioner&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.OrderablePartitioner&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1256,30 +1172,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- La proprietà <see cref="P:System.Collections.Concurrent.OrderablePartitioner`1.KeysNormalized" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- Eccezione generata quando qualsiasi metodo nell'oggetto partitioner ordinabile <paramref name="source" /> restituisce <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  -oppure- La proprietà <see cref="P:System.Collections.Concurrent.OrderablePartitioner`1.KeysNormalized" /> nel partitioner ordinabile <paramref name="source" /> restituisce <see langword="false" />.  -oppure- Eccezione generata quando qualsiasi metodo nell'oggetto partitioner ordinabile <paramref name="source" /> restituisce <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -1287,6 +1187,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Concurrent.Partitioner`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`2&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1324,26 +1225,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  -oppure- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -1351,6 +1240,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Concurrent.Partitioner`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`1&lt;!!TSource&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1388,26 +1278,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  
-  
- oppure  
-  
- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> nel partitioner <paramref name="source" /> restituisce <see langword="false" />.  -oppure- Eccezione generata quando qualsiasi metodo del partitioner <paramref name="source" /> restituisce <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ForEach&lt;TSource&gt;">
@@ -1415,6 +1293,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`3&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, int64&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState,System.Int64})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1452,20 +1331,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e l'indice dell'elemento corrente (<xref:System.Int64>).  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e l'indice dell'elemento corrente (<xref:System.Int64>).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -1475,6 +1346,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`2&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0,System.Threading.Tasks.ParallelLoopState})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource, System::Threading::Tasks::ParallelLoopState ^&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source, System.Threading.Tasks.ParallelLoopState&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1512,20 +1384,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente e un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -1535,6 +1399,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action`1&lt;!!TSource&gt; body) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Action{``0})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Action&lt;TSource&gt; ^ body);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Action&lt;'Source&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, body)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1577,15 +1442,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
       </Docs>
@@ -1596,6 +1453,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.OrderablePartitioner{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource, TLocal) (source As OrderablePartitioner(Of TSource), localInit As Func(Of TLocal), body As Func(Of TSource, ParallelLoopState, Long, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::OrderablePartitioner&lt;TSource&gt; ^ source, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.OrderablePartitioner&lt;'Source&gt; * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1637,27 +1495,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> in <paramref name="source" /><see cref="T:System.Collections.Concurrent.Partitioner" /> restituisce <see langword="false" /> oppure il partitioner restituisce partizioni <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
@@ -1668,6 +1514,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.Partitioner{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource, TLocal) (source As Partitioner(Of TSource), localInit As Func(Of TLocal), body As Func(Of TSource, ParallelLoopState, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1709,27 +1556,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
- Il `localInit` delegato viene richiamato una volta per ogni thread che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni thread che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> in <paramref name="source" /><see cref="T:System.Collections.Concurrent.Partitioner" /> restituisce <see langword="false" /> oppure il partitioner restituisce partizioni <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
@@ -1740,6 +1575,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource, TLocal) (source As IEnumerable(Of TSource), localInit As Func(Of TLocal), body As Func(Of TSource, ParallelLoopState, Long, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1781,27 +1617,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzata per prematuramente all'esterno del ciclo, l'indice dell'elemento corrente (<xref:System.Int64>) e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo, indice dell'elemento corrente (<xref:System.Int64>) e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -1811,6 +1635,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function ForEach(Of TSource, TLocal) (source As IEnumerable(Of TSource), localInit As Func(Of TLocal), body As Func(Of TSource, ParallelLoopState, TLocal, TLocal), localFinally As Action(Of TLocal)) As ParallelLoopResult" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1852,11 +1677,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni che vengono eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
    
   
@@ -1868,19 +1693,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
       </Docs>
     </Member>
@@ -1889,6 +1702,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(class System.Collections.Concurrent.OrderablePartitioner`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`5&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, int64, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.OrderablePartitioner{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::OrderablePartitioner&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.OrderablePartitioner&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -1932,27 +1746,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni thread restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni thread restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- L'argomento <paramref name="localInit" /> o <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> o <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> in <paramref name="source" /><see cref="T:System.Collections.Concurrent.Partitioner" /> restituisce <see langword="false" /> oppure il partitioner restituisce partizioni <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
@@ -1964,6 +1766,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(class System.Collections.Concurrent.Partitioner`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`4&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Concurrent.Partitioner{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Concurrent::Partitioner&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : System.Collections.Concurrent.Partitioner&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -2007,31 +1810,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo overload viene fornito per scenari in cui si desidera sostituire il valore predefinito di schema di partizionamento. Ad esempio, i corpi di ciclo di dimensioni ridotte potrebbero risultare utile il partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede un partitioner personalizzati per supportare il partizionamento dinamico. Questo overload viene fornito per scenari con corpi di ciclo di dimensioni ridotte che potrebbero trarre vantaggio dal partizionamento per intervalli statico. I partitioner devono supportare partizioni dinamiche.  Per ulteriori informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [come: partizioni dinamiche implementano](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
+ Questo overload viene fornito per scenari in cui si desidera sostituire l'impostazione predefinita lo schema di partizionamento. Ad esempio corpi di ciclo di dimensioni ridotte potrebbero risultare utile partizionamento dell'intervallo. Il <xref:System.Threading.Tasks.Parallel.ForEach%2A> metodo prevede partitioner personalizzati per supportare il partizionamento dinamico. Questo overload viene fornito per scenari con corpi di ciclo di dimensioni ridotte che potrebbero risultare utile eseguire il partizionamento range statico. I partitioner devono supportare le partizioni dinamiche.  Per altre informazioni, vedere [partitioner personalizzati per PLINQ e TPL](~/docs/standard/parallel-programming/custom-partitioners-for-plinq-and-tpl.md) e [procedura: implementare partizioni dinamiche](~/docs/standard/parallel-programming/how-to-implement-dynamic-partitions.md).  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni attività per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">La proprietà <see cref="P:System.Collections.Concurrent.Partitioner`1.SupportsDynamicPartitions" /> in <paramref name="source" /><see cref="T:System.Collections.Concurrent.Partitioner" /> restituisce <see langword="false" /> oppure il partitioner restituisce partizioni <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
@@ -2043,6 +1830,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`5&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, int64, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,System.Int64,``1,``1},System.Action{``1})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, long, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, int64, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -2086,31 +1874,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzata per prematuramente all'esterno del ciclo, l'indice dell'elemento corrente (<xref:System.Int64>) e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo, indice dell'elemento corrente (<xref:System.Int64>) e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
@@ -2121,6 +1893,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Threading.Tasks.ParallelLoopResult ForEach&lt;TSource, TLocal&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!TSource&gt; source, class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Func`1&lt;!!TLocal&gt; localInit, class System.Func`4&lt;!!TSource, class System.Threading.Tasks.ParallelLoopState, !!TLocal, !!TLocal&gt; body, class System.Action`1&lt;!!TLocal&gt; localFinally) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.ForEach``2(System.Collections.Generic.IEnumerable{``0},System.Threading.Tasks.ParallelOptions,System.Func{``1},System.Func{``0,System.Threading.Tasks.ParallelLoopState,``1,``1},System.Action{``1})" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TSource, typename TLocal&gt;&#xA; static System::Threading::Tasks::ParallelLoopResult ForEach(System::Collections::Generic::IEnumerable&lt;TSource&gt; ^ source, System::Threading::Tasks::ParallelOptions ^ parallelOptions, Func&lt;TLocal&gt; ^ localInit, Func&lt;TSource, System::Threading::Tasks::ParallelLoopState ^, TLocal, TLocal&gt; ^ body, Action&lt;TLocal&gt; ^ localFinally);" />
+      <MemberSignature Language="F#" Value="static member ForEach : seq&lt;'Source&gt; * System.Threading.Tasks.ParallelOptions * Func&lt;'Local&gt; * Func&lt;'Source, System.Threading.Tasks.ParallelLoopState, 'Local, 'Local&gt; * Action&lt;'Local&gt; -&gt; System.Threading.Tasks.ParallelLoopResult" Usage="System.Threading.Tasks.Parallel.ForEach (source, parallelOptions, localInit, body, localFinally)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -2164,31 +1937,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere utilizzato per interrompere il ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni che vengono eseguite sullo stesso thread.  
+ Il `body` delegato viene richiamato una volta per ogni elemento di `source` enumerabile. Viene fornito con i seguenti parametri: l'elemento corrente, un <xref:System.Threading.Tasks.ParallelLoopState> istanza che può essere usato per uscire dal ciclo in modo anomalo e uno stato locale che può essere condiviso fra le iterazioni eseguite sullo stesso thread.  
   
- Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate in ogni attività. Quindi, ogni chiamata del corpo successiva restituisce un valore di stato probabilmente modificato che viene passato alla chiamata successiva corpo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegato. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a qualsiasi variabile condivisa.  
+ Il `localInit` delegato viene richiamato una volta per ogni attività che partecipa all'esecuzione del ciclo e restituisce lo stato locale iniziale per ognuna di queste attività. Questi stati iniziali vengono passati al primo `body` chiamate su ogni attività. Quindi, ogni chiamata successiva del corpo restituisce un valore di stato probabilmente modificato che viene passato alla chiamata corpo successivo. Infine, l'ultima chiamata corpo su ogni attività restituisce un valore di stato che viene passato per il `localFinally` delegare. Il `localFinally` delegato viene richiamato una volta per ogni thread per eseguire un'azione finale sullo stato locale di ogni attività. Questo delegato può essere chiamato simultaneamente su più attività; Pertanto, è necessario sincronizzare l'accesso a tutte le variabili condivise.  
   
- Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> metodo può utilizzare più attività di thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti da nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
+ Il <xref:System.Threading.Tasks.Parallel.ForEach%2A?displayProperty=nameWithType> (metodo), possono utilizzare più attività rispetto a thread in base alla durata della propria esecuzione come completato le attività esistenti e vengono sostituiti dalle nuove attività. In questo modo sottostante <xref:System.Threading.Tasks.TaskScheduler> oggetto la possibilità di aggiungere, modificare o rimuovere i thread che il ciclo del servizio.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="body" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localInit" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="source" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="body" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localInit" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="localFinally" /> è <see langword="null" />.</exception>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'argomento <paramref name="parallelOptions" /> è annullato.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
         <exception cref="T:System.AggregateException">Eccezione che contiene tutte le eccezioni singole generate su tutti i thread.</exception>
@@ -2210,6 +1967,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.Invoke(System.Action[])" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Invoke (ParamArray actions As Action())" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Invoke(... cli::array &lt;Action ^&gt; ^ actions);" />
+      <MemberSignature Language="F#" Value="static member Invoke : Action[] -&gt; unit" Usage="System.Threading.Tasks.Parallel.Invoke actions" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -2246,14 +2004,14 @@
 ## Remarks  
  Questo metodo può essere utilizzato per eseguire un set di operazioni, potenzialmente in parallelo.  
   
- Viene resa alcuna garanzia relativamente all'ordine in cui eseguire le operazioni o se vengono eseguite in parallelo. Questo metodo non restituisce fino a quando ognuna delle operazioni fornite è completata, indipendentemente dal fatto se completamento si verifica a causa di terminazione normale o eccezionale.  
+ L'ordine con cui eseguire le operazioni o se vengono eseguite in parallelo viene resa alcuna garanzia. Questo metodo non restituisce fino a quando non è stato di tutte le operazioni fornite completato, indipendentemente dal fatto completamento si verifica a causa di terminazione normale o eccezionale.  
   
  Per altre informazioni, vedere [Procedura: utilizzare Parallel.Invoke per eseguire operazioni in parallelo](~/docs/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations.md).  
   
    
   
 ## Examples  
- In questo esempio viene illustrato come utilizzare il <xref:System.Threading.Tasks.Parallel.Invoke%2A> metodo con altri metodi, delegati anonimi ed espressioni lambda.  
+ In questo esempio viene illustrato come utilizzare il <xref:System.Threading.Tasks.Parallel.Invoke%2A> metodo con altri metodi, anonimi delegati ed espressioni lambda.  
   
  [!code-csharp[System.Threading.Tasks.Parallel#01](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.tasks.parallel/cs/parallelinvoke.cs#01)]
  [!code-vb[System.Threading.Tasks.Parallel#01](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.tasks.parallel/vb/parallelinvoke.vb#01)]  
@@ -2270,6 +2028,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Invoke(class System.Threading.Tasks.ParallelOptions parallelOptions, class System.Action[] actions) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.Parallel.Invoke(System.Threading.Tasks.ParallelOptions,System.Action[])" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Invoke(System::Threading::Tasks::ParallelOptions ^ parallelOptions, ... cli::array &lt;Action ^&gt; ^ actions);" />
+      <MemberSignature Language="F#" Value="static member Invoke : System.Threading.Tasks.ParallelOptions * Action[] -&gt; unit" Usage="System.Threading.Tasks.Parallel.Invoke (parallelOptions, actions)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Parallel</AssemblyName>
@@ -2308,18 +2067,14 @@
 ## Remarks  
  Questo metodo può essere utilizzato per eseguire un set di operazioni, potenzialmente in parallelo. Il token di annullamento passato con la <xref:System.Threading.Tasks.ParallelOptions> struttura consente al chiamante di annullare l'intera operazione. Per altre informazioni, vedere [Annullamento in thread gestiti](~/docs/standard/threading/cancellation-in-managed-threads.md).  
   
- Viene resa alcuna garanzia relativamente all'ordine in cui eseguire le operazioni o se vengono eseguite in parallelo. Questo metodo non restituisce fino a quando ognuna delle operazioni fornite è completata, indipendentemente dal fatto se completamento si verifica a causa di terminazione normale o eccezionale.  
+ L'ordine con cui eseguire le operazioni o se vengono eseguite in parallelo viene resa alcuna garanzia. Questo metodo non restituisce fino a quando non è stato di tutte le operazioni fornite completato, indipendentemente dal fatto completamento si verifica a causa di terminazione normale o eccezionale.  
   
  Per altre informazioni, vedere [Procedura: utilizzare Parallel.Invoke per eseguire operazioni in parallelo](~/docs/standard/parallel-programming/how-to-use-parallel-invoke-to-execute-parallel-operations.md).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.OperationCanceledException">L'oggetto <see cref="T:System.Threading.CancellationToken" /> nell'oggetto <paramref name="parallelOptions" /> è impostato.</exception>
-        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="actions" /> è <see langword="null" />.  
-  
- oppure  
-  
- Il valore dell'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore dell'argomento <paramref name="actions" /> è <see langword="null" />.  -oppure- L'argomento <paramref name="parallelOptions" /> è <see langword="null" />.</exception>
         <exception cref="T:System.AggregateException">Eccezione generata quando qualsiasi azione nella matrice <paramref name="actions" /> genera un'eccezione.</exception>
         <exception cref="T:System.ArgumentException">La matrice di <paramref name="actions" /> contiene un elemento <see langword="null" />.</exception>
         <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato all'oggetto <see cref="T:System.Threading.CancellationToken" /> nel <paramref name="parallelOptions" /> è stato eliminato.</exception>
