@@ -1,11 +1,11 @@
 <Type Name="MissingManifestResourceException" FullName="System.Resources.MissingManifestResourceException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cb9af705e3549c5540634fa8ca0f4c7b3b9a539e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ecb2b3810ccff94aa1963581009c25e6dd02ced7" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36638026" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37472369" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MissingManifestResourceException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit MissingManifestResourceException extends System.SystemException" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -46,37 +48,37 @@
 ## Remarks  
   
 ## <a name="desktop-apps"></a>App desktop  
- Nelle App desktop, <xref:System.Resources.MissingManifestResourceException> viene generata quando il tentativo di recuperare una risorsa ha esito negativo perché non è stato possibile caricare il set di risorse per la lingua da un particolare assembly. Anche se l'eccezione viene generata quando si tenta di recuperare una particolare risorsa, è causato dal tentativo di caricare il set di risorse anziché l'impossibilità di trovare la risorsa.  
+ Nelle App desktop, <xref:System.Resources.MissingManifestResourceException> viene generata un'eccezione durante il tentativo di recuperare una risorsa ha esito negativo perché non è stato possibile caricare il set di risorse per impostazioni cultura di sistema da un determinato assembly. Anche se l'eccezione viene generata quando si prova a recuperare una determinata risorsa, è causato da errore per caricare il set di risorse anziché l'impossibilità di trovare la risorsa.  
   
 > [!NOTE]
->  Per ulteriori informazioni, vedere la sezione "Gestione di un MissingManifestResourceException (eccezione)" nel <xref:System.Resources.ResourceManager> argomento relativo alla classe.  
+>  Per altre informazioni, vedere la sezione "Gestione di un MissingManifestResourceException (eccezione)" nel <xref:System.Resources.ResourceManager> argomento relativo alla classe.  
   
- Di seguito sono elencate le cause principali di eccezione:  
+ Le cause principali dell'eccezione includono quanto segue:  
   
--   Il set di risorse non è identificato dal nome completo. Ad esempio, se il `baseName` parametro nella chiamata ai <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> metodo consente di specificare il nome radice del set di risorse senza uno spazio dei nomi, ma il set di risorse viene assegnato uno spazio dei nomi quando questo viene archiviato nel relativo assembly, la chiamata al <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> (metodo) genera questa eccezione.  
+-   Il set di risorse non è identificato dal relativo nome completo. Ad esempio, se il `baseName` parametro nella chiamata ai <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> metodo consente di specificare il nome radice del set di risorse senza uno spazio dei nomi, ma il set di risorse viene assegnato uno spazio dei nomi quando questo viene archiviato nel relativo assembly, la chiamata al <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> (metodo) genera questa eccezione.  
   
-     Se il file. resources che contiene le risorse di impostazioni cultura predefinite dell'eseguibile è stato incorporato e l'app sta generando un <xref:System.Resources.MissingManifestResourceException>, è possibile utilizzare uno strumento di reflection, ad esempio per determinare il nome completo della risorsa. In ILDasm, fare doppio clic il file eseguibile **manifesto** etichetta per aprire la **manifesto** finestra. Le risorse vengono visualizzate come `.mresource` elementi ed elencate dopo i riferimenti ad assembly esterni e gli attributi a livello di assembly personalizzati. È anche possibile compilare l'utilità semplice seguente, che elenca i nomi completi delle risorse incorporate nell'assembly il cui nome è passato come parametro della riga di comando.  
+     Se non è stato incorporato il file con estensione resources che contiene le risorse di impostazioni cultura predefinite nell'eseguibile e l'app sta generando un <xref:System.Resources.MissingManifestResourceException>, è possibile usare uno strumento di reflection, ad esempio per determinare il nome completo della risorsa. In ILDasm, fare doppio clic il file eseguibile **MANIFEST** label per aprire il **manifesto** finestra. Le risorse vengono visualizzate come `.mresource` elementi e vengono elencati dopo i riferimenti ad assembly esterni e gli attributi a livello di assembly personalizzati. È anche possibile compilare la seguente utilità semplice, in cui sono elencati i nomi completi di risorse incorporate nell'assembly il cui nome è passato come parametro della riga di comando.  
   
      [!code-csharp[System.Resources.ResourceManager.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.resources.resourcemanager.class/cs/resourcenames.cs#4)]
      [!code-vb[System.Resources.ResourceManager.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.resources.resourcemanager.class/vb/resourcenames.vb#4)]  
   
--   Consente di identificare il set per il nome del file di risorsa (con lo spazio dei nomi facoltativo) e l'estensione di file anziché il nome file radice e lo spazio dei nomi di risorse. Ad esempio, questa eccezione viene generata se il set di risorse della lingua di sistema è denominato `GlobalResources` e si specifica un valore `GlobalResources.resources` (anziché `GlobalResources`) per il `baseName` parametro del <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> costruttore.  
+-   Identificare la risorsa impostare il nome del file di risorsa (insieme a relativo spazio dei nomi facoltativo) e l'estensione del file anziché il nome file radice e lo spazio dei nomi. Ad esempio, questa eccezione viene generata se il set di risorse della lingua di sistema è denominato `GlobalResources` e si fornisce un valore di `GlobalResources.resources` (anziché `GlobalResources`) per il `baseName` parametro del <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> costruttore.  
   
--   Impossibile trovare il set di risorse specifiche delle impostazioni cultura che è identificato in una chiamata al metodo e non è possibile caricare il set di risorse di fallback. Ad esempio, se si creano gli assembly satellite per l'inglese (Stati Uniti) e le impostazioni cultura (russo) Russia ma non si fornisce una set di risorse per le impostazioni cultura neutre, questa eccezione viene generata se le impostazioni cultura correnti dell'app sono in inglese (Regno Unito).  
+-   Impossibile trovare il set di risorse specifiche delle impostazioni cultura che viene identificato in una chiamata al metodo e non è possibile caricare il set di risorse di fallback. Ad esempio, se si creano gli assembly satellite per l'inglese (Stati Uniti) e le impostazioni di cultura della Russia (russo) ma non si riesce a fornire una set di risorse per le impostazioni cultura neutre, questa eccezione viene generata se le impostazioni cultura correnti dell'app sono l'inglese (Gran Bretagna).  
   
- <xref:System.Resources.MissingManifestResourceException> utilizza HRESULT COR_E_MISSINGMANIFESTRESOURCE, valore 0x80131532.  
+ <xref:System.Resources.MissingManifestResourceException> utilizza COR_E_MISSINGMANIFESTRESOURCE HRESULT, che ha il valore 0x80131532.  
   
  <xref:System.Resources.MissingManifestResourceException> Usa il valore predefinito <xref:System.Object.Equals%2A> implementazione, che supporta l'uguaglianza dei riferimenti.  
   
  Per un elenco di valori di proprietà iniziali per un'istanza di <xref:System.Resources.MissingManifestResourceException>, vedere il <xref:System.Resources.MissingManifestResourceException.%23ctor%2A> costruttori.  
   
 > [!NOTE]
->  Si consiglia di includere un set di risorse neutro nell'assembly principale, in modo da non avere esito negativo se un assembly satellite non è disponibile l'app.  
+>  Si consiglia di includere un set di risorse neutro nell'assembly principale, in modo che l'app non riesce se un assembly satellite non è disponibile.  
   
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Applicazioni [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
- A differenza delle App desktop, che distribuisce le risorse localizzate negli assembly satellite e in genere archiviano le risorse della lingua dell'assembly principale, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] App distribuire le risorse per più impostazioni cultura, tra cui impostazioni cultura di sistema, in una singola file indice (. pri) risorse del pacchetto. Di conseguenza, in un [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] app, se le risorse per la lingua preferita non viene trovate, il <xref:System.Resources.MissingManifestResourceException> viene generata in presenza delle condizioni seguenti:  
+ A differenza delle App desktop, che distribuisce le risorse localizzate negli assembly satellite e in genere archiviano le risorse delle impostazioni cultura neutre nell'assembly principale, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] App distribuire le risorse per più impostazioni cultura, tra cui impostazioni cultura di sistema, in una singola file indice (PRI) risorse del pacchetto. Di conseguenza, in un [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] app, se non è possibile trovare risorse per la lingua preferita, la <xref:System.Resources.MissingManifestResourceException> viene generata in presenza di una delle condizioni seguenti:  
   
--   Non è stato possibile aprire il file. pri o l'app non include un file. pri.  
+-   L'app non include un file. pri o non è stato possibile aprire il file. pri.  
   
 -   File. pri dell'app non contiene una set di risorse per il nome radice specificato.  
   
@@ -111,6 +113,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -152,6 +156,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -190,6 +196,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,6 +244,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>

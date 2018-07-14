@@ -1,11 +1,11 @@
 <Type Name="ApplicationActivator" FullName="System.Runtime.Hosting.ApplicationActivator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="934b873ae18e3b32ece252f7089ad9810ee3696c" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="3b5bfbae4e9f03399e51aa17e50a0dca89d6d74d" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36539618" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37471770" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ApplicationActivator" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ApplicationActivator extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ApplicationActivator = class" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -33,38 +34,38 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- È presente una sola istanza designata del <xref:System.Runtime.Hosting.ApplicationActivator> in ogni classe <xref:System.AppDomain> per cui l'attivazione tutte le chiamate vengono indirizzate. Il <xref:System.AppDomainManager> per l'oggetto corrente <xref:System.AppDomain> può fornire una propria personalizzata <xref:System.Runtime.Hosting.ApplicationActivator> per questo scopo. Se un oggetto personalizzato <xref:System.Runtime.Hosting.ApplicationActivator> viene omesso, un'istanza dell'oggetto default <xref:System.Runtime.Hosting.ApplicationActivator> viene creato.  
+ È una singola istanza designata del <xref:System.Runtime.Hosting.ApplicationActivator> in ogni classe <xref:System.AppDomain> per cui l'attivazione tutte le chiamate vengono indirizzate. Il <xref:System.AppDomainManager> per l'oggetto corrente <xref:System.AppDomain> può fornire il proprio personalizzata <xref:System.Runtime.Hosting.ApplicationActivator> per questo scopo. Se una classe personalizzata <xref:System.Runtime.Hosting.ApplicationActivator> non viene specificato, un'istanza dell'oggetto default <xref:System.Runtime.Hosting.ApplicationActivator> viene creato.  
   
  I passaggi seguenti descrivono il comportamento dell'oggetto default <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstance%2A> implementazione del metodo:  
   
-1.  Controlla se il <xref:System.ActivationContext> del componente aggiuntivo da attivare corrisponde al <xref:System.ActivationContext> dell'oggetto corrente dominio; in caso contrario, procede al passaggio 2. In caso contrario, esegue l'assembly e restituisce il risultato inserito in un handle dell'oggetto.  
+1.  Controlla se il <xref:System.ActivationContext> del componente aggiuntivo da attivare corrisponde al <xref:System.ActivationContext> corrente dominio; in caso contrario, procede al passaggio 2. In caso contrario, esegue l'assembly e restituisce il risultato sottoposta a wrapping in un handle dell'oggetto.  
   
-2.  Attiva il componente aggiuntivo in un nuovo <xref:System.AppDomain>. I passaggi seguenti vengono acquisiti per inizializzare una nuova <xref:System.AppDomain> utilizzando il <xref:System.Runtime.Hosting.ActivationArguments> per il componente aggiuntivo.  
+2.  Attiva il componente aggiuntivo in un nuovo <xref:System.AppDomain>. Vengono eseguiti i passaggi seguenti per inizializzare una nuova <xref:System.AppDomain> utilizzando il <xref:System.Runtime.Hosting.ActivationArguments> per il componente aggiuntivo.  
   
-    1.  Crea un nuovo <xref:System.AppDomainSetup> dell'oggetto utilizzando un <xref:System.Runtime.Hosting.ActivationArguments> oggetto che contiene il contesto di attivazione per il componente aggiuntivo.  
+    1.  Crea un nuovo <xref:System.AppDomainSetup> dell'oggetto usando un <xref:System.Runtime.Hosting.ActivationArguments> oggetto che contiene il contesto di attivazione per il componente aggiuntivo.  
   
     2.  Chiama il <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstanceHelper%2A> metodo per creare un nuovo dominio utilizzando il <xref:System.AppDomainSetup> oggetto.  
   
     3.  Il <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstanceHelper%2A> chiamate al metodo il <xref:System.Security.HostSecurityManager.DetermineApplicationTrust%2A?displayProperty=nameWithType> metodo per acquisire un <xref:System.Security.Policy.ApplicationTrust> oggetto per il componente aggiuntivo. Se il <xref:System.Security.Policy.ApplicationTrust.IsApplicationTrustedToRun%2A> restituisce proprietà `true`, il componente aggiuntivo viene eseguito. In caso contrario, <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstanceHelper%2A> genera un <xref:System.Security.Policy.PolicyException> indicante che non è stato possibile acquisire l'autorizzazione di esecuzione.  
   
-    4.  Se il componente aggiuntivo è considerato attendibile per essere eseguito, un nuovo <xref:System.AppDomain> viene creato e configurato per il <xref:System.ActivationContext> del componente aggiuntivo e il componente aggiuntivo viene caricato ed eseguito.  
+    4.  Se il componente aggiuntivo è attendibile per essere eseguito, un nuovo <xref:System.AppDomain> viene creata e configurata per il <xref:System.ActivationContext> del componente aggiuntivo, e il componente aggiuntivo viene caricato ed eseguito.  
   
-    5.  Viene restituito il risultato dell'attivazione del componente aggiuntivo, eseguito il wrapping in un handle dell'oggetto.  
+    5.  Viene restituito il risultato dell'attivazione del componente aggiuntivo, inserito in un handle dell'oggetto.  
   
- Un attivatore personalizzato è possibile personalizzare l'attivazione di un componente aggiuntivo a un particolare set di circostanze. Ad esempio, un attivatore personalizzato è stato possibile trovare un oggetto esistente <xref:System.AppDomain> per attivare questo componente aggiuntivo anziché creare un nuovo dominio ogni volta.  
+ Un attivatore personalizzato è possibile personalizzare l'attivazione di un componente aggiuntivo a un particolare set di casi. Ad esempio, un attivatore personalizzato è stato possibile trovare un oggetto esistente <xref:System.AppDomain> per attivare questo componente aggiuntivo anziché creare un nuovo dominio ogni volta.  
   
- I passaggi seguenti descrivono il comportamento di un oggetto personalizzato <xref:System.Runtime.Hosting.ApplicationActivator> che attiva un componente aggiuntivo in un oggetto esistente <xref:System.AppDomain>:  
+ I passaggi seguenti descrivono il comportamento di una classe personalizzata <xref:System.Runtime.Hosting.ApplicationActivator> che attiva un componente aggiuntivo in un oggetto esistente <xref:System.AppDomain>:  
   
-1.  L'attivatore personalizzato trova un dominio con lo stesso <xref:System.ActivationContext> come il componente aggiuntivo che viene attivato.  
+1.  L'attivatore personalizzata consente di trovare un dominio con lo stesso <xref:System.ActivationContext> come il componente aggiuntivo che viene attivato.  
   
-2.  Se il <xref:System.ActivationContext> non è stato riconosciuto prima del processo, crea un nuovo attivatore personalizzato <xref:System.AppDomain> per questo <xref:System.ActivationContext> chiamando il <xref:System.AppDomain.CreateDomain%2A> direttamente al metodo o la delega di questa attività per il <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstanceHelper%2A> nella classe base.  
+2.  Se il <xref:System.ActivationContext> non è stato riconosciuto prima del processo, crea un nuovo attivatore personalizzato <xref:System.AppDomain> per questa <xref:System.ActivationContext> chiamando il <xref:System.AppDomain.CreateDomain%2A> metodo direttamente o delegare questa attività per il <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstanceHelper%2A> nella classe di base.  
   
-3.  Se è presente un dominio esistente con lo stesso <xref:System.ActivationContext>, quindi l'attivatore può delegare la <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstance%2A> chiamata al metodo di <xref:System.Runtime.Hosting.ApplicationActivator> nel dominio di destinazione. Si noti che questo sarebbe una chiamata tra domini a un <xref:System.Runtime.Hosting.ApplicationActivator> che si trova nella destinazione <xref:System.AppDomain>.  
+3.  Se è presente un dominio esistente con lo stesso <xref:System.ActivationContext>, quindi l'attivatore può delegare la <xref:System.Runtime.Hosting.ApplicationActivator.CreateInstance%2A> chiamata al metodo il <xref:System.Runtime.Hosting.ApplicationActivator> nel dominio di destinazione. Si noti che questo sarebbe una chiamata tra domini a un <xref:System.Runtime.Hosting.ApplicationActivator> che si trova nel database di destinazione <xref:System.AppDomain>.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come ottenere un <xref:System.Runtime.Hosting.ApplicationActivator> oggetto dall'oggetto corrente <xref:System.AppDomain.DomainManager%2A> per un'applicazione basata su manifesto.  
+ Esempio di codice seguente viene illustrato come ottenere un <xref:System.Runtime.Hosting.ApplicationActivator> oggetto dall'insieme corrente <xref:System.AppDomain.DomainManager%2A> per un'applicazione basata su manifesto.  
   
  [!code-csharp[System.Runtime.Hosting.ApplicationActivator#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Runtime.Hosting.ApplicationActivator/cs/program.cs#1)]
  [!code-vb[System.Runtime.Hosting.ApplicationActivator#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Runtime.Hosting.ApplicationActivator/vb/program.vb#1)]  
@@ -82,6 +83,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -110,6 +112,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -127,7 +130,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo è destinato all'attivazione basata su manifesto di applicazioni.  
+ Questo metodo è destinato l'attivazione basata su manifesto delle applicazioni.  
   
  ]]></format>
         </remarks>
@@ -144,6 +147,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -163,7 +167,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo è destinato all'attivazione basata su manifesto di applicazioni. I dati di attivazione è costituito da informazioni quali la porzione di un URL di stringa di query.  
+ Questo metodo è destinato l'attivazione basata su manifesto delle applicazioni. I dati di attivazione è costituito da informazioni quali la parte della stringa di query di un URL.  
   
  ]]></format>
         </remarks>
@@ -181,6 +185,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -198,7 +203,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo è destinato all'attivazione basata su manifesto di applicazioni.  
+ Questo metodo è destinato l'attivazione basata su manifesto delle applicazioni.  
   
  ]]></format>
         </remarks>
