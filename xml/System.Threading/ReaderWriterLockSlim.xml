@@ -1,17 +1,18 @@
 <Type Name="ReaderWriterLockSlim" FullName="System.Threading.ReaderWriterLockSlim">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2ff770bb9446d6ebe71649784ebe115f60734cc0" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="522d8b26e179558c4747b32eb8c9334684385cdc" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30531355" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37548822" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ReaderWriterLockSlim : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ReaderWriterLockSlim extends System.Object implements class System.IDisposable" />
   <TypeSignature Language="DocId" Value="T:System.Threading.ReaderWriterLockSlim" />
   <TypeSignature Language="VB.NET" Value="Public Class ReaderWriterLockSlim&#xA;Implements IDisposable" />
   <TypeSignature Language="C++ CLI" Value="public ref class ReaderWriterLockSlim : IDisposable" />
+  <TypeSignature Language="F#" Value="type ReaderWriterLockSlim = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Threading</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -22,6 +23,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Core</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -37,130 +39,130 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Rappresenta un blocco che viene usato per gestire l'accesso a una risorsa, consentendo più thread per la lettura o l'accesso esclusivo per la scrittura.</summary>
+    <summary>Represents a lock that is used to manage access to a resource, allowing multiple threads for reading or exclusive access for writing.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare <xref:System.Threading.ReaderWriterLockSlim> per proteggere una risorsa che viene letta da più thread e scritta da un thread alla volta. <xref:System.Threading.ReaderWriterLockSlim> consente a più thread in modalità di lettura, consente a un thread di essere in modalità scrittura con proprietà esclusiva del blocco e consente a un thread che è in modalità di lettura aggiornabile, da cui il thread può essere aggiornato alla modalità di scrittura senza la necessità di lasciare l'accesso in lettura s accesso in lettura alla risorsa.  
+ Usare <xref:System.Threading.ReaderWriterLockSlim> per proteggere una risorsa che viene letta da più thread e scritta da un solo thread alla volta. <xref:System.Threading.ReaderWriterLockSlim> consente a più thread essere in modalità di lettura, consente a un solo thread essere in modalità di scrittura con la proprietà esclusiva del blocco e consente a un thread che ha accesso in lettura sia in modalità di lettura aggiornabile, da cui il thread può eseguire l'aggiornamento alla modalità di scrittura senza la necessità di lasciare lo s accesso in lettura alla risorsa.  
   
 > [!NOTE]
 >  <xref:System.Threading.ReaderWriterLockSlim> è simile a <xref:System.Threading.ReaderWriterLock>, ma include regole semplificate per la ricorsione e per l'aggiornamento e il downgrade dello stato del blocco. <xref:System.Threading.ReaderWriterLockSlim> evita molti casi di deadlock potenziale. Inoltre, le prestazioni di <xref:System.Threading.ReaderWriterLockSlim> sono significativamente migliori di <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> è consigliato per tutte le nuove fasi di sviluppo.  
   
- Per impostazione predefinita, le nuove istanze di <xref:System.Threading.ReaderWriterLockSlim> vengono creati con il <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> flag e non consentono la ricorsione. Il criterio predefinito è consigliato per lo sviluppo di nuovo, poiché la ricorsione presenta inutili complicazioni e rende il codice più soggetto a deadlock. Per semplificare la migrazione da esistente progetti che utilizzano <xref:System.Threading.Monitor> o <xref:System.Threading.ReaderWriterLock>, è possibile utilizzare il <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> flag per creare istanze di <xref:System.Threading.ReaderWriterLockSlim> che consentono la ricorsione.  
+ Per impostazione predefinita, le nuove istanze di <xref:System.Threading.ReaderWriterLockSlim> vengono creati con la <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> flag e non consentono la ricorsione. Il criterio predefinito è consigliato per tutti i nuovi progetti di sviluppo, poiché la ricorsione introduce complicazioni non necessari e rende il codice più soggette a deadlock. Per semplificare la migrazione da esistente i progetti che usano <xref:System.Threading.Monitor> oppure <xref:System.Threading.ReaderWriterLock>, è possibile utilizzare il <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> flag per creare istanze di <xref:System.Threading.ReaderWriterLockSlim> che consentono la ricorsione.  
   
- Un thread può attivare il blocco in tre modalità: lettura modalità, modalità di scrittura e lettura aggiornabile. (Nella parte restante di questo argomento, "modalità di lettura aggiornabile" viene considerata "modalità aggiornabile", mentre la frase "immettere `x` modalità" viene utilizzato al posto di frase più lunga "Immettere il blocco in `x` modalità".)  
+ Un thread può accedere al blocco in tre modalità: lettura modalità, modalità di scrittura e modalità di lettura aggiornabile. (Nella parte restante di questo argomento, "modalità di lettura aggiornabile" fa riferimento come "modalità aggiornabile" e la frase "immettere `x` modalità" viene usato preferita la frase più lunga "Immettere il blocco in `x` modalità".)  
   
- Indipendentemente dalla criteri di ricorsione, solo un thread può essere in modalità di scrittura in qualsiasi momento. Quando un thread è in modalità di scrittura, nessun altro thread può attivare il blocco in qualsiasi modalità. Solo un thread può essere in modalità aggiornabile in qualsiasi momento. Qualsiasi numero di thread può essere in modalità di lettura e può esistere un solo thread in modalità aggiornabile mentre altri thread sono in modalità lettura.  
+ Indipendentemente dai criteri di ricorsione, solo un thread può essere in modalità di scrittura in qualsiasi momento. Quando un thread è in modalità scrittura, nessun altro thread può accedere al blocco in qualsiasi modalità. Solo un thread può essere in modalità aggiornabile in qualsiasi momento. Qualsiasi numero di thread può essere in modalità di lettura e può esistere un solo thread in modalità aggiornabile mentre altri thread sono in modalità lettura.  
   
 > [!IMPORTANT]
->  Questo tipo implementa il <xref:System.IDisposable> interfaccia. Dopo aver utilizzato il tipo, è necessario eliminarlo direttamente o indirettamente. Per eliminare direttamente il tipo, chiamare il relativo <xref:System.IDisposable.Dispose%2A> metodo in un `try` / `catch` blocco. Per eliminarlo indirettamente, utilizzare un costrutto di linguaggio come ad esempio `using` in C# o `Using` in Visual Basic. Per ulteriori informazioni, vedere la sezione "Utilizzo di oggetti che implementano IDisposable" nel <xref:System.IDisposable> argomento relativo all'interfaccia.  
+>  Questo tipo implementa la <xref:System.IDisposable> interfaccia. Dopo aver utilizzato il tipo, è necessario eliminarlo direttamente o indirettamente. Per eliminare il tipo direttamente, chiamare relativi <xref:System.IDisposable.Dispose%2A> metodo in un `try` / `catch` blocco. Per eliminarlo indirettamente, utilizzare un costrutto di linguaggio come ad esempio `using` in C# o `Using` in Visual Basic. Per altre informazioni, vedere la sezione "Utilizzo di oggetti che implementano IDisposable" nel <xref:System.IDisposable> argomento relativo all'interfaccia.  
   
- <xref:System.Threading.ReaderWriterLockSlim> ha gestito l'affinità di thread; ovvero ogni <xref:System.Threading.Thread> oggetto deve effettuare chiamate il proprio metodo per immettere e uscire dalla modalità di blocco. Nessun thread può modificare la modalità di un altro thread.  
+ <xref:System.Threading.ReaderWriterLockSlim> ha gestito l'affinità di thread; vale a dire, ognuna <xref:System.Threading.Thread> oggetto deve eseguire la propria chiamate di metodo per attivare e disattivare la modalità di blocco. Nessun thread può modificare la modalità di un altro thread.  
   
- Se un <xref:System.Threading.ReaderWriterLockSlim> non consente la ricorsione, un thread che tenta di attivare il blocco può essere bloccato per diversi motivi:  
+ Se un <xref:System.Threading.ReaderWriterLockSlim> non supporta la ricorsione, un thread che prova ad attivare il blocco può essere bloccato per diversi motivi:  
   
--   Un thread che tenta di accedere in modalità lettura blocchi se sono presenti thread in attesa di accedere alla modalità di scrittura o se è un thread singolo in modalità scrittura.  
+-   Un thread che prova ad attivare la modalità lettura blocchi se sono presenti thread in attesa di immettere la modalità scrittura o è presente un singolo thread in modalità di scrittura.  
   
     > [!NOTE]
-    >  Blocchi i lettori di nuovo quando vengono messe in coda i writer è un criterio di blocco equità che predilige i thread. I criteri di equità corrente bilanciano equità tra i lettori e writer, per aumentare la velocità effettiva negli scenari più comuni. Le versioni future del [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] può introdurre nuovi criteri di equità.  
+    >  Blocchi i lettori di nuovo quando vengono messe in coda i writer è un criterio di equità di blocco che predilige i thread. I criteri di equità correnti bilanciano equità tra i lettori e writer, per aumentare la velocità effettiva in scenari più comuni. Le versioni future del [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] può introdurre nuovi criteri di equità.  
   
--   Un thread che tenta di accedere a blocchi in modalità aggiornabile se è già presente un thread in modalità aggiornabile, se sono presenti thread in attesa di passare alla modalità di scrittura o se è presente un thread singolo in modalità scrittura.  
+-   Un thread che prova ad attivare i blocchi alla modalità aggiornabile se esiste già un thread in modalità aggiornabile, se sono presenti thread in attesa di attivazione della modalità scrittura, o se è presente un singolo thread in modalità di scrittura.  
   
--   Un thread che tenta di accedere a modalità di scrittura viene bloccato se è presente un thread in una qualsiasi delle tre modalità.  
+-   Un thread che prova ad attivare i blocchi in modalità scrittura se è presente un thread in una qualsiasi delle tre modalità.  
   
-## <a name="upgrading-and-downgrading-locks"></a>L'aggiornamento e downgrade dei blocchi  
- La modalità aggiornabile è destinata ai casi in cui un thread in genere legge da una risorsa protetta, ma potrebbe essere necessario per la scrittura se vengono soddisfatte determinate condizioni. Un thread che ha immesso un <xref:System.Threading.ReaderWriterLockSlim> in modalità aggiornabile con accesso in lettura alla risorsa protetta e possibile eseguire l'aggiornamento alla modalità di scrittura chiamando il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodi. Poiché possono esistere solo un thread in modalità aggiornabile in una fase, l'aggiornamento alla modalità di scrittura non può causare un deadlock durante la ricorsione non è consentita, ovvero i criteri predefiniti.  
-  
-> [!IMPORTANT]
->  Indipendentemente dal fatto di criteri di ricorsione, un thread che immesso inizialmente lettura modalità non è consentita eseguire l'aggiornamento in modalità aggiornabile o in modalità di scrittura, perché tale modello crea una forte probabilità di deadlock. Ad esempio, se due thread in modalità lettura che entrambi tentano di accedere alla modalità di scrittura, provocano un deadlock. La modalità aggiornabile è progettata per evitare tali deadlock.  
-  
- Se sono presenti altri thread in modalità lettura, il thread che sta eseguendo l'aggiornamento di blocchi. Mentre il thread è bloccato, altri thread che tenta di passare alla modalità di lettura vengono bloccate. Quando tutti i thread sono usciti dalla modalità di lettura, il thread aggiornabile bloccato passa alla modalità di scrittura. Se sono presenti altri thread in attesa di accedere alla modalità di scrittura, rimangono bloccati, perché il thread singolo in modalità aggiornabile impedisce loro di ottenere accesso esclusivo alla risorsa.  
-  
- Quando il thread in modalità aggiornabile esce dalla modalità di scrittura, altri thread in attesa di passare alla modalità di lettura possono farlo, a meno che non sono presenti thread in attesa di accedere alla modalità di scrittura. Il thread in modalità aggiornabile può aggiornare o effettuare il downgrade all'infinito, fino a quando è l'unico thread che consente di scrivere la risorsa protetta.  
+## <a name="upgrading-and-downgrading-locks"></a>Blocchi di aggiornamento e downgrade  
+ La modalità aggiornabile è destinata ai casi in cui un thread in genere legge da risorsa protetta, ma potrebbe essere necessario per la scrittura se vengono soddisfatte determinate condizioni. Un thread entrato in un <xref:System.Threading.ReaderWriterLockSlim> in modalità aggiornabile con accesso in lettura alla risorsa protetta e può essere aggiornato alla modalità di scrittura chiamando il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodi. Poiché può esserci un solo thread in modalità aggiornabile in una fase, l'aggiornamento alla modalità di scrittura non è possibile deadlock durante la ricorsione non è consentita, ovvero i criteri predefiniti.  
   
 > [!IMPORTANT]
->  Se si consente a più thread immettere modalità di scrittura o la modalità aggiornabile, che non è necessario consentire un thread di monopolizzare la modalità aggiornabile. In caso contrario, i thread che tentano di accedere scrivere modalità direttamente verrà bloccata per un periodo illimitato, e mentre sono bloccati, altri thread sarà in grado di accedere alla modalità di lettura.  
+>  Indipendentemente dai criteri di ricorsione, un thread che ha inizialmente acceduto leggere in modalità non è consentita l'aggiornamento alla modalità aggiornabile o modalità scrittura, perché ciò comporterebbe una forte probabilità di deadlock. Ad esempio, se due thread in modalità lettura che entrambi tentano di accedere alla modalità di scrittura, provocano un deadlock. La modalità aggiornabile è progettata per evitare deadlock di questo tipo.  
   
- Può effettuare il downgrade di un thread in modalità aggiornabile per la modalità di lettura da chiamare prima il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo e chiamando quindi il <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> metodo. Questo modello di downgrade è consentito anche per tutti i criteri di ricorsione di blocco, <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
+ Se sono presenti altri thread in modalità di lettura, il thread che sta eseguendo l'aggiornamento di blocchi. Mentre il thread è bloccato, altri thread che tentano di accedere alla modalità di lettura vengono bloccate. Quando tutti i thread sono usciti dalla modalità di lettura, il thread bloccato aggiornabile passa alla modalità di scrittura. Se sono presenti altri thread in attesa di immettere la modalità scrittura, rimangono bloccati, perché il thread singolo che si trova in modalità aggiornabile impedisce loro di ottenere accesso esclusivo alla risorsa.  
   
- Dopo il downgrade alla modalità di lettura, un thread non è possibile immettere nuovamente la modalità aggiornabile fino a quando non sarà uscito dalla modalità di lettura.  
+ Quando il thread in modalità aggiornabile esce dalla modalità di scrittura, altri thread in attesa di attivare la modalità di lettura possono farlo, a meno che non sono presenti thread in attesa di immettere la modalità scrittura. Il thread in modalità aggiornabile può eseguire l'aggiornamento e il downgrade a tempo indeterminato, purché è il thread che scrive alla risorsa protetta.  
+  
+> [!IMPORTANT]
+>  Se si consente a più thread immettere modalità di scrittura o la modalità aggiornabile, che non è necessario consentire un solo thread monopolizza modalità aggiornabile. In caso contrario, i thread che tentano di accedere in scrittura modalità direttamente verrà bloccata per un periodo illimitato e mentre sono bloccati, altri thread sarà in grado di attivare la modalità di lettura.  
+  
+ Possa effettuare il downgrade di un thread in modalità aggiornabile per la modalità lettura chiamando prima il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo e chiamando quindi il <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> (metodo). Questo modello il downgrade è consentito anche per tutti i criteri di ricorsione di blocco, <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
+  
+ Dopo il downgrade alla modalità di lettura, un thread non è possibile immettere nuovamente la modalità aggiornabile fino a quando non è stato terminato dalla modalità di lettura.  
   
 ## <a name="entering-the-lock-recursively"></a>Immettere il blocco in modo ricorsivo  
- È possibile creare un <xref:System.Threading.ReaderWriterLockSlim> che supporta una voce ricorsiva blocco tramite il <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> costruttore che specifica i criteri di blocco e specificando <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.  
+ È possibile creare un <xref:System.Threading.ReaderWriterLockSlim> che supporta l'immissione di blocco ricorsiva tramite il <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> costruttore che consente di specificare criteri di blocco e specificando <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.  
   
 > [!NOTE]
->  Non è consigliabile usare di ricorsione per un nuovo sviluppo, in quanto presenta inutili complicazioni e rende il codice più soggetto a deadlock.  
+>  L'uso di ricorsione non è consigliabile per i nuovi sviluppi, in quanto introduce complessità non necessarie e rende il codice più soggette a deadlock.  
   
- Per un <xref:System.Threading.ReaderWriterLockSlim> che consente la ricorsione, sulle modalità di un thread può entrare possono affermare che le operazioni seguenti:  
+ Per un <xref:System.Threading.ReaderWriterLockSlim> che consente la ricorsione, si possono affermare seguenti sulle modalità di un thread può accedere:  
   
--   Un thread in modalità lettura è possibile immettere in modo ricorsivo alla modalità di lettura, ma non può accedere alla modalità di scrittura o in modalità aggiornabile. Se tenta di eseguire questa operazione, un <xref:System.Threading.LockRecursionException> viene generata un'eccezione. Immissione di leggere modalità e quindi immettere la modalità scrittura o in modalità aggiornabile è un modello con una forte probabilità di deadlock, pertanto non è consentita. Come illustrato in precedenza, la modalità aggiornabile viene fornita per i casi in cui è necessario eseguire l'aggiornamento di un blocco.  
+-   Un thread in modalità di lettura possa accedere in modo ricorsivo modalità lettura, ma non è possibile immettere la modalità scrittura o in modalità aggiornabile. Se tenta di eseguire questa operazione, un <xref:System.Threading.LockRecursionException> viene generata un'eccezione. Immissione di leggere la modalità e immettendo quindi la modalità scrittura o la modalità aggiornabile è un modello con una forte probabilità di deadlock, in modo che non è consentito. Come illustrato in precedenza, la modalità aggiornabile viene fornita per i casi in cui è necessario un blocco di aggiornamento.  
   
--   Un thread in modalità aggiornabile può immettere modalità di scrittura e/o modalità di lettura e può accedere a ognuna in modo ricorsivo le tre modalità. Tuttavia, un tentativo di immettere scrivere blocchi di modalità se sono presenti altri thread in modalità lettura.  
+-   Un thread in modalità aggiornabile possibile immettere la modalità di scrittura e/o modalità di lettura e può accedere a ognuna le tre modalità ricorsiva. Tuttavia, un tentativo di immettere scrivere modalità blocchi se sono presenti altri thread in modalità lettura.  
   
--   Un thread in modalità di scrittura è possibile immettere modalità di lettura e/o in modalità aggiornabile e può accedere a ognuna in modo ricorsivo le tre modalità.  
+-   Un thread in modalità di scrittura può immettere la modalità lettura e/o la modalità aggiornabile e possibile immettere qualsiasi in modo ricorsivo le tre modalità.  
   
--   Un thread che non è stato attivato il blocco è possibile immettere qualsiasi modalità. Questo tentativo può essere bloccato per gli stessi motivi un tentativo di attivare un blocco non ricorsivo.  
+-   Un thread che non ha acceduto al blocco è possibile immettere qualsiasi modalità. Questo tentativo può essere bloccato per gli stessi motivi un tentativo di attivare un blocco di non ricorsiva.  
   
- Un thread può uscire le modalità che è entrato in qualsiasi ordine, purché al termine di ogni modalità esattamente le volte che tale modalità. Se un thread di prova per uscire da una modalità troppe volte o per uscire da una modalità non ha immesso, un <xref:System.Threading.SynchronizationLockException> viene generata un'eccezione.  
+ Un thread può uscire le modalità che è stato attivato in qualsiasi ordine, purché si conclude ogni modalità esattamente come tutte le volte che passato in tale modalità. Se un thread prova a uscire da una modalità troppe volte o per uscire da una modalità non ha acceduto, un <xref:System.Threading.SynchronizationLockException> viene generata un'eccezione.  
   
 ## <a name="lock-states"></a>Stati di blocco  
- Si può risultare utile pensare in termini di stati di blocco. Oggetto <xref:System.Threading.ReaderWriterLockSlim> può essere in uno dei quattro stati: non si immette, lettura, aggiornamento e scrittura.  
+ Potrebbe essere utile sapere che il blocco in termini di stati. Oggetto <xref:System.Threading.ReaderWriterLockSlim> può trovarsi in uno dei quattro stati: non immesso, lettura, aggiornamento e scrittura.  
   
--   Non è stato immesso: In questo stato, nessun thread è stato attivato il blocco (o tutti i thread sono usciti dal blocco).  
+-   Non è stato immesso: In questo stato, nessun thread ha acceduto al blocco (o tutti i thread sono usciti dal blocco).  
   
--   Leggere: In questo stato, uno o più thread hanno attivato il blocco per l'accesso in lettura alla risorsa protetta.  
+-   Leggere: In questo stato, uno o più thread hanno acceduto al blocco per l'accesso in lettura alla risorsa protetta.  
   
     > [!NOTE]
-    >  Un thread può accedere il blocco in modalità lettura con il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodi, o il downgrade dalla modalità aggiornabile.  
+    >  Un thread può accedere al blocco in modalità di lettura usando il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> o <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodi, o il downgrade dalla modalità aggiornabile.  
   
--   Aggiornamento: In questo stato, un thread è stato attivato il blocco per l'accesso in lettura con l'opzione di aggiornamento per l'accesso in scrittura (ovvero in modalità aggiornabile), e zero o più thread è stato attivato il blocco per l'accesso in lettura. Non più di un thread alla volta può attivare il blocco con l'opzione di aggiornamento; gli altri thread che tenta di accedere alla modalità aggiornabile vengono bloccate.  
+-   Aggiornamento: In questo stato, un thread ha acceduto al blocco per l'accesso in lettura con la possibilità di eseguire l'aggiornamento per l'accesso in scrittura (vale a dire, in modalità aggiornabile), e zero o più thread hanno acceduto al blocco per l'accesso in lettura. Non più di un thread alla volta può attivare il blocco con l'opzione per aggiornare; gli altri thread che tenta di accedere alla modalità aggiornabile vengono bloccate.  
   
--   Scrittura: In questo stato, un thread è stato attivato il blocco dell'accesso in scrittura alla risorsa protetta. Il thread ha possesso esclusivo del blocco. Qualsiasi altro thread che tenta di attivare il blocco per qualsiasi motivo è bloccato.  
+-   Scrittura: In questo stato, un thread ha acceduto al blocco per l'accesso in scrittura alla risorsa protetta. Thread in questione sia esclusivo proprietaria del blocco. Un altro thread che prova ad attivare il blocco per qualsiasi motivo è bloccato.  
   
- Nella tabella seguente vengono descritte le transizioni tra stati di blocco, per i blocchi che non consentono la ricorsione, quando un thread `t` esegue l'azione descritta nella colonna più a sinistra. Quando esegue l'azione, `t` non possiede alcuna modalità. (Il caso speciale in cui `t` è in modalità aggiornabile è descritto nella piè di pagina di tabella.) La riga superiore descrive lo stato inizio del blocco. Le celle viene descritto cosa succede al thread e visualizzare le modifiche apportate allo stato di blocco tra parentesi.  
+ La tabella seguente descrive le transizioni tra stati di blocco, per i blocchi che non consentono la ricorsione, quando un thread `t` accetta l'azione descritta nella colonna più a sinistra. Al momento accetta l'azione, `t` non possiede alcuna modalità. (Il caso speciale in cui `t` è in modalità aggiornabile è descritto nel piè di pagina di tabella.) La prima riga descrive lo stato inizio del blocco. Le celle viene descritto cosa succede al thread e visualizzare le modifiche apportate allo stato di blocco tra parentesi.  
   
 ||Nessun accesso (N)|Read (R)|Aggiornamento (U)|Scrittura (S)|  
 |-|-----------------------|----------------|-------------------|-----------------|  
-|`t` passa alla modalità di lettura|`t` immette (R).|`t` viene bloccato se i thread sono in attesa per la modalità scrittura; in caso contrario, `t` immette.|`t` viene bloccato se i thread sono in attesa per la modalità scrittura; in caso contrario, `t` immette.<sup> 1</sup>|`t` blocchi.|  
-|`t` passa alla modalità aggiornabile|`t` immette (U).|`t` viene bloccato se i thread sono in attesa per la modalità di scrittura o la modalità di aggiornamento; in caso contrario, `t` immette (U).|`t` blocchi.|`t` blocchi.|  
+|`t` passa alla modalità di lettura|`t` assume (R).|`t` blocchi se sono thread in attesa per la modalità scrittura; in caso contrario, `t` immette.|`t` blocchi se sono thread in attesa per la modalità scrittura; in caso contrario, `t` immette.<sup> 1</sup>|`t` blocchi.|  
+|`t` passa alla modalità aggiornabile|`t` assume (U).|`t` blocchi se sono thread in attesa per la modalità di scrittura o la modalità di aggiornamento; in caso contrario, `t` immette (U).|`t` blocchi.|`t` blocchi.|  
 |`t` passa alla modalità di scrittura|`t` immette (W).|`t` blocchi.|`t` blocchi. <sup>2</sup>|`t` blocchi.|  
   
- <sup>1</sup> se `t` inizia la disconnessione in modalità aggiornabile, passa alla modalità di lettura. Blocca mai questa azione. Non modifica lo stato del blocco. (Il thread può quindi completare un downgrade alla modalità di lettura per disattivare la modalità aggiornabile.)  
+ <sup>1</sup> se `t` avvia orizzontale in modalità aggiornabile, entra in modalità lettura. Blocca mai questa azione. Lo stato del blocco rimane invariato. (Il thread possa quindi completare un downgrade alla modalità di lettura da disattivare la modalità aggiornabile.)  
   
- <sup>2</sup> se `t` viene avviato in modalità aggiornabile, si blocca se sono presenti thread in modalità lettura. In caso contrario si effettua l'aggiornamento alla modalità di scrittura. Le modifiche di stato di blocco per scrittura (S). Se `t` blocca perché sono presenti thread in modalità lettura, passa alla modalità di scrittura non appena l'ultimo thread esce dalla modalità di lettura, anche se sono presenti thread in attesa di accedere alla modalità di scrittura.  
+ <sup>2</sup> se `t` viene avviato in modalità aggiornabile, si blocca se sono presenti thread in modalità lettura. In caso contrario, che venga aggiornato alla modalità di scrittura. I cambiamenti di stato di blocco per scrittura (S). Se `t` blocca perché sono presenti thread in modalità di lettura, passa alla modalità di scrittura, non appena l'ultimo thread esce dalla modalità di lettura, anche se sono presenti thread in attesa di immettere la modalità scrittura.  
   
- Quando una modifica dello stato si verifica perché un thread termina il blocco, il successivo thread che riattivati viene selezionato come segue:  
+ Quando una modifica dello stato è dovuto al fatto che un thread termina il blocco, il thread successivo che riattivati viene selezionato come indicato di seguito:  
   
--   Innanzitutto, un thread in attesa di modalità di scrittura ed è già in modalità aggiornabile (possono essere presenti al massimo un thread di questo tipo).  
+-   In primo luogo, un thread in attesa per la modalità scrittura ed è già in modalità aggiornabile (possono essere presenti al massimo un thread di questo tipo).  
   
--   Mancanza, un thread in attesa per la modalità scrittura.  
+-   In mancanza di questo, un thread in attesa per la modalità scrittura.  
   
--   Mancanza, un thread in attesa per la modalità aggiornabile.  
+-   In mancanza di questo, un thread in attesa per la modalità aggiornabile.  
   
--   Mancanza, tutti i thread in attesa per la modalità lettura.  
+-   Esito negativo, tutti i thread in attesa per la modalità lettura.  
   
- Lo stato del blocco successivo è sempre scrittura (S) del primo di due casi e aggiornamento (U) nel terzo caso, indipendentemente dallo stato del blocco quando il thread in fase di chiusura è attivato il cambiamento di stato. Nell'ultimo caso, lo stato del blocco è aggiornamento (U) se non vi è un thread in modalità aggiornabile dopo la modifica dello stato e Read (R) in caso contrario, indipendentemente dallo stato precedente.  
+ Lo stato successivo del blocco è sempre di scrittura (W) nei primi due casi e aggiornamento (U) nel terzo caso, indipendentemente dallo stato del blocco quando il thread in fase di chiusura ha attivato la modifica dello stato. Nell'ultimo caso, lo stato del blocco è eseguire l'aggiornamento (U) se non vi è un thread in modalità aggiornabile dopo la modifica dello stato e Read (R) in caso contrario, indipendentemente dallo stato precedente.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato una semplice cache sincronizzata contenente stringhe con chiavi di interi. Un'istanza di <xref:System.Threading.ReaderWriterLockSlim> viene utilizzato per sincronizzare l'accesso per il <xref:System.Collections.Generic.Dictionary%602> che funge da cache interna.  
+ L'esempio seguente illustra una semplice cache sincronizzata che contiene le stringhe con chiavi di interi. Un'istanza di <xref:System.Threading.ReaderWriterLockSlim> utilizzato per sincronizzare l'accesso al <xref:System.Collections.Generic.Dictionary%602> che funge da cache interna.  
   
  L'esempio include metodi semplici per aggiungere alla cache, eliminare dalla cache e leggere dalla cache. Per illustrare i timeout, l'esempio include un metodo che viene aggiunto alla cache solo se è possibile eseguire questa operazione all'interno di un timeout specificato.  
   
- Per dimostrare la modalità aggiornabile, l'esempio include un metodo che recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stata modificata, viene aggiornata. La modalità aggiornabile consente al thread di eseguire l'aggiornamento da accesso in lettura all'accesso in scrittura in base alle necessità, senza il rischio di deadlock.  
+ Per illustrare la modalità aggiornabile, l'esempio include un metodo che recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stato modificato, viene aggiornata. La modalità aggiornabile consente al thread di eseguire l'aggiornamento da accesso in lettura per l'accesso in scrittura in base alle necessità, senza il rischio di deadlock.  
   
- L'esempio include un'enumerazione nidificata che specifica i valori restituiti per il metodo che illustra la modalità aggiornabile.  
+ L'esempio include un'enumerazione annidata che consente di specificare i valori restituiti per il metodo che illustra la modalità aggiornabile.  
   
- L'esempio Usa il costruttore predefinito per creare il blocco, quindi non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetto a errori quando il blocco non consente la ricorsione.  
+ L'esempio Usa il costruttore predefinito per creare il blocco, in modo che non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetta a errori quando il blocco non supporta la ricorsione.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi ortaggi. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. L'attività di seconda e terza visualizzare i nomi di verdura, il primo in senso crescente (da bassa indice indice massimo), il secondo in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando viene trovata, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
+ Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi vegetali. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. La seconda e terza attività visualizzare i nomi di verdura, il primo in modo crescente (da bassa indice in indice elevata), la seconda in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando la trova, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -180,7 +182,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName=".ctor">
@@ -200,6 +202,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -208,34 +211,34 @@
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.ReaderWriterLockSlim" /> con i valori predefiniti delle proprietà.</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class with default property values.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Oggetto <xref:System.Threading.ReaderWriterLockSlim> che viene inizializzato con questo costruttore non consente la ricorsione. Quindi la proprietà <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> restituisce <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>.  
   
- Per ulteriori informazioni sui criteri di ricorsione e i relativi effetti, vedere il <xref:System.Threading.LockRecursionPolicy> enumerazione e la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Per altre informazioni sui criteri di ricorsione e i relativi effetti, vedere la <xref:System.Threading.LockRecursionPolicy> enumerazione e <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato una semplice cache sincronizzata contenente stringhe con chiavi di interi. Un'istanza di <xref:System.Threading.ReaderWriterLockSlim> viene utilizzato per sincronizzare l'accesso per il <xref:System.Collections.Generic.Dictionary%602> che funge da cache interna. Il costruttore senza parametri viene utilizzato per creare il blocco.  
+ L'esempio seguente illustra una semplice cache sincronizzata che contiene le stringhe con chiavi di interi. Un'istanza di <xref:System.Threading.ReaderWriterLockSlim> utilizzato per sincronizzare l'accesso al <xref:System.Collections.Generic.Dictionary%602> che funge da cache interna. Il costruttore senza parametri consente di creare il blocco.  
   
  L'esempio include metodi semplici per aggiungere alla cache, eliminare dalla cache e leggere dalla cache. Per illustrare i timeout, l'esempio include un metodo che viene aggiunto alla cache solo se è possibile eseguire questa operazione all'interno di un timeout specificato.  
   
- Per dimostrare la modalità aggiornabile, l'esempio include un metodo che recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stata modificata, viene aggiornata. La modalità aggiornabile consente al thread di eseguire l'aggiornamento da accesso in lettura all'accesso in scrittura in base alle necessità, senza il rischio di deadlock.  
+ Per illustrare la modalità aggiornabile, l'esempio include un metodo che recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stato modificato, viene aggiornata. La modalità aggiornabile consente al thread di eseguire l'aggiornamento da accesso in lettura per l'accesso in scrittura in base alle necessità, senza il rischio di deadlock.  
   
- L'esempio include un'enumerazione nidificata che specifica i valori restituiti per il metodo che illustra la modalità aggiornabile.  
+ L'esempio include un'enumerazione annidata che consente di specificare i valori restituiti per il metodo che illustra la modalità aggiornabile.  
   
- L'esempio Usa il costruttore predefinito per creare il blocco, quindi non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetto a errori quando il blocco non consente la ricorsione.  
+ L'esempio Usa il costruttore predefinito per creare il blocco, in modo che non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetta a errori quando il blocco non supporta la ricorsione.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi ortaggi. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. L'attività di seconda e terza visualizzare i nomi di verdura, il primo in senso crescente (da bassa indice indice massimo), il secondo in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando viene trovata, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
+ Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi vegetali. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. La seconda e terza attività visualizzare i nomi di verdura, il primo in modo crescente (da bassa indice in indice elevata), la seconda in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando la trova, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -253,6 +256,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.#ctor(System.Threading.LockRecursionPolicy)" />
       <MemberSignature Language="VB.NET" Value="Public Sub New (recursionPolicy As LockRecursionPolicy)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; ReaderWriterLockSlim(System::Threading::LockRecursionPolicy recursionPolicy);" />
+      <MemberSignature Language="F#" Value="new System.Threading.ReaderWriterLockSlim : System.Threading.LockRecursionPolicy -&gt; System.Threading.ReaderWriterLockSlim" Usage="new System.Threading.ReaderWriterLockSlim recursionPolicy" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -264,6 +268,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -274,36 +279,36 @@
         <Parameter Name="recursionPolicy" Type="System.Threading.LockRecursionPolicy" />
       </Parameters>
       <Docs>
-        <param name="recursionPolicy">Uno dei valori di enumerazione che specifica i criteri di ricorsione del blocco.</param>
-        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.ReaderWriterLockSlim" />, specificando i criteri di ricorsione del blocco.</summary>
+        <param name="recursionPolicy">One of the enumeration values that specifies the lock recursion policy.</param>
+        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class, specifying the lock recursion policy.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Criteri di ricorsione determinano le restrizioni sui thread che accedono al blocco più volte. Ad esempio, se un blocco è stato creato con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> e un thread è stato attivato il blocco in modalità lettura <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in modalità lettura. Analogamente, se un thread è stato attivato il blocco in modalità scrittura <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in qualsiasi modalità.  
+ Criteri di ricorsione determinano le restrizioni sul thread che accedono al blocco più volte. Ad esempio, se un blocco è stato creato con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> e un thread ha acceduto al blocco in modalità lettura <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in modalità lettura. Analogamente, se un thread ha acceduto al blocco in modalità scrittura, <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in qualsiasi modalità.  
   
 > [!NOTE]
->  Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o downgrade alla modalità indipendentemente dall'impostazione di criteri di ricorsione di blocco di lettura.  
+>  Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o un downgrade dalla modalità indipendentemente dall'impostazione di criteri di ricorsione di blocco di lettura.  
   
- Indipendentemente dal fatto di criteri di ricorsione, un thread che immesso inizialmente lettura modalità non è consentita eseguire l'aggiornamento in modalità aggiornabile o in modalità di scrittura, perché tale modello crea una forte probabilità di deadlock.  
+ Indipendentemente dai criteri di ricorsione, un thread che ha inizialmente acceduto leggere in modalità non è consentita l'aggiornamento alla modalità aggiornabile o modalità scrittura, perché ciò comporterebbe una forte probabilità di deadlock.  
   
- Per ulteriori informazioni sui criteri di ricorsione e i relativi effetti, vedere il <xref:System.Threading.LockRecursionPolicy> enumerazione e la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Per altre informazioni sui criteri di ricorsione e i relativi effetti, vedere la <xref:System.Threading.LockRecursionPolicy> enumerazione e <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
    
   
 ## Examples  
- L'esempio seguente mostra due scenari di eccezione, che varia a seconda di <xref:System.Threading.LockRecursionPolicy> impostazione e l'altro no.  
+ L'esempio seguente illustra due scenari di eccezione, che dipende la <xref:System.Threading.LockRecursionPolicy> impostazione e l'altro no.  
   
- Nel primo scenario, il thread passa alla modalità di lettura e quindi tenta di accedere in modo ricorsivo alla modalità di lettura. Se il <xref:System.Threading.ReaderWriterLockSlim> viene creato utilizzando il costruttore predefinito, che imposta i criteri di ricorsione per <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, viene generata un'eccezione. Se <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> viene utilizzato per creare il <xref:System.Threading.ReaderWriterLockSlim>, viene generata alcuna eccezione.  
+ Nel primo scenario, il thread entra in modalità di lettura e quindi tenta di accedere in modo ricorsivo modalità lettura. Se il <xref:System.Threading.ReaderWriterLockSlim> viene creato usando il costruttore predefinito, che imposta i criteri di ricorsione <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, viene generata un'eccezione. Se <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> viene usato per creare il <xref:System.Threading.ReaderWriterLockSlim>, viene generata alcuna eccezione.  
   
- Nel secondo scenario, il thread passa alla modalità di lettura e quindi tenta di accedere alla modalità di scrittura. <xref:System.Threading.LockRecursionException> viene generata un'eccezione indipendentemente dai criteri di ricorsione del blocco.  
+ Nel secondo scenario, il thread entra in modalità di lettura e quindi tenta di accedere alla modalità di scrittura. <xref:System.Threading.LockRecursionException> viene generata un'eccezione indipendentemente dai criteri di ricorsione del blocco.  
   
 [!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
 [!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
 [!code-csharp[System.Threading.LockRecursionPolicy#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#12)] 
 [!code-vb[System.Threading.LockRecursionPolicy#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#12)]  
   
- Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi ortaggi. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. L'attività di seconda e terza visualizzare i nomi di verdura, il primo in senso crescente (da bassa indice indice massimo), il secondo in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando viene trovata, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
+ Il codice seguente usa quindi il `SynchronizedCache` oggetto usato per archiviare un dizionario di nomi vegetali. Crea tre attività. Il primo vengono scritti i nomi di verdure archiviate in una matrice a un `SynchronizedCache` istanza. La seconda e terza attività visualizzare i nomi di verdura, il primo in modo crescente (da bassa indice in indice elevata), la seconda in ordine decrescente. L'attività finale cerca la stringa "cucumber" e, quando la trova, chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per sostituire la stringa "verde bean".  
   
 [!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
 [!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
@@ -322,6 +327,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.CurrentReadCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property CurrentReadCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int CurrentReadCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.CurrentReadCount : int" Usage="System.Threading.ReaderWriterLockSlim.CurrentReadCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -333,6 +339,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -343,20 +350,20 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero complessivo di thread univoci per i quali è stato attivato il blocco in modalità lettura.</summary>
+        <summary>Gets the total number of unique threads that have entered the lock in read mode.</summary>
         <value>Numero di thread univoci per i quali è stato attivato il blocco in modalità lettura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un thread viene conteggiato una sola volta, anche se il blocco consente la ricorsione e il thread è in modalità lettura più volte.  
+ Un thread viene conteggiata una sola volta, anche se il blocco consente la ricorsione e il thread ha acceduto alla modalità lettura più volte.  
   
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A> proprietà per generare una voce del registro eventi se il numero di thread in modalità lettura supera una soglia.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.CurrentReadCount%2A> proprietà per generare una voce nel registro eventi, se il numero di thread in modalità lettura supera una soglia.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -375,6 +382,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.Dispose" />
       <MemberSignature Language="VB.NET" Value="Public Sub Dispose ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void Dispose();" />
+      <MemberSignature Language="F#" Value="abstract member Dispose : unit -&gt; unit&#xA;override this.Dispose : unit -&gt; unit" Usage="readerWriterLockSlim.Dispose " />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
@@ -389,6 +397,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -400,28 +409,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Rilascia tutte le risorse usate dall'istanza corrente della classe <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
+        <summary>Releases all resources used by the current instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamare il metodo <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> dopo aver terminato di utilizzare l'oggetto <xref:System.Threading.ReaderWriterLockSlim>. Il metodo <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> lascia l'oggetto <xref:System.Threading.ReaderWriterLockSlim> in una condizione di inutilizzabilità. Dopo la chiamata <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, è necessario rilasciare tutti i riferimenti al <xref:System.Threading.ReaderWriterLockSlim> in modo che il garbage collector può recuperare la memoria che di <xref:System.Threading.ReaderWriterLockSlim> occupata. Per ulteriori informazioni, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Chiamare il metodo <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> dopo aver terminato di utilizzare l'oggetto <xref:System.Threading.ReaderWriterLockSlim>. Il metodo <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> lascia l'oggetto <xref:System.Threading.ReaderWriterLockSlim> in una condizione di inutilizzabilità. Dopo la chiamata <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, è necessario rilasciare tutti i riferimenti per il <xref:System.Threading.ReaderWriterLockSlim> in modo che il garbage collector di recuperare la memoria che il <xref:System.Threading.ReaderWriterLockSlim> occupata. Per altre informazioni, vedere [pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [implementa un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
->  Chiamare sempre il metodo <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> prima di rilasciare l'ultimo riferimento al <xref:System.Threading.ReaderWriterLockSlim> oggetto.  
+>  Chiamare sempre <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> prima di rilasciare l'ultimo riferimento al <xref:System.Threading.ReaderWriterLockSlim> oggetto.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.Threading.SynchronizationLockException">
-          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> è maggiore di zero.  
-  
- oppure  
-  
- <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> è maggiore di zero.  
-  
- oppure  
-  
- <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> è maggiore di zero.</exception>
+          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> is greater than zero.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterReadLock">
@@ -430,6 +431,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterReadLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub EnterReadLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterReadLock();" />
+      <MemberSignature Language="F#" Value="member this.EnterReadLock : unit -&gt; unit" Usage="readerWriterLockSlim.EnterReadLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -441,6 +443,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -452,28 +455,28 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità lettura.</summary>
+        <summary>Tries to enter the lock in read mode.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si blocca fino a quando il thread chiamante accede al blocco e pertanto potrebbe non essere mai restituito. Utilizzare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> modalità di lettura per blocco per un intervallo specificato e quindi restituire se il thread chiamante non ha immesso durante l'intervallo.  
+ Questo metodo si blocca fino a quando il thread chiamante entra nel blocco e pertanto potrebbe non essere mai restituito. Usare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo blocca per un intervallo specificato e quindi restituire se il thread chiamante non ha acceduto alla modalità di lettura durante l'intervallo.  
   
- Più thread possono accedere in modalità di lettura nello stesso momento.  
+ Modalità di lettura possono accedere più thread contemporaneamente.  
   
- Se uno o più thread sono in attesa di attivazione della modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo si blocca fino a quando non avere tali thread timeout o in modalità di scrittura e quindi sia terminato da esso.  
+ Se uno o più thread sono in attesa di attivazione della modalità scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo si blocca fino a quando i thread hanno un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità lettura possibile immettere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di lettura può accedere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
- Al massimo un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se i thread aggiuntivi sono in attesa di attivazione della modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
+ Al massimo un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se altri thread in attesa di accedere alla modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, i thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo per attivare il blocco in modalità lettura. Il metodo illustrato nell'esempio recupera il valore associato alla chiave. Se la chiave non viene trovata, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> può terminare il metodo. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> (metodo), assicurando che il chiamante esca dalla modalità di lettura.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo ad attivare il blocco in modalità lettura. Il metodo illustrato nell'esempio recupera il valore associato alla chiave. Se la chiave non viene trovata, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> è consentito per il metodo terminate. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> metodo, assicurando che il chiamante esca dalla modalità di lettura.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -482,20 +485,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">Il thread corrente non è in grado di acquisire il blocco di scrittura quando contiene il blocco di lettura.  
-  
- oppure  
-  
- La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha tentato di acquisire il blocco di lettura quando contiene già il blocco di lettura.  
-  
- oppure  
-  
- La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha tentato di acquisire il blocco di lettura quando contiene già il blocco di scrittura.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Questo limite è talmente elevato che questa eccezione non dovrebbe essere mai riscontrata.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The current thread cannot acquire the write lock when it holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the write lock.  -or-  The recursion number would exceed the capacity of the counter. This limit is so large that applications should never encounter this exception.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterUpgradeableReadLock">
@@ -504,6 +495,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub EnterUpgradeableReadLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterUpgradeableReadLock();" />
+      <MemberSignature Language="F#" Value="member this.EnterUpgradeableReadLock : unit -&gt; unit" Usage="readerWriterLockSlim.EnterUpgradeableReadLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -515,6 +507,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -526,32 +519,32 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità aggiornabile.</summary>
+        <summary>Tries to enter the lock in upgradeable mode.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si blocca fino a quando il thread chiamante accede al blocco e pertanto potrebbe non essere mai restituito. Utilizzare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo di blocco per un intervallo specificato e restituire quindi se il thread chiamante non ha passato in modalità aggiornabile durante l'intervallo.  
+ Questo metodo si blocca fino a quando il thread chiamante entra nel blocco e pertanto potrebbe non essere mai restituito. Usare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo blocca per un intervallo specificato e quindi restituire se il thread chiamante non ha acceduto alla modalità aggiornabile durante tale intervallo.  
   
- Utilizzare la modalità aggiornabile quando un thread è in genere accede alla risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità di lettura, ma potrebbe essere necessario passare alla modalità di scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile può downgrade alla modalità di lettura o l'aggiornamento alla modalità di scrittura.  
+ Utilizzare la modalità aggiornabile quando un thread accede in genere la risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità lettura, ma potrebbe essere necessario immettere la modalità scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile può downgrade alla modalità di lettura o eseguire l'aggiornamento alla modalità di scrittura.  
   
- Solo un thread può accedere alla modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, un numero qualsiasi di altri thread può passare alla modalità lettura, anche se sono presenti thread in attesa di attivazione della modalità aggiornabile.  
+ Solo un thread può accedere alla modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, un numero qualsiasi di altri thread può passare alla modalità di lettura, anche se sono presenti thread in attesa di accedere alla modalità aggiornabile.  
   
- Se uno o più thread sono in attesa di attivazione della modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo si blocca fino a quando non avere tali thread timeout o in modalità di scrittura e quindi sia terminato da esso.  
+ Se uno o più thread sono in attesa di attivazione della modalità scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo si blocca fino a quando i thread hanno un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità aggiornabile può accedere in modo ricorsivo in modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità aggiornabile può accedere in modo ricorsivo la modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo per attivare il blocco in modalità aggiornabile. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> (metodo), assicurando che il chiamante esca dalla modalità aggiornabile.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> metodo ad attivare il blocco in modalità aggiornabile. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> metodo, assicurando che il chiamante esca dalla modalità aggiornabile.  
   
- Il metodo illustrato nell'esempio recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stata modificata, viene aggiornata. La modalità aggiornabile consente al thread di aggiornare il blocco di lettura in base alle necessità, senza il rischio di deadlock.  
+ Il metodo illustrato nell'esempio recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stato modificato, viene aggiornata. La modalità aggiornabile consente al thread eseguire l'aggiornamento il blocco di lettura in base alle necessità, senza il rischio di deadlock.  
   
- L'esempio Usa il costruttore predefinito per creare il blocco, quindi non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetto a errori quando il blocco non consente la ricorsione.  
+ L'esempio Usa il costruttore predefinito per creare il blocco, in modo che non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetta a errori quando il blocco non supporta la ricorsione.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -562,16 +555,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco in tutte le modalità.  
-  
- oppure  
-  
- Il thread corrente ha acceduto alla modalità di lettura, pertanto il tentativo di accedere alla modalità aggiornabile creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterWriteLock">
@@ -580,6 +565,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.EnterWriteLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub EnterWriteLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void EnterWriteLock();" />
+      <MemberSignature Language="F#" Value="member this.EnterWriteLock : unit -&gt; unit" Usage="readerWriterLockSlim.EnterWriteLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -591,6 +577,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -602,24 +589,24 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità scrittura.</summary>
+        <summary>Tries to enter the lock in write mode.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo si blocca fino a quando il thread chiamante accede al blocco e pertanto potrebbe non essere mai restituito. Utilizzare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo di blocco per un intervallo specificato e restituire quindi se il thread chiamante non ha passato in modalità scrittura durante l'intervallo.  
+ Questo metodo si blocca fino a quando il thread chiamante entra nel blocco e pertanto potrebbe non essere mai restituito. Usare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo blocca per un intervallo specificato e quindi restituire se il thread chiamante non ha acceduto alla modalità di scrittura durante l'intervallo.  
   
- Se altri thread è stato attivato il blocco in modalità lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo si blocca fino a quando tali thread sono usciti dalla modalità di lettura. Quando sono presenti thread in attesa di passare alla modalità di scrittura, gli altri thread che tentano di accedere alla modalità di lettura o di blocco in modalità aggiornabile fino a che i tutti i thread in attesa di passare alla modalità di scrittura verificato il timeout o in modalità di scrittura e quindi sia terminato da esso.  
+ Se altri thread è stato attivato il blocco in modalità di lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo si blocca fino a quando i thread sono usciti dalla modalità di lettura. Quando sono presenti thread in attesa di attivazione della modalità scrittura, gli altri thread che tentano di accedere alla modalità di lettura o la modalità aggiornabile blocco fino a quando non hanno tutti i thread in attesa di attivazione della modalità scrittura o timeout passato in modalità scrittura e quindi sia terminato da quest'ultimo.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità di scrittura può accedere in modo ricorsivo la modalità di scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di scrittura può accedere in modo ricorsivo la modalità scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo per attivare il blocco in modalità di scrittura. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> può terminare il metodo. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> (metodo), assicurando che il chiamante esca dalla modalità di scrittura.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo ad attivare il blocco in modalità di scrittura. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> è consentito per il metodo terminate. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> metodo, assicurando che il chiamante esce dalla modalità di scrittura.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -628,16 +615,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco in tutte le modalità.  
-  
- oppure  
-  
- Il thread corrente ha acceduto alla modalità di lettura, pertanto il tentativo di accedere al blocco in modalità di scrittura creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter the lock in write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitReadLock">
@@ -646,6 +625,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitReadLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub ExitReadLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitReadLock();" />
+      <MemberSignature Language="F#" Value="member this.ExitReadLock : unit -&gt; unit" Usage="readerWriterLockSlim.ExitReadLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -657,6 +637,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -668,21 +649,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Riduce il numero di ricorsioni per la modalità lettura ed esce da questa modalità se il numero risultante è 0 (zero).</summary>
+        <summary>Reduces the recursion count for read mode, and exits read mode if the resulting count is 0 (zero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo non sono riservato all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e successivamente il blocco in modalità lettura, l'ordine in cui le due modalità si esce dal thread non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità lettura; l'ordine in cui la chiusura del thread in modalità lettura e scrittura non è importante.  
+ Questo metodo non è sensibile all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e quindi accede al blocco in modalità di lettura, l'ordine in cui il thread venga chiuso le due modalità non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità lettura; l'ordine in cui il thread esce dalla modalità di lettura e scrittura in modalità non è rilevante.  
   
- L'uscita dal blocco potrebbe segnalare altri thread in attesa.  
+ Disattivazione del blocco potrebbe segnalare altri thread in attesa.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> (metodo), assicurando che il chiamante esca dalla modalità di lettura. Il metodo illustrato nell'esempio recupera il valore associato alla chiave. Se la chiave non viene trovata, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> può terminare il metodo. Il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo viene utilizzato per passare alla modalità di lettura.  
+ Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> metodo, assicurando che il chiamante esca dalla modalità di lettura. Il metodo illustrato nell'esempio recupera il valore associato alla chiave. Se la chiave non viene trovata, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> è consentito per il metodo terminate. Il <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> metodo viene utilizzato per attivare la modalità di lettura.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -691,7 +672,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">Il thread corrente non ha acceduto al blocco in modalità di lettura.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in read mode.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitUpgradeableReadLock">
@@ -700,6 +681,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub ExitUpgradeableReadLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitUpgradeableReadLock();" />
+      <MemberSignature Language="F#" Value="member this.ExitUpgradeableReadLock : unit -&gt; unit" Usage="readerWriterLockSlim.ExitUpgradeableReadLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -711,6 +693,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -722,25 +705,25 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Riduce il numero di ricorsioni per la modalità aggiornabile ed esce da questa modalità se il numero risultante è 0 (zero).</summary>
+        <summary>Reduces the recursion count for upgradeable mode, and exits upgradeable mode if the resulting count is 0 (zero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo non sono riservato all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e successivamente il blocco in modalità di scrittura, l'ordine in cui le due modalità si esce dal thread non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità aggiornabile; l'ordine in cui il thread esce da questa modalità di scrittura e di modalità non è rilevante.  
+ Questo metodo non è sensibile all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e quindi accede al blocco in modalità scrittura, l'ordine in cui il thread venga chiuso le due modalità non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità aggiornabile; non è importante l'ordine in cui il thread esce dalla modalità di scrittura e la modalità aggiornabile.  
   
- L'uscita dal blocco potrebbe segnalare altri thread in attesa.  
+ Disattivazione del blocco potrebbe segnalare altri thread in attesa.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> (metodo), assicurando che il chiamante esca dalla modalità aggiornabile.  
+ Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> metodo, assicurando che il chiamante esca dalla modalità aggiornabile.  
   
- Il metodo illustrato nell'esempio recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stata modificata, viene aggiornata. La modalità aggiornabile consente al thread di aggiornare il blocco di lettura in base alle necessità, senza il rischio di deadlock.  
+ Il metodo illustrato nell'esempio recupera il valore associato alla chiave e lo confronta con un nuovo valore. Se il valore viene modificato, il metodo restituisce uno stato che indica nessuna modifica. Viene trovato alcun valore per la chiave, viene inserita la coppia chiave/valore. Se il valore è stato modificato, viene aggiornata. La modalità aggiornabile consente al thread eseguire l'aggiornamento il blocco di lettura in base alle necessità, senza il rischio di deadlock.  
   
- L'esempio Usa il costruttore predefinito per creare il blocco, quindi non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetto a errori quando il blocco non consente la ricorsione.  
+ L'esempio Usa il costruttore predefinito per creare il blocco, in modo che non è consentita la ricorsione. Programmazione di <xref:System.Threading.ReaderWriterLockSlim> è più semplice e meno soggetta a errori quando il blocco non supporta la ricorsione.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -751,7 +734,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">Il thread corrente non ha acceduto al blocco in modalità aggiornabile.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in upgradeable mode.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitWriteLock">
@@ -760,6 +743,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.ExitWriteLock" />
       <MemberSignature Language="VB.NET" Value="Public Sub ExitWriteLock ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ExitWriteLock();" />
+      <MemberSignature Language="F#" Value="member this.ExitWriteLock : unit -&gt; unit" Usage="readerWriterLockSlim.ExitWriteLock " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -771,6 +755,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -782,21 +767,21 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Riduce il numero di ricorsioni per la modalità scrittura ed esce da questa modalità se il numero risultante è 0 (zero).</summary>
+        <summary>Reduces the recursion count for write mode, and exits write mode if the resulting count is 0 (zero).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo non sono riservato all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e successivamente il blocco in modalità di scrittura, l'ordine in cui le due modalità si esce dal thread non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità lettura; l'ordine in cui la chiusura del thread in modalità lettura e scrittura non è importante.  
+ Questo metodo non è sensibile all'ordine di ricorsione. Ad esempio, se un thread entra in un blocco in modalità aggiornabile e quindi accede al blocco in modalità scrittura, l'ordine in cui il thread venga chiuso le due modalità non è rilevante. Se un blocco consente la ricorsione, un thread può attivare il blocco in modalità di scrittura e quindi in modo ricorsivo in modalità lettura; l'ordine in cui il thread esce dalla modalità di lettura e scrittura in modalità non è rilevante.  
   
- L'uscita dal blocco potrebbe segnalare altri thread in attesa.  
+ Disattivazione del blocco potrebbe segnalare altri thread in attesa.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> (metodo), assicurando che il chiamante esca dalla modalità di scrittura. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> può terminare il metodo. Il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo viene utilizzato per attivare il blocco in modalità di scrittura.  
+ Nell'esempio seguente viene illustrato come utilizzare un `finally` esecuzione del blocco di <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> metodo, assicurando che il chiamante esce dalla modalità di scrittura. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> è consentito per il metodo terminate. Il <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> metodo viene utilizzato per attivare il blocco in modalità di scrittura.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -805,7 +790,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">Il thread corrente non ha acceduto al blocco in modalità di scrittura.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in write mode.</exception>
       </Docs>
     </Member>
     <Member MemberName="IsReadLockHeld">
@@ -814,6 +799,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsReadLockHeld" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsReadLockHeld As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsReadLockHeld { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsReadLockHeld : bool" Usage="System.Threading.ReaderWriterLockSlim.IsReadLockHeld" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -825,6 +811,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -835,7 +822,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene un valore che indica se per il thread corrente è stato attivato il blocco in modalità lettura.</summary>
+        <summary>Gets a value that indicates whether the current thread has entered the lock in read mode.</summary>
         <value>
           <see langword="true" /> se per il thread corrente è stata attivata la modalità lettura; in caso contrario, <see langword="false" />.</value>
         <remarks>
@@ -847,7 +834,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A> proprietà per generare un'asserzione se il thread corrente è passato alla modalità di lettura in modo imprevisto.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsReadLockHeld%2A> proprietà per generare un'asserzione se il thread corrente ha acceduto alla modalità di lettura in modo imprevisto.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -864,6 +851,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsUpgradeableReadLockHeld As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsUpgradeableReadLockHeld { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsUpgradeableReadLockHeld : bool" Usage="System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -875,6 +863,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -885,9 +874,9 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene un valore che indica se per il thread corrente è stato attivato il blocco in modalità aggiornabile.</summary>
+        <summary>Gets a value that indicates whether the current thread has entered the lock in upgradeable mode.</summary>
         <value>
-          <see langword="true" /> se il thread corrente ha acceduto alla modalità aggiornabile; in caso contrario, <see langword="false" />.</value>
+          <see langword="true" /> se per il thread corrente è stata attivata la modalità aggiornabile; in caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -897,7 +886,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A> proprietà per generare un'asserzione se il thread corrente è in modalità aggiornabile in modo imprevisto.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsUpgradeableReadLockHeld%2A> proprietà per generare un'asserzione se il thread corrente ha acceduto alla modalità aggiornabile in modo imprevisto.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -914,6 +903,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsWriteLockHeld As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsWriteLockHeld { bool get(); };" />
+      <MemberSignature Language="F#" Value="member this.IsWriteLockHeld : bool" Usage="System.Threading.ReaderWriterLockSlim.IsWriteLockHeld" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -925,6 +915,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -935,9 +926,9 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene un valore che indica se per il thread corrente è stato attivato il blocco in modalità scrittura.</summary>
+        <summary>Gets a value that indicates whether the current thread has entered the lock in write mode.</summary>
         <value>
-          <see langword="true" /> se il thread corrente ha acceduto alla modalità di scrittura; in caso contrario, <see langword="false" />.</value>
+          <see langword="true" /> se per il thread corrente è stata attivata la modalità scrittura; in caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -947,7 +938,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> proprietà per generare un'asserzione se il thread corrente è in modalità scrittura in modo imprevisto.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> proprietà per generare un'asserzione se il thread corrente ha acceduto alla modalità di scrittura in modo imprevisto.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -964,6 +955,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursionPolicy As LockRecursionPolicy" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Threading::LockRecursionPolicy RecursionPolicy { System::Threading::LockRecursionPolicy get(); };" />
+      <MemberSignature Language="F#" Value="member this.RecursionPolicy : System.Threading.LockRecursionPolicy" Usage="System.Threading.ReaderWriterLockSlim.RecursionPolicy" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -975,6 +967,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -985,20 +978,20 @@
         <ReturnType>System.Threading.LockRecursionPolicy</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene un valore che indica i criteri di ricorsione per l'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> corrente.</summary>
+        <summary>Gets a value that indicates the recursion policy for the current <see cref="T:System.Threading.ReaderWriterLockSlim" /> object.</summary>
         <value>Uno dei valori di enumerazione che specifica i criteri di ricorsione del blocco.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Criteri di ricorsione determinano le restrizioni sui thread che accedono al blocco più volte. Ad esempio, se un blocco è stato creato con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> e un thread è stato attivato il blocco in modalità lettura <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in modalità lettura.  
+ Criteri di ricorsione determinano le restrizioni sul thread che accedono al blocco più volte. Ad esempio, se un blocco è stato creato con <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> e un thread ha acceduto al blocco in modalità lettura <xref:System.Threading.LockRecursionException> viene generata se il thread tenta di accedere nuovamente al blocco in modalità lettura.  
   
 > [!NOTE]
->  Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o downgrade alla modalità indipendentemente dall'impostazione di criteri di ricorsione di blocco di lettura.  
+>  Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o un downgrade dalla modalità indipendentemente dall'impostazione di criteri di ricorsione di blocco di lettura.  
   
- Indipendentemente dal fatto di criteri di ricorsione, un thread che immesso inizialmente lettura modalità non è consentita eseguire l'aggiornamento in modalità aggiornabile o in modalità di scrittura, perché tale modello crea una forte probabilità di deadlock.  
+ Indipendentemente dai criteri di ricorsione, un thread che ha inizialmente acceduto leggere in modalità non è consentita l'aggiornamento alla modalità aggiornabile o modalità scrittura, perché ciò comporterebbe una forte probabilità di deadlock.  
   
- Per ulteriori informazioni sui criteri di ricorsione e i relativi effetti, vedere il <xref:System.Threading.LockRecursionPolicy> enumerazione e la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Per altre informazioni sui criteri di ricorsione e i relativi effetti, vedere la <xref:System.Threading.LockRecursionPolicy> enumerazione e <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  ]]></format>
         </remarks>
@@ -1011,6 +1004,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveReadCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveReadCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveReadCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.RecursiveReadCount : int" Usage="System.Threading.ReaderWriterLockSlim.RecursiveReadCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1022,6 +1016,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1032,13 +1027,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero di volte in cui per il thread corrente è stato attivato il blocco in modalità lettura, come indicazione della ricorsione.</summary>
-        <value>0 (zero) se il thread corrente non è stata attivata la modalità lettura, 1 se il thread è in modalità lettura ma non in modo ricorsivo o *n* se il thread è stato attivato il blocco in modo ricorsivo *n* - 1 volte.</value>
+        <summary>Gets the number of times the current thread has entered the lock in read mode, as an indication of recursion.</summary>
+        <value>0 (zero) se il thread corrente non ha acceduto alla modalità di lettura, 1 se il thread ha acceduto alla modalità lettura ma non in modo ricorsivo o * n * Se il thread è stato attivato il blocco in modo ricorsivo * n * - 1 volte.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
  ]]></format>
         </remarks>
@@ -1050,6 +1045,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveUpgradeCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveUpgradeCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveUpgradeCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.RecursiveUpgradeCount : int" Usage="System.Threading.ReaderWriterLockSlim.RecursiveUpgradeCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1061,6 +1057,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1071,13 +1068,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero di volte in cui per il thread corrente è stato attivato il blocco in modalità aggiornabile, come indicazione della ricorsione.</summary>
-        <value>0 se il thread corrente non è stata attivata la modalità aggiornabile, 1 se il thread è in modalità aggiornabile ma non è stata attivata, in modo ricorsivo, o *n* se il thread è stata attivata la modalità aggiornabile in modo ricorsivo *n* - 1 volte.</value>
+        <summary>Gets the number of times the current thread has entered the lock in upgradeable mode, as an indication of recursion.</summary>
+        <value>0 se il thread corrente non ha acceduto alla modalità aggiornabile, 1 se il thread ha acceduto alla modalità aggiornabile ma non è stata attivata, in modo ricorsivo, oppure * n * Se il thread ha acceduto alla modalità aggiornabile in modo ricorsivo * n * - 1 volte.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
  ]]></format>
         </remarks>
@@ -1089,6 +1086,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.RecursiveWriteCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property RecursiveWriteCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int RecursiveWriteCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.RecursiveWriteCount : int" Usage="System.Threading.ReaderWriterLockSlim.RecursiveWriteCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1100,6 +1098,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1110,13 +1109,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero di volte in cui per il thread corrente è stato attivato il blocco in modalità scrittura, come indicazione della ricorsione.</summary>
-        <value>0 se il thread corrente non è stata attivata la modalità scrittura, 1 se il thread è stata attivata la modalità scrittura ma non in modo ricorsivo o *n* se il thread è stata attivata la modalità di scrittura in modo ricorsivo *n* - 1 volte.</value>
+        <summary>Gets the number of times the current thread has entered the lock in write mode, as an indication of recursion.</summary>
+        <value>0 se il thread corrente non ha acceduto alla modalità di scrittura, 1 se il thread ha acceduto alla modalità scrittura ma non in modo ricorsivo o * n * Se il thread ha acceduto alla modalità di scrittura in modo ricorsivo * n * - 1 volte.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
  ]]></format>
         </remarks>
@@ -1130,7 +1129,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità lettura con un timeout facoltativo.</summary>
+        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterReadLock">
@@ -1139,6 +1138,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterReadLock (millisecondsTimeout As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterReadLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterReadLock : int -&gt; bool" Usage="readerWriterLockSlim.TryEnterReadLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1150,6 +1150,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1163,34 +1164,30 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">Numero di millisecondi di attesa oppure -1 (<see cref="F:System.Threading.Timeout.Infinite" />) per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità lettura con un timeout intero facoltativo.</summary>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
+        <summary>Tries to enter the lock in read mode, with an optional integer time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante è passato in modalità lettura; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `millisecondsTimeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Più thread possono accedere in modalità di lettura nello stesso momento.  
+ Modalità di lettura possono accedere più thread contemporaneamente.  
   
- Se uno o più thread sono in attesa di attivazione della modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo si blocca fino a quando tali thread dispone di timeout o in modalità di scrittura e quindi sia terminato da esso o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
+ Se uno o più thread sono in attesa di attivazione della modalità scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo si blocca fino a quando i thread hanno sia un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo, o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità lettura possibile immettere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di lettura può accedere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
- Un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se i thread aggiuntivi sono in attesa di attivazione della modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
+ Un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se altri thread in attesa di accedere alla modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, i thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="millisecondsTimeout" /> è negativo, ma non è uguale a <see cref="F:System.Threading.Timeout.Infinite" /> (-1), ovvero l'unico valore negativo consentito.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterReadLock">
@@ -1199,6 +1196,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterReadLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterReadLock (timeout As TimeSpan) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterReadLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterReadLock : TimeSpan -&gt; bool" Usage="readerWriterLockSlim.TryEnterReadLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1210,6 +1208,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1223,38 +1222,30 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">Intervallo di attesa oppure -1 millisecondi per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità lettura con un timeout facoltativo.</summary>
+        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
+        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante è passato in modalità lettura; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `timeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Più thread può accedere al blocco in modalità di lettura nello stesso momento.  
+ Più thread possono accedere al blocco in modalità di lettura nello stesso momento.  
   
- Se uno o più thread sono in coda per passare alla modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo si blocca fino a quando tali thread dispone di timeout o in modalità di scrittura e quindi sia terminato da esso o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
+ Se uno o più thread sono in coda per attivare la modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo si blocca fino a quando i thread hanno sia un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo, o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità lettura possibile immettere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di lettura può accedere in modo ricorsivo modalità lettura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
- Un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se i thread aggiuntivi sono in attesa di attivazione della modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
+ Un thread può essere in modalità aggiornabile, mentre altri thread è in modalità lettura. Se altri thread in attesa di accedere alla modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, i thread che chiamano il <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> metodo passare immediatamente alla modalità di lettura e non vengono bloccati.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="timeout" /> è negativo, ma non è uguale a -1 millisecondi, ovvero l'unico valore negativo consentito.  
-  
- oppure  
-  
- Il valore di <paramref name="timeout" /> è superiore a <see cref="F:System.Int32.MaxValue" /> millisecondi.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterUpgradeableReadLock">
@@ -1265,7 +1256,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità aggiornabile con un timeout facoltativo.</summary>
+        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1274,6 +1265,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterUpgradeableReadLock (millisecondsTimeout As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterUpgradeableReadLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterUpgradeableReadLock : int -&gt; bool" Usage="readerWriterLockSlim.TryEnterUpgradeableReadLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1285,6 +1277,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1298,38 +1291,30 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">Numero di millisecondi di attesa oppure -1 (<see cref="F:System.Threading.Timeout.Infinite" />) per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità aggiornabile con un timeout facoltativo.</summary>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
+        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante ha acceduto alla modalità aggiornabile; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `millisecondsTimeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Utilizzare la modalità aggiornabile quando un thread è in genere accede alla risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità di lettura, ma potrebbe essere necessario passare alla modalità di scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o downgrade alla modalità di lettura.  
+ Utilizzare la modalità aggiornabile quando un thread accede in genere la risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità lettura, ma potrebbe essere necessario immettere la modalità scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile può eseguire l'aggiornamento alla modalità di scrittura o il downgrade per la modalità lettura.  
   
- Solo un thread può accedere un blocco in modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, un numero qualsiasi di altri thread può passare alla modalità lettura, anche se sono presenti thread in attesa di attivazione della modalità aggiornabile.  
+ Solo un thread può accedere un blocco in modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, un numero qualsiasi di altri thread può passare alla modalità di lettura, anche se sono presenti thread in attesa di accedere alla modalità aggiornabile.  
   
- Se uno o più thread sono in attesa di attivazione della modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo si blocca fino a quando tali thread dispone di timeout o in modalità di scrittura e quindi sia terminato da esso o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
+ Se uno o più thread sono in attesa di attivazione della modalità scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo si blocca fino a quando i thread hanno sia un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo, o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità aggiornabile può accedere in modo ricorsivo in modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità aggiornabile può accedere in modo ricorsivo la modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il thread corrente ha inizialmente acceduto al blocco in modalità di lettura, pertanto il tentativo di accedere alla modalità aggiornabile creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="millisecondsTimeout" /> è negativo, ma non è uguale a <see cref="F:System.Threading.Timeout.Infinite" /> (-1), ovvero l'unico valore negativo consentito.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1338,6 +1323,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterUpgradeableReadLock (timeout As TimeSpan) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterUpgradeableReadLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterUpgradeableReadLock : TimeSpan -&gt; bool" Usage="readerWriterLockSlim.TryEnterUpgradeableReadLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1349,6 +1335,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1362,42 +1349,30 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">Intervallo di attesa oppure -1 millisecondi per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità aggiornabile con un timeout facoltativo.</summary>
+        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
+        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante ha acceduto alla modalità aggiornabile; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `timeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Utilizzare la modalità aggiornabile quando un thread è in genere accedere alla risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità di lettura, ma potrebbe essere necessario passare alla modalità di scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile è possibile eseguire l'aggiornamento alla modalità di scrittura o downgrade alla modalità di lettura.  
+ Utilizzare la modalità aggiornabile quando un thread è in genere accedere alla risorsa protetta dal <xref:System.Threading.ReaderWriterLockSlim> in modalità lettura, ma potrebbe essere necessario immettere la modalità scrittura, se vengono soddisfatte determinate condizioni. Un thread in modalità aggiornabile può eseguire l'aggiornamento alla modalità di scrittura o il downgrade per la modalità lettura.  
   
- Solo un thread può accedere un blocco in modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di passare alla modalità di scrittura, un numero qualsiasi di altri thread può passare alla modalità lettura, anche se sono presenti thread in attesa di attivazione della modalità aggiornabile.  
+ Solo un thread può accedere un blocco in modalità aggiornabile in qualsiasi momento. Se un thread è in modalità aggiornabile e non sono presenti thread in attesa di attivazione della modalità scrittura, un numero qualsiasi di altri thread può passare alla modalità di lettura, anche se sono presenti thread in attesa di accedere alla modalità aggiornabile.  
   
- Se uno o più thread sono in attesa di attivazione della modalità di scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo si blocca fino a quando tali thread dispone di timeout o in modalità di scrittura e quindi sia terminato da esso o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
+ Se uno o più thread sono in attesa di attivazione della modalità scrittura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> metodo si blocca fino a quando i thread hanno sia un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo, o fino alla scadenza dell'intervallo di timeout del thread chiamante.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità aggiornabile può accedere in modo ricorsivo in modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità aggiornabile può accedere in modo ricorsivo la modalità aggiornabile, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il thread corrente ha inizialmente acceduto al blocco in modalità di lettura, pertanto il tentativo di accedere alla modalità aggiornabile creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="timeout" /> è negativo, ma non è uguale a -1 millisecondi, ovvero l'unico valore negativo consentito.  
-  
- oppure  
-  
- Il valore di <paramref name="timeout" /> è superiore a <see cref="F:System.Int32.MaxValue" /> millisecondi.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterWriteLock">
@@ -1408,7 +1383,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Prova ad attivare il blocco in modalità scrittura con un timeout facoltativo.</summary>
+        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterWriteLock">
@@ -1417,6 +1392,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterWriteLock (millisecondsTimeout As Integer) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterWriteLock(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterWriteLock : int -&gt; bool" Usage="readerWriterLockSlim.TryEnterWriteLock millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1428,6 +1404,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1441,29 +1418,29 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">Numero di millisecondi di attesa oppure -1 (<see cref="F:System.Threading.Timeout.Infinite" />) per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità scrittura con un timeout facoltativo.</summary>
+        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
+        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante ha acceduto alla modalità di scrittura; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `millisecondsTimeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Se altri thread è stato attivato il blocco in modalità lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo si blocca fino a quando tali thread sono usciti modalità lettura o fino a quando non è trascorso l'intervallo di timeout. Mentre i thread sono bloccati in attesa di passare alla modalità di scrittura, gli altri thread che tentano di accedere alla modalità di lettura o in modalità aggiornabile bloccata fino a quando tutti i thread in attesa di accedere alla modalità di scrittura sono uno timeout o in modalità di scrittura e quindi sia terminato da esso.  
+ Se altri thread è stato attivato il blocco in modalità di lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo si blocca fino a quando tali thread sono usciti dal modalità lettura o fino a quando non è trascorso l'intervallo di timeout. Mentre i thread sono bloccati in attesa di attivazione della modalità scrittura, gli altri thread che tentano di accedere alla modalità di lettura o in modalità aggiornabile bloccare fino a quando tutti i thread in attesa di immettere la modalità scrivono hanno entrambi un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità di scrittura può accedere in modo ricorsivo la modalità di scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di scrittura può accedere in modo ricorsivo la modalità scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo per attivare il blocco in modalità scrittura con un timeout. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se l'intervallo di timeout specificato scade prima che il thread viene inserito il blocco, il metodo restituisce `false`. Il metodo restituisce `true` se si aggiunge la coppia chiave/valore.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo ad attivare il blocco in modalità di scrittura, con un timeout. Il metodo illustrato nell'esempio aggiunge una nuova coppia chiave/valore per la cache sincronizzata. Se l'intervallo di timeout specificato deve trascorrere prima che il thread entra nel blocco, il metodo restituisce `false`. Il metodo restituisce `true` se viene aggiunta la coppia chiave/valore.  
   
- Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> può terminare il metodo. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> metodo, assicurando che il chiamante viene chiuso il blocco.  
+ Se la chiave esiste già nella cache, l'eccezione generata dall'interno <xref:System.Collections.Generic.Dictionary%602> è consentito per il metodo terminate. Oggetto `finally` blocco viene utilizzato per eseguire il <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> metodo, assicurando che il chiamante termina il blocco.  
   
- Questo codice è parte di un esempio più esaustivo disponibile per la <xref:System.Threading.ReaderWriterLockSlim> classe.  
+ Questo codice è parte di un esempio più esaustivo disponibile per il <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/source.cs#2)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/source.vb#2)]  
@@ -1472,17 +1449,9 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il thread corrente ha inizialmente acceduto al blocco in modalità di lettura, pertanto il tentativo di accedere alla modalità di scrittura creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="millisecondsTimeout" /> è negativo, ma non è uguale a <see cref="F:System.Threading.Timeout.Infinite" /> (-1), ovvero l'unico valore negativo consentito.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterWriteLock">
@@ -1491,6 +1460,7 @@
       <MemberSignature Language="DocId" Value="M:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock(System.TimeSpan)" />
       <MemberSignature Language="VB.NET" Value="Public Function TryEnterWriteLock (timeout As TimeSpan) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryEnterWriteLock(TimeSpan timeout);" />
+      <MemberSignature Language="F#" Value="member this.TryEnterWriteLock : TimeSpan -&gt; bool" Usage="readerWriterLockSlim.TryEnterWriteLock timeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1502,6 +1472,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1515,38 +1486,26 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">Intervallo di attesa oppure -1 millisecondi per un'attesa indefinita.</param>
-        <summary>Prova ad attivare il blocco in modalità scrittura con un timeout facoltativo.</summary>
+        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
+        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
         <returns>
-          <see langword="true" /> se il thread chiamante ha acceduto alla modalità di scrittura; in caso contrario, <see langword="false" />.</returns>
+          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Se `timeout` è 0 (zero), questo metodo controlla lo stato di blocco e restituisce `false` immediatamente se lo stato desiderato non è disponibile.  
   
- Se altri thread è stato attivato il blocco in modalità lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo si blocca fino a quando tali thread sono usciti modalità lettura o fino a quando non è trascorso l'intervallo di timeout. Mentre i thread sono bloccati in attesa di passare alla modalità di scrittura, gli altri thread che tentano di accedere alla modalità di lettura o in modalità aggiornabile bloccata fino a quando tutti i thread in attesa di accedere alla modalità di scrittura sono uno timeout o in modalità di scrittura e quindi sia terminato da esso.  
+ Se altri thread è stato attivato il blocco in modalità di lettura, un thread che chiama il <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> metodo si blocca fino a quando tali thread sono usciti dal modalità lettura o fino a quando non è trascorso l'intervallo di timeout. Mentre i thread sono bloccati in attesa di attivazione della modalità scrittura, gli altri thread che tentano di accedere alla modalità di lettura o in modalità aggiornabile bloccare fino a quando tutti i thread in attesa di immettere la modalità scrivono hanno entrambi un timeout o passato in modalità scrittura e quindi sia terminato da quest'ultimo.  
   
 > [!NOTE]
->  Se un blocco consente la ricorsione, un thread che ha attivato il blocco in modalità di scrittura può accedere in modo ricorsivo la modalità di scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
+>  Se un blocco consente la ricorsione, un thread ha acceduto al blocco in modalità di scrittura può accedere in modo ricorsivo la modalità scrittura, anche se altri thread in attesa di passare alla modalità di scrittura.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">La proprietà <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> è <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> e il thread corrente ha già acceduto al blocco.  
-  
- oppure  
-  
- Il thread corrente ha inizialmente acceduto al blocco in modalità di lettura, pertanto il tentativo di accedere alla modalità di scrittura creerebbe la possibilità di un deadlock.  
-  
- oppure  
-  
- Il numero di ricorsioni supererebbe la capacità del contatore. Il limite è talmente elevato che le applicazioni non dovrebbero mai raggiungerlo.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">Il valore di <paramref name="timeout" /> è negativo, ma non è uguale a -1 millisecondi, ovvero l'unico valore negativo consentito.  
-  
- oppure  
-  
- Il valore di <paramref name="timeout" /> è superiore a <see cref="F:System.Int32.MaxValue" /> millisecondi.</exception>
-        <exception cref="T:System.ObjectDisposedException">L'oggetto <see cref="T:System.Threading.ReaderWriterLockSlim" /> è stato eliminato.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
+        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
       </Docs>
     </Member>
     <Member MemberName="WaitingReadCount">
@@ -1555,6 +1514,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingReadCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingReadCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.WaitingReadCount : int" Usage="System.Threading.ReaderWriterLockSlim.WaitingReadCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1566,6 +1526,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1576,18 +1537,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero complessivo di thread in attesa di attivazione del blocco in modalità lettura.</summary>
+        <summary>Gets the total number of threads that are waiting to enter the lock in read mode.</summary>
         <value>Numero complessivo di thread in attesa di attivazione della modalità lettura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A> proprietà per generare una voce del registro eventi se il numero di thread bloccati, in attesa di attivazione della modalità di lettura, supera una soglia.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingReadCount%2A> proprietà per generare una voce nel registro eventi, se il numero di thread che sono bloccati in attesa di attivazione della modalità di lettura, supera una soglia.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -1604,6 +1565,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingUpgradeCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingUpgradeCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.WaitingUpgradeCount : int" Usage="System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1615,6 +1577,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1625,18 +1588,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero complessivo di thread in attesa di attivazione del blocco in modalità aggiornabile.</summary>
+        <summary>Gets the total number of threads that are waiting to enter the lock in upgradeable mode.</summary>
         <value>Numero complessivo di thread in attesa di attivazione della modalità aggiornabile.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> proprietà per generare una voce del registro eventi se il numero di thread bloccati, in attesa di attivazione della modalità aggiornabile, supera una soglia.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> proprietà per generare una voce nel registro eventi, se il numero di thread che sono bloccati in attesa di passare alla modalità aggiornabile, supera una soglia.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -1653,6 +1616,7 @@
       <MemberSignature Language="DocId" Value="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" />
       <MemberSignature Language="VB.NET" Value="Public ReadOnly Property WaitingWriteCount As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int WaitingWriteCount { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.WaitingWriteCount : int" Usage="System.Threading.ReaderWriterLockSlim.WaitingWriteCount" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Threading</AssemblyName>
@@ -1664,6 +1628,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1674,18 +1639,18 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene il numero complessivo di thread in attesa di attivazione del blocco in modalità scrittura.</summary>
+        <summary>Gets the total number of threads that are waiting to enter the lock in write mode.</summary>
         <value>Numero complessivo di thread in attesa di attivazione della modalità scrittura.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa proprietà solo per il debug, il profiling e registrazione e non per controllare il comportamento di un algoritmo. I risultati possono cambiare come che sono state calcolate. Pertanto, non è consigliabile prendere decisioni in base a questa proprietà.  
+ Utilizzare questa proprietà solo per il debug, profilatura e a scopo di registrazione e non per controllare il comportamento di un algoritmo. I risultati possono modificare non appena che sono state calcolate. Pertanto, non sicuro prendere decisioni basate su questa proprietà.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A> proprietà per generare una voce del registro eventi se il numero di thread bloccati, in attesa di attivazione della modalità di scrittura, supera una soglia.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.Threading.ReaderWriterLockSlim.WaitingWriteCount%2A> proprietà per generare una voce nel registro eventi, se il numero di thread che sono bloccati in attesa di passare alla modalità di scrittura, supera una soglia.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  

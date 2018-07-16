@@ -1,11 +1,11 @@
 <Type Name="DataLoadOptions" FullName="System.Data.Linq.DataLoadOptions">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="34c67048240be5b4d33ed067657848792722a711" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4d7a1641f923121f7dc6f5ac9f8bc574e9cf05e1" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36689379" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37680936" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class DataLoadOptions" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit DataLoadOptions extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type DataLoadOptions = class" />
   <AssemblyInfo>
     <AssemblyName>System.Data.Linq</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -29,9 +30,9 @@
 ## Remarks  
   
 ## <a name="general"></a>Generale  
- Quando si esegue una query per un oggetto, si recupera in effetti solo l'oggetto richiesto. Il *correlati* oggetti non vengono recuperati contemporaneamente. (Per altre informazioni, vedere [l'esecuzione di query tra relazioni](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md).)  
+ Quando si esegue una query per un oggetto, si recupera in effetti solo l'oggetto richiesto. Il *correlati* oggetti non vengono recuperati contemporaneamente. (Per altre informazioni, vedere [eseguire query tra relazioni](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md).)  
   
- Il <xref:System.Data.Linq.DataLoadOptions> classe fornisce due metodi per ottenere il caricamento immediato dei dati correlati specificati. Il <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> metodo consente il caricamento immediato dei dati correlati alla destinazione principale. Il <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> metodo consente il filtraggio degli oggetti correlati.  
+ Il <xref:System.Data.Linq.DataLoadOptions> classe fornisce due metodi per ottenere il caricamento immediato dei dati correlati specificati. Il <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> metodo consente il caricamento immediato dei dati correlati alla destinazione principale. Il <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> metodo consente di filtrare gli oggetti correlati.  
   
 ## <a name="rules"></a>Regole  
  Tenere presenti le seguenti regole relative a <xref:System.Data.Linq.DataLoadOptions> utilizzo:  
@@ -41,9 +42,9 @@
 -   Modifica di un <xref:System.Data.Linq.DataLoadOptions> dopo che è stato assegnato a un <xref:System.Data.Linq.DataContext> genera un'eccezione  
   
 ## <a name="cycle-handling"></a>Gestione del ciclo  
- <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> e <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> direttive non devono creare cicli. Di seguito sono riportati esempi di tali grafici:  
+ <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> e <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> direttive non devono creare cicli. Di seguito sono riportati alcuni esempi di tali grafici:  
   
--   Esempio 1: Self ricorsiva  
+-   Esempio 1: Self-ricorsivo  
   
     -   `dlo.LoadWith<Employee>(e => e.Reports);`  
   
@@ -55,7 +56,7 @@
   
 -   Esempio 3: Più cicli  
   
-     Anche se ciò non dovrebbe verificarsi in un modello ben normalizzato, è possibile.  
+     Anche se questo non deve essere eseguita in un modello normalizzato ben, è possibile.  
   
     -   `dlo.LoadWith <A>(a => a.Bs);`  
   
@@ -63,30 +64,30 @@
   
     -   `dlo.LoadWith <C>(c => c.As);`  
   
--   : Esempio 4 sottoquery ricorsiva  
+-   : Esempio 4 ricorsiva sottoquery  
   
     -   `dlo.AssociateWith<A>(a=>a.As.Where(a=>a.Id=33));`  
   
--   Esempio 5: Le sottoquery ricorsiva più lungo  
+-   Esempio 5: Le sottoquery ricorsivo più lungo  
   
     -   `dlo.AssociateWith<A>(a=>a.Bs.Where(b=>b.Id==3));`  
   
     -   `dlo.AssociateWith<B>(b=>b.As.Where(a=>a.Id==3));`  
   
- Di seguito sono riportate alcune regole generali che consentono di comprendere cosa accade in questi scenari.  
+ Di seguito sono riportate alcune regole generali che consentono di comprendere che cosa accade in questi scenari.  
   
- **LoadWith** ogni chiamata a <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> controlla se sono stati introdotti cicli nel grafico. Se sono presenti, come illustrato negli esempi 1, 2 e 3, viene generata un'eccezione.  
+ **LoadWith** ogni chiamata a <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> controlla se i cicli sono state introdotte nel grafico. Se sono presenti, come illustrato negli esempi 1, 2 e 3, viene generata un'eccezione.  
   
- **AssociateWith** il motore in fase di esecuzione non si applica le clausole SubQuery esistenti per la relazione all'interno dell'espressione.  
+ **AssociateWith** il motore in fase di esecuzione non si applica le clausole di sottoquery esistente per la relazione all'interno dell'espressione.  
   
--   Nell'esempio 4, il `Where` clausola viene eseguita su tutti i `A`, non solo quelli secondari filtrati in base l'espressione di sottoquery stessa (perché sarebbe ricorsivo)  
+-   Nell'esempio 4, il `Where` clausola viene eseguita in tutti i `A`, non solo quelli secondari filtrati in base l'espressione di sottoquery stessa (perché sarebbe ricorsivo)  
   
--   Nell'esempio 5, il primo `Where` clausola viene applicata a tutti i `B`s, anche se sono presenti sottoquery in `B`. Il secondo `Where` clausola viene applicata a tutti i `A`s anche se sono presenti sottoquery su `A`.  
+-   Nell'esempio 5, il primo `Where` clausola viene applicata a tutti i `B`s, anche se sono presenti sottoquery in `B`. La seconda `Where` clausola viene applicata a tutti i `A`s anche se sono presenti sottoquery su `A`.  
   
    
   
 ## Examples  
- Quando si recupera `Customers` dal database di esempio Northwind, è possibile utilizzare <xref:System.Data.Linq.DataLoadOptions> per specificare che `Orders` è inoltre necessario recuperare. È anche possibile specificare il sottoinsieme di `Orders` da recuperare.  
+ Quando si recupera `Customers` dal database di esempio Northwind, è possibile usare <xref:System.Data.Linq.DataLoadOptions> per specificare che `Orders` deve anche essere recuperati. È anche possibile specificare il sottoinsieme di `Orders` da recuperare.  
   
  ]]></format>
     </remarks>
@@ -101,6 +102,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -119,6 +121,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -134,7 +137,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Nell'esempio seguente, il ciclo interno scorre solo quelli `Orders` che non sono state spedite oggi.  
+ Nell'esempio seguente, il ciclo interno esegue l'iterazione solo rispetto a quelle `Orders` che non siano state spedite oggi stesso.  
   
    
   
@@ -156,6 +159,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -168,7 +172,7 @@
         <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;T,System.Object&gt;&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">Tipo che viene eseguita la query.  Se il tipo è mappato, viene generata un'eccezione.</typeparam>
+        <typeparam name="T">Tipo che viene eseguito la query.  Se il tipo è mappato, viene generata un'eccezione.</typeparam>
         <param name="expression">Identifies the query to be used on a particular one-to-many field or property. Note the following:  If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.  If an operator other than a valid operator appears in the expression, an exception is thrown. Valid operators are as follows:  Where  OrderBy  ThenBy  OrderByDescending  ThenByDescending  Take</param>
         <summary>Filters objects retrieved for a particular relationship.</summary>
         <remarks>
@@ -180,7 +184,7 @@
    
   
 ## Examples  
- Nell'esempio seguente, il ciclo interno scorre solo quelli `Orders` che non sono state spedite oggi.  
+ Nell'esempio seguente, il ciclo interno esegue l'iterazione solo rispetto a quelle `Orders` che non siano state spedite oggi stesso.  
   
  [!code-csharp[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/csharp/VS_Snippets_Data/system.data.linq.dataloadoptions/cs/program.cs#1)]
  [!code-vb[System.Data.Linq.DataLoadOptions#1](~/samples/snippets/visualbasic/VS_Snippets_Data/system.data.linq.dataloadoptions/vb/module1.vb#1)]  
@@ -249,6 +253,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -286,6 +291,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -305,7 +311,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Non è possibile specificare il caricamento dei due livelli di relazioni (ad esempio, `Orders.OrderDetails`). In questi scenari è necessario specificare due <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> metodi.  
+ Non è possibile specificare il caricamento di due livelli di relazioni (ad esempio, `Orders.OrderDetails`). In questi scenari è necessario specificare due <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> metodi.  
   
  Per evitare i cicli, vedere la sezione Osservazioni sezione <xref:System.Data.Linq.DataLoadOptions>.  
   
