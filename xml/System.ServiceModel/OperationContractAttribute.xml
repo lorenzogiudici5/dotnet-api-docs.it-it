@@ -1,11 +1,11 @@
 <Type Name="OperationContractAttribute" FullName="System.ServiceModel.OperationContractAttribute">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="73c4498ef4eb2c4124673169e0bcb322433730f5" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="a0808c4424298333da5de1382e073e19dd8b1592" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36610313" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37612471" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OperationContractAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OperationContractAttribute extends System.Attribute" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -43,7 +44,7 @@
   
  Le proprietà <xref:System.ServiceModel.OperationContractAttribute> consentono di controllare la struttura dell'operazione e i valori espressi nei metadati:  
   
--   La proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> indica l'azione che identifica in modo univoco questa operazione. WCF invia i messaggi di richiesta ai metodi in base alle loro azione.  
+-   La proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> indica l'azione che identifica in modo univoco questa operazione. WCF invia messaggi di richiesta a metodi in base all'azione.  
   
 -   La proprietà <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> indica che l'operazione è implementata o può essere chiamata in modo asincrono tramite una coppia di metodi Begin/End.  
   
@@ -53,7 +54,7 @@
   
 -   La proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> specifica se questa operazione può essere l'operazione iniziale di una sessione.  
   
--   Il <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> proprietà specifica se WCF tenta di terminare la sessione corrente al termine dell'operazione.  
+-   Il <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> proprietà specifica se i tentativi di WCF terminare la sessione corrente dopo il completamento dell'operazione.  
   
 -   La proprietà <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> indica la sicurezza a livello di messaggio che occorre fornire a un'operazione in fase di esecuzione.  
   
@@ -61,21 +62,21 @@
   
  L'attributo <xref:System.ServiceModel.OperationContractAttribute> dichiara che un metodo è un'operazione di un contratto di servizio. Solo i metodi dotati dell'attributo <xref:System.ServiceModel.OperationContractAttribute> sono esposti come operazioni di servizio. Un contratto di servizio privo di metodi contrassegnati con l'attributo <xref:System.ServiceModel.OperationContractAttribute> non espone alcuna operazione.  
   
- Il <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> proprietà indica che una coppia di `Begin` \< *NomeMetodo*> e `End` \< *NomeMetodo*> metodi formano un singolo operazione implementata in modo asincrono (sia nel client o il servizio). La possibilità di un servizio di implementare operazioni in modo asincrono è un dettaglio di implementazione del servizio e non è esposto nei metadati, ad esempio WSDL (Web Services Description Language).  
+ Il <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> proprietà indica che una coppia di `Begin` \< *methodName*> e `End` \< *methodName*> metodi costituiscono un singolo operazione implementata in modo asincrono (sia nel client o il servizio). La possibilità di un servizio di implementare operazioni in modo asincrono è un dettaglio di implementazione del servizio e non è esposto nei metadati, ad esempio WSDL (Web Services Description Language).  
   
  Analogamente, i client possono scegliere di richiamare le operazioni in modo asincrono indipendentemente dalla modalità di implementazione del metodo del servizio. Quando un metodo di servizio, anche se richiede un certo tempo di esecuzione, deve restituire le informazioni direttamente al client è consigliabile impostare i client in modo che le operazioni di servizio vengano chiamate in modo asincrono. Per informazioni dettagliate, vedere <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A>.  
   
  La proprietà <xref:System.ServiceModel.OperationContractAttribute.IsOneWay%2A> indica che un metodo non restituisce alcun valore, nemmeno un messaggio di risposta sottostante vuoto. Questo tipo di metodo è utile per le notifiche o per le comunicazioni in stile evento. Poiché i metodi di questo tipo non possono restituire alcun messaggio di risposta, il metodo deve essere dichiarato in modo da restituire `void`.  
   
 > [!IMPORTANT]
->  Durante il recupero a livello di programmazione il servizio Archivio informazioni in questo attributo, utilizzare il <xref:System.ServiceModel.Description.ContractDescription> classe anziché la reflection.  
+>  Durante il recupero a livello di programmazione il servizio Archivio informazioni in questo attributo, usare il <xref:System.ServiceModel.Description.ContractDescription> classe invece di reflection.  
   
 > [!NOTE]
 >  Se la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsOneWay%2A> viene impostata su `false` (ovvero l'impostazione predefinita), anche i metodi che restituiscono `void` sono metodi bidirezionali a livello di messaggio sottostante. In questo caso, l'infrastruttura crea e invia un messaggio vuoto per segnalare al chiamante il termine dell'esecuzione del metodo chiamato. L'utilizzo di questo approccio consente all'applicazione e all'infrastruttura di inviare al client le informazioni sull'errore, ad esempio per indicare che si tratta di un errore SOAP. L'unico modo per impedire la creazione e l'invio di un messaggio di risposta è impostare la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsOneWay%2A> su `true`. Per altre informazioni, vedere [unidirezionale servizi](~/docs/framework/wcf/feature-details/one-way-services.md).  
   
- Oltre a consentire la modifica dell'azione predefinita dei messaggi SOAP, le proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> e <xref:System.ServiceModel.OperationContractAttribute.ReplyAction%2A> possono essere utilizzate per creare gestori per i messaggi non riconosciuti o per disabilitare l'aggiunta di azioni durante la programmazione diretta dei messaggi. Utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> per impedire ai client di chiamare una determinata operazione di servizio prima delle altre operazioni. Utilizzare il <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> proprietà per chiudere il canale dopo che i client chiamano una particolare operazione del servizio di WCF. Per altre informazioni, vedere [utilizzando le sessioni](~/docs/framework/wcf/using-sessions.md).  
+ Oltre a consentire la modifica dell'azione predefinita dei messaggi SOAP, le proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> e <xref:System.ServiceModel.OperationContractAttribute.ReplyAction%2A> possono essere utilizzate per creare gestori per i messaggi non riconosciuti o per disabilitare l'aggiunta di azioni durante la programmazione diretta dei messaggi. Utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> per impedire ai client di chiamare una determinata operazione di servizio prima delle altre operazioni. Usare il <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> proprietà per impostare WCF in chiuda il canale dopo che i client chiamano una determinata operazione di servizio. Per altre informazioni, vedere [utilizzando le sessioni](~/docs/framework/wcf/using-sessions.md).  
   
- La proprietà <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> consente di specificare nel contratto dell'operazione se i relativi messaggi sono firmati o crittografati, oppure se presentano entrambi i meccanismi di sicurezza. Se un'associazione non è in grado di fornire il livello di sicurezza richiesto dal contratto, l'infrastruttura genera un'eccezione in fase di esecuzione. Per altre informazioni, vedere <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> e [Understanding Protection Level](~/docs/framework/wcf/understanding-protection-level.md).  
+ La proprietà <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> consente di specificare nel contratto dell'operazione se i relativi messaggi sono firmati o crittografati, oppure se presentano entrambi i meccanismi di sicurezza. Se un'associazione non è in grado di fornire il livello di sicurezza richiesto dal contratto, l'infrastruttura genera un'eccezione in fase di esecuzione. Per altre informazioni, vedere <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> e [livello di protezione delle informazioni sulle](~/docs/framework/wcf/understanding-protection-level.md).  
   
    
   
@@ -131,6 +132,7 @@ public class OneAndTwoWay
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -156,6 +158,7 @@ public class OneAndTwoWay
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -174,7 +177,7 @@ public class OneAndTwoWay
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> messaggio proprietà per controllare l'azione del metodo di input. Poiché WCF utilizza questa azione per inviare un messaggio in arrivo per il metodo appropriato, i messaggi utilizzati all'interno di un'operazione del contratto devono presentare azioni univoche. Il valore dell'azione predefinita è una combinazione dello spazio dei nomi del contratto (il valore predefinito è "http://tempuri.org/"), il nome del contratto (nome di interfaccia o il nome della classe, se viene utilizzata alcuna interfaccia di servizio esplicita), il nome dell'operazione e una stringa aggiuntiva ("risposta") se il messaggio è una risposta correlata. Per eseguire l'override di questo valore predefinito è possibile utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A>.  
+ Usare il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> messaggio proprietà per controllare l'azione del metodo di input. Poiché WCF Usa questa azione per inviare un messaggio in ingresso al metodo appropriato, i messaggi utilizzati all'interno di un'operazione del contratto devono presentare azioni univoche. Il valore dell'azione predefinita è una combinazione dello spazio dei nomi del contratto (il valore predefinito è "http://tempuri.org/"), il nome del contratto (interfaccia nome o il nome della classe, se viene utilizzata alcuna interfaccia di servizio esplicita), il nome dell'operazione e una stringa aggiuntiva ("risposta") se il messaggio è una risposta correlata. Per eseguire l'override di questo valore predefinito è possibile utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A>.  
   
  Per indicare che un'operazione di servizio gestisce tutti i messaggi che sono stati ricevuti dal servizio ma che non possono essere indirizzati a un'operazione di servizio, impostare il valore su asterisco ("*"). Questo tipo di operazione, detta "gestore dei messaggi non corrispondenti", deve presentare una delle firme di metodo seguenti. In caso contrario, l'infrastruttura genera un'eccezione <xref:System.InvalidOperationException>:  
   
@@ -183,7 +186,7 @@ public class OneAndTwoWay
 -   L'operazione di servizio può ricevere solo un oggetto <xref:System.ServiceModel.Channels.Message> e non può restituire alcun valore (ovvero, può restituire solo `void`).  
   
 > [!NOTE]
->  In un contratto di servizio può esistere una sola operazione di servizio avente la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "*." Qualsiasi gruppo di contratti di servizio ospitati sullo stesso listenUri che implementa una classe di servizio può presentare più operazioni di servizio con il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" quando il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> è impostata su `false`. Tuttavia, solo una di queste operazioni di servizio può disporre il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" e il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> proprietà impostata su true. Per informazioni dettagliate, vedere <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A>.  
+>  In un contratto di servizio può esistere una sola operazione di servizio avente la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "*." Qualsiasi gruppo di contratti di servizio ospitati sullo stesso URI di ascolto implementato da una classe di servizio può presentare più operazioni di servizio con il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" quando il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> è impostata su `false`. Tuttavia, solo una di queste operazioni di servizio può avere il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" e il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> proprietà impostata su true. Per informazioni dettagliate, vedere <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A>.  
   
    
   
@@ -213,6 +216,7 @@ public class OneAndTwoWay
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -227,16 +231,16 @@ public class OneAndTwoWay
       <Docs>
         <summary>Indicates that an operation is implemented asynchronously using a <see langword="Begin" />&lt;*methodName*&gt; and <see langword="End" />&lt;*methodName*&gt; method pair in a service contract.</summary>
         <value>
-          <see langword="true" /> Se il <see langword="Begin" /> &lt;* NomeMetodo *&gt;metodo corrisponde un <see langword="End" /> &lt;* NomeMetodo *&gt; metodo e può essere gestita dall'infrastruttura come un'operazione che viene implementata come asincrono coppia di metodi nell'interfaccia di servizio; in caso contrario, <see langword="false" />. Il valore predefinito è <see langword="false" />.</value>
+          <see langword="true" /> Se il <see langword="Begin" /> &lt;* NomeMetodo *&gt;metodo corrispondente un' <see langword="End" /> &lt;* NomeMetodo *&gt; metodo e può essere gestita dall'infrastruttura come operazione che viene implementata come asincrono coppia di metodi nell'interfaccia di servizio; in caso contrario, <see langword="false" />. Il valore predefinito è <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> per compilare operazioni di servizio che possono essere chiamate in modo asincrono nel server, nel client o in entrambi. La proprietà <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> informa in fase di esecuzione che per un metodo `Begin` esiste un metodo `End` corrispondente conforme al modello di progettazione dei metodi asincroni di .NET Framework. Oltre a consentire di aumentare la scalabilità e le prestazioni lato server senza influire sui client del servizio, la compilazione di metodi asincroni lato server che implementano un'operazione di servizio è particolarmente indicata quando un'operazione di servizio deve restituire un valore al client dopo aver eseguito un'operazione di lunga durata eseguibile in modo asincrono.  
   
- I client non subiscono alcuna alterazione in quanto la coppia dei metodi asincroni nel server è un dettaglio di implementazione che non influisce sulla descrizione WSDL (Web Services Description Language) sottostante dell'operazione. Tali metodi vengono visualizzati ai client come un'unica operazione con `<input>` e correlati `<output>` messaggi. WCF indirizza automaticamente i messaggi in ingresso per il `Begin` \< *NomeMetodo*> (metodo) e instrada i risultati del `End` \< *NomeMetodo*> chiamare nel messaggio in uscita. I canali client possono pertanto rappresentare la coppia di metodi come un'unica operazione sincrona o come una coppia di operazioni asincrone. La rappresentazione client non influisce in alcun caso o modo sull'implementazione asincrona nel server.  
+ I client non subiscono alcuna alterazione in quanto la coppia dei metodi asincroni nel server è un dettaglio di implementazione che non influisce sulla descrizione WSDL (Web Services Description Language) sottostante dell'operazione. Tali metodi vengono visualizzati ai client come un'unica operazione con `<input>` e correlati `<output>` messaggi. WCF indirizza automaticamente i messaggi in ingresso per il `Begin` \< *NomeMetodo*> (metodo) e i risultati della `End` \< *methodName*> chiamare nel messaggio in uscita. I canali client possono pertanto rappresentare la coppia di metodi come un'unica operazione sincrona o come una coppia di operazioni asincrone. La rappresentazione client non influisce in alcun caso o modo sull'implementazione asincrona nel server.  
   
- I contratti client possono utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> per indicare una coppia di metodi asincroni utilizzabili dal client per richiamare l'operazione in modo asincrono. In genere, le applicazioni client usano il [strumento ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) strumento e il `/async` opzione per generare un `Begin` \< *NomeMetodo*> e `End` \< *NomeMetodo*> coppia di metodi che il client può utilizzare per richiamare l'operazione in modo asincrono.  
+ I contratti client possono utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A> per indicare una coppia di metodi asincroni utilizzabili dal client per richiamare l'operazione in modo asincrono. In genere, le applicazioni client usano i [ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) dello strumento e il `/async` opzione per generare un `Begin` \< *methodName*> e `End` \< *NomeMetodo*> coppia di metodi che il client può utilizzare per richiamare l'operazione in modo asincrono.  
   
 > [!NOTE]
 >  Se un'operazione di servizio presenta sia una versione asincrona sia una versione sincrona, il comportamento predefinito del servizio è richiamare la versione sincrona.  
@@ -281,6 +285,7 @@ public interface IAddTwoNumbers
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -311,6 +316,7 @@ public interface IAddTwoNumbers
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -338,7 +344,7 @@ public interface IAddTwoNumbers
  In genere la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> è impostata su `false` per imporre ai client di chiamare un altro metodo del servizio prima che possano richiamare il metodo a cui si riferisce la proprietà. Se ad esempio il servizio presenta una serie di operazioni che dipendono da un numero ID dell'ordine, è possibile impostare su <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> la proprietà `true` di un'operazione di servizio `GetOrderId` e quindi impostare la suddetta proprietà su `false` per tutte le altre operazioni di servizio. Ciò garantisce che ogni nuovo client ottenga un ID dell'ordine prima di utilizzare gli altri metodi esposti dal servizio.  
   
 > [!NOTE]
->  Esiste un'interazione fra la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> e la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A>. In un contratto di servizio può esistere una sola operazione di servizio avente la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "*." Qualsiasi gruppo di contratti di servizio ospitati sullo stesso URI che implementa una classe del servizio di ascolto può presentare più operazioni di servizio con il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" quando il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> è impostata su `false`. Tuttavia, solo uno di questi metodi di servizio può disporre il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" e il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> impostata su `true`.  
+>  Esiste un'interazione fra la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> e la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A>. In un contratto di servizio può esistere una sola operazione di servizio avente la proprietà <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "*." Qualsiasi gruppo di contratti di servizio ospitati sullo stesso URI che implementa una classe di servizio di ascolto può presentare più operazioni di servizio con il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> impostata su "\*" quando il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> è impostata su `false`. Tuttavia, solo uno di questi metodi di servizio può avere il <xref:System.ServiceModel.OperationContractAttribute.Action%2A> proprietà impostata su "\*" e il <xref:System.ServiceModel.OperationContractAttribute.IsInitiating%2A> impostata su `true`.  
   
  Se un servizio riceve un messaggio relativo a un'operazione che non è di tipo IsInitiating, tale servizio restituisce un errore SOAP di tipo ActionNotSupported. Il client considera ciò come un'eccezione <xref:System.ServiceModel.FaultException>. Se un client chiama per prima un'operazione che non è di tipo IsInitiating, il runtime client genera un'eccezione <xref:System.InvalidOperationException?displayProperty=nameWithType>.  
   
@@ -400,6 +406,7 @@ public class InitializeAndTerminateService
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -427,7 +434,7 @@ public class InitializeAndTerminateService
   
  I metodi unidirezionali non devono restituire alcun valore né presentare parametri `ref` o `out`. In caso contrario viene generata un'eccezione <xref:System.InvalidOperationException?displayProperty=nameWithType>.  
   
- Le operazioni unidirezionali sono semplicemente operazioni che non prevedono messaggi di risposta. Tali operazioni possono essere bloccate se risulta impossibile stabilire una connessione, se il messaggio in uscita presenta dimensioni eccessive o se la velocità con cui il servizio legge le informazioni in ingresso è insufficiente. Se un client richiede una chiamata non bloccante, generare operazioni di tipo <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A>. Per altre informazioni, vedere [Services unidirezionale](~/docs/framework/wcf/feature-details/one-way-services.md) e [servizi di accesso utilizzando un Client WCF](~/docs/framework/wcf/feature-details/accessing-services-using-a-client.md).  
+ Le operazioni unidirezionali sono semplicemente operazioni che non prevedono messaggi di risposta. Tali operazioni possono essere bloccate se risulta impossibile stabilire una connessione, se il messaggio in uscita presenta dimensioni eccessive o se la velocità con cui il servizio legge le informazioni in ingresso è insufficiente. Se un client richiede una chiamata non bloccante, generare operazioni di tipo <xref:System.ServiceModel.OperationContractAttribute.AsyncPattern%2A>. Per altre informazioni, vedere [Services unidirezionale](~/docs/framework/wcf/feature-details/one-way-services.md) e [accesso ai servizi tramite Client WCF](~/docs/framework/wcf/feature-details/accessing-services-using-a-client.md).  
   
    
   
@@ -479,6 +486,7 @@ public class OneAndTwoWay
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -498,11 +506,11 @@ public class OneAndTwoWay
 ## Remarks  
  Utilizzare la proprietà <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> per indicare che la chiamata a un'operazione di servizio comporta la chiusura della sessione di comunicazione.  
   
- In un'applicazione client, il valore <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> impostato su `true` indica a WCF per chiudere il canale dopo all'arrivo della risposta.  
+ In un'applicazione client, un valore pari <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A> impostato su `true` indica a WCF di chiude il canale all'arrivo della risposta.  
   
  Se invece tale impostazione viene eseguita in un servizio, l'infrastruttura imposta un intervallo di tempo e, se il client non chiude il canale entro tale intervallo, il canale viene interrotto.  
   
- Per ulteriori informazioni sull'uso di questa proprietà con le sessioni, vedere [utilizzando le sessioni](~/docs/framework/wcf/using-sessions.md).  
+ Per altre informazioni sull'uso di questa proprietà con le sessioni, vedere [utilizzando le sessioni](~/docs/framework/wcf/using-sessions.md).  
   
 > [!NOTE]
 >  Se un chiamante è in ascolto dell'evento <xref:System.ServiceModel.OperationContext.OperationCompleted?displayProperty=nameWithType> per l'operazione <xref:System.ServiceModel.OperationContractAttribute.IsTerminating%2A?displayProperty=nameWithType>, tali operazioni possono essere bloccate alla ricezione della risposta. La modalità di gestione migliore è pianificare l'attività su un altro thread quando viene generato<xref:System.ServiceModel.OperationContext.OperationCompleted>, quindi uscire immediatamente da quel gestore eventi.  
@@ -563,6 +571,7 @@ public class InitializeAndTerminateService
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -609,6 +618,7 @@ public class InitializeAndTerminateService
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -627,7 +637,7 @@ public class InitializeAndTerminateService
   
  Ad esempio, se la proprietà <xref:System.ServiceModel.ServiceContractAttribute.ProtectionLevel%2A?displayProperty=nameWithType> è impostata su <xref:System.Net.Security.ProtectionLevel.EncryptAndSign?displayProperty=nameWithType> e nessuno degli altri ambiti più ristretti presenta impostazioni riguardanti il livello di protezione, tutti i messaggi di un contratto dell'operazione vengono crittografati e firmati. Se tuttavia per una di queste operazioni la proprietà <xref:System.ServiceModel.OperationContractAttribute.ProtectionLevel%2A> è impostata su <xref:System.Net.Security.ProtectionLevel.Sign?displayProperty=nameWithType>, i messaggi di tale operazione vengono firmati. Tutti gli altri messaggi del contratto vengono invece crittografati e firmati.  
   
- Per informazioni dettagliate sui livelli di protezione e i relativi ipotesi e gli ambiti, vedere [Understanding Protection Level](~/docs/framework/wcf/understanding-protection-level.md).  
+ Per informazioni dettagliate sui livelli di protezione e relativi presupposti e gli ambiti, vedere [Understanding Protection Level](~/docs/framework/wcf/understanding-protection-level.md).  
   
  Gli ambiti di impostazione di questi valori sono:  
   
@@ -661,6 +671,7 @@ public class InitializeAndTerminateService
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -679,7 +690,7 @@ public class InitializeAndTerminateService
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Oltre a definire un valore specifico per l'intestazione dell'azione del messaggio di risposta è anche possibile specificare la stringa asterisco ("*"). Specificare un asterisco nel servizio, indica a WCF non nell'aggiungere un'azione di risposta al messaggio, che risulta utile se si sta programmando direttamente dai messaggi di. Specificare un asterisco in un'applicazione client indica a WCF non si desidera convalidare l'azione di risposta.  
+ Oltre a definire un valore specifico per l'intestazione dell'azione del messaggio di risposta è anche possibile specificare la stringa asterisco ("*"). Se si specifica un asterisco nel servizio, indica a WCF non di aggiungere un'azione di risposta al messaggio, che è utile se si sta programmando direttamente con i messaggi. Se si specifica un asterisco in un'applicazione client indica a WCF di non convalida l'azione di risposta.  
   
    
   

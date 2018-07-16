@@ -1,11 +1,11 @@
 <Type Name="WriteableBitmap" FullName="System.Windows.Media.Imaging.WriteableBitmap">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="56ccd799e4018d937a1aeed6d58defeddd74a9b0" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ac4acb7f03696779f85e7f9c250f874558f86840" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36493557" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37555819" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class WriteableBitmap : System.Windows.Media.Imaging.BitmapSource" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit WriteableBitmap extends System.Windows.Media.Imaging.BitmapSource" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type WriteableBitmap = class&#xA;    inherit BitmapSource" />
   <AssemblyInfo>
     <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,34 +28,34 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare la <xref:System.Windows.Media.Imaging.WriteableBitmap> classe aggiornare ed eseguire il rendering di una bitmap in base al frame. Ciò è utile per la generazione di contenuto algoritmico, ad esempio un'immagine frattale e per la visualizzazione dei dati, ad esempio un visualizzatore musica.  
+ Usare il <xref:System.Windows.Media.Imaging.WriteableBitmap> classe aggiornare ed eseguire il rendering di una bitmap in base al frame. Ciò è utile per la generazione di contenuto algoritmico, ad esempio un'immagine di frattale e per la visualizzazione dei dati, ad esempio un visualizzatore di file musicali.  
   
- Il <xref:System.Windows.Media.Imaging.WriteableBitmap> classe utilizza due buffer. Il *buffer nascosto* viene allocata nella memoria di sistema e accumula il contenuto non è attualmente visualizzato. Il *buffer anteriore* viene allocata nella memoria di sistema e il contenuto che è attualmente visualizzato. Il sistema per il rendering copia front buffer di memoria video per la visualizzazione.  
+ Il <xref:System.Windows.Media.Imaging.WriteableBitmap> classe utilizza due buffer. Il *buffer nascosto* viene allocata nella memoria di sistema e accumula il contenuto non è attualmente visualizzato. Il *front buffer* viene allocata nella memoria di sistema e il contenuto correntemente visualizzato. Il sistema di rendering copia front buffer in memoria video per la visualizzazione.  
   
- Due thread utilizzano questi buffer. Il *thread dell'interfaccia utente* genera l'interfaccia utente ma non viene visualizzata sullo schermo. Il thread dell'interfaccia utente risponde a input dell'utente, timer e altri eventi. Un'applicazione può disporre di più thread dell'interfaccia utente. Il *thread di rendering* compone e visualizza le modifiche effettuate dal thread dell'interfaccia utente. È il rendering di un solo thread per ogni applicazione.  
+ Due thread di utilizzare tali buffer. Il *thread dell'interfaccia utente* genera l'interfaccia utente, ma non lo visualizza sullo schermo. Il thread dell'interfaccia utente risponde a input utente, i timer e altri eventi. Un'applicazione può avere più thread dell'interfaccia utente. Il *thread di rendering* compone e visualizza le modifiche effettuate dal thread dell'interfaccia utente. Non vi è rendering di un solo thread per ogni applicazione.  
   
- Il thread UI scrive il contenuto al buffer nascosto. Il thread di rendering legge il contenuto dal buffer anteriore e lo copia in memoria video. Le modifiche al buffer nascosto vengono rilevate delle aree rettangolari modificate.  
+ Il thread dell'interfaccia utente scrive il contenuto per il buffer nascosto. Il thread di rendering legge il contenuto dal buffer anteriore e lo copia in memoria video. Con aree rettangolari modificate vengono rilevate modifiche al buffer nascosto.  
   
- Chiamare uno del <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overload per aggiornare e visualizzare automaticamente il contenuto del buffer nascosto.  
+ Chiamare uno del <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> overload per aggiornare e visualizzare automaticamente il contenuto nel buffer nascosto.  
   
- Per un maggiore controllo sugli aggiornamenti e per un accesso multithreading al buffer nascosto, utilizzare il seguente flusso di lavoro.  
+ Per un maggiore controllo sugli aggiornamenti e per un accesso multithreading per il buffer nascosto, usare il seguente flusso di lavoro.  
   
 1.  Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo riservare il buffer nascosto per gli aggiornamenti.  
   
-2.  Ottenere un puntatore al buffer nascosto accedendo il <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> proprietà.  
+2.  Ottenere un puntatore al buffer nascosto mediante l'accesso di <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> proprietà.  
   
-3.  Scrivere le modifiche al buffer nascosto. Altri thread può scrivere le modifiche sul buffer nascosto quando il <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato.  
+3.  Scrivere le modifiche al buffer nascosto. Altri thread può scrivere modifiche alla fine del buffer quando il <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato.  
   
 4.  Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo per indicare le aree che sono stati modificati.  
   
 5.  Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo per rilasciare il buffer nascosto e consentire la visualizzazione sullo schermo.  
   
- Quando gli aggiornamenti vengono inviati al thread di rendering, il thread di rendering copia i rettangoli modificati dal buffer nascosto front-buffer. Il sistema per il rendering controlla questo scambio per evitare i deadlock e ridisegnare elementi, ad esempio "fine di interoperare".  
+ Quando gli aggiornamenti vengono inviati al thread di rendering, il thread di rendering copia i rettangoli modificati dal buffer nascosto al buffer di front. Il sistema di rendering controlla questo scambio per evitare i deadlock e riemettere elementi, ad esempio "rimozione".  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come un <xref:System.Windows.Media.Imaging.WriteableBitmap> può essere utilizzato come origine di un <xref:System.Windows.Controls.Image> per disegnare pixel quando il mouse viene spostato.  
+ Nell'esempio seguente viene illustrato come un <xref:System.Windows.Media.Imaging.WriteableBitmap> può essere utilizzato come origine di un <xref:System.Windows.Controls.Image> per disegnare i pixel quando il mouse viene spostato.  
   
  [!code-csharp[WriteableBitmap2#WriteableBitmapFullPage](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#writeablebitmapfullpage)]  
   
@@ -82,6 +83,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -101,7 +103,7 @@
 ## Remarks  
  Il <xref:System.Windows.Media.Imaging.WriteableBitmap.%23ctor%28System.Int32%2CSystem.Int32%2CSystem.Double%2CSystem.Double%2CSystem.Windows.Media.PixelFormat%2CSystem.Windows.Media.Imaging.BitmapPalette%29> costruttore è consigliabile utilizzare questo costruttore.  
   
- Se `source` non utilizza un formato di bitmap supportati a livello nativo, formato per ogni aggiornamento frame, riducendo le prestazioni vengono applicate conversioni.  
+ Se `source` non usa un formato di bitmap supportati in modalità nativa, formato per ogni aggiornamento frame, riducendo le prestazioni vengano applicate le conversioni.  
   
  ]]></format>
         </remarks>
@@ -117,6 +119,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -144,7 +147,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- I valori per preferito `pixelFormat` vengono <xref:System.Windows.Media.PixelFormats.Bgr32%2A> e <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>. Questi formati sono supportati in modo nativo e non richiedono una conversione di formato. Altri `pixelFormat` valori richiedono una conversione di formato per ogni aggiornamento frame, riducendo le prestazioni.  
+ I valori preferiti per `pixelFormat` vengono <xref:System.Windows.Media.PixelFormats.Bgr32%2A> e <xref:System.Windows.Media.PixelFormats.Pbgra32%2A>. Questi formati sono supportati in modo nativo e non richiedono una conversione del formato. Altri `pixelFormat` valori richiedono una conversione di formato per ogni aggiornamento frame, riducendo le prestazioni.  
   
  ]]></format>
         </remarks>
@@ -161,6 +164,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -181,16 +185,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo per indicare le modifiche apportate dal codice al buffer nascosto.  
+ Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo per indicare modifiche del codice ha apportato al buffer nascosto.  
   
- Quando si chiama questo metodo più volte, le aree modificate vengono accumulate in una rappresentazione sufficiente, ma non necessariamente minima. Per motivi di efficienza, solo le aree che sono contrassegnate come dirty sono garantiti come venga copiato nel buffer anteriore. Tuttavia, qualsiasi parte della bitmap può essere copiati in avanti, è necessario assicurarsi che il buffer nascosto sia sempre valido.  
+ Quando si chiama questo metodo più volte, le aree di modificare vengono riunite in una rappresentazione sufficiente, ma non necessariamente minima. Per motivi di efficienza, solo le aree che sono contrassegnate come dirty sono sicuramente venga copiato nel buffer front. Tuttavia, qualsiasi parte della bitmap può essere copiati in avanti, è necessario assicurarsi che il buffer nascosto è sempre valido.  
   
- Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo solo tra le chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi, come descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
+ Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> solo tra le chiamate al metodo il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi, come descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come specificare l'area dello sfondo del buffer che modificate utilizzando il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo.  
+ Esempio di codice seguente viene illustrato come specificare l'area dello sfondo del buffer che è stato modificato tramite il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> (metodo).  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
@@ -212,6 +216,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -234,12 +239,12 @@
 ## Remarks  
  Il buffer contiene il contenuto della bitmap in formato di pixel richiesto dall'utente.  
   
- Aggiornare il buffer nascosto solo tra le chiamate ai <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi. Se non si segue il flusso di lavoro di blocco/sblocco descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe comportamenti imprevedibili, ad esempio di rimozione, possono verificarsi.  
+ Aggiornare il buffer nascosto solo tra le chiamate per il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodi. Se non si segue il flusso di lavoro di blocco/sblocco descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe comportamenti imprevedibili, ad esempio di rimozione, possono verificarsi.  
   
  L'indirizzo del buffer nascosto non cambia.  
   
 ## <a name="thread-safety"></a>Thread safety  
- È possibile passare il <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> puntatore a componenti esterni e altri thread per l'elaborazione, ma in caso contrario, è necessario fornire è coordinamento dei thread personalizzati. In particolare, è necessario assicurarsi che il thread dell'interfaccia utente specifica aree modificate chiamando il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> (metodo), e che il thread UI Sblocca il buffer chiamando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.  
+ È possibile passare il <xref:System.Windows.Media.Imaging.WriteableBitmap.BackBuffer%2A> puntatore a componenti esterni e altri thread per l'elaborazione, ma se esegue l'operazione, è necessario specificare è il coordinamento di thread personalizzati. In particolare, è necessario assicurarsi che il thread dell'interfaccia utente specifica aree modificate chiamando il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo e che il thread dell'interfaccia utente consente di sbloccare il buffer chiamando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -255,6 +260,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -262,7 +268,7 @@
       </ReturnValue>
       <Docs>
         <summary>Gets a value indicating the number of bytes in a single row of pixel data.</summary>
-        <value>Valore intero che indica il numero di byte in una singola riga di dati pixel.</value>
+        <value>Intero che indica il numero di byte in una singola riga di dati pixel.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -276,6 +282,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -289,7 +296,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo viene utilizzato per produrre copie modificabili di bloccato <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto). Per comodità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.  
+ Questo metodo viene utilizzato per generare copie modificabili di bloccata <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto). Per praticità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.  
   
  Per altre informazioni, vedere <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.  
   
@@ -307,6 +314,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -339,6 +347,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -352,7 +361,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo viene utilizzato per produrre copie modificabili di bloccato <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto). Per comodità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.  
+ Questo metodo viene utilizzato per generare copie modificabili di bloccata <xref:System.Windows.Freezable> oggetti (o qualsiasi <xref:System.Windows.Freezable> oggetto). Per praticità, questo metodo nasconde la versione ereditata con un'implementazione fortemente tipizzata.  
   
  Per altre informazioni, vedere <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.  
   
@@ -370,6 +379,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -402,6 +412,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -424,6 +435,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -457,6 +469,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -489,6 +502,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -521,6 +535,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -533,16 +548,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo incrementa il conteggio dei blocchi. Quando un <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato, il sistema per il rendering non invia gli aggiornamenti fino al <xref:System.Windows.Media.Imaging.WriteableBitmap> completamente sbloccato da chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.  
+ Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo incrementa il conteggio dei blocchi. Quando un <xref:System.Windows.Media.Imaging.WriteableBitmap> è bloccato, il sistema di rendering non invia gli aggiornamenti fino al <xref:System.Windows.Media.Imaging.WriteableBitmap> viene sbloccata completamente dalle chiamate al <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> (metodo).  
   
- È possibile utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo per supportare le implementazioni a thread multipli. In questi scenari, il thread dell'interfaccia utente blocca la bitmap ed espone il buffer nascosto agli altri thread. Quando il thread di lavoro ha completato un frame, il thread UI aggiunge rettangoli modificati e sblocca il buffer.  
+ È possibile usare il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo per supportare le implementazioni a thread multipli. In questi scenari, il thread dell'interfaccia utente blocca la bitmap ed espone il buffer nascosto agli altri thread. Quando il thread di lavoro ha completato un frame, thread dell'interfaccia utente aggiunge rettangoli modificati e sblocca il buffer.  
   
- Il thread dell'interfaccia utente può bloccare quando il thread di rendering acquisisce un blocco per il buffer nascosto per copiarlo in avanti nel buffer anteriore. Se la latenza da questo blocco è troppo lunga, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo per un breve periodo di tempo di attesa e quindi sbloccare il thread dell'interfaccia utente per eseguire altre attività quando il buffer è bloccato.  
+ Il thread di rendering acquisisce un blocco per il buffer nascosto per copiarlo in avanti al buffer di front-possibile bloccare il thread dell'interfaccia utente. Se la latenza da questo blocco è troppo lunga, usare il <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo per attendere un breve periodo di tempo e quindi sbloccare il thread dell'interfaccia utente di eseguire altre attività durante il blocco del buffer nascosto.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come riservare il buffer nascosto mediante il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo.  
+ Esempio di codice seguente viene illustrato come riservare il buffer nascosto utilizzando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> (metodo).  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
@@ -562,6 +577,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -584,7 +600,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando viene acquisito un blocco, il comportamento del <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo è identico il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> metodo.  
+ Quando viene acquisito un blocco, il comportamento dei <xref:System.Windows.Media.Imaging.WriteableBitmap.TryLock%2A> metodo è identico il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -605,6 +621,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -622,12 +639,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo decrementa il conteggio dei blocchi. Quando il conteggio dei blocchi raggiunge 0, viene richiesto un passaggio di rendering, se il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> metodo è stato chiamato.  
+ Il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo decrementa il conteggio dei blocchi. Quando il conteggio dei blocchi raggiunge 0, viene richiesto un passaggio di rendering, se il <xref:System.Windows.Media.Imaging.WriteableBitmap.AddDirtyRect%2A> chiamata al metodo.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come rilasciare il buffer nascosto mediante il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> metodo.  
+ Esempio di codice seguente illustra come rilasciare il buffer nascosto mediante il <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> (metodo).  
   
  [!code-csharp[WriteableBitmap2#2](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#2)]  
   
@@ -658,6 +675,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -687,12 +705,12 @@
  Il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> e <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload vengono preferiti all'utilizzo di questo metodo.  
   
 > [!NOTE]
->  In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
+>  In attendibilità parziale, usare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato come aggiornare un pixel nel buffer nascosto mediante il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo.  
+ Esempio di codice seguente viene illustrato come aggiornare un pixel nel buffer nascosto mediante il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> (metodo).  
   
  [!code-csharp[WriteableBitmap2#3](~/samples/snippets/csharp/VS_Snippets_Wpf/WriteableBitmap2/CS/Program.cs#3)]  
   
@@ -720,6 +738,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -749,7 +768,7 @@
  Il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> e <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.IntPtr%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> overload vengono preferiti all'utilizzo di questo metodo.  
   
 > [!NOTE]
->  In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
+>  In attendibilità parziale, usare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
   
  ]]></format>
         </remarks>
@@ -773,6 +792,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -801,7 +821,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`. Chiamare questo metodo equivale a utilizzando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
+ Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`. Chiamare questo metodo è equivalente all'uso di <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
   
 > [!NOTE]
 >  Utilizzare questo overload in attendibilità parziale.  
@@ -833,6 +853,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -863,10 +884,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`. Chiamare questo metodo equivale a utilizzando il <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
+ Chiamare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%2A> metodo per aggiornare il <xref:System.Windows.Media.Imaging.WriteableBitmap> automaticamente con il contenuto di `sourceBuffer`. Chiamare questo metodo è equivalente all'uso di <xref:System.Windows.Media.Imaging.WriteableBitmap.Lock%2A> e <xref:System.Windows.Media.Imaging.WriteableBitmap.Unlock%2A> flusso di lavoro descritto nel <xref:System.Windows.Media.Imaging.WriteableBitmap> commenti relativi alla classe.  
   
 > [!NOTE]
->  In attendibilità parziale, utilizzare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
+>  In attendibilità parziale, usare il <xref:System.Windows.Media.Imaging.WriteableBitmap.WritePixels%28System.Windows.Int32Rect%2CSystem.Array%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%29> rapporto di overload.  
   
  ]]></format>
         </remarks>
