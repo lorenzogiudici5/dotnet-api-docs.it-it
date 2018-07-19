@@ -1,11 +1,11 @@
 <Type Name="DataflowBlock" FullName="System.Threading.Tasks.Dataflow.DataflowBlock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f558bf9a029763285a5fd334c30a979714b81d23" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b1681b37f6256a345cba5980d6dd8e36899a63b3" />
+    <Meta Name="ms.sourcegitcommit" Value="44933aff38db926168781f50300446344189a04d" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606936" />
+    <Meta Name="ms.lasthandoff" Value="07/16/2018" />
+    <Meta Name="ms.locfileid" Value="39064910" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class DataflowBlock" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit DataflowBlock extends System.Object" />
@@ -317,14 +317,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> metodo richiede due blocchi esistenti: un blocco di destinazione (un'istanza di una classe che implementa <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) e un blocco di origine (un'istanza di una classe che implementa <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> Crea una nuova istanza della classe interna che si connette il <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> ai membri di interfaccia di `target` parametro e il <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> ai membri di interfaccia il `source` parametro.  Entrambi <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> e <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> derivano da <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Completamento dei blocchi viene passato in modo esplicito dalle origini alle destinazioni. Pertanto, il <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> e <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> metodi sono connessi alla destinazione durante la <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> proprietà è connesso all'origine.  È necessario assicurarsi che quando la destinazione metà viene completato, l'origine metà Ottiene completata in modo più appropriato. Per esempio:  
+ Il <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> metodo richiede due blocchi esistenti: un blocco di destinazione (un'istanza di una classe che implementa <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) e un blocco di origine (un'istanza di una classe che implementa <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> Crea una nuova istanza della classe interna che si connette il <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> ai membri di interfaccia il `target` parametro e il <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> ai membri di interfaccia di `source` parametro.  Entrambe <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> e <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> derivano da <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Completamento dei blocchi è passato in modo esplicito dalle origini alle destinazioni. Pertanto, il <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> e <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> metodi sono connesso alla destinazione durante il <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> proprietà è connesso all'origine.  È necessario assicurarsi che quando la destinazione metà viene completato, l'origine della metà Ottiene completata in modo più appropriato. Per esempio:  
   
  `target.Completion.ContinueWith(completion => source.Complete());`  
   
- In alternativa, se si desidera propagare il tipo di completamento, è possibile utilizzare questo codice più sofisticato:  
+ In alternativa, se si desidera propagare il tipo di completamento, è possibile usare questo codice più sofisticato:  
   
 ```  
-target.Completion.ContinueWith(completion => { if (completion.IsFaulted) 3   
+target.Completion.ContinueWith(completion => { if (completion.IsFaulted)    
   
 ((IDataflowBlock)batchBlock).Fault(completion.Exception);   
 else   
@@ -333,7 +333,7 @@ batchBlock.Complete();
   
 ```  
   
- È necessario fornire anche in modo esplicito la propagazione del messaggio dalla destinazione all'origine. Il vantaggio di questa connessione esplicita è che offre la possibilità di eseguire l'elaborazione non vincolato tra i due blocchi incapsulati. È possibile farlo codificando le operazioni di elaborazione in delegati i blocchi (se i blocchi accettano delegati) oppure incorporando una rete secondaria di blocchi tra di essi. Il modo più semplice consiste nell'utilizzare un blocco che accetta i delegati; ad esempio, utilizzare <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (se applicabile), o un blocco personalizzato.  
+ È necessario fornire anche in modo esplicito la propagazione del messaggio dalla destinazione all'origine. Il vantaggio di questa connessione esplicita è che offre la libertà di eseguire l'elaborazione senza vincolato tra i due blocchi incapsulati. È possibile eseguire che codifica l'elaborazione necessaria in delegati dei blocchi (se i blocchi accettano delegati) oppure incorporando una rete secondaria dei blocchi tra di essi. Il modo più semplice consiste nell'usare un blocco che accetta i delegati; ad esempio, usare <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (se applicabile), o un blocco personalizzato.  
   
  ]]></format>
         </remarks>
@@ -588,7 +588,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo restituirà dopo il blocco di destinazione ha deciso di accettare o rifiutare l'elemento, ma, a meno che in caso contrario è determinato dalla semantica speciale del blocco di destinazione, non si attende per l'elemento effettivamente da elaborare. Ad esempio, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> restituirà da <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> non appena questo è archiviato l'elemento inserito nella coda di input). Dal punto di vista dell'elaborazione del blocco, `Post` è asincrono. Blocchi di destinazione tale supporto sta posticipando offerti messaggi oppure, per i blocchi che potrebbero eseguire un'elaborazione più complessa in loro `Post` implementazione, provare a utilizzare <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, che viene immediatamente restituito e consentirà di destinazione rimandare il messaggio inviato e il relativo utilizzo in un secondo momento dopo `SendAsync` restituisce.  
+ Questo metodo restituirà una volta che il blocco di destinazione ha deciso di accettare o rifiutare l'elemento, ma, a meno che in caso contrario, dipende dalla semantica speciale del blocco di destinazione, non attende per l'elemento effettivamente da elaborare. Ad esempio, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> verrà restituito da <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> , non appena viene memorizzato l'elemento inserito nella coda di input). Dal punto di vista dell'elaborazione del blocco, `Post` è asincrona. Tale supporto posticipare i messaggi offerti blocchi di destinazione oppure, per i blocchi che possono eseguire un'elaborazione più complessa nel loro `Post` implementazione, è consigliabile usare <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, che verrà restituito immediatamente e si consentirà alla destinazione di posticipare il messaggio inviato e il relativo utilizzo in un secondo momento dopo `SendAsync` restituisce.  
   
  ]]></format>
         </remarks>
@@ -663,7 +663,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se l'origine è stato offerto un elemento a cui è stato ricevuto da questa operazione, tale elemento viene restituito anche se si verifica una richiesta di annullamento simultanee.  
+ Se l'origine è stato offerto un elemento che è stato ricevuto da questa operazione, tale elemento viene restituito anche se si verifica una richiesta di annullamento simultanee.  
   
  ]]></format>
         </remarks>
@@ -708,7 +708,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se l'origine è stato offerto un elemento a cui è stato ricevuto da questa operazione, tale elemento viene restituito anche se si verifica un timeout simultaneo.  
+ Se l'origine è stato offerto un elemento che è stato ricevuto da questa operazione, tale elemento viene restituito anche se si verifica un timeout simultaneo.  
   
  ]]></format>
         </remarks>
@@ -756,7 +756,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se l'origine offerta correttamente il valore di un elemento che è stato ricevuto da questa operazione, tale valore viene restituito anche se si verifica un timeout o annullamento di richieste simultanee.  
+ Se l'origine è stato offerto un valore dell'elemento che è stato ricevuto da questa operazione, tale valore viene restituito anche se si verifica un timeout o l'annullamento di richieste simultanee.  
   
  ]]></format>
         </remarks>
@@ -1022,9 +1022,9 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo non attendere che l'origine contiene un elemento per conferire.  
+ Questo metodo non aspetta fino a quando l'origine ha un elemento per fornire.  
   
- Verrà restituito un elemento è disponibile o meno.  
+ Verrà restituito un elemento era disponibile o meno.  
   
  ]]></format>
         </remarks>
