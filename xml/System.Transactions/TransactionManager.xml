@@ -1,11 +1,11 @@
 <Type Name="TransactionManager" FullName="System.Transactions.TransactionManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="94a7df2187676486db82e4651339fa18685001a3" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="0ed5091b9916cf14169e9bf44326acc319defaca" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37608481" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39141824" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class TransactionManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed TransactionManager extends System.Object" />
@@ -33,7 +33,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Contiene i metodi utilizzati per la gestione delle transazioni. Questa classe non può essere ereditata.</summary>
+    <summary>Contiene i metodi utilizzati per la gestione delle transazioni. La classe non può essere ereditata.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -241,8 +241,8 @@
         <Parameter Name="manager" Type="System.Guid" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
+        <param name="resourceManagerIdentifier">Struttura <see cref="T:System.Guid" /> che identifica in modo univoco la risorsa da recuperare.</param>
+        <param name="manager">Struttura <see cref="T:System.Guid" /> che identifica in modo univoco la risorsa da recuperare.</param>
         <summary>Notifica al gestore delle transazioni che un gestore delle risorse, che sta recuperando un errore, ha terminato il reinserimento nell'elenco di tutte le transazioni non risolte.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -250,7 +250,7 @@
 ## Remarks  
  Tutti i gestori di risorse durevole devono eseguire il ripristino quando vengono avviati prima di tutto tramite una chiamata di <xref:System.Transactions.TransactionManager.Reenlist%2A> metodo per ogni transazione in sospeso.  Solo quando vengono eseguite tutte le reintegrazioni deve resource manager di chiamare <xref:System.Transactions.TransactionManager.RecoveryComplete%2A>.  
   
- Per altre informazioni sul ripristino, vedere [Performing Recovery](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
+ Per altre informazioni sul ripristino, vedere [Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
   
  **Nota** questo metodo Usa <xref:System.Security.Permissions.SecurityAction.LinkDemand> per impedire che venga chiamato da codice non attendibile; tuttavia, è necessario solo il chiamante immediato disponga di `FullTrust` set di autorizzazioni.  
   
@@ -299,15 +299,43 @@
         <Parameter Name="notification" Type="System.Transactions.IEnlistmentNotification" Index="2" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="recoveryInformation">To be added.</param>
-        <param name="recoveryInfo">To be added.</param>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="resourceManagerIdentifier">Struttura <see cref="T:System.Guid" /> che identifica in modo univoco il gestore delle risorse.</param>
+        <param name="manager">Struttura <see cref="T:System.Guid" /> che identifica in modo univoco il gestore delle risorse.</param>
+        <param name="recoveryInformation">Contiene informazioni aggiuntive alle informazioni per il recupero.</param>
+        <param name="recoveryInfo">Contiene informazioni aggiuntive alle informazioni per il recupero.</param>
+        <param name="enlistmentNotification">Oggetto risorsa che implementa <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche.</param>
+        <param name="notification">Oggetto risorsa che implementa <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche.</param>
+        <summary>Reinserisce nell'elenco un partecipante alla transazione duraturo.</summary>
+        <returns>Classe <see cref="T:System.Transactions.Enlistment" /> che descrive l'elenco.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+
+## Remarks
+
+In caso di errore delle risorse, la gestione risorse consente di ripristinare le integrazioni durevoli di una transazione mediante la reintegrazione dei partecipanti della transazione.
+
+Il `resourceManagerIdentifier` parametro viene usato per identificare in modo coerente il partecipante di una transazione in caso di errore di risorsa. Quando si chiama il <xref:System.Transactions.TransactionManager.Reenlist%2A> metodo, il gestore di risorse deve fornire le stesse `resourceManagerIdentifier` come viene usato quando ha chiamato originariamente le <xref:System.Transactions.Transaction.EnlistDurable%2A> metodo durante l'inserimento o un <xref:System.Transactions.TransactionException> viene generata un'eccezione.
+
+Dopo aver utilizzato questo metodo per reintegrare un partecipante, il sistema chiama il metodo della fase 2 dell'interfaccia <xref:System.Transactions.IEnlistmentNotification> corrispondente al risultato della transazione (ovvero <xref:System.Transactions.IEnlistmentNotification.Commit%2A>, <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> o <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>).
+
+Dopo che i partecipanti sono reintegrare correttamente, è necessario quindi chiamare <xref:System.Transactions.TransactionManager.RecoveryComplete%2A> per completare il ripristino.
+
+È consigliabile chiamare questo metodo solo quando un gestore di risorse viene riavviato da un errore. Inoltre, la reintegrazione deve riguardare esclusivamente le transazioni non ripristinate registrate da un gestore di risorse durante la fase iniziale di preparazione di un commit a due fasi. Qualsiasi tentativo di chiamata a questo metodo in casi non validi può produrre risultati imprevisti.
+
+Se il gestore delle transazioni non riesce e il gestore di risorse esegue il ripristino solo un breve periodo di tempo dopo che è stato chiamato il <xref:System.Transactions.PreparingEnlistment.Prepared%2A> metodo su un elenco nella fase 1 del protocollo Commit in due fasi, il gestore di risorse potrebbe ricevere il <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> o <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> callback.
+
+Per altre informazioni sul ripristino, vedere [Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).
+
+**Nota** questo metodo Usa <xref:System.Security.Permissions.SecurityAction.LinkDemand> per impedire che venga chiamato da codice non attendibile; tuttavia, è necessario solo il chiamante immediato disponga di `FullTrust` set di autorizzazioni.
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="recoveryInformation" /> non è valido.  -oppure- Le informazioni sul gestore delle transazioni presenti in <paramref name="recoveryInformation" /> non corrispondono al gestore delle transazioni configurato.  -oppure- <paramref name="RecoveryInformation" /> non è riconosciuto da <see cref="N:System.Transactions" />.</exception>
+        <exception cref="T:System.InvalidOperationException">
+          <see cref="M:System.Transactions.TransactionManager.RecoveryComplete(System.Guid)" /> è gia stato chiamato per l'oggetto <paramref name="resourceManagerIdentifier" /> specificato. L'operazione di reinserimento nell'elenco viene rifiutata.</exception>
+        <exception cref="T:System.Transactions.TransactionException">
+          <paramref name="resourceManagerIdentifier" /> non corrisponde al contenuto delle informazioni per il recupero specificate in <paramref name="recoveryInformation" />.</exception>
       </Docs>
     </Member>
   </Members>

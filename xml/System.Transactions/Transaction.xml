@@ -1,11 +1,11 @@
 <Type Name="Transaction" FullName="System.Transactions.Transaction">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bb20a2ffac10a26106e2b7edaabfc1378023d91c" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="7bd04d9aab6ce13a7049115726c035c3f97f607d" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37754212" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39141938" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Transaction : IDisposable, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Transaction extends System.Object implements class System.IDisposable, class System.Runtime.Serialization.ISerializable" />
@@ -147,7 +147,7 @@
         <ReturnType>System.Transactions.Transaction</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Ottiene o imposta la transizione dell'ambiente.</summary>
+        <summary>Ottiene o imposta la transazione di ambiente.</summary>
         <value>Oggetto <see cref="T:System.Transactions.Transaction" /> che descrive la transazione corrente.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -199,8 +199,8 @@
         <Parameter Name="option" Type="System.Transactions.DependentCloneOption" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="cloneOption">To be added.</param>
-        <param name="option">To be added.</param>
+        <param name="cloneOption">Oggetto <see cref="T:System.Transactions.DependentCloneOption" /> che controlla il tipo di transazione dipendente da creare.</param>
+        <param name="option">Oggetto <see cref="T:System.Transactions.DependentCloneOption" /> che controlla il tipo di transazione dipendente da creare.</param>
         <summary>Crea un duplicato dipendente della transazione.</summary>
         <returns>Oggetto <see cref="T:System.Transactions.DependentTransaction" /> che rappresenta il duplicato dipendente.</returns>
         <remarks>
@@ -347,15 +347,26 @@
         <Parameter Name="options" Type="System.Transactions.EnlistmentOptions" Index="2" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <param name="enlistmentOptions">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="resourceManagerIdentifier">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="manager">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="enlistmentNotification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche di commit a due fasi.</param>
+        <param name="notification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche di commit a due fasi.</param>
+        <param name="enlistmentOptions">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <param name="options">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <summary>Integra una gestione risorse durature che supporta il commit a due fasi per la partecipazione a una transazione.</summary>
+        <returns>Oggetto <see cref="T:System.Transactions.Enlistment" /> che descrive l'integrazione.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ I gestori di risorse con un elenco durevole devono essere in grado di eseguire il ripristino se si verifica un errore. Per altre informazioni sul ripristino, vedere [Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691). Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](https://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e).  Per altre informazioni sul modo in cui un gestore di risorse risponde a una notifica di commit e prepara il commit nel commit in due fasi, vedere [commit di una transazione In Phase e multifase](https://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
+  
+ I gestori di risorse integrati per la partecipazione in una transazione tramite questo metodo ricevano le notifiche di commit a due fasi che corrispondono ai metodi definiti nel <xref:System.Transactions.IEnlistmentNotification> interfaccia.  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EnlistDurable">
@@ -397,15 +408,26 @@
         <Parameter Name="options" Type="System.Transactions.EnlistmentOptions" Index="2" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="singlePhaseNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <param name="enlistmentOptions">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="resourceManagerIdentifier">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="manager">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="singlePhaseNotification">&gt;Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.ISinglePhaseNotification" /> che deve essere in grado di ricevere le notifiche di commit a una fase e di commit a due fasi.</param>
+        <param name="notification">&gt;Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.ISinglePhaseNotification" /> che deve essere in grado di ricevere le notifiche di commit a una fase e di commit a due fasi.</param>
+        <param name="enlistmentOptions">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <param name="options">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <summary>Integra una gestione risorse durature che supporta l'ottimizzazione del commit a una fase per la partecipazione a una transazione.</summary>
+        <returns>Oggetto <see cref="T:System.Transactions.Enlistment" /> che descrive l'integrazione.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ I gestori di risorse con un elenco durevole devono essere in grado di eseguire il ripristino se si verifica un errore. Per altre informazioni sul ripristino, vedere [Performing Recovery](https://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691). Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](https://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e).  
+  
+ Si noti che anche quando l'implementazione di resource manager viene integrato con questo metodo, non è garantito che riceve un commit monofase. Il gestore delle transazioni possa comunque inviare invece le notifiche di commit a due fasi. Per altre informazioni sull'ottimizzazione del commit monofase, vedere [ottimizzazione Using Single Phase Commit e notifica monofase promuovibile](https://msdn.microsoft.com/library/653d51d1-b4bf-4e34-9a6f-aec073f0f5bb).  
+  
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <MemberGroup MemberName="EnlistPromotableSinglePhase">
@@ -510,8 +532,8 @@
         <Parameter Name="notification" Type="System.Transactions.IPromotableSinglePhaseNotification" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="promotableSinglePhaseNotification">To be added.</param>
-        <param name="notification">To be added.</param>
+        <param name="promotableSinglePhaseNotification">Interfaccia <see cref="T:System.Transactions.IPromotableSinglePhaseNotification" /> implementata dal partecipante.</param>
+        <param name="notification">Interfaccia <see cref="T:System.Transactions.IPromotableSinglePhaseNotification" /> implementata dal partecipante.</param>
         <summary>Inserisce un gestore risorse con una transazione interna che usa un'integrazione PSPE (Promotable Single Phase Enlistment).</summary>
         <returns>Implementazione di un'interfaccia <see cref="T:System.Transactions.SinglePhaseEnlistment" /> che descrive l'integrazione.</returns>
         <remarks>
@@ -522,7 +544,7 @@
   
  Il parametro `promotableSinglePhaseNotification` viene usato per comunicare al gestore delle transazioni l'esito del tentativo di eseguire il commit delle transazioni interna di resource manager.  Se viene segnalati dati incoerenti, il gestore delle transazioni genera un'eccezione. Se un <xref:System.Transactions.TransactionStatus.InDoubt> risultato viene segnalato, la gestione transazioni esegue la ricerca di notifica del risultato in un proprio elenco interno e ignora la risposta segnalata.  
   
- Per altre informazioni sulle integrazioni e l'escalation di una transazione, vedi [Escalation della gestione transazioni](http://msdn.microsoft.com/library/5b87ae58-8ccf-4b9b-9715-41e4aade89b7). Per altre informazioni su PSPE, vedere [ottimizzazione mediante Commit monofase e notifica monofase promuovibile](http://msdn.microsoft.com/library/653d51d1-b4bf-4e34-9a6f-aec073f0f5bb).  
+ Per altre informazioni sulle integrazioni e l'escalation di una transazione, vedi [Escalation della gestione transazioni](https://msdn.microsoft.com/library/5b87ae58-8ccf-4b9b-9715-41e4aade89b7). Per altre informazioni su PSPE, vedere [ottimizzazione mediante Commit monofase e notifica monofase promuovibile](https://msdn.microsoft.com/library/653d51d1-b4bf-4e34-9a6f-aec073f0f5bb).  
   
  **Nota** questo metodo Usa <xref:System.Security.Permissions.SecurityAction.LinkDemand> per impedire che venga chiamato da codice non attendibile; tuttavia, è necessario solo il chiamante immediato disponga di `FullTrust` set di autorizzazioni.  
   
@@ -542,7 +564,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Gestori di risorse volatili non possono eseguire il recupero per completare una transazione in cui hanno preso parte. Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](http://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e). Per altre informazioni sul modo in cui un gestore di risorse risponde a una notifica di commit e prepara il commit, vedere [commit di una transazione In Phase e multifase](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
+ Gestori di risorse volatili non possono eseguire il recupero per completare una transazione in cui hanno preso parte. Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](https://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e). Per altre informazioni sul modo in cui un gestore di risorse risponde a una notifica di commit e prepara il commit, vedere [commit di una transazione In Phase e multifase](https://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
   
  ]]></format>
         </remarks>
@@ -585,11 +607,13 @@
         <Parameter Name="options" Type="System.Transactions.EnlistmentOptions" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <param name="enlistmentOptions">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>Integra un gestore di risorse volatili che supporta il commit a due fasi per partecipare a una transazione.</summary>
+        <param name="enlistmentNotification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere notifiche relative al commit a due fasi.</param>
+        <param name="notification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere notifiche relative al commit a due fasi.</param>
+        <param name="enlistmentOptions">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <param name="options">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <summary>Integra una gestione risorse volatili che supporta il commit a due fasi per la partecipazione a una transazione.</summary>
         <returns>Oggetto <see cref="T:System.Transactions.Enlistment" /> che descrive l'integrazione.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -648,19 +672,21 @@
         <Parameter Name="options" Type="System.Transactions.EnlistmentOptions" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="singlePhaseNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <param name="enlistmentOptions">To be added.</param>
-        <param name="options">To be added.</param>
+        <param name="singlePhaseNotification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.ISinglePhaseNotification" /> che deve essere in grado di ricevere le notifiche di commit a una fase e di commit a due fasi.</param>
+        <param name="notification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.ISinglePhaseNotification" /> che deve essere in grado di ricevere le notifiche di commit a una fase e di commit a due fasi.</param>
+        <param name="enlistmentOptions">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <param name="options">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
         <summary>Integra una gestione risorse volatili che supporta l'ottimizzazione del commit a una fase per la partecipazione a una transazione.</summary>
         <returns>Oggetto <see cref="T:System.Transactions.Enlistment" /> che descrive l'integrazione.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Gestori di risorse volatili non possono eseguire il recupero per completare una transazione in cui hanno preso parte. Per ottenere un elenco durevole in una transazione, usare il <xref:System.Transactions.Transaction.EnlistDurable%2A> (metodo). Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](http://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e). Per altre informazioni sul modo in cui un gestore di risorse risponde a una notifica di commit e prepara il commit, vedere [commit di una transazione In Phase e multifase](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
+ Gestori di risorse volatili non possono eseguire il recupero per completare una transazione in cui hanno preso parte. Per ottenere un elenco durevole in una transazione, usare il <xref:System.Transactions.Transaction.EnlistDurable%2A> (metodo). Per altre informazioni su risorse volatili e durevoli, nonché come integrare una risorsa, vedere [Implementing a Resource Manager](https://msdn.microsoft.com/library/81509719-d579-4530-831e-42e1acdef63e). Per altre informazioni sul modo in cui un gestore di risorse risponde a una notifica di commit e prepara il commit, vedere [commit di una transazione In Phase e multifase](https://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
   
- Si noti che anche quando l'implementazione di resource manager viene integrato con questo metodo, non è garantito che riceve un commit monofase. Il gestore delle transazioni possa comunque inviare invece le notifiche di commit a due fasi. Per altre informazioni sull'ottimizzazione del commit monofase, vedere [ottimizzazione Using Single Phase Commit e notifica monofase promuovibile](http://msdn.microsoft.com/library/653d51d1-b4bf-4e34-9a6f-aec073f0f5bb).  
+ Si noti che anche quando l'implementazione di resource manager viene integrato con questo metodo, non è garantito che riceve un commit monofase. Il gestore delle transazioni possa comunque inviare invece le notifiche di commit a due fasi. Per altre informazioni sull'ottimizzazione del commit monofase, vedere [ottimizzazione Using Single Phase Commit e notifica monofase promuovibile](https://msdn.microsoft.com/library/653d51d1-b4bf-4e34-9a6f-aec073f0f5bb).  
   
  ]]></format>
         </remarks>
@@ -937,14 +963,16 @@
         <Parameter Name="options" Type="System.Transactions.EnlistmentOptions" Index="3" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="resourceManagerIdentifier">To be added.</param>
-        <param name="manager">To be added.</param>
-        <param name="promotableNotification">To be added.</param>
-        <param name="enlistmentNotification">To be added.</param>
-        <param name="notification">To be added.</param>
-        <param name="enlistmentOptions">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="resourceManagerIdentifier">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="manager">Identificatore univoco di un gestore delle risorse, che deve essere mantenuto dopo un riavvio o un errore del gestore delle risorse.</param>
+        <param name="promotableNotification">Un oggetto che svolge la funzione di delegato di commit per una transazione non distribuita interna a una gestione risorse.</param>
+        <param name="enlistmentNotification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche di commit a due fasi.</param>
+        <param name="notification">Oggetto che implementa l'interfaccia <see cref="T:System.Transactions.IEnlistmentNotification" /> per ricevere le notifiche di commit a due fasi.</param>
+        <param name="enlistmentOptions">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <param name="options">
+          <see cref="F:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired" /> se mediante la gestione risorse si desidera eseguire operazioni aggiuntive durante la fase di preparazione.</param>
+        <summary>Promuove e inserisce una gestione risorse duratura che supporta il commit a due fasi per la partecipazione a una transazione.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1072,8 +1100,8 @@
         <Parameter Name="ex" Type="System.Exception" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="e">To be added.</param>
-        <param name="ex">To be added.</param>
+        <param name="e">Spiegazione del motivo per cui si è verificato un rollback.</param>
+        <param name="ex">Spiegazione del motivo per cui si è verificato un rollback.</param>
         <summary>Esegue il rollback (interruzione) della transazione.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1161,8 +1189,8 @@
         <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" Index="1" />
       </Parameters>
       <Docs>
-        <param name="serializationInfo">To be added.</param>
-        <param name="info">To be added.</param>
+        <param name="serializationInfo">Oggetto <see cref="T:System.Runtime.Serialization.SerializationInfo" /> da popolare con i dati.</param>
+        <param name="info">Oggetto <see cref="T:System.Runtime.Serialization.SerializationInfo" /> da popolare con i dati.</param>
         <param name="context">Destinazione (vedere <see cref="T:System.Runtime.Serialization.StreamingContext" />) della serializzazione.</param>
         <summary>Ottiene un oggetto <see cref="T:System.Runtime.Serialization.SerializationInfo" /> con i dati richiesti per la serializzazione di questa transazione.</summary>
         <remarks>To be added.</remarks>
