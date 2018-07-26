@@ -1,11 +1,11 @@
 <Type Name="XslTransform" FullName="System.Xml.Xsl.XslTransform">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bde6eef3e191bd0a25d4c462afa81d1cbfd131ba" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="90f9aaa4f98d650b51fb98e9ae2d19d691591587" />
+    <Meta Name="ms.sourcegitcommit" Value="102d07546033d7818b72aa66d7a26c70235baedd" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37733115" />
+    <Meta Name="ms.lasthandoff" Value="07/23/2018" />
+    <Meta Name="ms.locfileid" Value="39202245" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class XslTransform" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit XslTransform extends System.Object" />
@@ -741,8 +741,14 @@
   
  Esistono diversi modi per fornire l'evidenza. La tabella seguente descrive il tipo di evidenza da fornire per gli scenari utente comuni.  
   
-    
+|Scenario|Tipo di evidenza da fornire|  
+|--------------|---------------------------------|  
+|Il foglio di stile XSLT è autonomo o proviene da una codebase attendibile.|Usare l'evidenza dall'assembly.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslReader, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. L'origine dell'origine è noto e vi è un URL verificabile.|Creare l'evidenza usando l'URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform();&#13;&#10; Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(stylesheetURL); &#13;&#10;xslt.Load(xslReader,resolver,evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota.|Impostare evidence su `null`. I blocchi di script non verranno elaborati, la funzione XSLT `document()` non è supportata e gli oggetti estensioni privilegiati verranno disattivati.<br /><br /> Inoltre, è possibile impostare anche il `resolver` parametro per `null`. Ciò assicura che `xsl:import` e `xsl:include` gli elementi non vengono elaborati.|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota, ma è necessario il supporto degli script.|Richiedere l'evidenza dal chiamante. L'API del chiamante deve fornire un modo per fornire l'evidenza, in genere il <xref:System.Security.Policy.Evidence> classe.|  
   
+     
 ## Examples  
  L'esempio seguente esegue una trasformazione XSLT in cui `xsltReader` è un <xref:System.Xml.XmlReader> che contiene un foglio di stile e `secureURL` è un URL attendibile che può essere utilizzato per creare <xref:System.Security.Policy.Evidence>. Il <xref:System.Xml.XmlSecureResolver.CreateEvidenceForUrl%2A?displayProperty=nameWithType> metodo viene utilizzato per creare <xref:System.Security.Policy.Evidence> quali viene applicata al foglio di stile.  
   
@@ -806,7 +812,14 @@
   
  Esistono diversi modi per fornire l'evidenza. La tabella seguente descrive il tipo di evidenza da fornire per gli scenari utente comuni.  
   
-  ]]></format>
+|Scenario|Tipo di evidenza da fornire|  
+|--------------|---------------------------------|  
+|Il foglio di stile XSLT è autonomo o proviene da una codebase attendibile.|Usare l'evidenza dall'assembly.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(style sheet, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. L'origine dell'origine è noto e vi è un URL verificabile.|Creare l'evidenza usando l'URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(style sheet,resolver,evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota.|Impostare evidence su `null`. I blocchi di script non verranno elaborati, la funzione XSLT `document()` non è supportata e gli oggetti estensioni privilegiati verranno disattivati.<br /><br /> Inoltre, è possibile impostare anche il `resolver` parametro per `null`. Ciò assicura che `xsl:import` e `xsl:include` gli elementi non vengono elaborati.|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota, ma è necessario il supporto degli script.|Richiedere l'evidenza dal chiamante. L'API del chiamante deve fornire un modo per fornire l'evidenza, in genere il <xref:System.Security.Policy.Evidence> classe.|  
+  
+ ]]></format>
         </remarks>
         <exception cref="T:System.Xml.Xsl.XsltCompileException">La risorsa caricata non è un foglio di stile valido.</exception>
         <exception cref="T:System.Security.SecurityException">Il foglio di stile a cui viene fatto riferimento richiede funzionalità non consentite dall'evidenza fornita.  Il chiamante tenta di fornire l'evidenza non disponendo di autorizzazione <see langword="ControlEvidence" />.</exception>
@@ -864,11 +877,18 @@
   
  Esistono diversi modi per fornire l'evidenza. La tabella seguente descrive il tipo di evidenza da fornire per gli scenari utente comuni.  
   
-    
+|Scenario|Tipo di evidenza da fornire|  
+|--------------|---------------------------------|  
+|Il foglio di stile XSLT è autonomo o proviene da una codebase attendibile.|Usare l'evidenza dall'assembly.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;xslt.Load(xslNav, resolver, this.GetType().Assembly.Evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. L'origine dell'origine è noto e vi è un URL verificabile.|Creare l'evidenza usando l'URL.<br /><br /> <pre><code class="lang-csharp">XsltTransform xslt = new XslTransform(); &#13;&#10;Evidence evidence = XmlSecureResolver.CreateEvidenceForUrl(style sheetURL); &#13;&#10;xslt.Load(xslNav,resolver,evidence);</code></pre>|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota.|Impostare evidence su `null`. I blocchi di script non verranno elaborati, la funzione XSLT `document()` non è supportata e gli oggetti estensioni privilegiati verranno disattivati.<br /><br /> Inoltre, è possibile impostare anche il `resolver` parametro per `null`. Ciò assicura che `xsl:import` e `xsl:include` gli elementi non vengono elaborati.|  
+|Il foglio di stile XSLT proviene da un'origine esterna. Tale origine non è nota, ma è necessario il supporto degli script.|Richiedere l'evidenza dal chiamante. L'API del chiamante deve fornire un modo per fornire l'evidenza, in genere il `Evidence` classe.|  
+  
+   
   
 ## Examples  
  Nell'esempio seguente esegue una trasformazione XSLT utilizzando un foglio di stile da un'origine esterna. Perché il foglio di stile proviene da un'origine non attendibile, il `resolver` e `evidence` parametri vengono impostati `null`.  
-  
+ 
  [!code-csharp[XslTransform.Load5#1](~/samples/snippets/csharp/VS_Snippets_Data/XslTransform.Load5/CS/trans_noev.cs#1)]
  [!code-vb[XslTransform.Load5#1](~/samples/snippets/visualbasic/VS_Snippets_Data/XslTransform.Load5/VB/trans_noev.vb#1)]  
   
