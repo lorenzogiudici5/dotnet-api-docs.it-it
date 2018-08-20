@@ -1,10 +1,10 @@
 <Type Name="LazyThreadSafetyMode" FullName="System.Threading.LazyThreadSafetyMode">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="bffe15f7432e9c6a32d5ebae79cbf8cad97790ab" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36605919" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum LazyThreadSafetyMode" />
@@ -40,15 +40,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questa enumerazione per specificare il `mode` parametro di <xref:System.Lazy%601> costruttori. Gli effetti di tutti i costruttori sulla sincronizzazione dei thread possono essere descritti in termini di questa enumerazione dispongono o meno `mode` parametri.  
+ Utilizzare questa enumerazione per specificare il `mode` parametro di <xref:System.Lazy%601> costruttori. Gli effetti di tutti i costruttori nella sincronizzazione dei thread possono essere descritti in termini di questa enumerazione, se hanno `mode` parametri.  
   
- Un <xref:System.Lazy%601> l'istanza viene inizializzata da un metodo di inizializzazione specificato dall'utente o dal costruttore predefinito per `T`. Il metodo di inizializzazione è specificato per il `valueFactory` parametro di un <xref:System.Lazy%601> costruttore. Il metodo restituisce un'istanza di `T`, che è il tipo che viene creata un'istanza differita dall'istanza di <xref:System.Lazy%601>. Se un costruttore non ha un `valueFactory` parametro, il costruttore predefinito per `T` utilizzato per inizializzare il <xref:System.Lazy%601> istanza. In entrambi i casi, l'inizializzazione si verifica la prima volta chiama il <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà.  
+ Oggetto <xref:System.Lazy%601> l'istanza viene inizializzata da un metodo di inizializzazione specificato dall'utente o dal costruttore predefinito per `T`. Il metodo di inizializzazione è specificato per il `valueFactory` parametro di un <xref:System.Lazy%601> costruttore. Il metodo restituisce un'istanza di `T`, ovvero il tipo che viene creato in modo differito mediante l'istanza di <xref:System.Lazy%601>. Se un costruttore non ha un `valueFactory` parametro, il costruttore predefinito per `T` viene usato per inizializzare il <xref:System.Lazy%601> istanza. In entrambi i casi, si verifica la prima volta che si chiama l'inizializzazione di <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà.  
   
- Oltre a specificare la protezione del thread di un <xref:System.Lazy%601> istanza, questa enumerazione interessa la memorizzazione nella cache di eccezione. Quando le eccezioni vengono memorizzati nella cache per un <xref:System.Lazy%601> istanza, viene visualizzato solo un'opportunità per inizializzare l'istanza. Se un'eccezione viene generata la prima volta che si chiama il <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà, che l'eccezione viene memorizzata nella cache e rigenerata in tutte le chiamate successive al <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà. Il vantaggio della memorizzazione nella cache le eccezioni è che le due thread ottengano sempre lo stesso risultato, anche quando si verificano errori.  
+ Oltre a specificare la thread safety di un <xref:System.Lazy%601> istanza, questa enumerazione interessa la memorizzazione nella cache di eccezione. Quando le eccezioni vengono memorizzate nella cache per un <xref:System.Lazy%601> istanza, si ottiene solo un'occasione per inizializzare l'istanza. Se la prima volta che viene generata un'eccezione si chiama il <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà, che l'eccezione viene memorizzata nella cache e generata di nuovo a tutte le chiamate successive al <xref:System.Lazy%601.Value%2A?displayProperty=nameWithType> proprietà. Il vantaggio della memorizzazione nella cache delle eccezioni è che qualsiasi due thread ottiene sempre lo stesso risultato, anche quando si verificano errori.  
   
- Quando si specifica la modalità PublicationOnly, le eccezioni non vengono mai memorizzati nella cache. Quando si specifica nessuno o ExecutionAndPublication, la memorizzazione nella cache varia a seconda se si specifica un metodo di inizializzazione o consentire il costruttore predefinito per `T` da utilizzare. Se si specifica un metodo di inizializzazione, la memorizzazione nella cache delle eccezioni viene abilitata per queste due modalità. Il metodo di inizializzazione può essere molto semplice. Ad esempio, può chiamare il costruttore predefinito per `T`: `new Lazy<Contents>(() => new Contents(), mode)` in C# o `New Lazy(Of Contents)(Function() New Contents())` in Visual Basic. Se si utilizza un costruttore che non specifica un metodo di inizializzazione, le eccezioni generate dal costruttore predefinito per `T` non vengono memorizzati nella cache. Nella tabella seguente viene riepilogato il comportamento di memorizzazione nella cache (eccezione).  
+ Quando si specifica la modalità PublicationOnly, le eccezioni non vengono mai memorizzati nella cache. Quando si specifica nessuno o ExecutionAndPublication, la memorizzazione nella cache dipende dal fatto che si specifica un metodo di inizializzazione o si lascia il costruttore predefinito per `T` da utilizzare. Se si specifica un metodo di inizializzazione, la memorizzazione nella cache delle eccezioni viene abilitata per queste due modalità. Il metodo di inizializzazione può essere molto semplice. Ad esempio, può chiamare il costruttore predefinito per `T`: `new Lazy<Contents>(() => new Contents(), mode)` in C# o `New Lazy(Of Contents)(Function() New Contents())` in Visual Basic. Se si utilizza un costruttore che non specifica un metodo di inizializzazione, le eccezioni generate dal costruttore predefinito per `T` non vengono memorizzate nella cache. La tabella seguente riepiloga il comportamento di memorizzazione nella cache di eccezione.  
   
-|Modalità|Utilizzando il metodo di inizializzazione|Usando il costruttore predefinito per `T`|  
+|Modalità|Usando un metodo di inizializzazione|Usando il costruttore predefinito per `T`|  
 |----------|---------------------------------|---------------------------------------|  
 |nessuno|Memorizzata nella cache|Non memorizzato nella cache|  
 |PublicationOnly|Non memorizzato nella cache|Non memorizzato nella cache|  
