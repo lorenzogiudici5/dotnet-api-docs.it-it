@@ -1,10 +1,10 @@
 <Type Name="ArrayPool&lt;T&gt;" FullName="System.Buffers.ArrayPool&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="c365ab2f2412036b41ba89388ab6a1187f6696d2" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36647249" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ArrayPool&lt;T&gt;" />
@@ -28,14 +28,14 @@
   </Base>
   <Interfaces />
   <Docs>
-    <typeparam name="T">Tipo degli oggetti presenti nel pool di risorse.</typeparam>
+    <typeparam name="T">Il tipo degli oggetti presenti nel pool di risorse.</typeparam>
     <summary>Offre un pool di risorse che consente il riutilizzo di istanze di tipo <see cref="T:T[]" />.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
   
- Utilizzando il <xref:System.Buffers.ArrayPool%601> classe noleggiare e restituire i buffer (utilizzando il <xref:System.Buffers.ArrayPool%601.Rent%2A> e <xref:System.Buffers.ArrayPool%601.Return%2A> metodi) può migliorare le prestazioni in situazioni in cui le matrici vengono create e distrutti frequentemente, risultante in richieste di memoria significativo del garbage agente di raccolta.
+ Usando il <xref:System.Buffers.ArrayPool%601> classe noleggiare e restituire i buffer (usando il <xref:System.Buffers.ArrayPool%601.Rent%2A> e <xref:System.Buffers.ArrayPool%601.Return%2A> metodi) può migliorare le prestazioni in situazioni in cui le matrici vengono create ed eliminate frequentemente, risultante nelle richieste di memoria significativa nell'operazione di garbage agente di raccolta.
   
  ]]></format>
     </remarks>
@@ -64,7 +64,7 @@
   
 ## Remarks  
   
-Si noti che questo costruttore è protetto; può essere chiamato solo da classi derivate dal <xref:System.Buffers.ArrayPool%601> classe. 
+Si noti che questo costruttore è protetto; può essere chiamato solo dalle classi derivate dal <xref:System.Buffers.ArrayPool%601> classe. 
  ]]></format>
         </remarks>
       </Docs>
@@ -126,7 +126,7 @@ Si noti che questo costruttore è protetto; può essere chiamato solo da classi 
   
 ## Remarks  
   
-L'istanza del <xref:System.Buffers.ArrayPool%601> classe creata da questo metodo Raggruppa le matrici in bucket, senza alcun più `maxArraysPerBucket` in ogni bucket e con tali array non superiore a `maxArrayLength` in lunghezza.
+L'istanza del <xref:System.Buffers.ArrayPool%601> classe creata da questo metodo Raggruppa le matrici in bucket, senza alcun oltre `maxArraysPerBucket` in ogni bucket e con tali array non superiore a `maxArrayLength` lunghezza.
  ]]></format>
         </remarks>
       </Docs>
@@ -161,7 +161,7 @@ L'istanza del <xref:System.Buffers.ArrayPool%601> classe creata da questo metodo
   
 ## Remarks  
 
-Questo buffer prestito al chiamante e deve essere restituito per lo stesso pool usando il <xref:System.Buffers.ArrayPool%601.Return%2A> metodo, in modo che non può essere riutilizzato nelle successive chiamate al <xref:System.Buffers.ArrayPool%601.Rent%2A> metodo. Errore di restituzione di un buffer in affitto non è un errore irreversibile. Tuttavia, possono verificarsi per applicazione una riduzione delle prestazioni, come il pool potrebbe essere necessario creare un nuovo buffer per sostituire quella perso.
+Questo buffer viene prestato al chiamante che devono essere restituito per il pool stesso usando il <xref:System.Buffers.ArrayPool%601.Return%2A> metodo, in modo che non può essere riutilizzato nelle successive chiamate al <xref:System.Buffers.ArrayPool%601.Rent%2A> (metodo). Errore di restituzione di un buffer in affitto non è un errore irreversibile. Tuttavia, possono risultare prestazioni ridotte dell'applicazione, come il pool potrebbe essere necessario creare un nuovo buffer per sostituire quello perso.
  ]]></format>
         </remarks>
       </Docs>
@@ -196,7 +196,7 @@ Questo buffer prestito al chiamante e deve essere restituito per lo stesso pool 
   
 ## Remarks  
 
-Una volta che un buffer è stato restituito al pool, il chiamante rinunciare tutte le proprietà del buffer e non deve utilizzare. Il riferimento restituito da una chiamata specificata per il <xref:System.Buffers.ArrayPool%601.Rent%2A> (metodo) deve essere restituito solo utilizzando il <xref:System.Buffers.ArrayPool%601.Return%2A> metodo una volta. Il valore predefinito <xref:System.Buffers.ArrayPool%601> può contenere il buffer restituito per noleggiare nuovamente o dalla versione di maggio buffer restituito se è stato stabilito che il pool sono già disponibili buffer insufficienti archiviati.
+Una volta che viene restituito al pool un buffer, il chiamante rinuncia tutte le proprietà del buffer e non deve utilizzare. Il riferimento restituito da una chiamata specifica al <xref:System.Buffers.ArrayPool%601.Rent%2A> metodo deve essere restituito solo utilizzando il <xref:System.Buffers.ArrayPool%601.Return%2A> metodo una volta. Il valore predefinito <xref:System.Buffers.ArrayPool%601> può mantenere il buffer restituito per noleggiare nuovamente o può rilasciare il buffer restituito se è stato stabilito che il pool sono già disponibili buffer insufficienti archiviati.
  ]]></format>
         </remarks>
       </Docs>
@@ -227,7 +227,7 @@ Una volta che un buffer è stato restituito al pool, il chiamante rinunciare tut
   
 ## Remarks  
 
-Il pool condiviso fornisce un'implementazione predefinita del <xref:System.Buffers.ArrayPool%601> classe destinato a applicabilità generale. Una classe condivisa mantiene le matrici di dimensioni più e passa nuovamente una matrice di dimensioni maggiore rispetto a è stata effettivamente richiesta, ma non verrà mai trasferito nuovamente una matrice minore rispetto a è stato richiesto. Un buffer da una classe condivisi utilizzando il noleggio di <xref:System.Buffers.ArrayPool%601.Rent%2A> metodo comporterà un buffer esistente viene estratta dal pool se è disponibile un buffer appropriato o in un nuovo buffer allocato se non è disponibile.
+Il pool condiviso fornisce un'implementazione predefinita del <xref:System.Buffers.ArrayPool%601> classe destinato a applicabilità generale. Mantiene le matrici di varie dimensioni di una classe condivisa e passare nuovamente una matrice di dimensioni maggiori rispetto a è stata effettivamente richiesta, ma non verrà mai trasferito nuovamente una matrice minore rispetto a quanto è stato richiesto. Un buffer da una classe condivisa usando il noleggio di <xref:System.Buffers.ArrayPool%601.Rent%2A> metodo comporterà un buffer esistente viene estratta dal pool se è disponibile un buffer appropriato o in un nuovo buffer allocati se non è disponibili.
  ]]></format>
         </remarks>
       </Docs>

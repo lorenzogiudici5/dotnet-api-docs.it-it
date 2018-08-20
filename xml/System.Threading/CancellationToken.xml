@@ -1,11 +1,11 @@
 <Type Name="CancellationToken" FullName="System.Threading.CancellationToken">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="de6f75d4506356775c02922ff31f88f46d43b9c8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="aff861d633b172c0996e4351071b31629dbba628" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606422" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39804583" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct CancellationToken" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit CancellationToken extends System.ValueType" />
@@ -37,11 +37,14 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Diagnostics.DebuggerDisplay("IsCancellationRequested = {IsCancellationRequested}")</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
+      <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -50,23 +53,23 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un <xref:System.Threading.CancellationToken> consente l'annullamento cooperativo tra thread, gli elementi di lavoro del pool di thread, o <xref:System.Threading.Tasks.Task> oggetti. Creare un token di annullamento creando un <xref:System.Threading.CancellationTokenSource> recuperare l'oggetto, che gestisce i token di annullamento dal relativo <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> proprietà. È quindi possibile passare il token di annullamento a qualsiasi numero di operazioni che devono ricevere la notifica dell'annullamento, attività o thread. Il token non può essere usato per avviare l'annullamento. Quando l'oggetto proprietario chiama <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType>, il <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> in ogni copia del token di annullamento è impostata su `true`. Gli oggetti che ricevono la notifica possono rispondere nel modo appropriato.  
+ Oggetto <xref:System.Threading.CancellationToken> consente l'annullamento cooperativo tra thread, gli elementi di lavoro del pool di thread, o <xref:System.Threading.Tasks.Task> oggetti. Si crea un token di annullamento creando un <xref:System.Threading.CancellationTokenSource> recuperare l'oggetto, che gestisce i token di annullamento dal relativo <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> proprietà. È quindi possibile passare il token di annullamento a qualsiasi numero di thread, attività o operazioni che devono ricevere la notifica dell'annullamento. Il token non può essere usato per avviare l'annullamento. Quando viene chiamato l'oggetto proprietario <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType>, il <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> in ogni copia del token di annullamento viene impostata su `true`. Gli oggetti che ricevono la notifica possono rispondere nel modo più appropriato.  
   
- Per ulteriori informazioni ed esempi di codice vedere [annullamento in thread gestiti](~/docs/standard/threading/cancellation-in-managed-threads.md).  
+ Per altre informazioni ed esempi di codice, vedere [annullamento in thread gestiti](~/docs/standard/threading/cancellation-in-managed-threads.md).  
   
    
   
 ## Examples  
- Nell'esempio seguente viene utilizzato un generatore di numeri casuali per emulare un'applicazione di raccolta dati che la legge 10 valori integrali undici strumenti diversi. Un valore pari a zero indica che la misura non è riuscita per uno strumento, nel qual caso l'operazione deve essere annullata e non Media globale deve essere calcolate.  
+ L'esempio seguente usa un generatore di numeri casuali per emulare un'applicazione di raccolta dati che legge i valori integrali 10 da undici vari strumenti. Un valore pari a zero indica che la misura non è riuscita per uno strumento, nel qual caso l'operazione deve essere annullata e non indicano complessivo deve essere calcolate.  
   
- Per gestire l'annullamento possibili dell'operazione, nell'esempio viene creata un'istanza di un <xref:System.Threading.CancellationTokenSource> oggetto che genera un token di annullamento che viene passato a un <xref:System.Threading.Tasks.TaskFactory> oggetto. Il <xref:System.Threading.Tasks.TaskFactory> oggetto a sua volta passa il token di annullamento a ognuna delle attività responsabile della raccolta letture per uno strumento specifico. Il <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> metodo viene chiamato per verificare che la media viene calcolata solo dopo che tutte le letture sono state raccolte correttamente. Se un'attività presenta non perché è stata annullata, la chiamata al <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> metodo genera un'eccezione.  
+ Per gestire l'annullamento possibili dell'operazione, l'esempio crea un'istanza di un <xref:System.Threading.CancellationTokenSource> oggetto che genera un token di annullamento che viene passato a un <xref:System.Threading.Tasks.TaskFactory> oggetto. Il <xref:System.Threading.Tasks.TaskFactory> oggetto a sua volta inoltra il token di annullamento per ognuna delle attività di responsabile per la raccolta di letture per uno strumento specifico. Il <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> metodo viene chiamato per verificare che la media viene calcolata solo dopo che tutte le letture sono state raccolte correttamente. Se è un'attività non perché è stata annullata, la chiamata al <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> metodo genera un'eccezione.  
   
  [!code-csharp[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/cs/cancel1.cs#1)]
  [!code-vb[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/vb/cancel1.vb#1)]  
   
  ]]></format>
     </remarks>
-    <threadsafe>Tutti i membri pubblici e protetti di <see cref="T:System.Threading.CancellationToken" /> sono thread-safe e possono essere utilizzate contemporaneamente da più thread.</threadsafe>
+    <threadsafe>Tutti i membri pubblici e protetti di <see cref="T:System.Threading.CancellationToken" /> sono thread-safe e possono essere utilizzati contemporaneamente da più thread.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -106,9 +109,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- I token creati con questo costruttore rimarranno in stato di annullamento specificato dal `canceled` parametro. Se `canceled` viene `false`, entrambi <xref:System.Threading.CancellationToken.CanBeCanceled%2A> e <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> sarà `false`.  
+ I token creati con questo costruttore rimarrà in stato di annullamento specificato da di `canceled` parametro. Se `canceled` viene `false`, entrambi <xref:System.Threading.CancellationToken.CanBeCanceled%2A> e <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> saranno `false`.  
   
- Se `canceled` viene `true`, entrambi <xref:System.Threading.CancellationToken.CanBeCanceled%2A> e <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> sarà `true`.  
+ Se `canceled` viene `true`, entrambi <xref:System.Threading.CancellationToken.CanBeCanceled%2A> e <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> saranno `true`.  
   
  ]]></format>
         </remarks>
@@ -141,6 +144,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -152,9 +160,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se <xref:System.Threading.CancellationToken.CanBeCanceled%2A> restituisce `false`, garantisce che il token mai transizione a uno stato di annullamento, vale a dire che <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> non restituiranno mai `true`. Viene restituito un token di annullamento che non può essere annullato da statico <xref:System.Threading.CancellationToken.None%2A?displayProperty=nameWithType> proprietà.  
+ Se <xref:System.Threading.CancellationToken.CanBeCanceled%2A> restituisce `false`, viene garantito che il token mai passerà allo stato annullato, vale a dire che <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> non restituiranno mai `true`. Viene restituito un token di annullamento che non può essere annullato da statico <xref:System.Threading.CancellationToken.None%2A?displayProperty=nameWithType> proprietà.  
   
- Facoltativamente, è possibile utilizzare questa proprietà per determinare se un token di annullamento può essere annullato prima dell'analisi del valore di <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> proprietà per determinare se è stata annullata.  
+ È facoltativamente possibile usare questa proprietà per determinare se un token di annullamento può essere annullato prima dell'analisi del valore della <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> proprietà per determinare se è stata annullata.  
   
  ]]></format>
         </remarks>
@@ -212,7 +220,7 @@
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Due token di annullamento sono uguali se una delle condizioni seguenti è vera: 
+I token di annullamento due sono uguali se una delle condizioni seguenti è vera: 
 
 - Sono associate con lo stesso <xref:System.Threading.CancellationTokenSource>.
 
@@ -266,7 +274,7 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Due token di annullamento sono uguali se una delle condizioni seguenti è vera: 
+I token di annullamento due sono uguali se una delle condizioni seguenti è vera: 
 
 - Sono associate con lo stesso <xref:System.Threading.CancellationTokenSource>.
 
@@ -342,32 +350,37 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Ottiene un valore che indica se per questo token è stato richiesto l'annullamento.</summary>
         <value>
-          <see langword="true" /> Se l'annullamento è stato richiesto per questo token; in caso contrario, <see langword="false" />.</value>
+          <see langword="true" /> Se l'annullamento è stata richiesta per questo token. in caso contrario, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questa proprietà indica se l'annullamento è stato richiesto per questo token, tramite il token viene inizialmente costruito in uno stato annullato o tramite la chiamata <xref:System.Threading.CancellationTokenSource.Cancel%2A> nel token associato <xref:System.Threading.CancellationTokenSource>.  
+ Questa proprietà indica se è stato richiesto l'annullamento per questo token, tramite il token che viene inizialmente costruito in uno stato annullato o chiamando <xref:System.Threading.CancellationTokenSource.Cancel%2A> nel token associato alla <xref:System.Threading.CancellationTokenSource>.  
   
- Se questa proprietà è `true`, garantisce solo che è stato richiesto l'annullamento. Non garantisce che ogni gestore registrato ha terminato l'esecuzione, né che le richieste di annullamento state propagate in tutti i gestori registrati. Un'ulteriore sincronizzazione potrebbe essere necessario, in particolare nelle situazioni in cui gli oggetti correlati vengono annullati contemporaneamente.  
+ Se questa proprietà è `true`, garantisce solo che è stato richiesto l'annullamento. Ciò non garantisce che ogni gestore registrato ha terminato l'esecuzione, né che le richieste di annullamento hanno terminato la propagazione a tutti i gestori registrati. Un'ulteriore sincronizzazione potrebbe essere necessaria, in particolare nelle situazioni in cui gli oggetti correlati vengono annullati contemporaneamente.  
   
    
   
 ## Examples  
- Ecco un esempio semplice che esegue un processo server finché la <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> restituisce proprietà `true`.  
+ Di seguito è riportato un semplice esempio che esegue un processo server finché la <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> restituisce proprietà `true`.  
   
  [!code-csharp[System.Threading.Tasks.CancellationToken.IsCancellationRequested#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Tasks.CancellationToken.IsCancellationRequested/cs/cancellation.cs#12)]
  [!code-vb[System.Threading.Tasks.CancellationToken.IsCancellationRequested#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Tasks.CancellationToken.IsCancellationRequested/vb/cancelthreads.vb#12)]  
   
- L'esempio viene creata una <xref:System.Threading.CancellationTokenSource> oggetto, che controlla l'accesso al token di annullamento. Definisce quindi due procedure di thread. Il primo è definito come un'espressione lambda che condivide la tastiera e, quando viene premuto il tasto "C", chiama <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> per impostare lo stato annullato il token di annullamento. Il secondo è un metodo con parametri `ServerClass.StaticMethod`, che esegue un ciclo finché il <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> è di proprietà `true`.  
+ L'esempio crea un'istanza un <xref:System.Threading.CancellationTokenSource> oggetto, che controlla l'accesso al token di annullamento. Definisce quindi due procedure di thread. Il primo è definito come un'espressione lambda che crea un pool la tastiera e, quando viene premuto il tasto "C", viene chiamato <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> per impostare il token di annullamento allo stato annullato. Il secondo è un metodo con parametri, `ServerClass.StaticMethod`, che esegue un ciclo finché la <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> è di proprietà `true`.  
   
- Il thread principale avvia quindi i blocchi e due thread finché il thread che esegue il `ServerClass.StaticMethod` metodo termina.  
+ Il thread principale avvia quindi due thread e blocchi finché il thread che esegue il `ServerClass.StaticMethod` metodo termina.  
   
  ]]></format>
         </remarks>
@@ -400,6 +413,11 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Threading.CancellationToken</ReturnType>
       </ReturnValue>
@@ -410,9 +428,9 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il token di annullamento restituito da questa proprietà non può essere annullato. vale a dire, il relativo <xref:System.Threading.CancellationToken.CanBeCanceled%2A> proprietà `false`.  
+ Il token di annullamento restituito da questa proprietà non può essere annullato. vale a dire, relativi <xref:System.Threading.CancellationToken.CanBeCanceled%2A> è di proprietà `false`.  
   
- È inoltre possibile utilizzare il linguaggio c# [default(CancellationToken)](~/docs/csharp/language-reference/keywords/default.md) istruzione per creare un token di annullamento vuoto. 
+ È anche possibile usare il codice c# [default(CancellationToken)](~/docs/csharp/language-reference/keywords/default.md) istruzione per creare un token di annullamento vuoto. 
 
  Due token di annullamento vuoto sono sempre uguali.
   
@@ -464,7 +482,7 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Due token di annullamento sono uguali se una delle condizioni seguenti è vera: 
+I token di annullamento due sono uguali se una delle condizioni seguenti è vera: 
 
 - Sono associate con lo stesso <xref:System.Threading.CancellationTokenSource>.
 
@@ -520,7 +538,7 @@ Due token di annullamento sono uguali se una delle condizioni seguenti è vera:
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Per la definizione di uguaglianza, vedere il <xref:System.Threading.CancellationToken.Equals%2A> metodo. 
+Per la definizione di uguaglianza, vedere il <xref:System.Threading.CancellationToken.Equals%2A> (metodo). 
        ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">Un oggetto <see cref="T:System.Threading.CancellationTokenSource" /> associato è stato eliminato.</exception>
@@ -579,7 +597,7 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
 ## Remarks  
  Se questo token è già nello stato annullato, il delegato verrà eseguito immediatamente e in modo sincrono. Qualsiasi eccezione generata dal delegato verrà propagato all'esterno di questa chiamata al metodo.  
   
- Corrente <xref:System.Threading.ExecutionContext> insieme il delegato viene acquisito e verrà utilizzato durante l'esecuzione. 
+ Corrente <xref:System.Threading.ExecutionContext> viene acquisita insieme il delegato e verrà utilizzato durante l'esecuzione. 
 
  Corrente <xref:System.Threading.SynchronizationContext> non viene acquisita.
  
@@ -635,9 +653,9 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
 ## Remarks  
  Se questo token è già nello stato annullato, il delegato verrà eseguito immediatamente e in modo sincrono. Qualsiasi eccezione generata dal delegato verrà propagato all'esterno di questa chiamata al metodo.  
   
- Corrente <xref:System.Threading.ExecutionContext> insieme il delegato viene acquisito e verrà utilizzato durante l'esecuzione. 
+ Corrente <xref:System.Threading.ExecutionContext> viene acquisita insieme il delegato e verrà utilizzato durante l'esecuzione. 
 
- Se `useSynchronizationContext` viene `true`, corrente <xref:System.Threading.SynchronizationContext>, se uno esiste, viene acquisito anche con il delegato e verrà usato quando eseguirla. In caso contrario, <xref:System.Threading.SynchronizationContext> non viene acquisita.
+ Se `useSynchronizationContext` viene `true`, l'oggetto corrente <xref:System.Threading.SynchronizationContext>, se uno è presente, viene anche acquisito insieme il delegato e verrà utilizzato durante l'esecuzione. In caso contrario, <xref:System.Threading.SynchronizationContext> non viene acquisita.
   
  ]]></format>
         </remarks>
@@ -691,7 +709,7 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
 ## Remarks  
  Se questo token è già nello stato annullato, il delegato verrà eseguito immediatamente e in modo sincrono. Qualsiasi eccezione generata dal delegato verrà propagato all'esterno di questa chiamata al metodo.  
   
- Corrente <xref:System.Threading.ExecutionContext> insieme il delegato viene acquisito e verrà utilizzato durante l'esecuzione. 
+ Corrente <xref:System.Threading.ExecutionContext> viene acquisita insieme il delegato e verrà utilizzato durante l'esecuzione. 
 
  Corrente <xref:System.Threading.SynchronizationContext> non viene acquisita.
   
@@ -749,9 +767,9 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
 ## Remarks  
  Se questo token è già nello stato annullato, il delegato verrà eseguito immediatamente e in modo sincrono. Qualsiasi eccezione generata dal delegato verrà propagato all'esterno di questa chiamata al metodo.  
   
- Corrente <xref:System.Threading.ExecutionContext> insieme il delegato viene acquisito e verrà utilizzato durante l'esecuzione. 
+ Corrente <xref:System.Threading.ExecutionContext> viene acquisita insieme il delegato e verrà utilizzato durante l'esecuzione. 
 
- Se `useSynchronizationContext` viene `true`, corrente <xref:System.Threading.SynchronizationContext>, se uno esiste, viene acquisito anche con il delegato e verrà usato quando eseguirla. In caso contrario, <xref:System.Threading.SynchronizationContext> non viene acquisita.
+ Se `useSynchronizationContext` viene `true`, l'oggetto corrente <xref:System.Threading.SynchronizationContext>, se uno è presente, viene anche acquisito insieme il delegato e verrà utilizzato durante l'esecuzione. In caso contrario, <xref:System.Threading.SynchronizationContext> non viene acquisita.
   
  ]]></format>
         </remarks>
@@ -787,6 +805,11 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -797,7 +820,7 @@ Per la definizione di uguaglianza, vedere il <xref:System.Threading.Cancellation
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo offre funzionalità equivalenti a:  
+ Questo metodo fornisce funzionalità equivalenti a:  
   
  C#  
   
@@ -856,7 +879,7 @@ End If
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Accedere a questa proprietà fa sì che un <xref:System.Threading.WaitHandle> deve essere creata un'istanza. È preferibile per utilizzare questa proprietà solo quando necessario e quindi eliminarlo associato <xref:System.Threading.CancellationTokenSource> istanza al più presto (disposing eliminerà l'origine di questo handle allocato). L'handle non deve essere chiuso o eliminato direttamente.  
+ Accedere a questa proprietà fa sì che un <xref:System.Threading.WaitHandle> da cui creare istanze. È preferibile per utilizzare questa proprietà solo quando necessario e quindi eliminare l'oggetto associato <xref:System.Threading.CancellationTokenSource> istanza al più presto (disposing eliminerà l'origine di questo handle allocato). L'handle non deve essere chiuso o eliminato direttamente.  
   
  ]]></format>
         </remarks>
