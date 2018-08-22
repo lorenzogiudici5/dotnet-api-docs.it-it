@@ -1,11 +1,11 @@
 <Type Name="BatchBlock&lt;T&gt;" FullName="System.Threading.Tasks.Dataflow.BatchBlock&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3ae58e03ddc949bebd4a7a41bf94eda6bab05e1f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="284b86c4db159e6c80efa1729ec11d074f9fcb1b" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407509" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39961262" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BatchBlock&lt;T&gt; : System.Threading.Tasks.Dataflow.IPropagatorBlock&lt;T,T[]&gt;, System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;T[]&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;T[]&gt;, System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BatchBlock`1&lt;T&gt; extends System.Object implements class System.Threading.Tasks.Dataflow.IDataflowBlock, class System.Threading.Tasks.Dataflow.IPropagatorBlock`2&lt;!T, !T[]&gt;, class System.Threading.Tasks.Dataflow.IReceivableSourceBlock`1&lt;!T[]&gt;, class System.Threading.Tasks.Dataflow.ISourceBlock`1&lt;!T[]&gt;, class System.Threading.Tasks.Dataflow.ITargetBlock`1&lt;!T&gt;" />
@@ -40,6 +40,14 @@
       <InterfaceName>System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;</InterfaceName>
     </Interface>
   </Interfaces>
+  <Attributes>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{DebuggerDisplayContent,nq}")</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.Dataflow.BatchBlock`1/DebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
   <Docs>
     <typeparam name="T">Specifica il tipo di dati inseriti in batch.</typeparam>
     <summary>Fornisce un blocco del flusso di dati che raggruppa in matrici gli input.</summary>
@@ -132,7 +140,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il numero di elementi forniti per il blocco non è divisibile per le dimensioni del batch fornita al costruttore del blocco, batch finale del blocco può contenere un valore minore rispetto al numero richiesto di elementi.  
+ Se il numero di elementi forniti per il blocco non è divisibile uniformemente per le dimensioni del batch fornita al costruttore del blocco, batch finale del blocco può contenere meno del numero di elementi richiesti.  
   
  ]]></format>
         </remarks>
@@ -166,7 +174,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dopo aver <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> è stato chiamato su un blocco di flussi di dati, verrà completata tale blocco e il relativo <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività verrà immesso uno stato finale dopo avere elaborato tutti i dati disponibili in precedenza. <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> verrà non bloccata in attesa del completamento a verificarsi, ma piuttosto avvierà la richiesta; per attendere il completamento si verifica quando il <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività può rivelarsi utile.  
+ Dopo aver <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> è stato chiamato su un blocco di flussi di dati, verrà completata tale blocco e il relativo <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività passerà uno stato finale dopo avere elaborato tutti i dati disponibili in precedenza. <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Complete%2A> verrà non bloccata in attesa del completamento a verificarsi, ma piuttosto avvierà la richiesta. per attendere il completamento si verifica quando il <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività può essere utilizzata.  
   
  ]]></format>
         </remarks>
@@ -200,7 +208,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un blocco di flussi di dati viene considerato completata quando non viene attualmente elaborato un messaggio e se è garantito che che non elaborerà altri messaggi. L'oggetto restituito <xref:System.Threading.Tasks.Task> verrà transizione a uno stato completato quando il blocco associato è stato completato. Assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> lo stato quando il blocco al completamento dell'elaborazione correttamente in base al blocco di flussi di dati definito semantica. Assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> lo stato quando il blocco di flussi di dati è stata completata l'elaborazione in modo anomalo a causa di un'eccezione non gestita e assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> stato quando il blocco di flussi di dati è stata completata durante l'elaborazione in modo anomalo a causa della ricezione di una richiesta di annullamento. Se l'attività viene completata la <xref:System.Threading.Tasks.TaskStatus.Faulted> stato, relativi `Exception` proprietà restituirà un <xref:System.AggregateException> contenente una o più eccezioni che ha causato l'esito negativo del blocco.  
+ Un blocco di flussi di dati viene considerato completata quando non viene attualmente elaborato un messaggio e quando ha garantito che non vengono elaborate altri messaggi. L'oggetto restituito <xref:System.Threading.Tasks.Task> verrà transizione allo stato completato quando il blocco associato è stata completata. Assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> lo stato quando il blocco al completamento dell'elaborazione correttamente in base al blocco di flussi di dati definito semantica. Assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> lo stato quando il blocco di flussi di dati è stata completata l'elaborazione in modo anomalo a causa di un'eccezione non gestita e assume il <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> lo stato quando il blocco di flussi di dati è stata completata l'elaborazione in modo anomalo a causa della ricezione di una richiesta di annullamento. Se l'attività viene completata nel <xref:System.Threading.Tasks.TaskStatus.Faulted> lo stato, relativi `Exception` proprietà restituirà un <xref:System.AggregateException> contenente una o più eccezioni che ha causato l'esito negativo del blocco.  
   
  ]]></format>
         </remarks>
@@ -296,7 +304,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dopo aver <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> è stato chiamato su un blocco di flussi di dati, verrà completata tale blocco e il relativo <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività verrà immesso uno stato finale. Generare un errore per un blocco, come con l'annullamento di un blocco, fa sì che i messaggi memorizzati nel buffer (i messaggi di input non elaborati, nonché i messaggi di output unoffered) andranno persi.  
+ Dopo aver <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> è stato chiamato su un blocco di flussi di dati, verrà completata tale blocco e il relativo <xref:System.Threading.Tasks.Dataflow.BatchBlock%601.Completion%2A> attività entrerà in uno stato finale. Generare un errore per un blocco, come con annullamento di un blocco, fa sì che i messaggi memorizzati nel buffer (messaggi di input non elaborati, nonché i messaggi di output unoffered) andrà persa.  
   
  ]]></format>
         </remarks>
@@ -311,7 +319,7 @@
       <MemberSignature Language="C++ CLI" Value=" virtual cli::array &lt;T&gt; ^ System.Threading.Tasks.Dataflow.ISourceBlock&lt;T[]&gt;.ConsumeMessage(System::Threading::Tasks::Dataflow::DataflowMessageHeader messageHeader, System::Threading::Tasks::Dataflow::ITargetBlock&lt;cli::array &lt;T&gt; ^&gt; ^ target, [Runtime::InteropServices::Out] bool % messageConsumed) = System::Threading::Tasks::Dataflow::ISourceBlock&lt;cli::array &lt;T&gt; ^&gt;::ConsumeMessage;" />
       <MemberType>Method</MemberType>
       <Implements>
-        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)</InterfaceMember>
+        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Dataflow</AssemblyName>
@@ -326,7 +334,7 @@
       <Parameters>
         <Parameter Name="messageHeader" Type="System.Threading.Tasks.Dataflow.DataflowMessageHeader" />
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;T[]&gt;" />
-        <Parameter Name="messageConsumed" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="messageConsumed" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="messageHeader">
@@ -341,7 +349,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Solo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegata a questo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza potrebbe utilizzare [ISourceBlock ( T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A >, e deve essere utilizzata solo per [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > istanze in precedenza offerti da questa origine alla destinazione.  
+ Solo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegate a questo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza potrebbe utilizzare [ISourceBlock ( T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A >, e deve essere usato solo per utilizzare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > istanze offerto in precedenza da questa origine alla destinazione.  
   
  ]]></format>
         </remarks>
@@ -383,7 +391,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Solo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegata a questo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza può utilizzare `ReleaseReservation` , e deve essere usato solo per rilasciare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > le istanze in precedenza che è state riservate dalla destinazione.  
+ Solo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegate a questo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza potrebbe utilizzare `ReleaseReservation` , e deve essere usato solo per rilasciare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > istanze riservate correttamente e in precedenza dalla destinazione.  
   
  ]]></format>
         </remarks>
@@ -428,11 +436,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Solo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegata a questo [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza potrebbe utilizzare [ISourceBlock ( T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A >, e deve essere utilizzato solo per riservare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > istanze in precedenza offerti da questa origine alla destinazione.  
+ Solo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ITargetBlock%601 > istanze collegate a questo [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ISourceBlock%601 > istanza potrebbe utilizzare [ISourceBlock ( T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A >, e deve essere usato solo per prenotare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader > istanze offerto in precedenza da questa origine alla destinazione.  
   
- Se `true` viene restituito, il [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ITargetBlock%601 > necessario successivamente chiamare [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601. ConsumeMessage % 2A > o [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A > per questo messaggio. In caso contrario, può comportare l'origine in grado di propagare eventuali altri messaggi a questo o altre destinazioni.  
+ Se `true` viene restituito, il [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ITargetBlock%601 > necessario successivamente chiamare [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ISourceBlock%601. ConsumeMessage % 2A > o [ISourceBlock (T\<XRef:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A > per questo messaggio. In caso contrario, può comportare l'origine sia in grado di propagare a questo o altri obiettivi di ulteriori messaggi.  
   
- [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A > non deve essere chiamato quando la destinazione è presente alcun blocco interno. In questo modo verrà violare la gerarchia di blocchi necessaria per evitare deadlock in una rete del flusso di dati.  
+ [ISourceBlock (T\<xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A > non deve essere chiamato quando la destinazione è presente alcun blocco interno. In questo modo verrà violare la gerarchia di blocchi necessaria per evitare i deadlock in una rete del flusso di dati.  
   
  ]]></format>
         </remarks>
@@ -535,9 +543,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- In modalità greedy, verrà generato un batch dagli elementi in coda anche se esistono meno rispetto alla dimensione di batch.  
+ In modalità greedy, verrà generato un batch dagli elementi in coda anche in presenza di un numero inferiore rispetto alla dimensione di batch.  
   
- In modalità non greedy, un batch verrà generato in modo asincrono dagli elementi posticipati anche se gli elementi di un numero inferiore a quella specificata per la dimensione di batch possono essere utilizzati.  
+ In modalità non greedy, un batch verrà generato in modo asincrono dagli elementi posposti anche se possono essere utilizzati elementi minore rispetto a quella specificata per la dimensione del batch.  
   
  ]]></format>
         </remarks>
@@ -563,7 +571,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="filter" Type="System.Predicate&lt;T[]&gt;" />
-        <Parameter Name="item" Type="T[]&amp;" RefType="out" />
+        <Parameter Name="item" Type="T[]" RefType="out" />
       </Parameters>
       <Docs>
         <param name="filter">Il predicato che un valore che passare correttamente affinché venga ricevuto.  <c>filter</c> può essere <see langword="null" />, nel qual caso tutti gli elementi passeranno.</param>
@@ -577,7 +585,7 @@
 ## Remarks  
  Questo metodo non blocca in attesa per l'origine fornire un elemento.  
   
- Verrà restituito dopo aver controllato per un elemento, un elemento è disponibile o meno.  
+ Verrà restituito dopo il controllo per un elemento, se un elemento era disponibile.  
   
  ]]></format>
         </remarks>
@@ -602,7 +610,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T[]&gt;&amp;" RefType="out" />
+        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T[]&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="items">Elementi ricevuto dall'origine.</param>
@@ -615,7 +623,7 @@
 ## Remarks  
  Questo metodo non blocca in attesa per l'origine fornire un elemento.  
   
- Verrà restituito dopo aver controllato per gli elementi, un elemento è disponibile o meno.  
+ Verrà restituito dopo il controllo per gli elementi, se un elemento era disponibile.  
   
  ]]></format>
         </remarks>
