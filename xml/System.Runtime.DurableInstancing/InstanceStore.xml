@@ -1,11 +1,11 @@
 <Type Name="InstanceStore" FullName="System.Runtime.DurableInstancing.InstanceStore">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d14fb4c0552691179d47eb6e214410054e826b0f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="8972e8c961043629bb8c0c72a45e02d752733a77" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36540126" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39993463" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class InstanceStore" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit InstanceStore extends System.Object" />
@@ -32,7 +32,7 @@
  È possibile che i provider di persistenza effettuino la chiamata a InstanceHandle.Free sugli handle passati a TryCommand anche dopo il completamento dell'esecuzione del comando. I provider di persistenza non devono tuttavia contenere riferimenti complessi all'oggetto InstanceHandle o InstanceOwner, poiché ciò potrebbe impedire la raccolta di InstanceStore nel Garbage Collector.  
   
 > [!WARNING]
->  Impossibile modificare le definizioni del flusso di lavoro per i flussi di lavoro persistente. Se una definizione del flusso di lavoro viene modificata dopo questo viene reso persistente, il runtime del flusso di lavoro viene interrotta quando il flusso di lavoro viene ricaricata più volte.  
+>  Impossibile modificare le definizioni del flusso di lavoro per i flussi di lavoro persistente. Se una definizione del flusso di lavoro viene modificata dopo che viene resa persistente, il runtime del flusso di lavoro viene interrotta quando il flusso di lavoro viene ricaricato.  
   
  ]]></format>
     </remarks>
@@ -132,7 +132,7 @@
  Se il comando può essere eseguito, il provider di persistenza chiamerà i metodi pertinenti su InstancePersistenceContext per fornire i risultati del comando.  
   
 > [!WARNING]
->  Anche se questo metodo è dichiarato come `virtual` anziché `abstract`, non vi è Nessuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
+>  Anche se questo metodo viene dichiarato come `virtual` anziché `abstract`, non vi è alcuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
   
  ]]></format>
         </remarks>
@@ -289,6 +289,14 @@
         <AssemblyName>System.Runtime.DurableInstancing</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>set: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.DurableInstancing.InstanceOwner</ReturnType>
       </ReturnValue>
@@ -304,7 +312,7 @@
  Quando non è più necessaria, la proprietà DefaultInstanceOwner deve essere impostata su null. Se DefaultInstanceOwner non è null, gli oggetti InstanceStore potrebbero non venire raccolti nel Garbage Collector.  
   
 > [!WARNING]
->  Anche se questo metodo è dichiarato come `virtual` anziché `abstract`, non vi è Nessuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
+>  Anche se questo metodo viene dichiarato come `virtual` anziché `abstract`, non vi è alcuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
   
  ]]></format>
         </remarks>
@@ -370,7 +378,7 @@
 ## Remarks  
   
 > [!WARNING]
->  Anche se questo metodo è dichiarato come `virtual` anziché `abstract`, non vi è Nessuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
+>  Anche se questo metodo viene dichiarato come `virtual` anziché `abstract`, non vi è alcuna implementazione. Questo metodo deve essere sostituito per fornire funzionalità.  
   
  ]]></format>
         </remarks>
@@ -434,9 +442,9 @@
  Un host chiama il metodo <xref:System.Runtime.DurableInstancing.InstanceStore.Execute%2A> per eseguire un comando di persistenza su un handle di istanza, che l'host ottiene richiamando il metodo <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A>. L'handle di istanza può essere associato a entità che rappresentano il contesto e l'oggetto del comando, ad esempio un'istanza, un proprietario di istanza o un blocco di istanza.  Su un handle di istanza è possibile eseguire solo un comando alla volta.  
   
 > [!WARNING]
->  Se questo metodo viene eseguito con un <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, verrà creato un <xref:System.Runtime.DurableInstancing.InstanceOwner> e associarlo all'istanza. Ciò significa che nessun altro processo sarà in grado di accedere a tale flusso di lavoro. Se il processo termina, il flusso di lavoro non è possibile recuperato o eseguita. Se un flusso di lavoro viene eseguito nuovamente, un <xref:System.Runtime.DurableInstancing.InstanceLockedException> verrà generata.  
+>  Se questo metodo viene eseguito con un <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, verrà creato un <xref:System.Runtime.DurableInstancing.InstanceOwner> e associarlo all'istanza. Ciò significa che nessun altro processo sarà in grado di accedere a tale flusso di lavoro. Se il processo termina, il flusso di lavoro non può essere recuperato o eseguito. Se un flusso di lavoro viene eseguita anche in questo caso un <xref:System.Runtime.DurableInstancing.InstanceLockedException> verrà generata.  
 >   
->  Se <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> non è utilizzato, l'archivio di istanze verrà creata una password temporanea <xref:System.Runtime.DurableInstancing.InstanceOwner> che verranno eliminati alla fine del processo. Tuttavia, se il processo termina prima di punto di persistenza finale del flusso di lavoro, questa eccezione verrà generata, a meno che il periodo di tempo specificato nella **HostLockRenewalPeriod** parametro è scaduto.  
+>  Se <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> non è usato, l'archivio di istanze verrà creata una variabile temporanea <xref:System.Runtime.DurableInstancing.InstanceOwner> che verranno eliminati al termine del processo. Tuttavia, se il processo termina prima punto finale della persistenza del flusso di lavoro, questa eccezione verrà generata, a meno che il periodo di tempo specificato nella **HostLockRenewalPeriod** parametro è scaduto.  
   
  ]]></format>
         </remarks>
