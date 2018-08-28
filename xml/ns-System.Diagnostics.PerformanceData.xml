@@ -1,10 +1,10 @@
 <Namespace Name="System.Diagnostics.PerformanceData">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="8813c8ce03149b4c97305ad0ee10d1cdd88ce604" />
-    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/14/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="34173737" />
   </Metadata>
   <Docs>
@@ -13,47 +13,47 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le classi in questo spazio dei nomi supportano la nuova architettura (versione 2.0) per i contatori delle prestazioni che è stata introdotta in Windows Vista. Nella nuova architettura, il provider non risponde alle richieste consumer direttamente, ma gestisce semplicemente i dati del contatore. Il sistema inserisce un thread nel processo del provider quando il provider crea un'istanza dell'insieme di contatori; il thread è responsabile per la gestione delle richieste di consumer.  
+ Le classi in questo spazio dei nomi supportano la nuova architettura (versione 2.0) per i contatori delle prestazioni che è stata introdotta in Windows Vista. Nella nuova architettura, il provider non risponde più alle richieste consumer direttamente, ma gestisce semplicemente i dati del contatore. Il sistema inserisce un thread nel processo del provider quando il provider crea un'istanza dell'insieme di contatori; il thread è responsabile della gestione delle richieste di consumer.  
   
- I passaggi seguenti viene illustrato il processo per la scrittura di un provider dei contatori.  
+ La procedura seguente illustra il processo per la scrittura di un provider di contatori.  
   
-1.  I contatori che fornisce il provider è definito in un manifesto basato su XML. I contatori vengono raggruppati logicamente in insiemi di contatori. I contatori all'interno di un insieme di contatori sono identificati da un identificatore numerico univoco all'interno del set di contatori. Un provider è possibile definire uno o più insiemi di contatori. Un insieme di contatori è identificato da un Guid univoco per un provider. Si noti che se si utilizzano queste classi per scrivere un provider:  
+1.  I contatori che fornisce il provider è definito in un manifesto basato su XML. I contatori vengono raggruppati logicamente in insiemi di contatori. I contatori all'interno di un insieme di contatori sono identificati da un identificatore numerico univoco all'interno del set di contatori. Un provider può definire uno o più insiemi di contatori. Un insieme di contatori è identificato da un Guid univoco per un provider. Si noti che se si usano queste classi per scrivere un provider:  
   
     -   L'attributo di callback dell'elemento del provider viene ignorato.  
   
     -   Il valore di riferimento per l'attributo name dell'elemento counterAttribute viene ignorato.  
   
-     Per informazioni dettagliate sulla scrittura del manifesto, vedere [Schema contatori prestazioni](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx).  
+     Per informazioni dettagliate sulla scrittura del manifesto, vedere [Schema di contatori delle prestazioni](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx).  
   
-2.  Dopo aver scritto il manifesto, utilizzare il [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) strumento per la compilazione (ctrpp provider). Lo strumento genera quattro file:. h, c,. rc, e * _r.h. È possibile ignorare i file con estensione h e c. Il file RC contiene le stringhe localizzate definite nel manifesto. I file RC e *_r.h usati per creare il file di risorse compilato (con estensione res) inclusi nel progetto. La chiamata seguente viene illustrato come compilare il file di risorse:  
+2.  Dopo aver scritto il manifesto, usare il [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) dello strumento per la compilazione (ctrpp provider). Lo strumento genera quattro file:. h, c,. rc, e * _r.h. È possibile ignorare i file con estensione h e c. Il file RC contiene le stringhe localizzate definite nel manifesto. Si usano i file con estensione RC e *_r.h per creare il file di risorse compilato (con estensione res) incluso nel progetto. La chiamata seguente viene illustrato come compilare il file di risorse:  
   
     ```console  
     rc /r /i "c:\Program Files\Microsoft SDKs\Windows\v6.0\Include" provider.rc  
     ```  
   
-     Se si verifica un errore che fa riferimento a SAL, copiare questo file da Microsoft Visual Studio, Visual C# includere la directory per la directory specificata per l'opzione /i.  
+     Se si verifica un errore che fa riferimento a SAL, copiare questo file di Microsoft Visual Studio, Visual C# includono directory per la directory specificata per lo switch /i.  
   
      Aggiungere un percorso del file di risorse compilato (con estensione res) alla pagina delle proprietà del progetto dell'applicazione.  
   
-3.  Scrivere un provider. I passaggi seguenti mostrano le chiamate effettuate da un provider:  
+3.  Scrivere un provider. La procedura seguente illustra le chiamate effettuate da un provider:  
   
     1.  Chiamare il <xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType> costruttore per definire l'insieme di contatori. Chiamare questo metodo per ogni insieme di contatori definito nel manifesto.  
   
-    2.  Per ogni insieme di contatori, chiamare uno del <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> metodi per aggiungere i contatori all'insieme. Chiamare questo metodo per ogni contatore definito nell'insieme di contatori.  
+    2.  Per ogni insieme di contatori, chiamare uno del <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> metodi per aggiungere i contatori all'insieme. Chiamare questo metodo per ciascun contatore definiti nel set di contatori.  
   
-    3.  Chiamare il <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> metodo per creare un'istanza dell'insieme di contatori (un'istanza contiene i dati del contatore). Per gli insiemi di contatori singola istanza, chiamare questo metodo una volta. Per più insiemi di contatori di istanza, chiamare questo metodo per ogni istanza per cui è necessario fornire i dati dei contatori (utilizzare un nome univoco per ogni istanza).  
+    3.  Chiamare il <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> metodo per creare un'istanza dell'insieme di contatori (un'istanza contiene i dati del contatore). Per gli insiemi di contatori singola istanza, chiamare questo metodo una volta. Per più insiemi di contatori di istanza, chiamare questo metodo per ogni istanza per il quale è necessario fornire i dati dei contatori (usare un nome univoco per ogni istanza).  
   
-    4.  Utilizzare il <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> proprietà per accedere e impostare i dati dei contatori per il contatore.  
+    4.  Usare il <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> proprietà per accedere e impostare i dati dei contatori per il contatore.  
   
-4.  Dopo aver completato il provider, utilizzare lo strumento LodCtr per registrare i contatori nel computer. Ad esempio,  
+4.  Dopo aver completato il provider, usare lo strumento LodCtr per registrare i contatori nel computer. Ad esempio,  
   
     ```console  
     lodctr /m:provider.man  
     ```  
   
-     Si presuppone che il manifesto e il file eseguibile siano nella directory corrente. Per informazioni dettagliate sull'utilizzo di LodCtr, vedere [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
+     Nell'esempio si presuppone che il manifesto e file eseguibile si trovano nella directory corrente. Per informazioni dettagliate sull'utilizzo di LodCtr, vedere [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
   
- È possibile utilizzare le classi in questo spazio dei nomi nei computer che eseguono di Windows Vista e sistemi operativi successivi.  
+ È possibile usare le classi in questo spazio dei nomi nei computer che eseguono Windows Vista e sistemi operativi successivi.  
   
    
   
@@ -160,7 +160,7 @@
 </instrumentationManifest>  
 ```  
   
- Di seguito viene illustrato una semplice implementazione del provider per il manifesto:  
+ Di seguito viene illustrata un'implementazione di un provider semplice per il manifesto:  
   
 ```cs  
 using System.Diagnostics.PerformanceData;  
