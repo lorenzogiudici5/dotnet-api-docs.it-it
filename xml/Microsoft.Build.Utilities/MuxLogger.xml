@@ -1,10 +1,10 @@
 <Type Name="MuxLogger" FullName="Microsoft.Build.Utilities.MuxLogger">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="a7f638e1c6b08a849c703c09d7ece293bb979d2a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36732745" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MuxLogger : Microsoft.Build.Framework.INodeLogger" />
@@ -26,44 +26,46 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Rappresenta un logger di multiplexing. Lo scopo di questo logger è di eseguire e annullare la registrazione dei logger più durante la compilazione. Supporta lo scenario IDE di Visual Studio in cui i logger vengono registrati e annullati per la richiesta di compilazione di ogni sistema di progetto. Una compilazione fisica può avere più compilazioni logiche, ciascuna dotata di un set di logger.  L'elemento <see langword="MuxLogger" /> è registrato con il gestore di compilazione come logger di stile centrale /l normale. Riceve messaggi dal gestore compilazioni e li indirizza al logger corretto, in base alla compilazione logica da cui è provenuto il messaggio.</summary>
+    <summary>Rappresenta un logger di multiplexing. Lo scopo di questo logger è di eseguire e annullare la registrazione dei logger più durante la compilazione. Supporta lo scenario IDE di Visual Studio in cui i logger vengono registrati e annullati per la richiesta di compilazione di ogni sistema di progetto. Una compilazione fisica può avere più compilazioni logiche, ciascuna dotata di un set di logger.  
+  
+L'elemento <see langword="MuxLogger" /> è registrato con il gestore di compilazione come logger di stile centrale /l normale. Riceve messaggi dal gestore compilazioni e li indirizza al logger corretto, in base alla compilazione logica da cui è provenuto il messaggio.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `MuxLogger` in genere funziona nel modo seguente:  
+ Il `MuxLogger` in genere funzioni come indicato di seguito:  
   
--   Il `MuxLogger` viene registrato all'inizio della compilazione iniziale del gestore compilazioni.  
+-   Il `MuxLogger` viene registrato all'inizio della compilazione di inizio del gestore della compilazione.  
   
-     Tutti i logger registrati prima dell'avvio della compilazione al gestore compilazioni ottenere l'evento avviato compilazione nello stesso momento come il `MuxLogger`.  
+     Tutti i logger registrati prima che il gestore di compilazione viene avviata la compilazione di ottenere l'evento avviato nello stesso momento come il `MuxLogger`.  
   
-     Qualsiasi logger registrato dopo la compilazione di avvio al gestore compilazioni Ottiene un evento di compilazione avviata sintetizzato. L'evento non può essere memorizzato nella cache perché il timestamp dell'evento di compilazione avviata viene determinato quando viene creato l'evento e la memorizzazione nella cache l'evento concederebbe ai tempi di compilazione non corretto nel logger registrato per il `MuxLogger`.  
+     Tutti i logger registrati dopo che il gestore di compilazione viene avviata la compilazione ottenere un evento avviato sintetizzato. L'evento non può essere memorizzato nella cache perché il timestamp dell'evento di compilazione avviata viene determinato quando viene creato l'evento e la memorizzazione nella cache l'evento darebbe tempi di compilazione non corretta nei logger registrati del `MuxLogger`.  
   
--   Il `MuxLogger` viene inizializzata per la gestione di compilazione  
+-   Il `MuxLogger` viene inizializzato tramite il gestore di compilazione  
   
-     Il `MuxLogger` ascolta a tutti gli eventi per l'origine evento dal gestore compilazioni e lo indirizza gli eventi correttamente per il logger registrati.  
+     Il `MuxLogger` rimane in ascolto per tutti gli eventi sull'origine dell'evento dal gestore compilazioni e indirizza gli eventi in modo corretto per i logger registrati.  
   
 -   Il `MuxLogger` viene arrestato al termine della compilazione nella build finale. A questo punto, Annulla la registrazione di tutti i logger collegati a esso.  
   
--   Il `MuxLogger` registra l'evento di compilazione terminata quando l'evento progetto completato per il primo evento di avvio al progetto viene visualizzato per ogni logger.  
+-   Il `MuxLogger` registra l'evento di compilazione-operazione terminata quando l'evento progetto completato per il primo evento di avvio al progetto non viene visualizzato per ogni logger.  
   
  Il `MuxLogger` registra i logger nel modo seguente:  
   
-1.  Il logger è passato per il `MuxLogger.RegisterLogger` metodo con un ID di invio che consente di indirizzare un messaggio a logger.  
+1.  Il logger viene passato per il `MuxLogger.RegisterLogger` metodo con un ID di invio che consente di indirizzare un messaggio al logger.  
   
-2.  Il `MuxLogger` registra il logger per il `MuxLogger` origine evento.  
+2.  Il `MuxLogger` registra il logger per la `MuxLogger` origine evento.  
   
-3.  Se l'evento avviato compilazione è già stato registrato, il `MuxLogger` crea un nuovo evento di compilazione avviata e lo invia all'origine evento del logger.  
+3.  Se è già stato registrato l'evento avviato, il `MuxLogger` crea un nuovo evento di compilazione avviata e li invia all'origine evento del logger.  
   
- Il `MuxLogger` Annulla la registrazione di logger nel modo seguente:  
+ Il `MuxLogger` Annulla la registrazione dei logger nel modo seguente:  
   
-1.  Quando viene completato un inoltro di compilazione, il `MuxLogger.UnregisterLogger` metodo viene chiamato con l'ID di invio per il logger.  
+1.  Quando viene completato un invio della compilazione, il `MuxLogger.UnregisterLogger` metodo viene chiamato con l'ID di invio per il logger.  
   
-2.  Il `MuxLogger` Cerca lo stato di esito positivo dell'evento progetto completato per l'ID di invio e registra un evento di compilazione-è stata completata per il logger.  
+2.  Il `MuxLogger` Cerca lo stato di esito positivo dell'evento di progetto completato per l'ID di invio e registra un evento di compilazione-è stata completata nel logger.  
   
-3.  Il `MuxLogger` Pulisce l'origine evento.  
+3.  Il `MuxLogger` Pulisce l'origine dell'evento.  
   
-     Si noti che l'annullamento della registrazione proviene da un thread diverso da quello di registrazione e un problema di sincronizzazione può verificarsi se l'annullamento della registrazione viene chiamato durante gli eventi vengono registrati.  
+     Si noti che l'annullamento della registrazione proviene da un thread diverso da quello della registrazione e un problema di sincronizzazione può verificarsi se l'annullamento della registrazione viene chiamato mentre vengono registrati gli eventi.  
   
  ]]></format>
     </remarks>
