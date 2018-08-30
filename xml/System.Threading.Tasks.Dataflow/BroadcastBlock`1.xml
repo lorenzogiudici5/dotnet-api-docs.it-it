@@ -1,10 +1,10 @@
 <Type Name="BroadcastBlock&lt;T&gt;" FullName="System.Threading.Tasks.Dataflow.BroadcastBlock&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="668cfb9c5a1215cc037a527651c487e2ab185360" />
-    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
     <Meta Name="ms.locfileid" Value="39811467" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BroadcastBlock&lt;T&gt; : System.Threading.Tasks.Dataflow.IPropagatorBlock&lt;T,T&gt;, System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
@@ -324,7 +324,9 @@
         <param name="messageConsumed">
           <see langword="true" /> se il messaggio è stato consumato con esito positivo, <see langword="false" /> in caso contrario.</param>
         <summary>Chiamato da un <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> collegato per accettare e utilizzare <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> precedentemente offerto da questo <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" />.</summary>
-        <returns>Valore del messaggio utilizzato. Questo valore può corrispondere a un'istanza diversa di <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> in precedenza riservata e passata come <paramref name="messageHeader" /> a <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. L'oggetto <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> che usa le risorse deve utilizzare il valore restituito al posto del valore passato come <paramref name="messageValue" /> con <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  se il messaggio richiesto non è disponibile, il valore restituito sarà <see langword="null" />.</returns>
+        <returns>Valore del messaggio utilizzato. Questo valore può corrispondere a un'istanza diversa di <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> in precedenza riservata e passata come <paramref name="messageHeader" /> a <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. L'oggetto <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> che usa le risorse deve utilizzare il valore restituito al posto del valore passato come <paramref name="messageValue" /> con <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  
+  
+se il messaggio richiesto non è disponibile, il valore restituito sarà <see langword="null" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -461,9 +463,17 @@
           <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" /> che offre il messaggio. Può assumere valore Null.</param>
         <param name="consumeToAccept">Impostare su <see langword="true" /> per indicare alla destinazione di chiamare <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> in modo sincrono durante la chiamata a <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />, prima di restituire <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> per eseguire il messaggio.</param>
         <summary>Offre un messaggio al <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> e fornisce alla destinazione la possibilità di utilizzare o posticipare il messaggio.</summary>
-        <returns>Stato del messaggio offerto. Se il messaggio è stato accettato dalla destinazione, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> e l'origine non deve più utilizzare il messaggio offerto, in quanto è ora di proprietà della destinazione. Se il messaggio è stato posticipato dal database di destinazione, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> viene restituito come notifica relativa alla destinazione che potrebbe successivamente tentare di utilizzare o prenotare il messaggio. Allo stesso tempo, l'origine ancora possiede ancora il messaggio e potrebbe offrirlo ad altri blocchi.  Se la destinazione avesse posticipato il messaggio ma <paramref name="source" /> era <see langword="null" />, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />.  Se la destinazione ha provato ad accettare il messaggio ma non ci è riuscito a causa della consegna di origine del messaggio a un'altra destinazione o semplicemente perché è stato eliminato, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" />.  Se il database di destinazione ha scelto di non accettare il messaggio, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />. Se la destinazione ha scelto di non accettare il messaggio e non accetterà un altro messaggio da questa origine, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" />.</returns>
+        <returns>Stato del messaggio offerto. Se il messaggio è stato accettato dalla destinazione, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> e l'origine non deve più utilizzare il messaggio offerto, in quanto è ora di proprietà della destinazione. Se il messaggio è stato posticipato dal database di destinazione, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> viene restituito come notifica relativa alla destinazione che potrebbe successivamente tentare di utilizzare o prenotare il messaggio. Allo stesso tempo, l'origine ancora possiede ancora il messaggio e potrebbe offrirlo ad altri blocchi.  
+  
+Se la destinazione avesse posticipato il messaggio ma <paramref name="source" /> era <see langword="null" />, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />.  
+  
+Se la destinazione ha provato ad accettare il messaggio ma non ci è riuscito a causa della consegna di origine del messaggio a un'altra destinazione o semplicemente perché è stato eliminato, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" />.  
+  
+Se il database di destinazione ha scelto di non accettare il messaggio, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" />. Se la destinazione ha scelto di non accettare il messaggio e non accetterà un altro messaggio da questa origine, viene restituito <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" />.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentException">L'elemento <paramref name="messageHeader" /> non è valido.  - oppure - <paramref name="consumeToAccept" /> può essere true solo se viene specificato con un elemento <paramref name="source" /> diverso da Null.</exception>
+        <exception cref="T:System.ArgumentException">L'elemento <paramref name="messageHeader" /> non è valido.  
+  
+- oppure - <paramref name="consumeToAccept" /> può essere true solo se viene specificato con un elemento <paramref name="source" /> diverso da Null.</exception>
       </Docs>
     </Member>
     <Member MemberName="ToString">

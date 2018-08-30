@@ -1,11 +1,11 @@
 <Type Name="Mutex" FullName="System.Threading.Mutex">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="092df8a132c6280f7c2111bcb3ab0226334bc0f4" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="275d99adffc9c04d2d1d3561f11aa937737aa2d3" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407054" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39811879" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Mutex : System.Threading.WaitHandle" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit Mutex extends System.Threading.WaitHandle" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,57 +36,57 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>A synchronization primitive that can also be used for interprocess synchronization.</summary>
+    <summary>Primitiva di sincronizzazione che può essere utilizzata anche per la sincronizzazione interprocesso.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando due o più thread necessario accedere a una risorsa condivisa nello stesso momento, il sistema è necessario un meccanismo di sincronizzazione per assicurarsi che un solo thread alla volta usi la risorsa. <xref:System.Threading.Mutex> è una sincronizzazione primitiva che concede l'accesso esclusivo per la risorsa condivisa a un solo thread. Se un thread acquisisce un mutex, il secondo thread che vuole acquisire il mutex viene sospesa fino a quando il primo thread rilascia il mutex.  
+ Quando due o più thread devono accedere a una risorsa condivisa allo stesso tempo, il sistema deve un meccanismo di sincronizzazione per garantire che un solo thread alla volta utilizza la risorsa. <xref:System.Threading.Mutex> è una sincronizzazione primitivi che concede l'accesso esclusivo alla risorsa condivisa su un solo thread. Se un thread acquisisce un mutex, il secondo thread che vuole acquisire il mutex viene sospeso fino a quando il primo thread rilascia la mutex.  
   
 > [!IMPORTANT]
->  Questo tipo implementa la <xref:System.IDisposable> interfaccia. Dopo aver utilizzato il tipo, è necessario eliminarlo direttamente o indirettamente. Per eliminare direttamente il tipo, chiamare il relativo <xref:System.IDisposable.Dispose%2A> metodo in un `try` / `catch` blocco. Per eliminarlo indirettamente, utilizzare un costrutto di linguaggio come ad esempio `using` in C# o `Using` in Visual Basic. Per altre informazioni, vedere la sezione "Utilizzo di oggetti che implementano IDisposable" nel <xref:System.IDisposable> argomento relativo all'interfaccia.  
+>  Questo tipo implementa la <xref:System.IDisposable> interfaccia. Dopo aver utilizzato il tipo, è necessario eliminarlo direttamente o indirettamente. Per eliminare il tipo direttamente, chiamare relativi <xref:System.IDisposable.Dispose%2A> metodo in un `try` / `catch` blocco. Per eliminarlo indirettamente, utilizzare un costrutto di linguaggio come ad esempio `using` in C# o `Using` in Visual Basic. Per altre informazioni, vedere la sezione "Utilizzo di oggetti che implementano IDisposable" nel <xref:System.IDisposable> argomento relativo all'interfaccia.  
   
- È possibile utilizzare il <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> metodo che richiede la proprietà di un mutex. Il chiamante thread si blocca fino a quando non si verifica una delle operazioni seguenti:  
+ È possibile usare il <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> metodo per richiedere la proprietà di un mutex. Il thread chiamante si bloccherà fino a quando non si verifica una delle operazioni seguenti:  
   
--   Il mutex viene segnalato per indicare che il proprietario. In questo caso, il <xref:System.Threading.WaitHandle.WaitOne%2A> metodo `true`, e il thread chiamante diventa il proprietario del mutex e accede a risorse protette dal mutex. Quando ha terminato l'accesso alla risorsa, il thread è necessario chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo per rilasciare la proprietà del mutex. Il primo esempio nella sezione esempi viene illustrato questo modello.  
+-   Il mutex viene segnalato per indicare che il proprietario. In questo caso, il <xref:System.Threading.WaitHandle.WaitOne%2A> restituzione del metodo `true`, e il thread chiamante diventa il proprietario del mutex e accede alla risorsa protetta dal mutex. Dopo aver terminato l'accesso alla risorsa, il thread deve chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo per rilasciare la proprietà del mutex. Il primo esempio nella sezione esempi illustra il modello.  
   
--   L'intervallo di timeout specificato nella chiamata a un <xref:System.Threading.WaitHandle.WaitOne%2A> metodo con un `millisecondsTimeout` o `timeout` è trascorso il parametro. In questo caso, il <xref:System.Threading.WaitHandle.WaitOne%2A> metodo `false`, e il thread chiamante non effettua altri tentativi di acquisire la proprietà del mutex. In questo caso, è consigliabile strutturare il codice in modo che nel thread chiamante viene negato l'accesso alla risorsa che protette dal mutex. Perché il thread non acquisito mai la proprietà del mutex, non deve chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo. Questo modello è illustrato nel secondo esempio nella sezione esempi.  
+-   L'intervallo di timeout specificato nella chiamata a un <xref:System.Threading.WaitHandle.WaitOne%2A> metodo con un `millisecondsTimeout` o `timeout` parametro è trascorso. In questo caso, il <xref:System.Threading.WaitHandle.WaitOne%2A> restituzione del metodo `false`, e il thread chiamante non effettua altri tentativi di acquisire la proprietà del mutex. In questo caso, è necessario strutturare il codice in modo che il thread chiamante viene negato l'accesso alla risorsa protetta dal mutex. Perché il thread mai acquisito la proprietà del mutex, non deve chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo). Questo modello è illustrato nel secondo esempio nella sezione esempi.  
   
- Il <xref:System.Threading.Mutex> classe impone l'identità del thread, in modo che un mutex può essere rilasciato solo dal thread che ha acquisito. Al contrario, il <xref:System.Threading.Semaphore> classe non impone l'identità del thread. Un mutex può anche essere passato attraverso i limiti del dominio applicazione.  
+ Il <xref:System.Threading.Mutex> identità del thread, imposto dalla classe in modo che un mutex può essere rilasciato solo dal thread che ha acquisito. Al contrario, il <xref:System.Threading.Semaphore> classe non impone l'identità del thread. Un mutex può essere passato anche attraverso i limiti del dominio applicazione.  
   
- Il thread che possiede un mutex può richiedere lo stesso mutex nelle chiamate ripetute a <xref:System.Threading.WaitHandle.WaitOne%2A> senza bloccare l'esecuzione. Tuttavia, è necessario chiamare il thread di <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo lo stesso numero di volte per rilasciare la proprietà del mutex.  
+ Il thread che possiede un mutex può richiedere lo stesso mutex nelle chiamate ripetute a <xref:System.Threading.WaitHandle.WaitOne%2A> senza interromperne l'esecuzione. Tuttavia, il thread deve chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo di stesso numero di volte per rilasciare la proprietà del mutex.  
   
- Poiché il <xref:System.Threading.Mutex> classe eredita da <xref:System.Threading.WaitHandle>, è inoltre possibile chiamare il metodo statico <xref:System.Threading.WaitHandle.WaitAll%2A?displayProperty=nameWithType> e <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=nameWithType> metodi per sincronizzare l'accesso a una risorsa protetta.  
+ Poiché il <xref:System.Threading.Mutex> classe eredita da <xref:System.Threading.WaitHandle>, è anche possibile chiamare il metodo statico <xref:System.Threading.WaitHandle.WaitAll%2A?displayProperty=nameWithType> e <xref:System.Threading.WaitHandle.WaitAny%2A?displayProperty=nameWithType> metodi per sincronizzare l'accesso a una risorsa protetta.  
   
- Se un thread termina pur proprietario un mutex, il mutex è detto venga abbandonata. Lo stato del mutex è impostato su segnalato, e il successivo thread in attesa Ottiene la proprietà. Partire dalla versione 2.0 di .NET Framework, un <xref:System.Threading.AbandonedMutexException> viene generata nel thread successivo che acquisisce il mutex abbandonato. Prima della versione 2.0 di .NET Framework, è stata generata alcuna eccezione.  
+ Se durante il proprietario di un mutex termina un thread, si dice che il mutex abbandonato. Lo stato del tipo mutex è impostato su segnalato, e il thread d'attesa successivo Ottiene la proprietà. Partire dalla versione 2.0 di .NET Framework, un <xref:System.Threading.AbandonedMutexException> generata nel thread successivo che acquisisce il mutex abbandonato. Prima della versione 2.0 di .NET Framework, è stata generata alcuna eccezione.  
   
 > [!CAUTION]
->  Un mutex abbandonato indica spesso un errore grave nel codice. Quando un thread esce senza rilasciare il mutex, le strutture di dati protette dal mutex non sia in uno stato coerente. Il successivo thread che richiede la proprietà del mutex può gestire questa eccezione e continuare, se è possibile verificare l'integrità delle strutture di dati.  
+>  Un mutex abbandonato indica spesso un errore grave nel codice. Quando un thread termina senza rilasciare il mutex, le strutture di dati protette dal mutex non sia in uno stato coerente. Il thread successivo per richiedere la proprietà del mutex può gestire questa eccezione e continuare, se è possibile verificare l'integrità delle strutture di dati.  
   
  Nel caso di un mutex di sistema, un mutex abbandonato potrebbe indicare che un'applicazione è stata terminata in modo anomalo (ad esempio, usando Gestione attività Windows).  
   
- Sono disponibili due tipi: mutex locali, che sono denominati e non denominati mutex di sistema. Un mutex locale esiste solo all'interno del processo. E può essere utilizzato da qualsiasi thread del processo che contiene un riferimento al <xref:System.Threading.Mutex> oggetto che rappresenta il mutex. Ogni senza nome <xref:System.Threading.Mutex> oggetto rappresenta un mutex locale separato.  
+ Sono disponibili due tipi: i mutex locali, che sono denominati e non denominati mutex di sistema. Un mutex locale esiste solo all'interno del processo. Può essere utilizzato da qualsiasi thread nel processo che dispone di un riferimento al <xref:System.Threading.Mutex> oggetto che rappresenta il mutex. Ogni senza nome <xref:System.Threading.Mutex> oggetto rappresenta un mutex locale separato.  
   
- System sono visibili in tutto il sistema operativo e può essere usato per sincronizzare le attività dei processi, i mutex denominato. È possibile creare un <xref:System.Threading.Mutex> oggetto che rappresenta un mutex di sistema denominato usando un costruttore che accetta un nome. L'oggetto sistema operativo può essere creato nello stesso momento, o può esistere già prima della creazione del <xref:System.Threading.Mutex> oggetto. È possibile creare più oggetti <xref:System.Threading.Mutex> che rappresentano lo stesso mutex di sistema denominato ed è possibile usare il metodo <xref:System.Threading.Mutex.OpenExisting%2A> per aprire un mutex di sistema denominato esistente.  
+ I mutex sono visibili in tutto il sistema operativo e possono essere utilizzati per sincronizzare le attività dei processi di sistema denominati. È possibile creare un <xref:System.Threading.Mutex> oggetto che rappresenta un mutex di sistema denominato usando un costruttore che accetta un nome. L'oggetto di sistema operativo può essere creato nello stesso momento o può esistere già prima della creazione del <xref:System.Threading.Mutex> oggetto. È possibile creare più oggetti <xref:System.Threading.Mutex> che rappresentano lo stesso mutex di sistema denominato ed è possibile usare il metodo <xref:System.Threading.Mutex.OpenExisting%2A> per aprire un mutex di sistema denominato esistente.  
   
 > [!NOTE]
->  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione del server terminal in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se quando si crea un mutex denominato non si specifica un prefisso, questa ha il prefisso "locale\\". All'interno di una sessione di terminal server, due mutex i cui nomi differiscono solo per i relativi prefissi sono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione del server terminal. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" descrivono l'ambito del nome del mutex rispetto alla sessioni di terminal server, non al processi.  
+>  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione di terminal server in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se non si specifica un prefisso quando si crea un mutex denominato, accetta il prefisso "locale\\". All'interno di una sessione di terminal server, i due mutex i cui nomi differiscono solo per i relativi prefissi vengono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione di terminal server. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" viene descritto l'ambito del nome del mutex relativo sessioni di terminal server, non relativo ai processi.  
   
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]
 
   
 ## Examples  
- Questo esempio viene illustrato come locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Poiché ogni thread chiamante è bloccato fino a quando non si acquisisce la proprietà del mutex, è necessario chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo per rilasciare la proprietà del thread.  
+ Questo esempio viene illustrato come una variabile locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Poiché ogni thread chiamante è bloccato fino a quando non viene acquisita la proprietà del mutex, è necessario chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo per rilasciare la proprietà del thread.  
   
  [!code-csharp[System.Threading.Mutex.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Mutex.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example1.vb#1)]  
   
- Nell'esempio seguente, ogni thread chiama il <xref:System.Threading.WaitHandle.WaitOne%28System.Int32%29> metodo per acquisire il mutex. Se l'intervallo di timeout scade, il metodo restituisce `false`, e il thread non acquisisce il mutex né riesce ad accedere alla risorsa consente di proteggere il mutex. Il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo viene chiamato solo dal thread che acquisisce il mutex.  
+ Nell'esempio seguente, ogni thread chiama il <xref:System.Threading.WaitHandle.WaitOne%28System.Int32%29> metodo per acquisire il mutex. Se l'intervallo di timeout scade, il metodo restituisce `false`, e il thread non acquisisce il mutex né riesce ad accedere alla risorsa protegge il mutex. Il <xref:System.Threading.Mutex.ReleaseMutex%2A> viene chiamato solo dal thread che acquisisce il mutex.  
   
  [!code-csharp[System.Threading.Mutex.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example2.cs#2)]
  [!code-vb[System.Threading.Mutex.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example2.vb#2)]  
@@ -104,7 +106,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class.</summary>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName=".ctor">
@@ -123,6 +125,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -131,23 +135,26 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters />
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with default properties.</summary>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" /> con le proprietà predefinite.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamata a questo overload del costruttore equivale a chiamare il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%29> overload del costruttore e specificando `false` per la proprietà iniziale del mutex. Vale a dire, il thread chiamante non è proprietario del mutex.  
+ Chiamare questo overload del costruttore viene chiamata la <xref:System.Threading.Mutex.%23ctor%28System.Boolean%29> overload del costruttore e specificando `false` per la proprietà iniziale del mutex. Vale a dire, il thread chiamante non dispone del mutex.  
   
    
   
 ## Examples  
- Nell'esempio di codice riportato di seguito viene illustrato come locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il mutex non è proprietario viene inizialmente.  
+ Nell'esempio di codice riportato di seguito viene illustrato come una variabile locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il mutex non proprietari inizialmente.  
   
  [!code-cpp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CS/class1.cs#1)]
@@ -174,6 +181,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -182,22 +191,24 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
         <Parameter Name="initiallyOwned" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="initiallyOwned">
-          <see langword="true" /> to give the calling thread initial ownership of the mutex; otherwise, <see langword="false" />.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex.</summary>
+        <param name="initiallyOwned">Viene restituito <see langword="true" /> per concedere al thread chiamante la proprietà iniziale del mutex; in caso contrario, <see langword="false" />.</param>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" /> con un valore booleano che indica se il thread chiamante deve avere la proprietà iniziale del mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- Nell'esempio di codice riportato di seguito viene illustrato come locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il <xref:System.Threading.Mutex> appartiene inizialmente.  
+ Nell'esempio di codice riportato di seguito viene illustrato come una variabile locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il <xref:System.Threading.Mutex> inizialmente lo possiede.  
   
  [!code-cpp[System.Threading.Mutex 1Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 1Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 1Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 1Arg Ctor Example/CS/class1.cs#1)]
@@ -224,6 +235,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -232,8 +245,11 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
@@ -242,34 +258,34 @@
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
-        <param name="name">The name of the <see cref="T:System.Threading.Mutex" />. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, and a string that is the name of the mutex.</summary>
+          <see langword="true" /> per concedere al thread chiamante la proprietà iniziale del mutex di sistema denominato, se questo è stato creato come risultato della chiamata; in caso contrario, <see langword="false" />.</param>
+        <param name="name">Nome di <see cref="T:System.Threading.Mutex" />. Se il valore è <see langword="null" />, l'oggetto <see cref="T:System.Threading.Mutex" /> è senza nome.</param>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" /> con un valore booleano che indica se il thread chiamante deve avere la proprietà iniziale del mutex e con una stringa che rappresenta il nome del mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `name` non è `null` e `initiallyOwned` è `true`, il thread chiamante proprietario del mutex solo se il mutex di sistema denominato è stato creato come risultato di questa chiamata. Poiché non esiste un meccanismo per determinare se è stato creato il mutex di sistema denominato, è consigliabile specificare `false` per `initiallyOwned` quando si chiama l'overload del costruttore. È possibile utilizzare il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%2CSystem.String%2CSystem.Boolean%40%29> costruttore se è necessario determinare la proprietà iniziale.  
+ Se `name` non è `null` e `initiallyOwned` è `true`, il thread chiamante è proprietario del mutex solo se in seguito a questa chiamata è stato creato il mutex di sistema denominato. Poiché non esiste alcun meccanismo per determinare se è stato creato il mutex di sistema denominato, è preferibile specificare `false` per `initiallyOwned` quando si chiamano questo overload del costruttore. È possibile usare il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%2CSystem.String%2CSystem.Boolean%40%29> costruttore se è necessario determinare la proprietà iniziale.  
   
  Questo costruttore inizializza un <xref:System.Threading.Mutex> oggetto che rappresenta un mutex di sistema denominato. È possibile creare più <xref:System.Threading.Mutex> gli oggetti che rappresentano lo stesso mutex di sistema denominato.  
   
- Se il mutex denominato è già stato creato con sicurezza del controllo di accesso e il chiamante non dispone <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per sincronizzare le attività dei thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> metodo.  
+ Se il mutex denominato è già stato creato con controllo degli accessi e il chiamante non ha <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per la sincronizzazione delle attività di thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> (metodo).  
   
  Se si specifica `null` o una stringa vuota per `name`, viene creato un mutex locale, come se fosse stato chiamato il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%29> costruttore. In questo caso `createdNew` è sempre `true`.  
   
- Perché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti di processo.  
+ Poiché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti dei processi.  
   
 > [!NOTE]
->  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione del server terminal in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se quando si crea un mutex denominato non si specifica un prefisso, questa ha il prefisso "locale\\". All'interno di una sessione di terminal server, due mutex i cui nomi differiscono solo per i relativi prefissi sono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione del server terminal. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" descrivono l'ambito del nome del mutex rispetto alla sessioni di terminal server, non al processi.  
+>  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione di terminal server in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se non si specifica un prefisso quando si crea un mutex denominato, accetta il prefisso "locale\\". All'interno di una sessione di terminal server, i due mutex i cui nomi differiscono solo per i relativi prefissi vengono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione di terminal server. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" viene descritto l'ambito del nome del mutex relativo sessioni di terminal server, non relativo ai processi.  
   
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]
 
 ## Examples  
- Nell'esempio seguente viene illustrato come un mutex denominato viene utilizzato per segnalare tra i thread in esecuzione in due processi distinti.  
+ Nell'esempio seguente viene illustrato come usare un mutex denominato per segnalare tra i thread in esecuzione in due processi distinti.  
   
- Eseguire il programma da due o più finestre di comando. Ogni processo crea un <xref:System.Threading.Mutex> oggetto che rappresenta il mutex denominato `MyMutex`. Il mutex denominato è un oggetto di sistema la cui durata è vincolata dalla durata del <xref:System.Threading.Mutex> gli oggetti che rappresentano. Il mutex denominato viene creato quando si crea il primo processo relativo <xref:System.Threading.Mutex> l'oggetto; in questo esempio, il mutex denominato è di proprietà per il primo processo che esegue il programma. Il mutex denominato viene eliminato definitivamente quando tutti i <xref:System.Threading.Mutex> sono stati rilasciati gli oggetti che rappresentano il.  
+ Eseguire il programma da due o più finestre di comando. Ogni processo crea una <xref:System.Threading.Mutex> oggetto che rappresenta il mutex denominato `MyMutex`. Il mutex denominato è un oggetto di sistema la cui durata è dipende dalla durata del <xref:System.Threading.Mutex> gli oggetti che lo rappresentano. Il mutex denominato viene creato quando si crea il primo processo relativo <xref:System.Threading.Mutex> dell'oggetto; in questo esempio, il mutex denominato è di proprietà dal processo prima che l'esecuzione del programma. Il mutex denominato viene eliminato definitivamente quando tutti i <xref:System.Threading.Mutex> sono stati rilasciati gli oggetti che rappresentano lo.  
   
- L'overload del costruttore utilizzato in questo esempio non è possibile indicare il thread chiamante se è stata concessa la proprietà iniziale del mutex denominato. Utilizzare questo costruttore non richiedere la proprietà iniziale a meno che non è possibile essere certi che il thread verrà creato il mutex denominato.  
+ L'overload del costruttore usato in questo esempio non è possibile indicare il thread chiamante se è stata concessa la proprietà iniziale del mutex denominato. È consigliabile non utilizzare questo costruttore per richiedere la proprietà iniziale a meno che non si avrà la certezza che il thread verrà creato il mutex denominato.  
   
  [!code-cpp[System.Threading.Mutex 2Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 2Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 2Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 2Arg Ctor Example/CS/class1.cs#1)]
@@ -277,12 +293,11 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is longer than 260 characters.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste e ha accesso alla sicurezza controllo, ma l'utente non dispone di <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">Il mutex denominato non può essere creato, forse perché un handle di attesa di un tipo diverso ha lo stesso nome.</exception>
+        <exception cref="T:System.ArgumentException">La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -302,6 +317,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -310,42 +327,45 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
         <Parameter Name="initiallyOwned" Type="System.Boolean" />
         <Parameter Name="name" Type="System.String" />
-        <Parameter Name="createdNew" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="createdNew" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
-        <param name="name">The name of the <see cref="T:System.Threading.Mutex" />. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
-        <param name="createdNew">When this method returns, contains a Boolean that is <see langword="true" /> if a local mutex was created (that is, if <c>name</c> is <see langword="null" /> or an empty string) or if the specified named system mutex was created; <see langword="false" /> if the specified named system mutex already existed. This parameter is passed uninitialized.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, and a Boolean value that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex.</summary>
+          <see langword="true" /> per concedere al thread chiamante la proprietà iniziale del mutex di sistema denominato, se questo è stato creato come risultato della chiamata; in caso contrario, <see langword="false" />.</param>
+        <param name="name">Nome di <see cref="T:System.Threading.Mutex" />. Se il valore è <see langword="null" />, l'oggetto <see cref="T:System.Threading.Mutex" /> è senza nome.</param>
+        <param name="createdNew">Quando questo metodo viene restituito, contiene un valore booleano che è <see langword="true" /> se è stato creato un mutex locale (ovvero, se il valore di <c>name</c> è <see langword="null" /> o una stringa vuota) oppure se è stato creato il mutex di sistema denominato specificato. <see langword="false" /> se il mutex di sistema denominato specificato è già esistente. Questo parametro viene passato non inizializzato.</param>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" /> con un valore booleano che indica se il thread chiamante deve avere la proprietà iniziale del mutex, con una stringa che rappresenta il nome del mutex e con un valore booleano che, quando il metodo viene restituito, indichi se al thread chiamante era stata concessa la proprietà iniziale del mutex.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `name` non è `null` e `initiallyOwned` viene `true`, il thread chiamante è proprietario solo se il mutex denominato `createdNew` è `true` dopo la chiamata. In caso contrario, il thread può richiedere il mutex chiamando il <xref:System.Threading.WaitHandle.WaitOne%2A> metodo.  
+ Se `name` non è `null` e `initiallyOwned` viene `true`, il thread chiamante proprietario solo se il mutex denominato `createdNew` è `true` dopo la chiamata. In caso contrario, il thread può richiedere il mutex chiamando il <xref:System.Threading.WaitHandle.WaitOne%2A> (metodo).  
   
  Questo costruttore inizializza un <xref:System.Threading.Mutex> oggetto che rappresenta un mutex di sistema denominato. È possibile creare più <xref:System.Threading.Mutex> gli oggetti che rappresentano lo stesso mutex di sistema denominato.  
   
- Se il mutex denominato è già stato creato con sicurezza del controllo di accesso e il chiamante non dispone <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType> diritti, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per sincronizzare le attività dei thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> metodo.  
+ Se il mutex denominato è già stato creato con controllo degli accessi e il chiamante non ha <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType> diritti, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per la sincronizzazione delle attività di thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> (metodo).  
   
  Se si specifica `null` o una stringa vuota per `name`, viene creato un mutex locale, come se fosse stato chiamato il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%29> costruttore. In questo caso `createdNew` è sempre `true`.  
   
- Perché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti di processo.  
+ Poiché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti dei processi.  
   
 > [!NOTE]
->  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione del server terminal in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se quando si crea un mutex denominato non si specifica un prefisso, questa ha il prefisso "locale\\". All'interno di una sessione di terminal server, due mutex i cui nomi differiscono solo per i relativi prefissi sono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione del server terminal. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" descrivono l'ambito del nome del mutex rispetto alla sessioni di terminal server, non al processi.  
+>  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione di terminal server in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se non si specifica un prefisso quando si crea un mutex denominato, accetta il prefisso "locale\\". All'interno di una sessione di terminal server, i due mutex i cui nomi differiscono solo per i relativi prefissi vengono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione di terminal server. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" viene descritto l'ambito del nome del mutex relativo sessioni di terminal server, non relativo ai processi.  
 
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]   
   
 ## Examples  
- Esempio di codice seguente viene illustrato come un mutex denominato viene utilizzato per la segnalazione tra processi o thread. Eseguire il programma da due o più finestre di comando. Ogni processo crea un <xref:System.Threading.Mutex> oggetto che rappresenta il mutex denominato "MyMutex". Il mutex denominato è un oggetto di sistema. In questo esempio, la relativa durata è vincolata dalla durata del <xref:System.Threading.Mutex> gli oggetti che rappresentano. Il mutex denominato viene creato quando il primo processo crea relativo locale <xref:System.Threading.Mutex> dell'oggetto ed eliminati quando tutti i <xref:System.Threading.Mutex> sono stati rilasciati gli oggetti che rappresentano il. Il primo processo inizialmente appartiene il mutex denominato. Il secondo processo e tutti i processi successivi attendono che i processi precedenti rilasciare il mutex denominato.  
+ Esempio di codice seguente illustra come usare un mutex denominato per segnalare tra processi o thread. Eseguire il programma da due o più finestre di comando. Ogni processo crea un <xref:System.Threading.Mutex> oggetto che rappresenta il mutex denominato "MyMutex". Il mutex denominato è un oggetto di sistema. In questo esempio, la sua durata è dipende dalla durata del <xref:System.Threading.Mutex> gli oggetti che lo rappresentano. Il mutex denominato viene creato durante il primo processo di creazione propria locale <xref:System.Threading.Mutex> dell'oggetto ed eliminati quando tutti i i <xref:System.Threading.Mutex> gli oggetti che rappresentano lo sono stati rilasciati. Il primo processo inizialmente appartiene il mutex denominato. Il secondo processo e tutti i processi successivi attendono i processi precedenti rilasciare il mutex denominato.  
   
  [!code-cpp[System.Threading.Mutex 3Arg Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex 3Arg Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex 3Arg Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex 3Arg Ctor Example/CS/class1.cs#1)]
@@ -353,12 +373,11 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is longer than 260 characters.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste e ha accesso alla sicurezza controllo, ma l'utente non dispone di <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">Il mutex denominato non può essere creato, forse perché un handle di attesa di un tipo diverso ha lo stesso nome.</exception>
+        <exception cref="T:System.ArgumentException">La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -370,62 +389,66 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters>
         <Parameter Name="initiallyOwned" Type="System.Boolean" />
         <Parameter Name="name" Type="System.String" />
-        <Parameter Name="createdNew" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="createdNew" Type="System.Boolean" RefType="out" />
         <Parameter Name="mutexSecurity" Type="System.Security.AccessControl.MutexSecurity" />
       </Parameters>
       <Docs>
         <param name="initiallyOwned">
-          <see langword="true" /> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <see langword="false" />.</param>
-        <param name="name">The name of the system mutex. If the value is <see langword="null" />, the <see cref="T:System.Threading.Mutex" /> is unnamed.</param>
-        <param name="createdNew">When this method returns, contains a Boolean that is <see langword="true" /> if a local mutex was created (that is, if <c>name</c> is <see langword="null" /> or an empty string) or if the specified named system mutex was created; <see langword="false" /> if the specified named system mutex already existed. This parameter is passed uninitialized.</param>
-        <param name="mutexSecurity">A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security to be applied to the named system mutex.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.Mutex" /> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, a Boolean variable that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex, and the access control security to be applied to the named mutex.</summary>
+          <see langword="true" /> per concedere al thread chiamante la proprietà iniziale del mutex di sistema denominato, se questo è stato creato come risultato della chiamata; in caso contrario, <see langword="false" />.</param>
+        <param name="name">Nome del mutex di sistema. Se il valore è <see langword="null" />, l'oggetto <see cref="T:System.Threading.Mutex" /> è senza nome.</param>
+        <param name="createdNew">Quando questo metodo viene restituito, contiene un valore booleano che è <see langword="true" /> se è stato creato un mutex locale (ovvero, se il valore di <c>name</c> è <see langword="null" /> o una stringa vuota) oppure se è stato creato il mutex di sistema denominato specificato. <see langword="false" /> se il mutex di sistema denominato specificato è già esistente. Questo parametro viene passato non inizializzato.</param>
+        <param name="mutexSecurity">Oggetto <see cref="T:System.Security.AccessControl.MutexSecurity" /> che rappresenta la sicurezza del controllo di accesso da applicare al mutex di sistema denominato.</param>
+        <summary>Inizializza una nuova istanza della classe <see cref="T:System.Threading.Mutex" /> con un valore booleano che indica se il thread chiamante deve avere la proprietà iniziale del mutex, con una stringa che rappresenta il nome del mutex, con una variabile Boolean che, quando il metodo viene restituito, indichi se al thread chiamante era stata concessa la proprietà iniziale del mutex e con la sicurezza del controllo di accesso da applicare al mutex denominato.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `name` non è `null` e `initiallyOwned` viene `true`, il thread chiamante è proprietario solo se il mutex denominato `createdNew` è `true` dopo la chiamata. In caso contrario, il thread può richiedere il mutex chiamando il <xref:System.Threading.WaitHandle.WaitOne%2A> metodo.  
+ Se `name` non è `null` e `initiallyOwned` viene `true`, il thread chiamante proprietario solo se il mutex denominato `createdNew` è `true` dopo la chiamata. In caso contrario, il thread può richiedere il mutex chiamando il <xref:System.Threading.WaitHandle.WaitOne%2A> (metodo).  
   
- Utilizzare questo costruttore per applicare un mutex di sistema denominato sicurezza dall'accesso di controllo al momento della creazione, impedendo ad altro codice di assumere il controllo del mutex.  
+ Utilizzare questo costruttore per applicare la sicurezza del controllo di accesso a un mutex di sistema denominato al momento della creazione, impedendo ad altro codice di assumere il controllo del tipo mutex.  
   
  Questo costruttore inizializza un <xref:System.Threading.Mutex> oggetto che rappresenta un mutex di sistema denominato. È possibile creare più <xref:System.Threading.Mutex> gli oggetti che rappresentano lo stesso mutex di sistema denominato.  
   
  Se il mutex di sistema denominato non esiste, viene creato con la sicurezza del controllo di accesso specificato. Se il mutex denominato esiste, la sicurezza del controllo di accesso specificato viene ignorata.  
   
 > [!NOTE]
->  Il chiamante dispone del controllo completo su appena creato <xref:System.Threading.Mutex> oggetto anche se `mutexSecurity` nega o non riesce a concedere alcuni diritti di accesso per l'utente corrente. Tuttavia, se l'utente corrente tenta di ottenere un altro <xref:System.Threading.Mutex> dell'oggetto per rappresentare lo stesso mutex denominato, utilizzando un costruttore o <xref:System.Threading.Mutex.OpenExisting%2A> (metodo), Windows viene applicata la sicurezza del controllo di accesso.  
+>  Il chiamante dispone di controllo completo sull'oggetto appena creato <xref:System.Threading.Mutex> oggetto anche se `mutexSecurity` nega o non riesce a concedere alcuni diritti di accesso per l'utente corrente. Tuttavia, se l'utente corrente tenta di ottenere un'altra <xref:System.Threading.Mutex> per rappresentare lo stesso mutex denominato, usando un costruttore dell'oggetto o il <xref:System.Threading.Mutex.OpenExisting%2A> metodo, viene applicata la sicurezza del controllo di accesso di Windows.  
   
- Se il mutex denominato è già stato creato con sicurezza del controllo di accesso e il chiamante non dispone <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per sincronizzare le attività dei thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> metodo.  
+ Se il mutex denominato è già stato creato con controllo degli accessi e il chiamante non ha <xref:System.Security.AccessControl.MutexRights.FullControl?displayProperty=nameWithType>, viene generata un'eccezione. Per aprire un mutex denominato esistente quando si dispone solo delle autorizzazioni necessarie per la sincronizzazione delle attività di thread, vedere il <xref:System.Threading.Mutex.OpenExisting%2A> (metodo).  
   
  Se si specifica `null` o una stringa vuota per `name`, viene creato un mutex locale, come se fosse stato chiamato il <xref:System.Threading.Mutex.%23ctor%28System.Boolean%29> costruttore. In questo caso `createdNew` è sempre `true`.  
   
- Perché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti di processo.  
+ Poiché sono a livello di sistema, i mutex denominati è utilizzabile per coordinare l'utilizzo delle risorse attraverso i limiti dei processi.  
   
 > [!NOTE]
->  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione del server terminal in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se quando si crea un mutex denominato non si specifica un prefisso, questa ha il prefisso "locale\\". All'interno di una sessione di terminal server, due mutex i cui nomi differiscono solo per i relativi prefissi sono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione del server terminal. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" descrivono l'ambito del nome del mutex rispetto alla sessioni di terminal server, non al processi.  
+>  In un server che esegue Servizi Terminal, un mutex di sistema denominato può avere due livelli di visibilità. Se il nome inizia con il prefisso "Global\\", il mutex è visibile in tutte le sessioni di terminal server. Se il nome inizia con il prefisso "locale\\", il mutex è visibile solo nella sessione di terminal server in cui è stato creato. In tal caso, un mutex separato con lo stesso nome può esistere in ognuna delle altre sessioni di terminal server nel server. Se non si specifica un prefisso quando si crea un mutex denominato, accetta il prefisso "locale\\". All'interno di una sessione di terminal server, i due mutex i cui nomi differiscono solo per i relativi prefissi vengono separati i mutex ed entrambi sono visibili a tutti i processi nella sessione di terminal server. Vale a dire, i nomi di prefisso "Global\\" e "locale\\" viene descritto l'ambito del nome del mutex relativo sessioni di terminal server, non relativo ai processi.  
 
 [!INCLUDE[backslash-mutex-note](~/includes/backslash-mutex.md)]  
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con sicurezza del controllo di accesso. Nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
+ Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con controllo degli accessi. Nell'esempio viene usato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
   
- Se il mutex non esiste, viene creato con la proprietà iniziale del controllo di accesso che nega l'utente corrente il diritto di utilizzo del mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
+ Se il mutex non esiste, viene creato con la proprietà iniziale e la sicurezza del controllo di accesso che nega l'utente corrente il diritto di utilizzare il mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
   
- Se si esegue l'esempio compilato da due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. L'eccezione viene intercettata e nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
+ Se si esegue l'esempio compilato in due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. Viene rilevata l'eccezione e l'esempio Usa il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
   
- Dopo la modifica delle autorizzazioni, viene aperto il mutex con i diritti necessari per immettere e lo rilascia. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
+ Dopo la modifica delle autorizzazioni, il mutex viene aperto con i diritti necessari per immettere e rilasciarlo. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -433,12 +456,11 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists and has access control security, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</exception>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is longer than 260 characters.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste e ha accesso alla sicurezza controllo, ma l'utente non dispone di <see cref="F:System.Security.AccessControl.MutexRights.FullControl" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">Il mutex denominato non può essere creato, forse perché un handle di attesa di un tipo diverso ha lo stesso nome.</exception>
+        <exception cref="T:System.ArgumentException">La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="GetAccessControl">
@@ -451,33 +473,39 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Security.AccessControl.MutexSecurity</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Gets a <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security for the named mutex.</summary>
-        <returns>A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security for the named mutex.</returns>
+        <summary>Ottiene un oggetto <see cref="T:System.Security.AccessControl.MutexSecurity" /> che rappresenta la sicurezza del controllo di accesso per il mutex denominato.</summary>
+        <returns>Oggetto <see cref="T:System.Security.AccessControl.MutexSecurity" /> che rappresenta la sicurezza del controllo di accesso per il mutex denominato.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Threading.Mutex.GetAccessControl%2A> metodo utilizza la seguente combinazione di flag (combinate tramite l'operazione OR bit per bit) per cercare le autorizzazioni: <xref:System.Security.AccessControl.AccessControlSections.Access?displayProperty=nameWithType>, <xref:System.Security.AccessControl.AccessControlSections.Owner?displayProperty=nameWithType>, e <xref:System.Security.AccessControl.AccessControlSections.Group?displayProperty=nameWithType>.  
+ Il <xref:System.Threading.Mutex.GetAccessControl%2A> metodo utilizza la seguente combinazione di flag (combinati mediante un'operazione OR bit per bit) per cercare le autorizzazioni: <xref:System.Security.AccessControl.AccessControlSections.Access?displayProperty=nameWithType>, <xref:System.Security.AccessControl.AccessControlSections.Owner?displayProperty=nameWithType>, e <xref:System.Security.AccessControl.AccessControlSections.Group?displayProperty=nameWithType>.  
   
  L'utente deve disporre <xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType> per chiamare questo metodo e il mutex necessario sia stato aperto con <xref:System.Security.AccessControl.MutexRights.ReadPermissions?displayProperty=nameWithType>.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con sicurezza del controllo di accesso. Nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
+ Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con controllo degli accessi. Nell'esempio viene usato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
   
- Se il mutex non esiste, viene creato con la proprietà iniziale del controllo di accesso che nega l'utente corrente il diritto di utilizzo del mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
+ Se il mutex non esiste, viene creato con la proprietà iniziale e la sicurezza del controllo di accesso che nega l'utente corrente il diritto di utilizzare il mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
   
- Se si esegue l'esempio compilato da due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. L'eccezione viene intercettata e nell'esempio viene utilizzata la <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni, utilizzando il <xref:System.Threading.Mutex.GetAccessControl%2A> e <xref:System.Threading.Mutex.SetAccessControl%2A> metodi.  
+ Se si esegue l'esempio compilato in due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. Viene rilevata l'eccezione e l'esempio Usa la <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni, usando il <xref:System.Threading.Mutex.GetAccessControl%2A> e <xref:System.Threading.Mutex.SetAccessControl%2A> metodi.  
   
- Dopo la modifica delle autorizzazioni, viene aperto il mutex con i diritti necessari per immettere e lo rilascia. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
+ Dopo la modifica delle autorizzazioni, il mutex viene aperto con i diritti necessari per immettere e rilasciarlo. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -485,8 +513,11 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.UnauthorizedAccessException">The current <see cref="T:System.Threading.Mutex" /> object represents a named system mutex, but the user does not have <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.  -or-  The current <see cref="T:System.Threading.Mutex" /> object represents a named system mutex, and was not opened with <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.</exception>
-        <exception cref="T:System.NotSupportedException">Not supported for Windows 98 or Windows Millennium Edition.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">L'oggetto <see cref="T:System.Threading.Mutex" /> corrente rappresenta un mutex di sistema denominato, ma l'utente non dispone di <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.  
+  
+oppure 
+L'oggetto <see cref="T:System.Threading.Mutex" /> corrente rappresenta un mutex di sistema denominato e non è stato aperto con <see cref="F:System.Security.AccessControl.MutexRights.ReadPermissions" />.</exception>
+        <exception cref="T:System.NotSupportedException">Non supportato per Windows 98 o Windows Millennium Edition.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="OpenExisting">
@@ -497,7 +528,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Opens a specified named mutex, if it already exists.</summary>
+        <summary>Apre un mutex denominato specificato, se esistente.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="OpenExisting">
@@ -517,6 +548,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -524,6 +556,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Threading.Mutex</ReturnType>
       </ReturnValue>
@@ -531,33 +568,33 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="name">The name of the system mutex to open.</param>
-        <summary>Opens the specified named mutex, if it already exists.</summary>
-        <returns>An object that represents the named system mutex.</returns>
+        <param name="name">Nome del mutex di sistema da aprire.</param>
+        <summary>Apre il mutex denominato specificato, se esistente.</summary>
+        <returns>Oggetto che rappresenta il mutex di sistema denominato.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.Threading.Mutex.OpenExisting%2A> metodo tenta di aprire il mutex di sistema denominato. Se il mutex di sistema non esiste, questo metodo genera un'eccezione anziché creare l'oggetto di sistema. Per creare il mutex di sistema quando non esiste già, utilizzare uno del <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
+ Il <xref:System.Threading.Mutex.OpenExisting%2A> metodo tenta di aprire l'oggetto specificato mutex di sistema denominato. Se il mutex di sistema non esiste, questo metodo genera un'eccezione anziché creare l'oggetto di sistema. Per creare il mutex di sistema quando non esiste già, usare uno dei <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
   
- Più chiamate al metodo che utilizzano lo stesso valore per `name` non necessariamente restituire lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti sono restituiti rappresentano lo stesso mutex di sistema denominato.  
+ Più chiamate al metodo che usano lo stesso valore per `name` non necessariamente restituiscono lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti restituiti rappresentano lo stesso mutex di sistema denominato.  
   
- Overload di questo metodo è equivalente alla chiamata di <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo e specificando <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> e <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> diritti, combinati tramite l'operazione OR bit per bit.  
+ Questo overload del metodo è equivalente alla chiamata di <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo e specificando <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> e <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> diritti, combinati tramite l'operazione OR bit per bit.  
   
- Specifica il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag consente a un thread in attesa del mutex e specificando la <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag consente a un thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
+ Specificando il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag consente a un thread in attesa di mutex e specificare il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag consente a un thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
   
  Questo metodo non viene richiesta la proprietà del mutex.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con sicurezza del controllo di accesso. Nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
+ Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con controllo degli accessi. Nell'esempio viene usato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
   
- Se il mutex non esiste, viene creato con la proprietà iniziale del controllo di accesso che nega l'utente corrente il diritto di utilizzo del mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
+ Se il mutex non esiste, viene creato con la proprietà iniziale e la sicurezza del controllo di accesso che nega l'utente corrente il diritto di utilizzare il mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
   
- Se si esegue l'esempio compilato da due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. L'eccezione viene intercettata e nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
+ Se si esegue l'esempio compilato in due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. Viene rilevata l'eccezione e l'esempio Usa il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
   
- Dopo la modifica delle autorizzazioni, viene aperto il mutex con i diritti necessari per immettere e lo rilascia. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
+ Dopo la modifica delle autorizzazioni, il mutex viene aperto con i diritti necessari per immettere e rilasciarlo. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -565,14 +602,16 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
+        <exception cref="T:System.ArgumentException">Il parametro <paramref name="name" /> è una stringa vuota.  
+  
+oppure 
+ La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> is <see langword="null" />.</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex does not exist.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+          <paramref name="name" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">Il mutex denominato non esiste.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste, ma l'utente non dispone dell'accesso di sicurezza necessario per usarlo.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="OpenExisting">
@@ -585,9 +624,15 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Threading.Mutex</ReturnType>
       </ReturnValue>
@@ -596,32 +641,32 @@
         <Parameter Name="rights" Type="System.Security.AccessControl.MutexRights" />
       </Parameters>
       <Docs>
-        <param name="name">The name of the system mutex to open.</param>
-        <param name="rights">A bitwise combination of the enumeration values that represent the desired security access.</param>
-        <summary>Opens the specified named mutex, if it already exists, with the desired security access.</summary>
-        <returns>An object that represents the named system mutex.</returns>
+        <param name="name">Nome del mutex di sistema da aprire.</param>
+        <param name="rights">Combinazione bit per bit dei valori di enumerazione che rappresentano l'accesso di sicurezza desiderato.</param>
+        <summary>Apre il mutex denominato specificato, se esistente, con l'accesso di sicurezza desiderato.</summary>
+        <returns>Oggetto che rappresenta il mutex di sistema denominato.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il `rights` parametro deve includere il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag per consentire ai thread in attesa del mutex e il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag per consentire ai thread di chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo.  
+ Il `rights` parametro deve includere il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag per consentire ai thread in attesa di mutex e il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag per consentire ai thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
   
- Il <xref:System.Threading.Mutex.OpenExisting%2A> metodo tenta di aprire un mutex denominato esistente. Se il mutex di sistema non esiste, questo metodo genera un'eccezione anziché creare l'oggetto di sistema. Per creare il mutex di sistema quando non esiste già, utilizzare uno del <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
+ Il <xref:System.Threading.Mutex.OpenExisting%2A> metodo tenta di aprire un mutex denominato esistente. Se il mutex di sistema non esiste, questo metodo genera un'eccezione anziché creare l'oggetto di sistema. Per creare il mutex di sistema quando non esiste già, usare uno dei <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
   
- Più chiamate al metodo che utilizzano lo stesso valore per `name` non necessariamente restituire lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti sono restituiti rappresentano lo stesso mutex di sistema denominato.  
+ Più chiamate al metodo che usano lo stesso valore per `name` non necessariamente restituiscono lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti restituiti rappresentano lo stesso mutex di sistema denominato.  
   
  Questo metodo non viene richiesta la proprietà del mutex.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con sicurezza del controllo di accesso. Nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
+ Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con controllo degli accessi. Nell'esempio viene usato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
   
- Se il mutex non esiste, viene creato con la proprietà iniziale del controllo di accesso che nega l'utente corrente il diritto di utilizzo del mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
+ Se il mutex non esiste, viene creato con la proprietà iniziale e la sicurezza del controllo di accesso che nega l'utente corrente il diritto di utilizzare il mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
   
- Se si esegue l'esempio compilato da due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. L'eccezione viene intercettata e nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
+ Se si esegue l'esempio compilato in due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. Viene rilevata l'eccezione e l'esempio Usa il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni.  
   
- Dopo la modifica delle autorizzazioni, viene aperto il mutex con i diritti necessari per immettere e lo rilascia. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
+ Dopo la modifica delle autorizzazioni, il mutex viene aperto con i diritti necessari per immettere e rilasciarlo. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -629,14 +674,16 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
+        <exception cref="T:System.ArgumentException">Il parametro <paramref name="name" /> è una stringa vuota.  
+  
+oppure 
+ La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> is <see langword="null" />.</exception>
-        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">The named mutex does not exist.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the desired security access.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Esempio di codice seguente viene illustrato come utilizzare un handle di attesa per mantenere un processo da terminare mentre è in attesa per un thread in background terminare l'esecuzione. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+          <paramref name="name" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.Threading.WaitHandleCannotBeOpenedException">Il mutex denominato non esiste.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste, ma l'utente non dispone dell'accesso di sicurezza desiderato.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="ReleaseMutex">
@@ -656,6 +703,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -664,8 +713,11 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.MayFail)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -673,29 +725,29 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Releases the <see cref="T:System.Threading.Mutex" /> once.</summary>
+        <summary>Rilascia l'oggetto <see cref="T:System.Threading.Mutex" /> una volta.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ogni volta che un thread acquisisce un mutex (ad esempio chiamando relativo <xref:System.Threading.WaitHandle.WaitOne%2A> metodo), deve chiamare successivamente <xref:System.Threading.Mutex.ReleaseMutex%2A> lasciare la proprietà del mutex e sbloccare altri thread che sta tentando di ottenere la proprietà del mutex. Se il tentativo di ottenere la proprietà del mutex non riesce (ad esempio, quando una chiamata ai <xref:System.Threading.WaitHandle.WaitOne%2A> metodo con un `millisecondsTimeout` o una `timeout` parametro restituisce `false` perché la richiesta scade), il thread non deve chiamare <xref:System.Threading.Mutex.ReleaseMutex%2A>, In questo i casi, il thread dovrebbe non essere consentito anche di accedere alla risorsa protetta per il mutex, come illustrato nell'esempio seguente.  
+ Ogni volta che un thread acquisisce un mutex (ad esempio, chiamando relativi <xref:System.Threading.WaitHandle.WaitOne%2A> metodo), deve chiamare successivamente <xref:System.Threading.Mutex.ReleaseMutex%2A> per rilasciare la proprietà del mutex e sbloccare gli altri thread che sta tentando di assumere la proprietà del mutex. Se il tentativo di ottenere la proprietà del mutex ha esito negativo (ad esempio, quando una chiamata al <xref:System.Threading.WaitHandle.WaitOne%2A> metodo con un `millisecondsTimeout` o una `timeout` parametro restituisce `false` perché la richiesta scade), il thread non deve chiamare <xref:System.Threading.Mutex.ReleaseMutex%2A>, In questo i casi, il thread deve anche non essere consentito per accedere alla risorsa protetta dal mutex, come illustrato nell'esempio seguente.  
   
  [!code-csharp[System.Threading.Mutex.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.mutex.class/cs/example2.cs#2)]
  [!code-vb[System.Threading.Mutex.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.mutex.class/vb/example2.vb#2)]  
   
- Un thread che possiede un mutex può specificare lo stesso mutex in attesa ripetute chiamate di funzione senza bloccare l'esecuzione. Il numero di chiamate viene mantenuto da common language runtime. Il thread deve chiamare <xref:System.Threading.Mutex.ReleaseMutex%2A> lo stesso numero di volte per rilasciare la proprietà del mutex.  
+ Un thread che possiede un mutex può specificare lo stesso mutex nelle chiamate di funzione di attesa ripetute senza interromperne l'esecuzione. Il numero di chiamate viene mantenuto da common language runtime. Il thread deve chiamare <xref:System.Threading.Mutex.ReleaseMutex%2A> lo stesso numero di volte per rilasciare la proprietà del mutex.  
   
- Se un thread termina pur proprietario un mutex, il mutex è detto venga abbandonata. Lo stato del mutex è impostato su segnalato e il successivo thread in attesa Ottiene la proprietà. Se nessun altro proprietario del mutex, viene segnalato lo stato del mutex. Partire dalla versione 2.0 di .NET Framework, un <xref:System.Threading.AbandonedMutexException> viene generata nel thread successivo che acquisisce il mutex. Prima della versione 2.0 di .NET Framework, è stata generata alcuna eccezione.  
+ Se durante il proprietario di un mutex termina un thread, si dice che il mutex abbandonato. Lo stato del tipo mutex è impostato su segnalato e il thread d'attesa successivo Ottiene la proprietà. Se non è proprietario del mutex, viene segnalato lo stato del mutex. Partire dalla versione 2.0 di .NET Framework, un <xref:System.Threading.AbandonedMutexException> generata nel thread successivo che acquisisce il mutex. Prima della versione 2.0 di .NET Framework, è stata generata alcuna eccezione.  
   
 > [!CAUTION]
->  Un mutex abbandonato indica spesso un errore grave nel codice. Quando un thread esce senza rilasciare il mutex, le strutture di dati protette dal mutex non sia in uno stato coerente. Il successivo thread che richiede la proprietà del mutex può gestire questa eccezione e continuare, se è possibile verificare l'integrità delle strutture di dati.  
+>  Un mutex abbandonato indica spesso un errore grave nel codice. Quando un thread termina senza rilasciare il mutex, le strutture di dati protette dal mutex non sia in uno stato coerente. Il thread successivo per richiedere la proprietà del mutex può gestire questa eccezione e continuare, se è possibile verificare l'integrità delle strutture di dati.  
   
  Nel caso di un mutex di sistema, un mutex abbandonato potrebbe indicare che un'applicazione è stata terminata in modo anomalo (ad esempio, usando Gestione attività Windows).  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il mutex non è proprietario viene inizialmente. Il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo viene utilizzato per rilasciare il mutex quando non è più necessario.  
+ Nell'esempio seguente viene illustrato come una variabile locale <xref:System.Threading.Mutex> oggetto viene usato per sincronizzare l'accesso a una risorsa protetta. Il thread che crea il mutex non proprietari inizialmente. Il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo viene utilizzato per rilasciare il mutex quando non è più necessario.  
   
  [!code-cpp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CPP/class1.cpp#1)]
  [!code-csharp[System.Threading.Mutex Default Ctor Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex Default Ctor Example/CS/class1.cs#1)]
@@ -703,8 +755,8 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ApplicationException">The calling thread does not own the mutex.</exception>
-        <exception cref="T:System.ObjectDisposedException">The current instance has already been disposed.</exception>
+        <exception cref="T:System.ApplicationException">Il thread di chiamata non è il proprietario del mutex.</exception>
+        <exception cref="T:System.ObjectDisposedException">L'istanza corrente è già stata eliminata.</exception>
       </Docs>
     </Member>
     <Member MemberName="SetAccessControl">
@@ -716,8 +768,14 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -725,24 +783,24 @@
         <Parameter Name="mutexSecurity" Type="System.Security.AccessControl.MutexSecurity" />
       </Parameters>
       <Docs>
-        <param name="mutexSecurity">A <see cref="T:System.Security.AccessControl.MutexSecurity" /> object that represents the access control security to be applied to the named system mutex.</param>
-        <summary>Sets the access control security for a named system mutex.</summary>
+        <param name="mutexSecurity">Oggetto <see cref="T:System.Security.AccessControl.MutexSecurity" /> che rappresenta la sicurezza del controllo di accesso da applicare al mutex di sistema denominato.</param>
+        <summary>Imposta la sicurezza del controllo di accesso per un mutex di sistema denominato.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L'utente deve disporre <xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType> diritti per chiamare questo metodo e il mutex necessario sia stato aperto con <xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>.  
+ L'utente deve disporre <xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType> diritti di chiamare questo metodo e il mutex necessario sia stato aperto con <xref:System.Security.AccessControl.MutexRights.ChangePermissions?displayProperty=nameWithType>.  
   
    
   
 ## Examples  
- Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con sicurezza del controllo di accesso. Nell'esempio viene utilizzato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
+ Esempio di codice seguente viene illustrato il comportamento tra processi di un mutex denominato con controllo degli accessi. Nell'esempio viene usato il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo per verificare l'esistenza di un mutex denominato.  
   
- Se il mutex non esiste, viene creato con la proprietà iniziale del controllo di accesso che nega l'utente corrente il diritto di utilizzo del mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
+ Se il mutex non esiste, viene creato con la proprietà iniziale e la sicurezza del controllo di accesso che nega l'utente corrente il diritto di utilizzare il mutex, ma concede il diritto di leggere e modificare le autorizzazioni per il mutex.  
   
- Se si esegue l'esempio compilato da due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. L'eccezione viene intercettata e nell'esempio viene utilizzata la <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni, utilizzando il <xref:System.Threading.Mutex.GetAccessControl%2A> e <xref:System.Threading.Mutex.SetAccessControl%2A> metodi.  
+ Se si esegue l'esempio compilato in due finestre di comando, la seconda copia genererà un'eccezione di violazione di accesso alla chiamata a <xref:System.Threading.Mutex.OpenExisting%28System.String%29>. Viene rilevata l'eccezione e l'esempio Usa la <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo per aprire il mutex con i diritti necessari per leggere e modificare le autorizzazioni, usando il <xref:System.Threading.Mutex.GetAccessControl%2A> e <xref:System.Threading.Mutex.SetAccessControl%2A> metodi.  
   
- Dopo la modifica delle autorizzazioni, viene aperto il mutex con i diritti necessari per immettere e lo rilascia. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
+ Dopo la modifica delle autorizzazioni, il mutex viene aperto con i diritti necessari per immettere e rilasciarlo. Se si esegue l'esempio compilato da una terza finestra di comando, viene eseguito con le nuove autorizzazioni.  
   
  [!code-cpp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Mutex.ctor named 4#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Mutex.ctor named 4/CS/source.cs#1)]
@@ -751,9 +809,12 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="mutexSecurity" /> is <see langword="null" />.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The user does not have <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.  -or-  The mutex was not opened with <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.</exception>
-        <exception cref="T:System.SystemException">The current <see cref="T:System.Threading.Mutex" /> object does not represent a named system mutex.</exception>
+          <paramref name="mutexSecurity" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">L'utente non dispone di <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.  
+  
+oppure 
+Il mutex non è stato aperto con <see cref="F:System.Security.AccessControl.MutexRights.ChangePermissions" />.</exception>
+        <exception cref="T:System.SystemException">L'oggetto <see cref="T:System.Threading.Mutex" /> corrente non rappresenta un mutex di sistema denominato.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryOpenExisting">
@@ -764,7 +825,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Opens a specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</summary>
+        <summary>Apre un mutex denominato specificato, se esistente, e restituisce un valore che indica se l'operazione è stata completata.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryOpenExisting">
@@ -791,42 +852,49 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
         <Parameter Name="name" Type="System.String" />
-        <Parameter Name="result" Type="System.Threading.Mutex&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Threading.Mutex" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="name">The name of the system mutex to open.</param>
-        <param name="result">When this method returns, contains a <see cref="T:System.Threading.Mutex" /> object that represents the named mutex if the call succeeded, or <see langword="null" /> if the call failed. This parameter is treated as uninitialized.</param>
-        <summary>Opens the specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</summary>
+        <param name="name">Nome del mutex di sistema da aprire.</param>
+        <param name="result">Quando questo metodo viene restituito, contiene un oggetto di <see cref="T:System.Threading.Mutex" /> che rappresenta il mutex denominato se la chiamata ha esito positivo o <see langword="null" /> se la chiamata ha esito negativo. Questo parametro viene trattato come non inizializzato.</param>
+        <summary>Apre il mutex denominato specificato, se esistente, e restituisce un valore che indica se l'operazione è stata completata.</summary>
         <returns>
-          <see langword="true" /> if the named mutex was opened successfully; otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> se il mutex denominato è stato aperto correttamente; in caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il mutex denominato non esiste, questo metodo non crearlo. Per creare il mutex di sistema quando non esiste già, utilizzare uno del <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
+ Se il mutex denominato non esiste, questo metodo non crearla. Per creare il mutex di sistema quando non esiste già, usare uno dei <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
   
- Se non si è certi se un mutex denominato esiste già, utilizzare questo overload del metodo anziché il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo che genera un'eccezione se il mutex non esiste.  
+ Se non si è certi se un mutex denominato esiste, utilizzare questo overload del metodo anziché il <xref:System.Threading.Mutex.OpenExisting%28System.String%29> overload del metodo che genera un'eccezione se il mutex non esiste.  
   
- Più chiamate al metodo che utilizzano lo stesso valore per `name` non necessariamente restituire lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti sono restituiti rappresentano lo stesso mutex di sistema denominato.  
+ Più chiamate al metodo che usano lo stesso valore per `name` non necessariamente restituiscono lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti restituiti rappresentano lo stesso mutex di sistema denominato.  
   
- Overload di questo metodo è equivalente alla chiamata di <xref:System.Threading.Mutex.TryOpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%2CSystem.Threading.Mutex%40%29> overload del metodo e specificando <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> e <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> diritti, combinati tramite l'operazione OR bit per bit. Specifica il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag consente a un thread in attesa del mutex e specificando la <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag consente a un thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
+ Questo overload del metodo è equivalente alla chiamata di <xref:System.Threading.Mutex.TryOpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%2CSystem.Threading.Mutex%40%29> overload del metodo e specificando <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> e <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> diritti, combinati tramite l'operazione OR bit per bit. Specificando il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag consente a un thread in attesa di mutex e specificare il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag consente a un thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
   
  Questo metodo non viene richiesta la proprietà del mutex.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
+        <exception cref="T:System.ArgumentException">Il parametro <paramref name="name" /> è una stringa vuota.  
+  
+oppure 
+ La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> is <see langword="null" />.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+          <paramref name="name" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste, ma l'utente non dispone dell'accesso di sicurezza necessario per usarlo.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
     <Member MemberName="TryOpenExisting">
@@ -842,44 +910,51 @@
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
         <Parameter Name="name" Type="System.String" />
         <Parameter Name="rights" Type="System.Security.AccessControl.MutexRights" />
-        <Parameter Name="result" Type="System.Threading.Mutex&amp;" RefType="out" />
+        <Parameter Name="result" Type="System.Threading.Mutex" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="name">The name of the system mutex to open.</param>
-        <param name="rights">A bitwise combination of the enumeration values that represent the desired security access.</param>
-        <param name="result">When this method returns, contains a <see cref="T:System.Threading.Mutex" /> object that represents the named mutex if the call succeeded, or <see langword="null" /> if the call failed. This parameter is treated as uninitialized.</param>
-        <summary>Opens the specified named mutex, if it already exists, with the desired security access, and returns a value that indicates whether the operation succeeded.</summary>
+        <param name="name">Nome del mutex di sistema da aprire.</param>
+        <param name="rights">Combinazione bit per bit dei valori di enumerazione che rappresentano l'accesso di sicurezza desiderato.</param>
+        <param name="result">Quando questo metodo viene restituito, contiene un oggetto di <see cref="T:System.Threading.Mutex" /> che rappresenta il mutex denominato se la chiamata ha esito positivo o <see langword="null" /> se la chiamata ha esito negativo. Questo parametro viene trattato come non inizializzato.</param>
+        <summary>Apre il mutex denominato specificato, se esistente, con l'accesso di sicurezza desiderato, e restituisce un valore che indica se l'operazione è stata completata.</summary>
         <returns>
-          <see langword="true" /> if the named mutex was opened successfully; otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> se il mutex denominato è stato aperto correttamente; in caso contrario, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il mutex denominato non esiste, questo metodo non crearlo. Per creare il mutex di sistema quando non esiste già, utilizzare uno del <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
+ Se il mutex denominato non esiste, questo metodo non crearla. Per creare il mutex di sistema quando non esiste già, usare uno dei <xref:System.Threading.Mutex.%23ctor%2A> costruttori che dispone di un `name` parametro.  
   
- Se non si è certi se un mutex denominato esiste già, utilizzare questo overload del metodo anziché il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo che genera un'eccezione se il mutex non esiste.  
+ Se non si è certi se un mutex denominato esiste, utilizzare questo overload del metodo anziché il <xref:System.Threading.Mutex.OpenExisting%28System.String%2CSystem.Security.AccessControl.MutexRights%29> overload del metodo che genera un'eccezione se il mutex non esiste.  
   
- Il `rights` parametro deve includere il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag per consentire ai thread in attesa del mutex e il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag per consentire ai thread di chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> metodo.  
+ Il `rights` parametro deve includere il <xref:System.Security.AccessControl.MutexRights.Synchronize?displayProperty=nameWithType> flag per consentire ai thread in attesa di mutex e il <xref:System.Security.AccessControl.MutexRights.Modify?displayProperty=nameWithType> flag per consentire ai thread chiamare il <xref:System.Threading.Mutex.ReleaseMutex%2A> (metodo).  
   
- Più chiamate al metodo che utilizzano lo stesso valore per `name` non necessariamente restituire lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti sono restituiti rappresentano lo stesso mutex di sistema denominato.  
+ Più chiamate al metodo che usano lo stesso valore per `name` non necessariamente restituiscono lo stesso <xref:System.Threading.Mutex> dell'oggetto, anche se gli oggetti restituiti rappresentano lo stesso mutex di sistema denominato.  
   
  Questo metodo non viene richiesta la proprietà del mutex.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> is an empty string.  -or-  <paramref name="name" /> is longer than 260 characters.</exception>
+        <exception cref="T:System.ArgumentException">Il parametro <paramref name="name" /> è una stringa vuota.  
+  
+oppure 
+ La lunghezza di <paramref name="name" /> supera i 260 caratteri.</exception>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> is <see langword="null" />.</exception>
-        <exception cref="T:System.IO.IOException">A Win32 error occurred.</exception>
-        <exception cref="T:System.UnauthorizedAccessException">The named mutex exists, but the user does not have the security access required to use it.</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede attendibilità totale per il chiamante immediato. L'istanza corrente è un proxy trasparente per un  in un altro dominio applicazione.</permission>
+          <paramref name="name" /> è <see langword="null" />.</exception>
+        <exception cref="T:System.IO.IOException">Errore Win32.</exception>
+        <exception cref="T:System.UnauthorizedAccessException">Il mutex denominato esiste, ma l'utente non dispone dell'accesso di sicurezza necessario per usarlo.</exception>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
   </Members>
