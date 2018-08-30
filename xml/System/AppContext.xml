@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="482d52e5b69288b9a8240a5a41deef259168aace" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36433575" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39909630" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -42,34 +42,34 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.AppContext> classe consente agli autori di libreria esplicita fornire un meccanismo di rifiuto uniforme per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
+ Il <xref:System.AppContext> classe consente agli autori di librerie fornire un meccanismo uniforme di rifiuto esplicito per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
   
 ## <a name="appcontext-for-library-developers"></a>AppContext per gli sviluppatori di librerie  
- Utilizzano le librerie di <xref:System.AppContext> passa da una classe per definire ed esporre compatibilità, mentre gli utenti di libreria possono impostare tali opzioni per influire sul comportamento della libreria. Per impostazione predefinita, le librerie forniscono la nuova funzionalità e la modificano (cioè offrono la funzionalità precedente) solo se l'opzione è impostata.  Questo consente alle librerie di fornire di nuovo comportamento per un'API esistente pur continuando a supportare i chiamanti che dipendono dal comportamento precedente.  
+ Usano le librerie di <xref:System.AppContext> passa da una classe per definire ed esporre la compatibilità, mentre agli utenti della libreria possono impostare queste opzioni per influire sul comportamento delle librerie. Per impostazione predefinita, le librerie forniscono la nuova funzionalità e la modificano (cioè offrono la funzionalità precedente) solo se l'opzione è impostata.  Ciò consente alle librerie di fornire di nuovo comportamento per un'API esistente continuando a supportare i chiamanti che dipendono dal comportamento precedente.  
   
-### <a name="defining-the-switch-name"></a>Definire il nome del commutatore  
- Il modo più comune per consentire agli utenti della libreria di rifiutare esplicitamente un cambiamento di comportamento consiste nel definire un parametro denominato.  Il relativo `value` elemento è una coppia nome/valore costituita da nome di un commutatore e il relativo <xref:System.Boolean> valore.  Per impostazione predefinita, l'opzione è sempre implicitamente `false`, che fornisce il nuovo comportamento (e rende il nuovo comportamento opt-in per impostazione predefinita). Impostare l'opzione su `true` consente, che fornisce il comportamento legacy. Impostare in modo esplicito l'opzione su `false` fornisce inoltre il nuovo comportamento.  
+### <a name="defining-the-switch-name"></a>Che definisce il nome del commutatore  
+ Il modo più comune per consentire agli utenti della libreria di rifiutare esplicitamente una modifica del comportamento consiste nel definire un parametro denominato.  Relativi `value` elemento è una coppia nome/valore costituita dal nome di un commutatore e il relativo <xref:System.Boolean> valore.  Per impostazione predefinita, l'opzione è sempre implicitamente `false`, che fornisce il nuovo comportamento (e rende il nuovo comportamento di fornire il consenso esplicito per impostazione predefinita). Impostare l'opzione su `true` consente, che fornisce il comportamento legacy. Impostare in modo esplicito l'opzione su `false` fornisce inoltre il nuovo comportamento.  
   
- È opportuno usare un formato coerente per i nomi di commutatore, poiché sono un contratto formale esposto da una libreria. Di seguito sono riportati due formati ovvi.  
+ È opportuno usare un formato coerente per i nomi dei commutatori, poiché si tratta di un contratto formale esposto da una libreria. Di seguito sono riportati due formati ovvi.  
   
 -   *Opzione*.*spaziodeinomi*.*nomeopzione*  
   
 -   *Opzione*.*libreria*.*nomeopzione*  
   
- Dopo aver definito e il commutatore di documenti, i chiamanti usarlo usando il Registro di sistema, aggiungendo un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento i relativi file di configurazione dell'applicazione, oppure chiamando il <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> metodo a livello di codice. Vedere la [AppContext nei consumer della libreria](#ForConsumers) sezione per ulteriori informazioni su come i chiamanti usare e impostare il valore di <xref:System.AppContext> opzioni di configurazione.  
+ Dopo aver definito e il commutatore di documenti, i chiamanti possono usarlo con il Registro di sistema, aggiungendo un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento per i file di configurazione dell'applicazione o chiamando il <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> metodo a livello di codice. Vedere le [AppContext ai fruitori delle librerie](#ForConsumers) sezione per altre informazioni sul modo in cui i chiamanti di usare, impostare il valore di <xref:System.AppContext> opzioni di configurazione.  
   
- Quando common language runtime viene eseguita un'applicazione, legge le impostazioni di compatibilità del Registro di sistema automaticamente e carica il file di configurazione dell'applicazione per popolare l'applicazione <xref:System.AppContext> istanza. Poiché il <xref:System.AppContext> istanza viene compilata a livello di codice dal chiamante o dal runtime, non è necessario intraprendere alcuna azione, ad esempio la chiamata di <xref:System.AppContext.SetSwitch%2A> metodo, per configurare il <xref:System.AppContext> istanza.  
+ Quando common language runtime viene eseguita un'applicazione, legge le impostazioni di compatibilità del Registro di sistema automaticamente e carica il file di configurazione dell'applicazione per popolare l'applicazione <xref:System.AppContext> istanza. Poiché il <xref:System.AppContext> istanza viene popolata a livello di codice dal chiamante o dal runtime, non è necessario intraprendere alcuna azione, ad esempio la chiamata di <xref:System.AppContext.SetSwitch%2A> metodo, per configurare il <xref:System.AppContext> istanza.  
   
 ### <a name="checking-the-setting"></a>L'impostazione di controllo  
- È quindi possibile controllare se un consumer è dichiarato il valore del commutatore e agire in modo appropriato chiamando il <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> metodo. Il metodo restituisce `true` se il `switchName` argomento è stato trovato e quando restituito dal metodo, l'oggetto `isEnabled` argomento indica il valore dell'opzione.  In caso contrario, il metodo restituisce `false`.  
+ È quindi possibile controllare se un consumer è dichiarato il valore del commutatore e agire in modo appropriato chiamando le <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> (metodo). Il metodo restituisce `true` se il `switchName` si trova l'argomento e quando restituito dal metodo, la relativa `isEnabled` argomento indica il valore dell'opzione.  In caso contrario, il metodo restituisce `false`.  
   
 ### <a name="an-example"></a>Un esempio  
- Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.AppContext> classe per consentire al cliente di scegliere il comportamento originale di un metodo di raccolta.   Di seguito è la versione 1.0 di una libreria denominata `StringLibrary`. Definisce un `SubstringStartsAt` metodo che esegue un confronto ordinale per determinare l'indice iniziale di una sottostringa all'interno di una stringa più grande.  
+ Nell'esempio seguente viene illustrato l'utilizzo del <xref:System.AppContext> classe per consentire al cliente di scegliere il comportamento originale di un metodo della libreria.   Di seguito è la versione 1.0 di una libreria denominata `StringLibrary`. Definisce un `SubstringStartsAt` metodo che esegue un confronto ordinale per determinare l'indice iniziale di una sottostringa all'interno di una stringa più grande.  
   
  [!code-csharp[System.AppContext.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#4)]
  [!code-vb[System.AppContext.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#4)]  
   
- L'esempio seguente usa quindi la libreria per trovare l'indice iniziale della sottostringa "archæ" in "archaeologist". Poiché il metodo esegue un confronto ordinale, Impossibile trovare la sottostringa.  
+ Nell'esempio seguente usa quindi la libreria per trovare l'indice iniziale della sottostringa "archæ" in "I archaeologist". Poiché il metodo esegue un confronto ordinale, Impossibile trovare la sottostringa.  
   
  [!code-csharp[System.AppContext.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#5)]
  [!code-vb[System.AppContext.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#5)]  
@@ -79,17 +79,17 @@
  [!code-csharp[System.AppContext.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#6)]
  [!code-vb[System.AppContext.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#6)]  
   
- Se l'app viene ricompilato per l'esecuzione con la nuova versione della libreria, ora segnala che la sottostringa "archæ" è stata trovata in corrispondenza dell'indice 4 in "archaeologist".  
+ Quando l'app viene ricompilata per eseguire la nuova versione della libreria, ora indica che la sottostringa "archæ" è stata trovata in corrispondenza dell'indice 4 in "I archaeologist".  
   
  [!code-csharp[System.AppContext.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#7)]
  [!code-vb[System.AppContext.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#7)]  
   
- Questa modifica è possibile impedire l'interruzione le applicazioni che dipendono dal comportamento originale definendo un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) passare. In questo caso, l'opzione è denominata `StringLibrary.DoNotUseCultureSensitiveComparison`. Il valore predefinito, `false`, indica che la libreria deve eseguire il confronto con distinzione delle impostazioni cultura versione 2.0. `true` indica che la libreria deve eseguire il confronto ordinale versione 1.0.  Una lieve modifica del codice precedente consente al consumer di libreria impostare l'opzione per determinare il tipo di confronto che esegue.  
+ Questa modifica può essere evitata di violare le applicazioni che dipendono dal comportamento originale con la definizione di un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) passare. In questo caso, l'opzione è denominata `StringLibrary.DoNotUseCultureSensitiveComparison`. Il valore predefinito, `false`, indica che la libreria deve eseguire il confronto con distinzione delle impostazioni cultura versione 2.0. `true` indica che la libreria deve eseguire il confronto ordinale versione 1.0.  Apportare una piccola modifica del codice precedente consente al consumer di libreria impostare l'opzione per determinare il tipo di confronto che non viene eseguita.  
   
  [!code-csharp[System.AppContext.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example8.cs#8)]
  [!code-vb[System.AppContext.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example8.vb#8)]  
   
- Se l'applicazione può quindi utilizzare il file di configurazione seguente per ripristinare il comportamento della versione 1.0.  
+ Se l'applicazione può quindi usare il file di configurazione seguente per ripristinare il comportamento della versione 1.0.  
   
 ```xml  
   
@@ -101,23 +101,23 @@
   
 ```  
   
- Quando l'applicazione viene eseguita con il file di configurazione presentano, produce il seguente output:  
+ Quando l'applicazione viene eseguita con il file di configurazione presentano, produce l'output seguente:  
   
 ```  
 'archæ' not found in 'The archaeologist'  
 ```  
   
 <a name="ForConsumers"></a>   
-## <a name="appcontext-for-library-consumers"></a>AppContext nei consumer della libreria  
- Se si è il consumer di una libreria di <xref:System.AppContext> classe consente di sfruttare i vantaggi di una libreria o un meccanismo di rifiuto del metodo di raccolta per la nuova funzionalità.   Singoli metodi della libreria di classi che si sta chiamando definiscono particolare opzioni che abilitano o disabilitano un nuovo comportamento. Il valore dell'opzione è un valore booleano. Se si tratta `false`, che è in genere il valore predefinito, il nuovo comportamento è abilitato; in caso `true`, il nuovo comportamento è disabilitato e il membro si comporta come avveniva in precedenza.  
+## <a name="appcontext-for-library-consumers"></a>AppContext per consumer della libreria  
+ Se sei il consumer di una libreria, il <xref:System.AppContext> classe consente di sfruttare i vantaggi di una libreria o il meccanismo di rifiuto esplicito del metodo della libreria per la nuova funzionalità.   Singoli metodi della libreria di classi che si sta chiamando definiscono commutatori specifici che abilita o disabilita un nuovo comportamento. Il valore dell'opzione è un valore booleano. Se si tratta `false`, che in genere è il valore predefinito, il nuovo comportamento è abilitato; in caso `true`, il nuovo comportamento è disabilitato e il membro si comporta come accadeva in precedenza.  
   
  È possibile impostare il valore di un commutatore in uno dei tre modi:  
   
 -   Chiamando il <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> metodo nel codice.  Il `switchName` argomento definisce il nome del commutatore e il `isEnabled` proprietà definisce il valore dell'opzione. Poiché <xref:System.AppContext> è una classe statica, è disponibile in base al dominio per ogni applicazione.  
   
-     La chiamata di <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> con ambito di applicazione; vale a dire, influisce solo l'applicazione.  
+     La chiamata di <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> con ambito di applicazione; vale a dire, interessa solo l'applicazione.  
   
--   Tramite l'aggiunta di un `<AppContextSwitchOverrides>` elemento per il [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione del file app. config. Il commutatore ha un solo attributo, `value`, il cui valore è una stringa che rappresenta una coppia chiave/valore contenente il nome del commutatore e il relativo valore.  
+-   Aggiungendo un `<AppContextSwitchOverrides>` elemento per il [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione del file app. config. Il commutatore ha un solo attributo, `value`, il cui valore è una stringa che rappresenta una coppia chiave/valore che contiene sia il nome del commutatore e il relativo valore.  
   
      Per definire più commutatori, separare coppia chiave/valore dell'opzione ogni nel [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) dell'elemento `value` attributo con un punto e virgola. In tal caso, il `<AppContextSwitchOverrides>` elemento presenta il formato seguente:  
   
@@ -125,24 +125,24 @@
     <AppContextSwitchOverrides value="switchName1=value1;switchName2=value2" />  
     ```  
   
-     Utilizzando il `<AppContextSwitchOverrides>` elemento per definire un'impostazione di configurazione con ambito di applicazione; vale a dire, riguarda solo l'applicazione.  
+     Uso di `<AppContextSwitchOverrides>` elemento per definire un'impostazione di configurazione con ambito di applicazione; vale a dire, riguarda solo l'applicazione.  
 
     > [!NOTE]    
     > Per informazioni sulle opzioni definite da .NET Framework, vedere la [ \<AppContextSwitchOverrides > elemento](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md).
 
--   Tramite l'aggiunta di un valore di stringa il cui nome è il nome del commutatore per il `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` chiave nel Registro di sistema. Il valore deve essere la rappresentazione di stringa di un <xref:System.Boolean> che può essere analizzato dal <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (metodo), vale a dire deve essere "True", "true", "False" o "false". Se il runtime incontra un altro valore, l'opzione verrà ignorata.  
+-   Tramite l'aggiunta di un valore di stringa il cui nome è il nome del commutatore per le `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` chiave del Registro di sistema. Il valore deve essere la rappresentazione di stringa di un <xref:System.Boolean> impostazione che può essere analizzato il <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (metodo), vale a dire deve essere "True", "true", "False" o "false". Se il runtime incontra un altro valore, l'opzione verrà ignorata.  
   
-     Utilizzo del Registro di sistema per definire un <xref:System.AppContext> switch è dotato di ambito del computer; vale a dire, influisce su tutte le applicazioni in esecuzione nel computer.  
+     Uso del Registro di sistema per definire un <xref:System.AppContext> commutatore con ambito computer; vale a dire, influisce su tutte le applicazioni in esecuzione nel computer.  
   
- Se si imposta la stessa opzione in diversi modi, l'ordine di precedenza per determinare quale impostazione esegue l'override di altri è:  
+ Se si imposta la stessa opzione in diversi modi, è l'ordine di precedenza per determinare quale impostazione esegue l'override di altri:  
   
 1.  L'impostazione a livello di codice.  
   
-2.  L'impostazione nel file di configurazione app.  
+2.  L'impostazione nel file app. config.  
   
 3.  L'impostazione del Registro di sistema.  
   
- Ecco una semplice applicazione che passa un URI di file per il <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> metodo.  Quando vengono eseguiti con .NET Framework 4.6, genera un <xref:System.ArgumentException> perché `file://` non è più una parte di un percorso file valida.  
+ Di seguito è riportato una semplice applicazione che passa un URI del file per il <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> (metodo).  Quando vengono eseguiti in .NET Framework 4.6, genera un <xref:System.ArgumentException> perché `file://` non è più una parte di un percorso file valida.  
   
  [!code-csharp[System.AppContext.Class#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/ForConsumers1.cs#10)]
  [!code-vb[System.AppContext.Class#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/ForConsumers1.vb#10)]  
@@ -157,7 +157,7 @@
 </configuration>  
 ```  
 ## <a name="see-also"></a>Vedere anche
-[Commutatore AppContext](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
+[Opzione di AppContext](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
 
  ]]></format>
     </remarks>
@@ -200,7 +200,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si tratta di una per ogni proprietà del dominio applicazione. Il valore corrisponde al <xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType> proprietà del dominio applicazione corrente.  
+ Si tratta di una per ogni proprietà del dominio applicazione. Il suo valore corrisponde alla <xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType> proprietà del dominio applicazione corrente.  
   
  ]]></format>
         </remarks>
@@ -232,6 +232,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -287,19 +292,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.AppContext> classe consente agli autori di libreria esplicita fornire un meccanismo di rifiuto uniforme per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
+ Il <xref:System.AppContext> classe consente agli autori di librerie fornire un meccanismo uniforme di rifiuto esplicito per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
   
- Il <xref:System.AppContext.SetSwitch%2A> metodo viene chiamato da un'applicazione (o una libreria) per dichiarare il valore di un'opzione (che è sempre un <xref:System.Boolean> valore) che definisce una libreria dipendente. L'opzione è sempre implicitamente `false`, che fornisce il nuovo comportamento. Impostare l'opzione su `true` consente, che fornisce il comportamento legacy. Impostare in modo esplicito l'opzione su `false` fornisce inoltre il nuovo comportamento. La libreria dipendente può quindi controllare il valore dell'opzione chiamando il <xref:System.AppContext.TryGetSwitch%2A> metodo.  
+ Il <xref:System.AppContext.SetSwitch%2A> metodo viene chiamato da un'applicazione (o una libreria) per dichiarare il valore di un'opzione (che è sempre un <xref:System.Boolean> valore) che definisce una libreria dipendente. L'opzione è sempre implicitamente `false`, che fornisce il nuovo comportamento. Impostare l'opzione su `true` consente, che fornisce il comportamento legacy. Impostare in modo esplicito l'opzione su `false` fornisce inoltre il nuovo comportamento. La libreria dipendente può quindi controllare il valore dell'opzione chiamando il <xref:System.AppContext.TryGetSwitch%2A> (metodo).  
   
 > [!NOTE]
->  È opportuno usare un formato coerente per i nomi di commutatore, poiché sono un contratto formale esposto da una libreria. Di seguito sono riportati due formati ovvi.  
+>  È opportuno usare un formato coerente per i nomi dei commutatori, poiché si tratta di un contratto formale esposto da una libreria. Di seguito sono riportati due formati ovvi.  
 >   
 >  -   *Opzione*.*spaziodeinomi*.*nomeopzione*  
 > -   *Opzione*.*libreria*.*nomeopzione*  
   
- Per le applicazioni in esecuzione su .NET Framework, oltre a impostare il valore di un'opzione a livello di programmazione, è anche possibile impostare:  
+ Per le applicazioni in esecuzione su .NET Framework, oltre a impostare il valore di un'opzione a livello di codice, è anche possibile impostare:  
   
--   Aggiungendo il nome del commutatore e il valore per il [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento il [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione di un file di configurazione dell'applicazione. Ad esempio, il seguente definisce un commutatore denominato `Libraries.FPLibrary.UseExactFloatingPointComparison` il cui valore è `False`.  
+-   Aggiungendo il nome del commutatore e il valore per il [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) elemento il [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) sezione di un file di configurazione dell'applicazione. Ad esempio, il codice seguente definisce un interruttore denominato `Libraries.FPLibrary.UseExactFloatingPointComparison` il cui valore è `False`.  
   
     ```xml  
   
@@ -311,20 +316,20 @@
   
     ```  
   
--   Tramite l'aggiunta di un valore di stringa il cui nome è il nome del commutatore per il `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` chiave nel Registro di sistema. Il valore deve essere la rappresentazione di stringa di un <xref:System.Boolean> che può essere analizzato dal <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (metodo), vale a dire deve essere "True", "true", "False" o "false".  
+-   Tramite l'aggiunta di un valore di stringa il cui nome è il nome del commutatore per le `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` chiave del Registro di sistema. Il valore deve essere la rappresentazione di stringa di un <xref:System.Boolean> impostazione che può essere analizzato il <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (metodo), vale a dire deve essere "True", "true", "False" o "false".  
   
- Se `switchName` esiste già, il relativo valore viene sovrascritto dal `isEnabled` argomento.  Vale a dire, la chiamata più recente per il <xref:System.AppContext.SetSwitch%2A> metodo sostituisce il valore definito nel Registro di sistema, in un file di configurazione dell'app o dalle chiamate precedenti al <xref:System.AppContext.SetSwitch%2A> (metodo).  
+ Se `switchName` esiste già, il relativo valore viene sovrascritto dal `isEnabled` argomento.  Vale a dire, la chiamata più recente per il <xref:System.AppContext.SetSwitch%2A> metodo sostituisce il valore definito nel Registro di sistema, in un file di configurazione app o dalle chiamate precedenti al <xref:System.AppContext.SetSwitch%2A> (metodo).  
  
  ### <a name="appcontextsetswitch-and-net-core"></a>AppContext.SetSwitch e .NET Core
 
-.NET core supporta la chiamata a livello di codice con il <xref:System.AppContext.SetSwitch%2A> solo di metodo. Sono supportate le opzioni seguenti:
+.NET core supporta le chiamate a livello di codice con il <xref:System.AppContext.SetSwitch%2A> solo metodo. Sono supportate le opzioni seguenti:
 
 |Opzione|Valori|Descrizione|
 |--|--|--|
-|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|Determina se alto livello, ad esempio le API di rete <xref:System.Net.Http.HttpClient> usare <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> (`true`) o <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> (`false`).|   
+|`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|Determina se alto livello, ad esempio le API di rete <xref:System.Net.Http.HttpClient> usano <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> (`true`) oppure <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> (`false`).|   
   
 ## Examples  
- La riga di codice seguente imposta un'opzione denominata `Switch.AmazingLib.ThrowOnException` a `true`, che consente un comportamento legacy. La libreria può quindi controllare se un consumer di libreria ha impostato il valore dell'opzione chiamando il <xref:System.AppContext.TryGetSwitch%2A> metodo.  
+ La riga di codice seguente imposta un'opzione denominata `Switch.AmazingLib.ThrowOnException` a `true`, che consente un comportamento legacy. La libreria può quindi controllare se un consumer della libreria è impostato il valore dell'opzione chiamando il <xref:System.AppContext.TryGetSwitch%2A> (metodo).  
   
  [!code-csharp[System.AppContext.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#1)]
  [!code-vb[System.AppContext.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#1)]  
@@ -364,6 +369,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -374,7 +384,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il nome della versione di framework di destinazione corrisponde al valore del <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> proprietà. Per un elenco di nomi di framework di destinazione per .NET Framework, vedere la [ &lt;supportedRuntime&gt; elemento](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) elemento.  
+ Il nome della versione del framework di destinazione corrisponde al valore della <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> proprietà. Per un elenco di nomi di framework di destinazione per .NET Framework, vedere la [ &lt;supportedRuntime&gt; elemento](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) elemento.  
   
  ]]></format>
         </remarks>
@@ -414,7 +424,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="switchName" Type="System.String" />
-        <Parameter Name="isEnabled" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="isEnabled" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="switchName">Nome dell'opzione.</param>
@@ -426,16 +436,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.AppContext> classe consente agli autori di libreria esplicita fornire un meccanismo di rifiuto uniforme per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
+ Il <xref:System.AppContext> classe consente agli autori di librerie fornire un meccanismo uniforme di rifiuto esplicito per la nuova funzionalità per i propri utenti. che stabilisce un contratto a regime di controllo libero ("loosely-coupled") tra componenti per poter comunicare una richiesta di rinuncia esplicita. Questa funzionalità è importante in genere quando viene apportata una modifica alle funzionalità esistenti. Al contrario, esiste già un consenso esplicito per la nuova funzionalità.  
   
- Common language runtime popola automaticamente i commutatori assegnati a un <xref:System.AppContext> istanza leggendo il Registro di sistema e file di configurazione dell'applicazione. Il valore di queste opzioni possa quindi eseguire l'override e aggiunta di nuovi switch, chiamando la <xref:System.AppContext.SetSwitch%2A> metodo.  
+ Common language runtime popola automaticamente i commutatori assegnati a un <xref:System.AppContext> istanza leggendo il Registro di sistema e file di configurazione dell'applicazione. Il valore di queste opzioni possa quindi essere sottoposto a override e aggiunto nuove opzioni, chiamando il <xref:System.AppContext.SetSwitch%2A> (metodo).  
   
- Una libreria chiama il <xref:System.AppContext.TryGetSwitch%2A> metodo per verificare se il consumer stato dichiarato il valore dell'opzione e quindi utilizzata per effettuare operazioni in modo appropriato.  Per impostazione predefinita, se l'opzione non è definito, le nuove funzionalità sono abilitata... Se l'opzione è definita e il relativo valore è `false`, la nuova funzionalità è abilitata anche. Se il valore è `true`, il comportamento legacy è abilitato.  
+ Una libreria chiama il <xref:System.AppContext.TryGetSwitch%2A> metodo per verificare se i relativi consumer hanno dichiarato il valore dell'opzione e quindi intervenire in modo appropriato su di esso.  Per impostazione predefinita, se l'opzione non è definito, la nuova funzionalità è abilitata... Se l'opzione è definita e il relativo valore è `false`, la nuova funzionalità è abilitata. Se il valore è `true`, il comportamento legacy è abilitato.  
   
    
   
 ## Examples  
- Nell'esempio seguente determina se un consumer di libreria è impostato un commutatore denominato `Switch.AmazingLib.ThrowOnException`.  
+ L'esempio seguente determina se un consumer della libreria è impostata un'opzione denominata `Switch.AmazingLib.ThrowOnException`.  
   
  [!code-csharp[System.AppContext.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#2)]
  [!code-vb[System.AppContext.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#2)]  
