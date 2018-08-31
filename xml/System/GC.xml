@@ -1,17 +1,18 @@
 <Type Name="GC" FullName="System.GC">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="11996d97bef6121bce982a8368bef5e8197c8a44" />
-    <Meta Name="ms.sourcegitcommit" Value="1465f1a9bce3970cd9e95769eaa641b92a0a22d5" />
+    <Meta Name="ms.openlocfilehash" Value="bc70883d1f178e5912deca211e366c1112bd5e7e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="04/18/2018" />
-    <Meta Name="ms.locfileid" Value="31469399" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39926582" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class GC" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit GC extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.GC" />
   <TypeSignature Language="VB.NET" Value="Public Class GC" />
   <TypeSignature Language="C++ CLI" Value="public ref class GC abstract sealed" />
+  <TypeSignature Language="F#" Value="type GC = class" />
   <AssemblyInfo>
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
@@ -23,6 +24,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -40,17 +43,17 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il garbage collector non è un componente di common language runtime che controlla l'allocazione e il rilascio di memoria gestita. I metodi in questa classe determinano quando l'operazione di garbage collection viene eseguita su un oggetto e quando vengono rilasciate le risorse allocate da un oggetto. Proprietà di questa classe forniscono informazioni sulla quantità totale di memoria disponibile nel sistema e la categoria di età o generazione, della memoria allocata a un oggetto.  
+ Il garbage collector è un componente common language runtime che controlla l'allocazione e il rilascio di memoria gestita. Fattori che incidono i metodi in questa classe quando garbage collection viene eseguito su un oggetto e quando vengono rilasciate le risorse allocate da un oggetto. Proprietà di questa classe forniscono informazioni sulla quantità totale di memoria disponibile nel sistema e la categoria di età o generazione, della memoria allocata a un oggetto.  
   
- Il garbage collector tiene traccia e recupera gli oggetti allocati nella memoria gestita. Periodicamente, il garbage collector esegue garbage collection per recuperare la memoria allocata agli oggetti per cui non sono presenti riferimenti validi. Operazione di Garbage collection viene eseguita automaticamente quando una richiesta di memoria non può essere soddisfatti mediante memoria libera disponibile. In alternativa, un'applicazione può forzare garbage collection con il <xref:System.GC.Collect%2A> metodo.  
+ Il garbage collector tiene traccia e recupera gli oggetti allocati nella memoria gestita. Periodicamente, il garbage collector esegue garbage collection per recuperare memoria allocata agli oggetti per cui non sono presenti riferimenti validi. Operazione di Garbage collection viene eseguita automaticamente quando una richiesta per la memoria non può essere soddisfatta usando memoria libera disponibile. In alternativa, un'applicazione può forzare garbage collection usando il <xref:System.GC.Collect%2A> (metodo).  
   
- Operazione di Garbage collection è costituito dai passaggi seguenti:  
+ Operazione di Garbage collection è costituita dai passaggi seguenti:  
   
-1.  Il garbage collector esegue la ricerca di oggetti gestiti a cui fa riferimento nel codice gestito.  
+1.  Il garbage collector esegue la ricerca per gli oggetti gestiti che fanno riferimento a codice gestito.  
   
-2.  Il garbage collector tenta di completare gli oggetti che non fa riferimento.  
+2.  Il garbage collector tenta di completare gli oggetti che non vengono fatto riferimento.  
   
-3.  Il garbage collector libera gli oggetti che non fa riferimento e recupera la memoria.  
+3.  Il garbage collector libera gli oggetti che non vengono fatto riferimento e recupera la memoria.  
   
  Questo argomento include le sezioni seguenti:  
   
@@ -60,34 +63,34 @@
   
 <a name="unmanaged"></a>   
 ## <a name="the-garbage-collector-and-unmanaged-resources"></a>Il garbage collector e le risorse non gestite  
- Durante una raccolta, il garbage collector non libera un oggetto se vengono rilevati uno o più riferimenti all'oggetto nel codice gestito. Tuttavia, il garbage collector non riconosce i riferimenti a un oggetto dal codice non gestito e potrebbe liberare gli oggetti che vengono utilizzati esclusivamente nel codice non gestito a meno che non esplicitamente impedito di farlo. Il <xref:System.GC.KeepAlive%2A> metodo fornisce un meccanismo che impedisce al garbage collector di raccogliere gli oggetti che sono ancora in uso nel codice non gestito.  
+ Durante una raccolta, il garbage collector non liberare un oggetto se viene rilevato uno o più riferimenti all'oggetto nel codice gestito. Tuttavia, il garbage collector non riconosce i riferimenti a un oggetto dal codice non gestito e potrebbe liberare gli oggetti che vengono usati esclusivamente nel codice non gestito se non esplicitamente impedito di farlo. Il <xref:System.GC.KeepAlive%2A> metodo fornisce un meccanismo che impedisce al garbage collector di raccogliere gli oggetti che sono ancora in uso nel codice non gestito.  
   
- A parte le allocazioni di memoria gestita, le implementazioni del garbage collector non mantengono le informazioni sulle risorse occupate da un oggetto, ad esempio gli handle di file o le connessioni al database. Quando un tipo utilizza le risorse non gestite che devono essere rilasciate prima del recupero delle istanze del tipo, il tipo può implementare un finalizzatore.  
+ A parte le allocazioni di memoria gestita, le implementazioni del garbage collector non conterranno informazioni sulle risorse mantenute da un oggetto, ad esempio gli handle di file o le connessioni al database. Quando un tipo Usa le risorse non gestite che devono essere rilasciate prima del recupero delle istanze del tipo, il tipo può implementare un finalizzatore.  
   
- Nella maggior parte dei casi, i finalizzatori vengono implementati eseguendo l'override di <xref:System.Object.Finalize%2A?displayProperty=nameWithType> metodo; tuttavia, i tipi scritti in c# o C++ implementano i distruttori, quali i compilatori trasformare in un override di <xref:System.Object.Finalize%2A?displayProperty=nameWithType>. Nella maggior parte dei casi, se un oggetto ha un finalizzatore, il garbage collector viene chiamato prima di liberare l'oggetto. Tuttavia, il garbage collector non è necessario chiamare i finalizzatori in tutte le situazioni. ad esempio, il <xref:System.GC.SuppressFinalize%2A> metodo impedisce in modo esplicito un finalizzatore dell'oggetto venga chiamato. Inoltre, il garbage collector non è necessario utilizzare un thread specifico per completare gli oggetti o garantisce l'ordine in cui vengono chiamati i finalizzatori per gli oggetti che fanno riferimento a altro, ma sono comunque disponibili per l'operazione di garbage collection.  
+ Nella maggior parte dei casi, i finalizzatori vengono implementati mediante l'override di <xref:System.Object.Finalize%2A?displayProperty=nameWithType> metodo; tuttavia, tipi scritti in c# o C++ implementano i distruttori, quali i compilatori trasforma in un override di <xref:System.Object.Finalize%2A?displayProperty=nameWithType>. Nella maggior parte dei casi, se un oggetto ha un finalizzatore, il garbage collector non viene chiamato prima del rilascio dell'oggetto. Tuttavia, il garbage collector non è necessario chiamare i finalizzatori in tutte le situazioni. ad esempio, il <xref:System.GC.SuppressFinalize%2A> metodo impedisce in modo esplicito un finalizzatore dell'oggetto di chiamata. Inoltre, il garbage collector non è necessario usare un thread specifico per completare gli oggetti o garantisce l'ordine in cui vengono chiamati i finalizzatori per gli oggetti che fanno riferimento a altro, ma in caso contrario, sono disponibili per l'operazione di garbage collection.  
   
- In scenari in cui le risorse devono essere rilasciate in un momento specifico, possono implementare le classi di <xref:System.IDisposable> interfaccia, che contiene il <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> metodo che esegue attività di gestione e la pulizia delle risorse. Le classi che implementano <xref:System.IDisposable.Dispose%2A> devono specificare, come parte del contratto classe, se e quando i consumer di classe chiamano il metodo per pulire l'oggetto. Il garbage collector non, per impostazione predefinita, chiama il <xref:System.IDisposable.Dispose%2A> metodo; tuttavia, le implementazioni del <xref:System.IDisposable.Dispose%2A> metodo può chiamare metodi <xref:System.GC> classe per personalizzare il comportamento di finalizzazione del garbage collector.  
+ Negli scenari in cui le risorse devono essere rilasciate in un momento specifico, le classi possono implementare il <xref:System.IDisposable> interfaccia, che contiene il <xref:System.IDisposable.Dispose%2A?displayProperty=nameWithType> metodo che esegue attività di gestione e pulizia di risorse. Le classi che implementano <xref:System.IDisposable.Dispose%2A> deve specificare, come parte del contratto, classe se e quando i consumer di classe chiamano il metodo per pulire l'oggetto. Il garbage collector non, per impostazione predefinita, chiama il <xref:System.IDisposable.Dispose%2A> metodo; tuttavia, le implementazioni del <xref:System.IDisposable.Dispose%2A> metodo può chiamare metodi <xref:System.GC> classe per personalizzare il comportamento di finalizzazione del garbage collector.  
   
- Per ulteriori informazioni sul completamento di un oggetto e il modello dispose, vedere [la pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md).  
+ Per altre informazioni su alla finalizzazione dell'oggetto e il modello dispose, vedere [pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md).  
   
 <a name="generations"></a>   
 ## <a name="object-aging-and-generations"></a>Generazioni e la durata dell'oggetto  
- Il garbage collector di common language runtime supporta la durata dell'oggetto utilizzando le generazioni. Una generazione è un'unità di misura della durata relativa degli oggetti in memoria. Il numero di generazione, o l'età, di un oggetto indica la generazione a cui appartiene l'oggetto. Gli oggetti creati più recente fanno parte delle generazioni più recenti e numeri di generazione più bassi rispetto a scorrere gli oggetti creati in precedenza in tutta la durata dell'applicazione. Gli oggetti della generazione più recente si trovano nella generazione 0. Questa implementazione del garbage collector supporta tre generazioni di oggetti, le generazioni 0, 1 e 2. È possibile recuperare il valore di <xref:System.GC.MaxGeneration%2A> proprietà per determinare il numero massimo di generazione supportato dal sistema.  
+ Il garbage collector di common language runtime supporta la durata dell'oggetto utilizzando le generazioni. Una generazione è un'unità di misura della durata degli oggetti in memoria relativa. Il numero di generazione o età, di un oggetto indica la generazione a cui appartiene un oggetto. Gli oggetti creati più di recente fanno parte delle generazioni più recenti e numeri di generazione più bassi rispetto a scorrere gli oggetti creati in precedenza in tutta la durata dell'applicazione. Gli oggetti della generazione più recente si trovano nella generazione 0. Questa implementazione del garbage collector supporta tre generazioni di oggetti, generazioni 0, 1 e 2. È possibile recuperare il valore della <xref:System.GC.MaxGeneration%2A> proprietà per determinare il numero di numero massimo di generazioni supportato dal sistema.  
   
- La durata dell'oggetto consente alle applicazioni di operazione di garbage collection di destinazione in un set specifico di generazioni piuttosto che il garbage collector valutare tutte le generazioni. Esegue l'overload di <xref:System.GC.Collect%2A> metodo che includono un `generation` parametro consente di specificare la generazione meno recente per essere sottoposto a garbage collection.  
+ La durata dell'oggetto consente alle applicazioni di operazione di garbage collection di destinazione in un set specifico di generazioni, anziché richiedere al garbage collector di valutare tutte le generazioni. Esegue l'overload del <xref:System.GC.Collect%2A> metodo che includono un `generation` parametro consentono di specificare la generazione meno recente per essere sottoposto a garbage collection.  
   
 <a name="NoGCRegion"></a>   
 ## <a name="disallowing-garbage-collection"></a>Impedisce l'operazione di garbage collection  
- A partire dal [!INCLUDE[net_v46](~/includes/net-v46-md.md)], il garbage collector supporta una modalità aree GC latenza che può essere utilizzata durante l'esecuzione di percorsi critici in cui garbage raccolta può influire negativamente sulle prestazioni di un'app. Nessuna modalità di latenza delle aree di GC è necessario specificare una quantità di memoria da allocare senza interferenze del garbage collector. Se il runtime può allocare la memoria, il runtime non eseguire un'operazione di garbage collection durante l'esecuzione di codice in un percorso critico.  
+ A partire dal [!INCLUDE[net_v46](~/includes/net-v46-md.md)], il garbage collector supporta una latenza modalità delle aree GC che può essere utilizzata durante l'esecuzione di percorsi critici in garbage collection può influire negativamente sulle prestazioni dell'app. La latenza modalità delle aree GC richiede di specificare una quantità di memoria che può essere allocata senza interferenze dal garbage collector. Se il runtime può allocare la memoria, il runtime non eseguirà un'operazione di garbage collection durante l'esecuzione di codice in un percorso critico.  
   
- Si definisce l'inizio del percorso critico dell'area non GC chiamando uno degli overload di <xref:System.GC.TryStartNoGCRegion%2A>. Specificare la fine del percorso critico chiamando il <xref:System.GC.EndNoGCRegion%2A> metodo.  
+ Si definisce l'inizio del percorso critico di alcuna area Garbage Collection chiamando uno degli overload del <xref:System.GC.TryStartNoGCRegion%2A>. Si specifica la fine del relativo percorso critico tramite una chiamata di <xref:System.GC.EndNoGCRegion%2A> (metodo).  
   
- Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+ Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
    
   
 ## Examples  
- Nell'esempio seguente utilizza diversi metodi di catalogo globale per ottenere la generazione di informazioni sulla memoria relative a un blocco di oggetti inutilizzati e stamparlo nella console. Gli oggetti inutilizzati vengono quindi raccolti e vengono visualizzati i totali della memoria.  
+ L'esempio seguente usa diversi metodi di catalogo globale per ottenere la generazione e informazioni di memoria su un blocco di oggetti inutilizzati e stamparlo nella console. Gli oggetti inutilizzati vengono quindi raccolte e vengono visualizzati i totali della memoria.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -104,6 +107,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.AddMemoryPressure(System.Int64)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub AddMemoryPressure (bytesAllocated As Long)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddMemoryPressure(long bytesAllocated);" />
+      <MemberSignature Language="F#" Value="static member AddMemoryPressure : int64 -&gt; unit" Usage="System.GC.AddMemoryPressure bytesAllocated" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -116,6 +120,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -124,7 +129,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.5;netstandard-1.6;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -141,24 +146,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Determinazione della necessità di pianificare operazioni di garbage collection, il runtime tiene in considerazione la quantità di memoria gestito viene allocato. Se un oggetto gestito di piccole dimensioni viene allocata una grande quantità di memoria non gestita, il runtime prende in considerazione solo la memoria gestita e viene pertanto sottovalutata l'urgenza della pianificazione della procedura di garbage collection. Il <xref:System.GC.AddMemoryPressure%2A> metodo informa il runtime di questa pressione aggiuntiva sulla memoria di sistema.  
+ Nella determinazione della necessità di pianificare l'operazione di garbage collection, il runtime prende in considerazione la quantità di memoria gestito viene allocato. Se un oggetto gestito di piccole dimensioni viene allocata una grande quantità di memoria non gestita, il runtime tiene in considerazione solo la memoria gestita e viene pertanto sottovalutata l'urgenza della pianificazione della garbage collection. Il <xref:System.GC.AddMemoryPressure%2A> metodo informa il runtime di questa aggiuntiva pressione sulla memoria di sistema.  
   
- Nel modello di utilizzo più semplice, un oggetto gestito alloca memoria non gestita nel costruttore e lo rilascia nel `Dispose` o `Finalize` metodo. Chiamare il <xref:System.GC.AddMemoryPressure%2A> metodo dopo l'allocazione di memoria non gestita e chiamare il <xref:System.GC.RemoveMemoryPressure%2A> metodo dopo averlo rilasciato.  
+ Nel modello di utilizzo più semplice, un oggetto gestito alloca memoria non gestita nel costruttore e lo rilascia nel `Dispose` o `Finalize` (metodo). Chiamare il <xref:System.GC.AddMemoryPressure%2A> metodo dopo avere allocato memoria non gestita e chiamare il <xref:System.GC.RemoveMemoryPressure%2A> metodo dopo averlo rilasciato.  
   
- In scenari più complessi, in cui l'allocazione di memoria non gestita cambia sostanzialmente durante la durata dell'oggetto gestito, è possibile chiamare il <xref:System.GC.AddMemoryPressure%2A> e <xref:System.GC.RemoveMemoryPressure%2A> metodi per comunicare le modifiche incrementali al runtime.  
+ In scenari più complessi, in cui l'allocazione di memoria non gestita in modo sostanziale cambia nel corso della durata dell'oggetto gestito, è possibile chiamare il <xref:System.GC.AddMemoryPressure%2A> e <xref:System.GC.RemoveMemoryPressure%2A> metodi per comunicare le modifiche incrementali al runtime.  
   
 > [!CAUTION]
->  È necessario assicurarsi di rimuovere esattamente la quantità di pressione che aggiunti. In caso contrario, può influenzare negativamente le prestazioni del sistema nelle applicazioni eseguite per lunghi periodi di tempo.  
+>  È necessario assicurarsi di rimuovere esattamente la quantità di pressione che si aggiunge. Se non si esegue questa operazione può influire negativamente sulle prestazioni del sistema in applicazioni in esecuzione per lunghi periodi di tempo.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="bytesAllocated" /> è minore o uguale a 0.  
   
- oppure  
-  
- Su un computer a 32 bit, <paramref name="bytesAllocated" /> è maggiore di <see cref="F:System.Int32.MaxValue" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Per poter chiamare codice non gestito per la modifica delle priorità di garbage collection. Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+oppure 
+Su un computer a 32 bit, <paramref name="bytesAllocated" /> è maggiore di <see cref="F:System.Int32.MaxValue" />.</exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la possibilità di chiamare codice non gestito durante la modifica delle priorità di garbage collection. Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -168,9 +172,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.CancelFullGCNotification" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub CancelFullGCNotification ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void CancelFullGCNotification();" />
+      <MemberSignature Language="F#" Value="static member CancelFullGCNotification : unit -&gt; unit" Usage="System.GC.CancelFullGCNotification " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -184,7 +190,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -198,12 +204,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo metodo annulla una notifica di garbage collection che è stata registrata usando il <xref:System.GC.RegisterForFullGCNotification%2A> metodo. Non è necessario chiamare questo metodo prima di modificare i valori di soglia dei parametri nelle chiamate successive al <xref:System.GC.RegisterForFullGCNotification%2A> metodo.  
+ Questo metodo consente di annullare una notifica di garbage collection che è stata registrata usando il <xref:System.GC.RegisterForFullGCNotification%2A> (metodo). Non è necessario chiamare questo metodo prima di modificare i valori di soglia dei parametri nelle chiamate successive al <xref:System.GC.RegisterForFullGCNotification%2A> (metodo).  
   
    
   
 ## Examples  
- Nell'esempio seguente consente di annullare una registrazione di garbage collection. In questo esempio fa parte di un esempio più esaustivo disponibile per il [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
+ Nell'esempio seguente Annulla una registrazione di garbage collection. In questo esempio fa parte di un esempio più esaustivo disponibile per il [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
   
  [!code-cpp[GCNotification#7](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#7)]
  [!code-csharp[GCNotification#7](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#7)]
@@ -212,7 +218,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">Questo membro non è disponibile quando l'operazione di Garbage Collection in modalità simultanea è abilitata. Vedere l'impostazione di runtime [&lt;gcConcurrent&gt;](~/docs/framework/configure-apps/file-schema/runtime/gcconcurrent-element.md) per informazioni su come disabilitare la Garbage Collection simultanea.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -235,6 +241,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.Collect" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Collect ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Collect();" />
+      <MemberSignature Language="F#" Value="static member Collect : unit -&gt; unit" Usage="System.GC.Collect " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -247,6 +254,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -255,7 +264,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -271,7 +280,7 @@
 ## Remarks  
  Utilizzare questo metodo per provare a recuperare tutta la memoria che non è accessibile. Esegue un'operazione di Garbage Collection bloccante per tutte le generazioni.  
   
- Tutti gli oggetti, indipendentemente dal tempo sono stati in memoria, sono considerati per la raccolta. Tuttavia, non vengono raccolti gli oggetti a cui fa riferimento nel codice gestito. Utilizzare questo metodo per forzare il sistema per provare a recuperare la quantità massima di memoria disponibile.  
+ Tutti gli oggetti, indipendentemente dal tempo sono stati in memoria, vengono considerati per la raccolta. Tuttavia, gli oggetti cui vengono fatto riferimento nel codice gestito non vengono raccolti. Usare questo metodo per forzare il sistema per provare a recuperare la quantità massima di memoria disponibile.  
   
  A partire da [!INCLUDE[net_v451](~/includes/net-v451-md.md)], è possibile compattare gli heap di oggetti grandi impostando la proprietà <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> su <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> prima di chiamare il metodo <xref:System.GC.Collect%2A>, come illustrato nell'esempio seguente.  
   
@@ -281,7 +290,7 @@
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.Collect%2A> metodo per eseguire una raccolta su tutte le generazioni di memoria. Il codice genera un numero di oggetti inutilizzati e quindi chiama il <xref:System.GC.Collect%2A> metodo per eliminarli dalla memoria.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.Collect%2A> metodo per eseguire una raccolta in tutte le generazioni di memoria. Il codice genera un numero di oggetti inutilizzati e quindi chiama il <xref:System.GC.Collect%2A> metodo eliminate dalla memoria.  
   
  [!code-cpp[System.GC.Collect Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.Collect Example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.Collect Example/CS/class1.cs#1)]
@@ -297,6 +306,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.Collect(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Collect (generation As Integer)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Collect(int generation);" />
+      <MemberSignature Language="F#" Value="static member Collect : int -&gt; unit" Usage="System.GC.Collect generation" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -309,6 +319,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -329,18 +341,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questo metodo per provare a recuperare la memoria non accessibile. Tuttavia, questo metodo non garantisce che tutta la memoria inaccessibile della generazione specificata è stata recuperata.  
+ Usare questo metodo per provare a recuperare memoria che non è accessibile. Tuttavia, questo metodo non garantisce che tutta la memoria inaccessibile nella generazione specificata viene recuperata.  
   
- Se viene implementata la durata dell'oggetto, il garbage collector non raccoglie gli oggetti con un numero di generazione che è superiore alla generazione specificata. Se non viene implementata la durata dell'oggetto, il garbage collector considera tutti gli oggetti durante l'operazione di garbage collection.  
+ Se viene implementata la durata dell'oggetto, il garbage collector non raccoglie gli oggetti con un numero di generazione superiore rispetto alla generazione specificata. Se la durata dell'oggetto non viene implementata, il garbage collector non prende in considerazione tutti gli oggetti durante l'operazione di garbage collection.  
   
- Utilizzare il <xref:System.GC.MaxGeneration%2A> proprietà per determinare il valore massimo valido di `generation` parametro.  
+ Usare la <xref:System.GC.MaxGeneration%2A> proprietà per determinare il valore massimo valido il `generation` parametro.  
   
- Per disporre il garbage collector di considerare tutti gli oggetti indipendentemente dalla loro generazione, utilizzare la versione di questo metodo che non accetta parametri. Per il garbage collector recupera gli oggetti in base a un <xref:System.GCCollectionMode> impostazione, utilizzare il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%29?displayProperty=nameWithType> overload del metodo.  
+ Per consentire al garbage collector prendere in considerazione tutti gli oggetti indipendentemente dalla generazione, usare la versione di questo metodo che non accetta parametri. Per avere il garbage collector di recuperare gli oggetti in base una <xref:System.GCCollectionMode> impostazione, usare il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%29?displayProperty=nameWithType> overload del metodo.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.Collect%2A> metodo per eseguire una raccolta su singoli livelli di memoria. Il codice genera un numero di oggetti inutilizzati e quindi chiama il <xref:System.GC.Collect%2A> metodo per eliminarli dalla memoria.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.Collect%2A> metodo per eseguire una raccolta su singoli livelli di memoria. Il codice genera un numero di oggetti inutilizzati e quindi chiama il <xref:System.GC.Collect%2A> metodo eliminate dalla memoria.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -358,6 +370,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.Collect(System.Int32,System.GCCollectionMode)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Collect (generation As Integer, mode As GCCollectionMode)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Collect(int generation, GCCollectionMode mode);" />
+      <MemberSignature Language="F#" Value="static member Collect : int * GCCollectionMode -&gt; unit" Usage="System.GC.Collect (generation, mode)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -370,6 +383,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -378,7 +392,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -397,20 +411,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il `mode` parametro per specificare se garbage collection deve verificarsi immediatamente o solo se è il momento migliore per recuperare gli oggetti. Questo metodo non garantisce che tutta la memoria inaccessibile della generazione specificata è stata recuperata.  
+ Usare il `mode` parametro per specificare se la garbage collection deve essere eseguito immediatamente o solo se il tempo è ottimale per recuperare oggetti. Con questo metodo non garantisce che venga recuperata tutta la memoria inaccessibile nella generazione specificata.  
   
- Per regolare l'ingerenza del garbage collection durante i periodi critici nell'applicazione, impostare il <xref:System.Runtime.GCSettings.LatencyMode%2A> proprietà.  
+ Per rettificare l'ingerenza di garbage collection durante i periodi critici nell'applicazione, impostare il <xref:System.Runtime.GCSettings.LatencyMode%2A> proprietà.  
   
- Il garbage collector non raccoglie oggetti con un numero di generazione superiore a quello specificato per il `generation` parametro. Utilizzare il <xref:System.GC.MaxGeneration%2A> proprietà per determinare il valore massimo valido di `generation`.  
+ Il garbage collector non raccogliere gli oggetti con un numero di generazione superiore a quello specificato da di `generation` parametro. Usare la <xref:System.GC.MaxGeneration%2A> proprietà per determinare il valore massimo valido `generation`.  
   
- Per disporre il garbage collector di considerare tutti gli oggetti indipendentemente dalla loro generazione, utilizzare la versione di questo metodo che non accetta parametri.  
+ Per consentire al garbage collector prendere in considerazione tutti gli oggetti indipendentemente dalla generazione, usare la versione di questo metodo che non accetta parametri.  
   
- Per recuperare oggetti fino a una generazione specificata di oggetti, utilizzare il garbage collector di <xref:System.GC.Collect%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Quando si specifica il numero massimo di generazioni, vengono raccolti tutti gli oggetti.  
+ Affinché il garbage collector di recuperare oggetti fino a una generazione specificata di oggetti, usare il <xref:System.GC.Collect%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Quando si specifica il numero massimo di generazioni, tutti gli oggetti vengono raccolti.  
   
    
   
 ## Examples  
- Nell'esempio seguente forza un'operazione di garbage collection per gli oggetti di generazione 2 con la <xref:System.GCCollectionMode.Optimized> impostazione.  
+ Nell'esempio seguente forza un'operazione di garbage collection per gli oggetti di generazione 2 con il <xref:System.GCCollectionMode.Optimized> impostazione.  
   
  [!code-csharp[System.GC.GCCollectionMode#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.GCCollectionMode/cs/Program.cs#1)]
  [!code-vb[System.GC.GCCollectionMode#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.GC.GCCollectionMode/vb/program.vb#1)]  
@@ -420,8 +434,7 @@
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="generation" /> non è valido.  
   
- oppure  
-  
+oppure 
  <paramref name="mode" /> non è uno dei valori di <see cref="T:System.GCCollectionMode" />.</exception>
       </Docs>
     </Member>
@@ -431,6 +444,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Collect (generation As Integer, mode As GCCollectionMode, blocking As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Collect(int generation, GCCollectionMode mode, bool blocking);" />
+      <MemberSignature Language="F#" Value="static member Collect : int * GCCollectionMode * bool -&gt; unit" Usage="System.GC.Collect (generation, mode, blocking)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -451,7 +465,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -487,8 +501,7 @@
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="generation" /> non è valido.  
   
- oppure  
-  
+oppure 
  <paramref name="mode" /> non è uno dei valori di <see cref="T:System.GCCollectionMode" />.</exception>
       </Docs>
     </Member>
@@ -498,6 +511,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Collect (generation As Integer, mode As GCCollectionMode, blocking As Boolean, compacting As Boolean)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Collect(int generation, GCCollectionMode mode, bool blocking, bool compacting);" />
+      <MemberSignature Language="F#" Value="static member Collect : int * GCCollectionMode * bool * bool -&gt; unit" Usage="System.GC.Collect (generation, mode, blocking, compacting)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -514,7 +528,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -539,16 +553,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `blocking` è `false`, il Garbage Collector decide di eseguire in background o una garbage collection bloccante. Se `compacting` è `true`, esegue una garbage collection bloccante.  
+ Se `blocking` è `false`, il Garbage Collector decide se eseguire una procedura di garbage collection o uno sfondo. Se `compacting` è `true`, esegue una procedura di garbage collection.  
   
- Se `compacting` è `true`, il runtime comprime l'heap oggetti piccoli (SOH). L'heap oggetti grandi (LOH) non viene compattato a meno che il <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> è impostata su <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType>. Si noti che questo include tutti i blocchi di garbage collection, non appena completa blocco delle garbage collection.  
+ Se `compacting` è `true`, il runtime comprime l'heap oggetti piccoli (SOH). L'heap oggetti grandi (LOH) non viene compattato a meno che il <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> è impostata su <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType>. Si noti che questa includa tutti i blocchi di garbage collection, non appena completa di garbage collection di blocco.  
   
- È possibile chiamare il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> metodo per ridurre l'heap gestito per il più piccolo possibile di dimensioni, come illustrato nel frammento di codice seguente.  
+ È possibile chiamare il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> metodo per ridurre l'heap gestito a dimensioni più piccole possibili, come illustrato nel seguente frammento di codice seguente.  
   
  [!code-csharp[System.GC.Collect#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect/cs/collect4.cs#1)]
  [!code-vb[System.GC.Collect#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.collect/vb/collect4.vb#1)]  
   
- Specifica di `true` per il `compacting` argomento garantisce una compressione, completa di garbage collection bloccante. L'impostazione di <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> proprietà <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> assicura che il rapporto di integrità sia l'heap oggetti grandi vengono compattate.  
+ Che specifica `true` per il `compacting` argomento garantisce una compattazione, completa di garbage collection bloccante. Impostando il <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> proprietà <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> assicura che il rapporto di integrità sia l'heap oggetti grandi vengono compattate.  
   
  ]]></format>
         </remarks>
@@ -560,6 +574,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.CollectionCount(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function CollectionCount (generation As Integer) As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static int CollectionCount(int generation);" />
+      <MemberSignature Language="F#" Value="static member CollectionCount : int -&gt; int" Usage="System.GC.CollectionCount generation" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -572,6 +587,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -580,10 +596,10 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -601,7 +617,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se si implementa la propria gestione delle risorse, potrebbe essere necessario forzare periodicamente garbage collection chiamando il <xref:System.GC.Collect%2A> metodo. Poiché si tratta di un'operazione dispendiosa, è possibile migliorare le prestazioni ignorando la chiamata quando un'operazione di garbage collection si è verificata di recente. Salvare il valore restituito da <xref:System.GC.CollectionCount%2A> immediatamente dopo la chiamata <xref:System.GC.Collect%2A>. Alla successiva, è necessario chiamare <xref:System.GC.Collect%2A>, confrontare il valore corrente restituito da <xref:System.GC.CollectionCount%2A> con il valore salvato. Se i due valori sono uguali, Nessuna raccolta si è verificato nel frattempo ed è consigliabile chiamare <xref:System.GC.Collect%2A> nuovamente.  
+ Se si implementa la gestione delle proprie risorse, potrebbe essere necessario forzare periodicamente operazioni di garbage collection chiamando il <xref:System.GC.Collect%2A> (metodo). Poiché si tratta di un'operazione dispendiosa, è possibile migliorare le prestazioni ignorando la chiamata durante un'operazione di garbage collection si è verificata di recente. Salvare il valore restituito da <xref:System.GC.CollectionCount%2A> immediatamente dopo la chiamata <xref:System.GC.Collect%2A>. La volta successiva, è necessario chiamare <xref:System.GC.Collect%2A>, confrontare il valore corrente restituito dalla <xref:System.GC.CollectionCount%2A> con il valore salvato. Se i due valori sono uguali, si è verificato alcun insieme nel frattempo e a diminuire è ragionevole chiamare <xref:System.GC.Collect%2A> nuovamente.  
   
  ]]></format>
         </remarks>
@@ -615,6 +631,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.EndNoGCRegion" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub EndNoGCRegion ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void EndNoGCRegion();" />
+      <MemberSignature Language="F#" Value="static member EndNoGCRegion : unit -&gt; unit" Usage="System.GC.EndNoGCRegion " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -631,7 +648,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -645,15 +662,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.GC.EndNoGCRegion%2A> metodo genera un <xref:System.InvalidOperationException> se il garbage collector non è disponibile in alcuna modalità di latenza delle aree GC. Questo errore si verifica in presenza delle condizioni seguenti:  
+ Il <xref:System.GC.EndNoGCRegion%2A> metodo genera un <xref:System.InvalidOperationException> se il garbage collector non è disponibile in alcuna modalità di latenza delle aree GC. Ciò si verifica in presenza delle condizioni seguenti:  
   
 -   Il <xref:System.GC.TryStartNoGCRegion%2A> (metodo) non è stato chiamato in precedenza.  
   
--   La chiamata al <xref:System.GC.TryStartNoGCRegion%2A> metodo restituito `false`.  
+-   La chiamata per il <xref:System.GC.TryStartNoGCRegion%2A> metodo restituito `false`.  
   
--   La chiamata al <xref:System.GC.TryStartNoGCRegion%2A> metodo ha generato un'eccezione.  
+-   La chiamata al <xref:System.GC.TryStartNoGCRegion%2A> metodo genera un'eccezione.  
   
- Tramite il codice, ad esempio, è possibile impedire un'eccezione per i motivi seguenti:  
+ È possibile impedire un'eccezione per i motivi seguenti usando codice simile al seguente:  
   
  [!code-csharp[System.GC.EndNoGCRegion#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.endnogcregion/cs/endnogcregion1.cs#1)]
  [!code-vb[System.GC.EndNoGCRegion#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.endnogcregion/vb/endnogcregion1.vb#1)]  
@@ -662,13 +679,11 @@
         </remarks>
         <exception cref="T:System.InvalidOperationException">Il Garbage Collector non è in modalità di assenza di latenza dell'area di Garbage Collection.  
   
- oppure  
+oppure 
+La modalità di assenza di latenza dell'area di Garbage Collection è stata terminata in precedenza perché è stata attivata un'operazione di Garbage Collection.  
   
- La modalità di assenza di latenza dell'area di Garbage Collection è stata terminata in precedenza perché è stata attivata un'operazione di Garbage Collection.  
-  
- oppure  
-  
- Un'allocazione di memoria ha superato la quantità specificata nella chiamata al metodo <see cref="M:System.GC.TryStartNoGCRegion(System.Int64)" />.</exception>
+oppure 
+Un'allocazione di memoria ha superato la quantità specificata nella chiamata al metodo <see cref="M:System.GC.TryStartNoGCRegion(System.Int64)" />.</exception>
         <altmember cref="M:System.GC.TryStartNoGCRegion(System.Int64)" />
         <altmember cref="P:System.Runtime.GCSettings.LatencyMode" />
       </Docs>
@@ -679,6 +694,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.GetAllocatedBytesForCurrentThread" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetAllocatedBytesForCurrentThread () As Long" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static long GetAllocatedBytesForCurrentThread();" />
+      <MemberSignature Language="F#" Value="static member GetAllocatedBytesForCurrentThread : unit -&gt; int64" Usage="System.GC.GetAllocatedBytesForCurrentThread " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -712,6 +728,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.GetGeneration(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetGeneration (obj As Object) As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static int GetGeneration(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="static member GetGeneration : obj -&gt; int" Usage="System.GC.GetGeneration obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -722,6 +739,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -730,7 +749,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -748,12 +767,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare questo metodo per determinare la validità di un oggetto e quindi utilizzare tali informazioni con il <xref:System.GC.Collect%2A> metodo per forzare il garbage collector per raccogliere gli oggetti nella stessa generazione. Ad esempio, utilizzare questo metodo quando si dispone di un set di oggetti che vengono creati come un gruppo e che diventano inaccessibili nello stesso momento.  
+ Usare questo metodo per determinare la validità di un oggetto e quindi usare tali informazioni con il <xref:System.GC.Collect%2A> metodo per forzare il garbage collector di raccogliere gli oggetti nella generazione stessa. Ad esempio, usare questo metodo quando si dispone di un set di oggetti che vengono creati come un gruppo e che diventano inaccessibili nello stesso momento.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.GetGeneration%2A> metodo per determinare la validità di un oggetto. L'esempio quindi esegue operazioni di garbage collection per pulire la memoria e confrontare la pre e post raccolta totali della memoria nella console.  
+ Nell'esempio seguente viene illustrato come utilizzare il <xref:System.GC.GetGeneration%2A> metodo per determinare la validità di un oggetto. Nell'esempio viene quindi eseguito operazioni di garbage collection per pulire la memoria e confrontare pre e post raccolta totali della memoria nella console.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -770,9 +789,12 @@
       <MemberSignature Language="DocId" Value="M:System.GC.GetGeneration(System.WeakReference)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetGeneration (wo As WeakReference) As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static int GetGeneration(WeakReference ^ wo);" />
+      <MemberSignature Language="F#" Value="static member GetGeneration : WeakReference -&gt; int" Usage="System.GC.GetGeneration wo" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -786,7 +808,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -822,6 +844,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.GetTotalMemory(System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetTotalMemory (forceFullCollection As Boolean) As Long" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static long GetTotalMemory(bool forceFullCollection);" />
+      <MemberSignature Language="F#" Value="static member GetTotalMemory : bool -&gt; int64" Usage="System.GC.GetTotalMemory forceFullCollection" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -834,6 +857,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -841,6 +866,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
@@ -856,7 +886,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il `forceFullCollection` parametro `true`, questo metodo attende un breve intervallo prima di restituire il sistema di Garbage Collection e il completamento degli oggetti. La durata dell'intervallo è un limite specificato internamente, determinato dal numero di cicli di garbage collection completata e la modifica nella quantità di memoria recuperata tra i cicli. Il garbage collector non garantisce che tutta la memoria inaccessibile verrà raccolti.  
+ Se il `forceFullCollection` parametro è `true`, questo metodo attende un breve periodo di tempo prima della restituzione, mentre il sistema di Garbage Collection e il completamento degli oggetti. La durata dell'intervallo è un limite specificato internamente dipende dal numero di cicli di garbage collection completata e la modifica della quantità di memoria recuperata tra i cicli. Il garbage collector non garantisce che tutta la memoria non accessibile verrà raccolti.  
   
    
   
@@ -877,6 +907,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.KeepAlive(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub KeepAlive (obj As Object)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void KeepAlive(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="static member KeepAlive : obj -&gt; unit" Usage="System.GC.KeepAlive obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -889,6 +920,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -897,8 +930,11 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -914,16 +950,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lo scopo del <xref:System.GC.KeepAlive%2A> metodo consiste nel verificare l'esistenza di un riferimento a un oggetto che è a rischio di in modo anomalo viene recuperato da garbage collector. In questa situazione potrebbe verificarsi uno scenario comune è quando non sono presenti riferimenti all'oggetto nel codice gestito o di dati, ma l'oggetto è ancora in uso nel codice non gestito, ad esempio le API Win32, le DLL non gestite, o i metodi tramite COM.  
+ Lo scopo del <xref:System.GC.KeepAlive%2A> metodo consiste nel verificare l'esistenza di un riferimento a un oggetto che è soggetta a rischi derivanti in modo anomalo viene recuperato dal garbage collector. Uno scenario comune in cui questo può verificarsi è quando non sono presenti riferimenti all'oggetto nel codice gestito o dati, ma l'oggetto è ancora in uso nel codice non gestito, ad esempio le API Win32, le DLL non gestite, o i metodi tramite COM.  
   
- Questo metodo fa riferimento il `obj` parametro, rendendo questo oggetto non idonea per l'operazione di garbage collection dall'inizio della routine di ordine di esecuzione, al punto in cui questo metodo viene chiamato. Questo metodo al termine, non all'inizio, dell'intervallo di istruzioni di codice in cui `obj` devono essere disponibili.  
+ Questo metodo fa riferimento il `obj` parametro, rendendo questo oggetto non idonea per garbage collection dall'inizio della routine per il punto, in ordine di esecuzione, in cui questo metodo viene chiamato. Questo metodo alla fine, non all'inizio, dell'intervallo di istruzioni di codice in cui `obj` deve essere disponibile.  
   
  Il <xref:System.GC.KeepAlive%2A> metodo non esegue alcuna operazione e non produce effetti collaterali diverso da prolungare la durata dell'oggetto passato come parametro.  
   
    
   
 ## Examples  
- Esempio di codice seguente crea un oggetto all'inizio del relativo `Main` (metodo) e non fa riferimento all'oggetto fino alla fine, quando il <xref:System.GC.KeepAlive%2A> metodo viene chiamato. L'oggetto viene mantenuto per tutta la durata di 30 secondi del `Main` nonostante chiamate al metodo di <xref:System.GC.Collect%2A> e <xref:System.GC.WaitForPendingFinalizers%2A> metodi.  
+ Esempio di codice seguente crea un oggetto all'inizio del relativo `Main` metodo e non fa riferimento all'oggetto fino alla fine, quando il <xref:System.GC.KeepAlive%2A> viene chiamato il metodo. L'oggetto viene mantenuto per la durata di 30 secondi del `Main` metodo, nonostante le chiamate per il <xref:System.GC.Collect%2A> e <xref:System.GC.WaitForPendingFinalizers%2A> metodi.  
   
  [!code-cpp[System.GC.KeepAlive Example2#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.KeepAlive Example2/CPP/gckeepalive.cpp#1)]
  [!code-csharp[System.GC.KeepAlive Example2#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.KeepAlive Example2/CS/gckeepalive.cs#1)]
@@ -939,6 +975,7 @@
       <MemberSignature Language="DocId" Value="P:System.GC.MaxGeneration" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property MaxGeneration As Integer" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property int MaxGeneration { int get(); };" />
+      <MemberSignature Language="F#" Value="member this.MaxGeneration : int" Usage="System.GC.MaxGeneration" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -951,6 +988,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -959,7 +998,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -973,16 +1012,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il numero di generazione, o l'età, di un oggetto è una misura relativa della durata di un oggetto definito dall'implementazione. Gli oggetti creati più di recente appartengono alla generazione 0, mentre quelli più vecchi rientrano in una generazione minore o uguale a quella restituita dalla proprietà <xref:System.GC.MaxGeneration%2A>.  
+ Il numero di generazione o età, di un oggetto è una misura relativa della durata di un oggetto definito dall'implementazione. Gli oggetti creati più di recente appartengono alla generazione 0, mentre quelli più vecchi rientrano in una generazione minore o uguale a quella restituita dalla proprietà <xref:System.GC.MaxGeneration%2A>.  
   
- Il garbage collector si presuppone che la memoria più recente è più probabile che essere idoneo per l'operazione di garbage collection rispetto alla memoria meno recente. Pertanto, il garbage collector vengono migliorate le prestazioni modificando i numeri di generazione ogni volta che recupera la memoria, e <xref:System.GC.MaxGeneration%2A> valore della proprietà può crescere nel tempo.  
+ Il garbage collector si presuppone che più recente memoria maggiori probabilità di essere idonea per garbage collection rispetto alla memoria meno recente. Pertanto, il garbage collector migliora le prestazioni regolando i numeri di generazione ogni volta che recupera la memoria, e il <xref:System.GC.MaxGeneration%2A> valore della proprietà può aumentare nel corso del tempo.  
   
- Se la durata dell'oggetto viene implementata, la <xref:System.GC.MaxGeneration%2A> proprietà restituisce il numero massimo di generazione utilizzato dal sistema; in caso contrario, questa proprietà restituisce zero.  
+ Se viene implementata la durata dell'oggetto, il <xref:System.GC.MaxGeneration%2A> proprietà restituisce il numero massimo di generazione utilizzato dal sistema; in caso contrario, questa proprietà restituisce zero.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare la proprietà MaxGeneration per visualizzare il numero massimo di generazione attualmente in uso.  
+ Nell'esempio seguente viene illustrato come utilizzare la proprietà MaxGeneration per visualizzare il numero di generazione più grande attualmente in uso.  
   
  [!code-cpp[System.GC.Collect Int Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.gc.collect int example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.Collect Int Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.collect int example/CS/class1.cs#1)]
@@ -991,9 +1030,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Per questa implementazione, il valore restituito dal <see cref="P:System.GC.MaxGeneration" /> proprietà rimarrà costante per la durata di un'applicazione in esecuzione.  
-  
- Utilizzare il <see cref="P:System.GC.MaxGeneration" /> proprietà per determinare il valore massimo è possibile specificare quando si chiama il <see cref="M:System.GC.Collect(System.Int32)" /> metodo che accetta un parametro di generazione.</para>
+          <para>Per questa implementazione, il valore restituito dal <see cref="P:System.GC.MaxGeneration" /> proprietà è garantito che rimane costante per la durata di un'applicazione in esecuzione.  Usare la <see cref="P:System.GC.MaxGeneration" /> proprietà per determinare il valore massimo è possibile specificare quando si chiama il <see cref="M:System.GC.Collect(System.Int32)" /> metodo che accetta un parametro di generazione.</para>
         </block>
         <altmember cref="M:System.GC.GetGeneration(System.Object)" />
       </Docs>
@@ -1004,9 +1041,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.RegisterForFullGCNotification(System.Int32,System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub RegisterForFullGCNotification (maxGenerationThreshold As Integer, largeObjectHeapThreshold As Integer)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RegisterForFullGCNotification(int maxGenerationThreshold, int largeObjectHeapThreshold);" />
+      <MemberSignature Language="F#" Value="static member RegisterForFullGCNotification : int * int -&gt; unit" Usage="System.GC.RegisterForFullGCNotification (maxGenerationThreshold, largeObjectHeapThreshold)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1020,7 +1059,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1039,34 +1078,34 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per ogni generazione, il garbage collector di impostare una soglia per le allocazioni in tale generazione. Quando le dimensioni delle allocazioni superano questa soglia, viene attivata un'operazione di garbage collection in tale generazione. Per esempio, se la soglia di generazione 2 è 20MB (ovvero resta raccolte di generazione 1 e 20MB viene promosso alla generazione 2) e più di 20MB è stato raccolto generazione 1 e viene richiesto nella generazione 2, verrà tentata la garbage collection successiva come una raccolta di generazione 2. Analogamente, se l'heap oggetti grandi (LOH) soglia è 20MB e l'applicazione è allocato più di 20MB di oggetti di grandi dimensioni, la garbage collection successiva verrà tentata anche come una raccolta di generazione 2 (poiché l'heap oggetti grandi raccolti soltanto in gen2 garbage collection).  
+ Per ogni generazione, il garbage collector non imposta una soglia per le allocazioni in quella generazione. Quando le dimensioni delle allocazioni superano questa soglia, viene attivata una garbage collection sulla generazione interessata. Per esempio, se la soglia di generazione 2 è 20MB (ovvero continua a funzionare, le raccolte di generazione 1 e 20MB viene promosso alla generazione 2) e più di 20MB è sopravvissuto alla generazione 1 e viene richiesto nella generazione 2, verrà tentata la successiva garbage collection come una raccolta di generazione 2. Analogamente, se l'heap oggetti grandi (LOH) soglia è 20MB e l'app ha allocato più di 20MB di oggetti di grandi dimensioni, la successiva garbage collection verrà tentata anche come una raccolta di generazione 2 (dal momento che l'heap oggetti grandi viene raccolto solo in operazioni di garbage collection gen2).  
   
- Il `maxGenerationThreshold` e `largeObjectHeapThreshold` soglie di controllano la quantità in anticipo si riceve una notifica prima che si verifichi una garbage collection completa. Maggiore è la soglia, le altre allocazioni che possono verificarsi tra la notifica e la successiva completa di garbage collection.  
+ Il `maxGenerationThreshold` e `largeObjectHeapThreshold` le soglie di controllano la quantità in anticipo riceverà una notifica prima che venga eseguita una garbage collection completa. Maggiore è la soglia, le allocazioni di più che possono verificarsi tra la notifica e la successiva garbage collection completa.  
   
- Se si dispone di situazioni in cui una garbage collection completa da common language runtime influire negativamente sulle prestazioni dell'applicazione, è possibile richiedere una notifica quando il runtime sta per eseguire una garbage collection completa e aggirare tale raccolta da provocare una raccolta manualmente (utilizzando la <xref:System.GC.Collect%2A> metodo) quando le condizioni sono ancora favorevoli. Oltre a modificare la pianificazione di garbage collection, notifica completa di Garbage Collection è utile nei seguenti scenari:  
+ Se si dispone di situazioni in cui una completa di garbage collection da common language runtime potrebbe influire negativamente sulle prestazioni dell'applicazione, è possibile richiedere una notifica quando il runtime sta per eseguire operazioni di garbage collection completa e aggirare tale raccolta in base al provocare manualmente una raccolta (usando il <xref:System.GC.Collect%2A> metodo) quando le condizioni sono comunque vantaggiose. Oltre a modificare la pianificazione di garbage collection, notifica di Garbage Collection completa è utile nei seguenti scenari:  
   
--   Esegue il monitoraggio l'approccio di garbage collection completa e, quando si riceve una notifica che uno è quasi raggiunto, si riduce la dimensione dei dati in tempo reale (ad esempio, rilasciando alcune voci di cache). Di conseguenza, quando si verifica la garbage collection, è in grado di recuperare memoria.  
+-   Esegue il monitoraggio l'approccio di garbage collection completa e, quando si riceve una notifica che uno è quasi raggiunto, si riducono le dimensioni dei dati in tempo reale (ad esempio, rilasciando alcune voci di cache). Di conseguenza, quando si verifica la garbage collection, è in grado di recuperare più memoria.  
   
--   Esegue il monitoraggio il completamento di un'operazione completa di garbage collection in modo che è possibile raccogliere alcune statistiche.  Potrebbe ad esempio, si desidera misurare le dimensioni dell'heap al completamento di GC in modo da sapere la dimensione dei dati in tempo reale. (Dopo un catalogo globale completo, l'heap è la dimensione più piccola).  
+-   Esegue il monitoraggio il completamento di una garbage collection completa in modo che è possibile raccogliere alcune statistiche.  Ad esempio, è possibile misurare le dimensioni dell'heap al completamento del Garbage Collector in modo che si conosce la dimensione dei dati in tempo reale. (Dopo una Garbage Collection completa, l'heap è la dimensione più piccola).  
   
- Per ulteriori informazioni su ciò che rappresenta un'operazione completa di garbage collection, vedere [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md).  
+ Per altre informazioni su ciò che rappresenta una garbage collection completa, vedere [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md).  
   
- Quando si registra per la notifica di un'operazione di garbage collection, può ricevere notifiche quando sta per raggiungere una garbage collection completa e quando viene completato il processo. Questo modello è simile a come il sistema operativo consente di monitorare le notifiche di memoria insufficiente.  
+ Quando si registra per una notifica di garbage collection, è possibile ricevere notifiche quando sta per raggiungere una garbage collection completa e quando viene completata. Questo modello è simile al modo in cui il sistema operativo consente di monitorare le notifiche di memoria insufficiente.  
   
- Utilizzare le linee guida seguenti per specificare il `maxGenerationThreshold` e `largeObjectHeapThreshold` parametri:  
+ Usare le linee guida seguenti per specificare il `maxGenerationThreshold` e `largeObjectHeapThreshold` parametri:  
   
--   Maggiore è il valore di soglia, le allocazioni più verificherà tra la notifica e completa di garbage collection.  
+-   Maggiore è il valore di soglia, le allocazioni di più verificherà tra la notifica e la garbage collection completa.  
   
-     Un valore di soglia maggiore offre maggiori opportunità per il runtime verificare la presenza di una raccolta imminente. In questo modo si aumenta la probabilità che riceverà una notifica. Tuttavia, non è necessario impostare la soglia troppo alta perché che restituisce delle altre allocazioni prima che il runtime provochi la raccolta successiva.  
+     Un valore di soglia maggiore offre altre opportunità per il runtime verificare la presenza di una raccolta di poco inferiori. In questo modo si aumenta la probabilità che riceverà una notifica. Tuttavia, è consigliabile non impostare la soglia troppo alta perché risultante in delle altre allocazioni prima che il runtime provoca la raccolta successiva.  
   
-     Quando si forzare una raccolta dopo la notifica usando un valore soglia elevato, meno gli oggetti recuperati che potrebbe essere recuperato dalla raccolta successiva del runtime.  
+     Quando si indurre manualmente una raccolta dopo la notifica usando un valore di soglia superiore, meno oggetti vengono recuperati più verrebbe recuperato dalla raccolta successiva del runtime.  
   
--   Minore è il valore soglia, meno le allocazioni tra la notifica e completa di garbage collection.  
+-   Minore è il valore soglia, meno le allocazioni tra la notifica e la garbage collection completa.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come registrare una notifica di garbage collection e avviare un thread per monitorare lo stato della notifica dell'operazione di garbage collection. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
+ Nell'esempio seguente viene illustrato come registrare una notifica di garbage collection e avviare un thread per monitorare lo stato della notifica di garbage collection. Questo esempio di codice è parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
   
  [!code-cpp[GCNotification#2](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#2)]
  [!code-csharp[GCNotification#2](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#2)]
@@ -1076,7 +1115,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxGenerationThreshold" /> o <paramref name="largeObjectHeapThreshold" /> non è compreso tra 1 e 99.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1086,6 +1125,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.RemoveMemoryPressure(System.Int64)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveMemoryPressure (bytesAllocated As Long)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveMemoryPressure(long bytesAllocated);" />
+      <MemberSignature Language="F#" Value="static member RemoveMemoryPressure : int64 -&gt; unit" Usage="System.GC.RemoveMemoryPressure bytesAllocated" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -1098,6 +1138,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1106,7 +1147,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.5;netstandard-1.6;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1123,24 +1164,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Determinazione della necessità di pianificare operazioni di garbage collection, il runtime tiene in considerazione la quantità di memoria gestito viene allocato. Se un oggetto gestito di piccole dimensioni viene allocata una grande quantità di memoria non gestita, il runtime prende in considerazione solo la memoria gestita e viene pertanto sottovalutata l'urgenza della pianificazione della procedura di garbage collection. Il <xref:System.GC.AddMemoryPressure%2A> metodo informa il runtime di questa pressione aggiuntiva sulla memoria di sistema e <xref:System.GC.RemoveMemoryPressure%2A> metodo fornisce al runtime che è stato rilasciato pressione aggiuntiva.  
+ Nella determinazione della necessità di pianificare l'operazione di garbage collection, il runtime prende in considerazione la quantità di memoria gestito viene allocato. Se un oggetto gestito di piccole dimensioni viene allocata una grande quantità di memoria non gestita, il runtime tiene in considerazione solo la memoria gestita e viene pertanto sottovalutata l'urgenza della pianificazione della garbage collection. Il <xref:System.GC.AddMemoryPressure%2A> metodo informa il runtime di questa aggiuntiva pressione sulla memoria di sistema e il <xref:System.GC.RemoveMemoryPressure%2A> metodo informa il runtime che è stato rilasciato la pressione aggiuntiva.  
   
- Nel modello di utilizzo più semplice, un oggetto gestito alloca memoria non gestita nel costruttore e lo rilascia nel `Dispose` o `Finalize` metodo. Chiamare il <xref:System.GC.AddMemoryPressure%2A> metodo dopo l'allocazione di memoria non gestita e chiamare il <xref:System.GC.RemoveMemoryPressure%2A> metodo dopo averlo rilasciato.  
+ Nel modello di utilizzo più semplice, un oggetto gestito alloca memoria non gestita nel costruttore e lo rilascia nel `Dispose` o `Finalize` (metodo). Chiamare il <xref:System.GC.AddMemoryPressure%2A> metodo dopo avere allocato memoria non gestita e chiamare il <xref:System.GC.RemoveMemoryPressure%2A> metodo dopo averlo rilasciato.  
   
- In scenari più complessi, in cui l'allocazione di memoria non gestita cambia sostanzialmente durante la durata dell'oggetto gestito, è possibile chiamare il <xref:System.GC.AddMemoryPressure%2A> e <xref:System.GC.RemoveMemoryPressure%2A> metodi per comunicare le modifiche incrementali al runtime.  
+ In scenari più complessi, in cui l'allocazione di memoria non gestita in modo sostanziale cambia nel corso della durata dell'oggetto gestito, è possibile chiamare il <xref:System.GC.AddMemoryPressure%2A> e <xref:System.GC.RemoveMemoryPressure%2A> metodi per comunicare le modifiche incrementali al runtime.  
   
 > [!CAUTION]
->  È necessario assicurarsi di rimuovere esattamente la quantità di pressione che aggiunti. In caso contrario, può influenzare negativamente le prestazioni del sistema nelle applicazioni eseguite per lunghi periodi di tempo.  
+>  È necessario assicurarsi di rimuovere esattamente la quantità di pressione che si aggiunge. Se non si esegue questa operazione può influire negativamente sulle prestazioni del sistema in applicazioni in esecuzione per lunghi periodi di tempo.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="bytesAllocated" /> è minore o uguale a 0.  
   
- oppure  
-  
- Su un computer a 32 bit, <paramref name="bytesAllocated" /> è maggiore di <see cref="F:System.Int32.MaxValue" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">Per poter chiamare codice non gestito per la modifica delle priorità di garbage collection. Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
+oppure 
+Su un computer a 32 bit, <paramref name="bytesAllocated" /> è maggiore di <see cref="F:System.Int32.MaxValue" />.</exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la possibilità di chiamare codice non gestito durante la modifica delle priorità di garbage collection. Enumerazione associata: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1150,6 +1190,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.ReRegisterForFinalize(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub ReRegisterForFinalize (obj As Object)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void ReRegisterForFinalize(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="static member ReRegisterForFinalize : obj -&gt; unit" Usage="System.GC.ReRegisterForFinalize obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -1162,6 +1203,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1170,7 +1213,7 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1189,16 +1232,16 @@
 ## Remarks  
  Il <xref:System.GC.ReRegisterForFinalize%2A> metodo aggiunge il `obj` parametro all'elenco di oggetti che richiedono il completamento prima che il garbage collector libera l'oggetto. Il `obj` parametro deve essere il chiamante di questo metodo.  
   
- La chiamata di <xref:System.GC.ReRegisterForFinalize%2A> metodo non garantisce che il garbage collector non chiamerà un finalizzatore dell'oggetto.  
+ La chiamata di <xref:System.GC.ReRegisterForFinalize%2A> (metodo) non garantisce che il garbage collector chiamerà un finalizzatore dell'oggetto.  
   
- Per impostazione predefinita, tutti gli oggetti che implementano i finalizzatori vengono aggiunti all'elenco di oggetti che richiedono la finalizzazione. Tuttavia, un oggetto potrebbe essere sia già stato completato o il completamento potrebbe essere stato disabilitato chiamando il <xref:System.GC.SuppressFinalize%2A> metodo.  
+ Per impostazione predefinita, tutti gli oggetti che implementano i finalizzatori vengono aggiunti all'elenco di oggetti che richiedono la finalizzazione. Tuttavia, un oggetto potrebbe essere già stato finalizzato o potrebbe essere stato disabilitato la finalizzazione chiamando il <xref:System.GC.SuppressFinalize%2A> (metodo).  
   
  Un finalizzatore può utilizzare questo metodo per ripristinare se stesso o un oggetto a cui fa riferimento.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare il metodo ReRegisterForFinalize per rendere effettive di un oggetto in un secondo tempo dopo l'operazione di garbage collection.  
+ Nell'esempio seguente viene illustrato come utilizzare il metodo ReRegisterForFinalize per rendere effettive di un oggetto una seconda volta dopo l'operazione di garbage collection.  
   
  [!code-cpp[System.GC.ReregisterForFinalize Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.GC.ReRegisterForFinalize Example/CPP/class1.cpp#1)]
  [!code-csharp[System.GC.ReregisterForFinalize Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.GC.ReRegisterForFinalize Example/CS/class1.cs#1)]
@@ -1217,6 +1260,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.SuppressFinalize(System.Object)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub SuppressFinalize (obj As Object)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SuppressFinalize(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="static member SuppressFinalize : obj -&gt; unit" Usage="System.GC.SuppressFinalize obj" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -1229,6 +1273,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1237,11 +1283,14 @@
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.ConstrainedExecution.ReliabilityContract(System.Runtime.ConstrainedExecution.Consistency.WillNotCorruptState, System.Runtime.ConstrainedExecution.Cer.Success)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -1264,7 +1313,7 @@
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come utilizzare il metodo <xref:System.GC.SuppressFinalize%2A> in una classe di risorse per impedire la chiamata ridondante di una Garbage Collection. Nell'esempio viene utilizzato il [modello dispose](~/docs/standard/design-guidelines/dispose-pattern.md) per liberare sia le risorse gestite (vale a dire gli oggetti che implementano <xref:System.IDisposable>) e le risorse non gestite.  
+ Nell'esempio riportato di seguito viene illustrato come utilizzare il metodo <xref:System.GC.SuppressFinalize%2A> in una classe di risorse per impedire la chiamata ridondante di una Garbage Collection. L'esempio Usa la [modello dispose](~/docs/standard/design-guidelines/dispose-pattern.md) per liberare sia le risorse gestite (vale a dire, gli oggetti che implementano <xref:System.IDisposable>) e le risorse non gestite.  
   
  [!code-csharp[System.GC.SuppressFinalize#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.gc.suppressfinalize/cs/suppressfinalize1.cs#1)]
  [!code-vb[System.GC.SuppressFinalize#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.gc.suppressfinalize/vb/suppressfinalize1.vb#1)]  
@@ -1291,7 +1340,7 @@
 ## Remarks  
   
 > [!IMPORTANT]
->  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+>  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
  ]]></format>
         </remarks>
@@ -1304,6 +1353,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.TryStartNoGCRegion(System.Int64)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryStartNoGCRegion (totalSize As Long) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryStartNoGCRegion(long totalSize);" />
+      <MemberSignature Language="F#" Value="static member TryStartNoGCRegion : int64 -&gt; bool" Usage="System.GC.TryStartNoGCRegion totalSize" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1320,7 +1370,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1339,14 +1389,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza delle aree GC, che impedisce l'operazione di garbage collection durante l'esecuzione di un'app un'area critica del codice.  Se il runtime è riuscito ad allocare inizialmente la quantità di memoria richiesta, il garbage collector esegue una completa di garbage collection bloccante nel tentativo di liberare memoria aggiuntiva. Il garbage collector non immette Nessuna modalità di latenza delle aree GC, se è in grado di allocare la quantità necessaria di memoria, in questo caso è effettivamente 2 * `totalSize` byte (tenta di allocare `totalSize` byte per l'heap oggetti piccoli e `totalSize` byte per l'heap oggetti grandi).  
+ Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza dell'area GC, che non consente operazioni di garbage collection mentre è in esecuzione un'app per un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva. Il garbage collector non immette alcuna modalità di latenza delle aree GC se è in grado di allocare la quantità di memoria, che in questo caso è effettivamente 2 * `totalSize` byte (tenta di allocare `totalSize` byte per l'heap oggetti piccoli e `totalSize` byte per l'heap oggetti grandi).  
   
- `totalSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico. Ciò include le allocazioni dall'app, nonché le allocazioni eseguite per conto dell'applicazione di runtime.  
+ `totalSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico. Ciò include le allocazioni dall'app, nonché le allocazioni che il runtime effettua per conto dell'app.  
   
 > [!IMPORTANT]
->  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+>  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
- Si esce dalla modalità di latenza di Garbage Collection area chiamando il <xref:System.GC.EndNoGCRegion%2A> metodo.  
+ La latenza modalità delle aree GC si uscire chiamando il <xref:System.GC.EndNoGCRegion%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -1362,6 +1412,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.TryStartNoGCRegion(System.Int64,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryStartNoGCRegion (totalSize As Long, disallowFullBlockingGC As Boolean) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryStartNoGCRegion(long totalSize, bool disallowFullBlockingGC);" />
+      <MemberSignature Language="F#" Value="static member TryStartNoGCRegion : int64 * bool -&gt; bool" Usage="System.GC.TryStartNoGCRegion (totalSize, disallowFullBlockingGC)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1378,7 +1429,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1400,16 +1451,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Boolean%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza delle aree GC, che impedisce l'operazione di garbage collection durante l'esecuzione di un'app un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta e `disallowFullBlockingGC` argomento `false`, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva; in caso contrario, l'allocazione ha esito negativo e il metodo restituisce `false`. Il garbage collector non immette Nessuna modalità di latenza delle aree GC, se è in grado di allocare la quantità necessaria di memoria, in questo caso è effettivamente 2 * `totalSize` (tenta di allocare `totalSize` per l'heap oggetti piccoli e `totalSize` per l'heap oggetti grandi).  
+ Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Boolean%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza dell'area GC, che non consente operazioni di garbage collection mentre è in esecuzione un'app per un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta e il `disallowFullBlockingGC` argomento è `false`, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva; in caso contrario, l'allocazione ha esito negativo e il metodo restituisce `false`. Il garbage collector non immette alcuna modalità di latenza delle aree GC se è in grado di allocare la quantità di memoria, che in questo caso è effettivamente 2 * `totalSize` (tenta di allocare `totalSize` per l'heap oggetti piccoli e `totalSize` per l'oggetto di grandi dimensioni heap).  
   
- `totalSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico. Ciò include le allocazioni dall'app, nonché le allocazioni eseguite per conto dell'applicazione di runtime.  
+ `totalSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico. Ciò include le allocazioni dall'app, nonché le allocazioni che il runtime effettua per conto dell'app.  
   
- Impostazione `disallowFullBlockingGC` a `true` per impedire un Garbage Collection bloccante completo raccolta se non è sufficiente è inizialmente disponibile è molto utile negli scenari di bilanciamento del carico: un sistema è possibile chiamare questo metodo e rilevato come pronto per accettare le richieste se restituisce `true`, e il bilanciamento del carico reindirizzare le richieste ad altri sistemi se restituisce `false`. Quindi possibile effettuare una completa di garbage collection bloccante quando non gestisce le richieste chiamando il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> metodo.  
+ L'impostazione `disallowFullBlockingGC` a `true` per impedire una Garbage Collection bloccante completo insieme, se è inizialmente disponibile insufficiente memoria risulta particolarmente utile in scenari di bilanciamento del carico: un sistema può chiamare questo metodo e segnalare se stesso come pronto per accettare le richieste se il valore restituito `true`, e hanno il servizio di bilanciamento del carico di reindirizzare le richieste ad altri sistemi, se il valore restituito `false`. Quindi possibile effettuare una completa di garbage collection bloccante se non gestisce le richieste chiamando il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> (metodo).  
   
 > [!IMPORTANT]
->  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+>  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
- Si esce dalla modalità di latenza di Garbage Collection area chiamando il <xref:System.GC.EndNoGCRegion%2A> metodo.  
+ La latenza modalità delle aree GC si uscire chiamando il <xref:System.GC.EndNoGCRegion%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -1425,6 +1476,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.TryStartNoGCRegion(System.Int64,System.Int64)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryStartNoGCRegion (totalSize As Long, lohSize As Long) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryStartNoGCRegion(long totalSize, long lohSize);" />
+      <MemberSignature Language="F#" Value="static member TryStartNoGCRegion : int64 * int64 -&gt; bool" Usage="System.GC.TryStartNoGCRegion (totalSize, lohSize)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1441,7 +1493,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1462,14 +1514,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza delle aree GC, che impedisce l'operazione di garbage collection durante l'esecuzione di un'app un'area critica del codice.  Se il runtime è riuscito ad allocare inizialmente la quantità di memoria richiesta, il garbage collector esegue una completa di garbage collection bloccante nel tentativo di liberare memoria aggiuntiva. Il garbage collector non immette Nessuna modalità di latenza delle aree GC, se è in grado di allocare `lohSize` per l'heap oggetti grandi e `totalSize` – `lohSize` per l'heap oggetti piccoli (SOH).  
+ Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza dell'area GC, che non consente operazioni di garbage collection mentre è in esecuzione un'app per un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva. Il garbage collector non immette alcuna modalità di latenza delle aree GC se è in grado di allocare `lohSize` per l'heap oggetti grandi e `totalSize` – `lohSize` per l'heap oggetti piccoli (SOH).  
   
- `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per l'heap oggetti grandi, e `totalSize` – `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per il rapporto di integrità. Ciò include le allocazioni dall'app, nonché le allocazioni eseguite per conto dell'applicazione di runtime.  
+ `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per l'heap oggetti grandi, e `totalSize` – `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per il rapporto di integrità. Ciò include le allocazioni dall'app, nonché le allocazioni che il runtime effettua per conto dell'app.  
   
 > [!IMPORTANT]
->  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+>  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
- Si esce dalla modalità di latenza di Garbage Collection area chiamando il <xref:System.GC.EndNoGCRegion%2A> metodo.  
+ La latenza modalità delle aree GC si uscire chiamando il <xref:System.GC.EndNoGCRegion%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -1485,6 +1537,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.TryStartNoGCRegion(System.Int64,System.Int64,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function TryStartNoGCRegion (totalSize As Long, lohSize As Long, disallowFullBlockingGC As Boolean) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool TryStartNoGCRegion(long totalSize, long lohSize, bool disallowFullBlockingGC);" />
+      <MemberSignature Language="F#" Value="static member TryStartNoGCRegion : int64 * int64 * bool -&gt; bool" Usage="System.GC.TryStartNoGCRegion (totalSize, lohSize, disallowFullBlockingGC)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
@@ -1501,7 +1554,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1525,16 +1578,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza delle aree GC, che impedisce l'operazione di garbage collection durante l'esecuzione di un'app un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta e `disallowFullBlockingGC` argomento `false`, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva; in caso contrario, l'allocazione ha esito negativo e il metodo restituisce `false`. Il garbage collector non immette Nessuna modalità di latenza delle aree GC, se è in grado di allocare `lohSize` per l'heap oggetti grandi e `totalSize` – `lohSize` per l'heap oggetti piccoli (SOH).  
+ Il <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> metodo tenta di inserire il garbage collector in alcuna modalità latenza dell'area GC, che non consente operazioni di garbage collection mentre è in esecuzione un'app per un'area critica del codice.  Se il runtime non riesce ad allocare inizialmente la quantità di memoria richiesta e il `disallowFullBlockingGC` argomento è `false`, il garbage collector esegue una garbage collection bloccante completo nel tentativo di liberare memoria aggiuntiva; in caso contrario, l'allocazione ha esito negativo e il metodo restituisce `false`. Il garbage collector non immette alcuna modalità di latenza delle aree GC se è in grado di allocare `lohSize` per l'heap oggetti grandi e `totalSize` – `lohSize` per l'heap oggetti piccoli (SOH).  
   
- `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per l'heap oggetti grandi, e `totalSize` – `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per il rapporto di integrità. Ciò include le allocazioni dall'app, nonché le allocazioni eseguite per conto dell'applicazione di runtime.  
+ `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per l'heap oggetti grandi, e `totalSize` – `lohSize` deve essere sufficiente per gestire tutte le allocazioni di memoria che si verificano in un percorso critico per il rapporto di integrità. Ciò include le allocazioni dall'app, nonché le allocazioni che il runtime effettua per conto dell'app.  
   
- Impostazione `disallowFullBlockingGC` a `true` per impedire un Garbage Collection bloccante completo raccolta se non è sufficiente è inizialmente disponibile è molto utile negli scenari di bilanciamento del carico: un sistema è possibile chiamare questo metodo e rilevato come pronto per accettare le richieste se restituisce `true`, e il bilanciamento del carico reindirizzare le richieste ad altri sistemi se restituisce `false`. Quindi possibile effettuare una completa di garbage collection bloccante quando non gestisce le richieste chiamando il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> metodo.  
+ L'impostazione `disallowFullBlockingGC` a `true` per impedire una Garbage Collection bloccante completo insieme, se è inizialmente disponibile insufficiente memoria risulta particolarmente utile in scenari di bilanciamento del carico: un sistema può chiamare questo metodo e segnalare se stesso come pronto per accettare le richieste se il valore restituito `true`, e hanno il servizio di bilanciamento del carico di reindirizzare le richieste ad altri sistemi, se il valore restituito `false`. Quindi possibile effettuare una completa di garbage collection bloccante se non gestisce le richieste chiamando il <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> (metodo).  
   
 > [!IMPORTANT]
->  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si devono chiamare solo il <xref:System.GC.EndNoGCRegion%2A> metodo se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non è necessario chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata di metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo solo perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
+>  Non è possibile annidare le chiamate al <xref:System.GC.TryStartNoGCRegion%2A> metodo e si deve solo chiamare il <xref:System.GC.EndNoGCRegion%2A> metodo, se il runtime è attualmente in alcuna modalità di latenza delle aree GC. In altre parole, non chiamare <xref:System.GC.TryStartNoGCRegion%2A> più volte (dopo la prima chiamata al metodo, le chiamate successive non avrà esito positivo), e non è necessario attendere le chiamate a <xref:System.GC.EndNoGCRegion%2A> abbia esito positivo semplicemente perché la prima chiamata a <xref:System.GC.TryStartNoGCRegion%2A> ha avuto esito positivo.  
   
- Si esce dalla modalità di latenza di Garbage Collection area chiamando il <xref:System.GC.EndNoGCRegion%2A> metodo.  
+ La latenza modalità delle aree GC si uscire chiamando il <xref:System.GC.EndNoGCRegion%2A> (metodo).  
   
  ]]></format>
         </remarks>
@@ -1560,9 +1613,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.WaitForFullGCApproach" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function WaitForFullGCApproach () As GCNotificationStatus" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static GCNotificationStatus WaitForFullGCApproach();" />
+      <MemberSignature Language="F#" Value="static member WaitForFullGCApproach : unit -&gt; GCNotificationStatus" Usage="System.GC.WaitForFullGCApproach " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1576,7 +1631,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1591,18 +1646,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.GCNotificationStatus> enumerazione restituito da questo metodo per determinare lo stato della notifica dell'operazione di garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> metodo. È inoltre possibile utilizzare il <xref:System.GC.WaitForFullGCComplete%2A> metodo per determinare se il garbage collection completa è stata completata.  
+ Usare la <xref:System.GCNotificationStatus> enumerazione restituita da questo metodo per determinare lo stato della notifica raccolta garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> (metodo). È anche possibile usare il <xref:System.GC.WaitForFullGCComplete%2A> metodo per determinare se la garbage collection completa è stata completata.  
   
- Quando l'enumerazione restituisce <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività, ad esempio impedire ulteriori oggetti allocata e provocare una raccolta con il <xref:System.GC.Collect%2A> metodo. Si noti che la notifica non garantisce che una garbage collection completa verrà eseguita, solo che le condizioni hanno raggiunto la soglia favorevole per una garbage collection completa si verifichi.  
+ Quando viene restituito l'enumerazione <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività quali oggetti aggiuntivi impediscono viene allocata e provocare una raccolta con il <xref:System.GC.Collect%2A> (metodo). Si noti che la notifica non garantisce che una garbage collection completa verificherà, solo che le condizioni hanno raggiunto la soglia che sono favorevole per una garbage collection completa a verificarsi.  
   
- Questo metodo attende indefinitamente per ottenere una notifica di garbage collection. Se si desidera specificare un periodo di timeout per il metodo restituire se non è possibile ottenere la notifica, utilizzare il <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Se si chiama questo metodo senza specificare un timeout, è possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo se si resta in attesa più preferito.  
+ Questo metodo attende all'infinito per una notifica di garbage collection devono essere ottenuti. Se si desidera specificare un periodo di timeout per il metodo da restituire se non è possibile ottenere la notifica, utilizzare il <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Se si chiama questo metodo senza specificare un periodo di timeout, è possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo se si è in attesa più a lungo del preferito.  
   
- È necessario seguire questo metodo con una chiamata al <xref:System.GC.WaitForFullGCComplete%2A> per verificare che si sia verificata una garbage collection completa. La chiamata a questo metodo soltanto genera risultati indeterminati.  
+ È consigliabile seguire questo metodo con una chiamata al <xref:System.GC.WaitForFullGCComplete%2A> metodo per assicurarsi che si sia verificata una garbage collection completa. Chiamare questo metodo solo comporta risultati indeterminati.  
   
    
   
 ## Examples  
- Nell'esempio riportato di seguito viene illustrato come utilizzare questo metodo per determinare se è imminente una procedura completa di Garbage Collection bloccante. Ogni volta che lo stato della notifica è <xref:System.GCNotificationStatus.Succeeded>, il metodo dell'utente `OnFullGCApproachNotify` viene chiamato per eseguire azioni in risposta alla raccolta imminente. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
+ Nell'esempio riportato di seguito viene illustrato come utilizzare questo metodo per determinare se è imminente una procedura completa di Garbage Collection bloccante. Ogni volta che lo stato della notifica viene <xref:System.GCNotificationStatus.Succeeded>, il metodo utente `OnFullGCApproachNotify` viene chiamato per eseguire azioni in risposta alla raccolta di poco inferiori. Questo esempio di codice è parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
   
  [!code-cpp[GCNotification#3](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#3)]
  [!code-csharp[GCNotification#3](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#3)]
@@ -1610,7 +1665,7 @@
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1620,9 +1675,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.WaitForFullGCApproach(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function WaitForFullGCApproach (millisecondsTimeout As Integer) As GCNotificationStatus" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static GCNotificationStatus WaitForFullGCApproach(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="static member WaitForFullGCApproach : int -&gt; GCNotificationStatus" Usage="System.GC.WaitForFullGCApproach millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1636,7 +1693,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1654,21 +1711,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.GCNotificationStatus> enumerazione restituito da questo metodo per determinare lo stato della notifica dell'operazione di garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> metodo. È inoltre possibile utilizzare il <xref:System.GC.WaitForFullGCComplete%2A> metodo per determinare se il garbage collection completa è stata completata.  
+ Usare la <xref:System.GCNotificationStatus> enumerazione restituita da questo metodo per determinare lo stato della notifica raccolta garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> (metodo). È anche possibile usare il <xref:System.GC.WaitForFullGCComplete%2A> metodo per determinare se la garbage collection completa è stata completata.  
   
- Si noti che questo metodo restituisce immediatamente ogni volta che viene ottenuto lo stato di notifica un'operazione di garbage collection, indipendentemente dal valore specificato da `millisecondsTimeout`. Se lo stato di notifica un'operazione di garbage collection non viene ottenuto prima `millisecondsTimeout` volte, questo metodo viene restituito <xref:System.GCNotificationStatus.NotApplicable>.  
+ Si noti che questo metodo restituisce immediatamente ogni volta che viene ottenuto un stato di notifica di garbage collection, indipendentemente dal valore specificato da `millisecondsTimeout`. Se lo stato di notifica un'operazione di garbage collection non viene ottenuto prima `millisecondsTimeout` volte, questo metodo viene restituito <xref:System.GCNotificationStatus.NotApplicable>.  
   
- Quando l'enumerazione restituisce <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività, ad esempio impedire ulteriori oggetti allocata e provocare una raccolta con il <xref:System.GC.Collect%2A> metodo. Si noti che la notifica non garantisce che una garbage collection completa verrà eseguita, solo che le condizioni hanno raggiunto la soglia favorevole per una garbage collection completa si verifichi.  
+ Quando viene restituito l'enumerazione <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività quali oggetti aggiuntivi impediscono viene allocata e provocare una raccolta con il <xref:System.GC.Collect%2A> (metodo). Si noti che la notifica non garantisce che una garbage collection completa verificherà, solo che le condizioni hanno raggiunto la soglia che sono favorevole per una garbage collection completa a verificarsi.  
   
- È possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo quando non è possibile attendere il periodo di timeout che deve trascorrere.  
+ È possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo quando non è possibile attendere il termine del periodo di timeout.  
   
- È necessario seguire questo metodo con una chiamata al <xref:System.GC.WaitForFullGCComplete%2A> per verificare che si sia verificata una garbage collection completa. La chiamata a questo metodo soltanto genera risultati indeterminati.  
+ È consigliabile seguire questo metodo con una chiamata al <xref:System.GC.WaitForFullGCComplete%2A> metodo per assicurarsi che si sia verificata una garbage collection completa. Chiamare questo metodo solo comporta risultati indeterminati.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="millisecondsTimeout" /> deve essere non negativo oppure minore o uguale a <see cref="F:System.Int32.MaxValue" /> o a -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1688,9 +1745,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.WaitForFullGCComplete" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function WaitForFullGCComplete () As GCNotificationStatus" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static GCNotificationStatus WaitForFullGCComplete();" />
+      <MemberSignature Language="F#" Value="static member WaitForFullGCComplete : unit -&gt; GCNotificationStatus" Usage="System.GC.WaitForFullGCComplete " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1704,7 +1763,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1719,18 +1778,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.GCNotificationStatus> enumerazione restituito da questo metodo per determinare lo stato della notifica dell'operazione di garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> metodo. È inoltre possibile utilizzare il <xref:System.GC.WaitForFullGCApproach%2A> metodo per determinare se è imminente una garbage collection completa.  
+ Usare la <xref:System.GCNotificationStatus> enumerazione restituita da questo metodo per determinare lo stato della notifica raccolta garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> (metodo). È anche possibile usare il <xref:System.GC.WaitForFullGCApproach%2A> metodo per determinare se è imminente una garbage collection completa.  
   
- Quando l'enumerazione restituisce <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività come riprendere il lavoro e ottenere un conteggio di raccolta con il <xref:System.GC.CollectionCount%2A> proprietà.  
+ Quando viene restituito l'enumerazione <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività quali la ripresa del lavoro e ottenere un conteggio delle raccolte con il <xref:System.GC.CollectionCount%2A> proprietà.  
   
- Questo metodo attende indefinitamente per ottenere una notifica di garbage collection. Se si desidera specificare un periodo di timeout per il metodo restituire se non è possibile ottenere la notifica, utilizzare il <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Se si chiama questo metodo senza specificare un timeout, è possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo se si resta in attesa più preferito.  
+ Questo metodo attende all'infinito per una notifica di garbage collection devono essere ottenuti. Se si desidera specificare un periodo di timeout per il metodo da restituire se non è possibile ottenere la notifica, utilizzare il <xref:System.GC.WaitForFullGCApproach%28System.Int32%29?displayProperty=nameWithType> overload del metodo. Se si chiama questo metodo senza specificare un periodo di timeout, è possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo se si è in attesa più a lungo del preferito.  
   
- Questa chiamata al metodo deve essere preceduta da una chiamata al <xref:System.GC.WaitForFullGCApproach%2A> per verificare che si sia verificata una garbage collection completa. Chiamare questo metodo solo può produrre risultati imprevisti.  
+ Questa chiamata al metodo deve essere preceduta da una chiamata al <xref:System.GC.WaitForFullGCApproach%2A> metodo per assicurarsi che si sia verificata una garbage collection completa. Chiamare questo metodo solo può produrre risultati imprevisti.  
   
    
   
 ## Examples  
- Nell'esempio seguente viene illustrato come utilizzare questo metodo per determinare se un'operazione completa di garbage collection è stata completata. Ogni volta che lo stato della notifica è <xref:System.GCNotificationStatus.Succeeded>, il metodo dell'utente `OnFullGCCompletedNotify` viene chiamato per eseguire azioni in risposta alla raccolta completata. Questo esempio di codice fa parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
+ Nell'esempio seguente viene illustrato come utilizzare questo metodo per determinare se garbage collection completa è stata completata. Ogni volta che lo stato della notifica viene <xref:System.GCNotificationStatus.Succeeded>, il metodo utente `OnFullGCCompletedNotify` viene chiamato per eseguire azioni in risposta alla raccolta completata. Questo esempio di codice è parte di un esempio più esaustivo disponibile per [notifiche di Garbage Collection](~/docs/standard/garbage-collection/notifications.md) argomento.  
   
  [!code-cpp[GCNotification#4](~/samples/snippets/cpp/VS_Snippets_CLR/GCNotification/cpp/program.cpp#4)]
  [!code-csharp[GCNotification#4](~/samples/snippets/csharp/VS_Snippets_CLR/GCNotification/cs/Program.cs#4)]
@@ -1738,7 +1797,7 @@
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1748,9 +1807,11 @@
       <MemberSignature Language="DocId" Value="M:System.GC.WaitForFullGCComplete(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function WaitForFullGCComplete (millisecondsTimeout As Integer) As GCNotificationStatus" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static GCNotificationStatus WaitForFullGCComplete(int millisecondsTimeout);" />
+      <MemberSignature Language="F#" Value="static member WaitForFullGCComplete : int -&gt; GCNotificationStatus" Usage="System.GC.WaitForFullGCComplete millisecondsTimeout" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1764,7 +1825,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1782,21 +1843,21 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilizzare il <xref:System.GCNotificationStatus> enumerazione restituito da questo metodo per determinare lo stato della notifica dell'operazione di garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> metodo. È inoltre possibile utilizzare il <xref:System.GC.WaitForFullGCApproach%2A> metodo per determinare se è imminente una garbage collection completa.  
+ Usare la <xref:System.GCNotificationStatus> enumerazione restituita da questo metodo per determinare lo stato della notifica raccolta garbage corrente che è stato registrato usando il <xref:System.GC.RegisterForFullGCNotification%2A> (metodo). È anche possibile usare il <xref:System.GC.WaitForFullGCApproach%2A> metodo per determinare se è imminente una garbage collection completa.  
   
- Si noti che questo metodo restituisce immediatamente ogni volta che viene ottenuto lo stato di notifica un'operazione di garbage collection, indipendentemente dal valore specificato da `millisecondsTimeout`. Se lo stato di notifica un'operazione di garbage collection non viene ottenuto prima `millisecondsTimeout` volte, questo metodo viene restituito <xref:System.GCNotificationStatus.NotApplicable>.  
+ Si noti che questo metodo restituisce immediatamente ogni volta che viene ottenuto un stato di notifica di garbage collection, indipendentemente dal valore specificato da `millisecondsTimeout`. Se lo stato di notifica un'operazione di garbage collection non viene ottenuto prima `millisecondsTimeout` volte, questo metodo viene restituito <xref:System.GCNotificationStatus.NotApplicable>.  
   
- Quando l'enumerazione restituisce <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività come riprendere il lavoro e ottenere un conteggio di raccolta con il <xref:System.GC.CollectionCount%2A> proprietà.  
+ Quando viene restituito l'enumerazione <xref:System.GCNotificationStatus.Succeeded>, è possibile eseguire attività quali la ripresa del lavoro e ottenere un conteggio delle raccolte con il <xref:System.GC.CollectionCount%2A> proprietà.  
   
- È possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo quando non è possibile attendere il periodo di timeout che deve trascorrere.  
+ È possibile chiamare il <xref:System.GC.CancelFullGCNotification%2A> metodo quando non è possibile attendere il termine del periodo di timeout.  
   
- Questa chiamata al metodo deve essere preceduta da una chiamata al <xref:System.GC.WaitForFullGCApproach%2A> per verificare che si sia verificata una garbage collection completa. Chiamare questo metodo solo può produrre risultati imprevisti.  
+ Questa chiamata al metodo deve essere preceduta da una chiamata al <xref:System.GC.WaitForFullGCApproach%2A> metodo per assicurarsi che si sia verificata una garbage collection completa. Chiamare questo metodo solo può produrre risultati imprevisti.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">
           <paramref name="millisecondsTimeout" /> deve essere non negativo oppure minore o uguale a <see cref="F:System.Int32.MaxValue" /> o a -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per l'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">per un'attendibilità totale per il chiamante immediato. Impossibile usare questo membro in codice parzialmente attendibile.</permission>
         <permission cref="T:System.Security.SecurityCriticalAttribute">richiede l'attendibilità totale per il chiamante immediato. Questo membro non può essere utilizzato da codice parzialmente attendibile o trasparente.</permission>
       </Docs>
     </Member>
@@ -1806,6 +1867,7 @@
       <MemberSignature Language="DocId" Value="M:System.GC.WaitForPendingFinalizers" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub WaitForPendingFinalizers ()" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void WaitForPendingFinalizers();" />
+      <MemberSignature Language="F#" Value="static member WaitForPendingFinalizers : unit -&gt; unit" Usage="System.GC.WaitForPendingFinalizers " />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Runtime</AssemblyName>
@@ -1818,6 +1880,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1825,6 +1889,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1835,9 +1904,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando il garbage collector rileva gli oggetti che possono essere recuperati, controlla ogni oggetto per determinare i requisiti di finalizzazione dell'oggetto. Se un oggetto implementa un finalizzatore e non ha disabilitato la finalizzazione chiamando <xref:System.GC.SuppressFinalize%2A>, l'oggetto viene posizionato in un elenco di oggetti che sono contrassegnati come pronti per la finalizzazione. Il garbage collector chiama la <xref:System.Object.Finalize%2A> metodi per gli oggetti nell'elenco e rimuove le voci dall'elenco. Questo metodo si blocca fino a quando tutti i finalizzatori è eseguiti fino al completamento.  
+ Quando il garbage collector rileva che gli oggetti che possono essere recuperati, controlla ogni oggetto per determinare i requisiti di finalizzazione dell'oggetto. Se un oggetto implementa un finalizzatore e non ha disabilitato la finalizzazione chiamando <xref:System.GC.SuppressFinalize%2A>, l'oggetto viene inserito in un elenco di oggetti che sono contrassegnati come pronti per la finalizzazione. Il garbage collector chiama la <xref:System.Object.Finalize%2A> metodi per gli oggetti in questo elenco e rimuove le voci dall'elenco. Questo metodo si blocca finché tutti i finalizzatori è eseguite fino al completamento.  
   
- Il thread in cui vengono eseguiti i finalizzatori non è specificato, pertanto non c'è alcuna garanzia che il metodo verrà terminato. Tuttavia, il thread può essere interrotta da un altro thread durante il <xref:System.GC.WaitForPendingFinalizers%2A> metodo è in corso. Ad esempio, è possibile avviare un altro thread in attesa di un periodo di tempo e quindi interrompa il thread corrente, se il thread è ancora in sospeso.  
+ Il thread su cui vengono eseguiti i finalizzatori non è specificato, in modo che non c'è garanzia che il metodo verrà terminato. Tuttavia, questo thread può essere interrotta da un altro thread durante il <xref:System.GC.WaitForPendingFinalizers%2A> metodo è in corso. Ad esempio, è possibile avviare un altro thread che attende un periodo di tempo e quindi interrompa il thread corrente, se il thread è ancora in sospeso.  
   
    
   
