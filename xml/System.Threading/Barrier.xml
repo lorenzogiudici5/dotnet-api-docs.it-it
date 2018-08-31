@@ -1,11 +1,11 @@
 <Type Name="Barrier" FullName="System.Threading.Barrier">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d271267ac0284159a3b1b51c2d7ecb5e4260d584" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="719976617af141ff2c2b5fa4cf1717f2e6def395" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606332" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39998738" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Barrier : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Barrier extends System.Object implements class System.IDisposable" />
@@ -38,10 +38,10 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Diagnostics.DebuggerDisplay("Participant Count={ParticipantCount},Participants Remaining={ParticipantsRemaining}")</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
     </Attribute>
   </Attributes>
@@ -51,7 +51,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un gruppo di attività cooperano per spostarsi all'interno di una serie di fasi, in cui ogni gruppo segnala che è arrivata al <xref:System.Threading.Barrier> in una determinata fase e in modo implicito in attesa di arrivo di tutte le altre. Lo stesso <xref:System.Threading.Barrier> può essere utilizzato per più fasi.  
+ Un gruppo di attività cooperano per spostarsi all'interno di una serie di fasi, in cui ogni elemento nel gruppo di segnala che è arrivata al <xref:System.Threading.Barrier> in una determinata fase e in modo implicito attende che tutti gli altri in arrivo. Lo stesso <xref:System.Threading.Barrier> può essere usato per più fasi.  
   
    
   
@@ -63,7 +63,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>Tutti i membri pubblici e protetti della <see cref="T:System.Threading.Barrier" /> sono thread-safe e possono essere utilizzate contemporaneamente da più thread, fatta eccezione per Dispose, che deve essere utilizzato quando tutte le altre operazioni sul <see cref="T:System.Threading.Barrier" /> completate.</threadsafe>
+    <threadsafe>Tutti i membri pubblici e protetti della <see cref="T:System.Threading.Barrier" /> sono thread-safe e possono essere usati contemporaneamente da più thread, ad eccezione di Dispose, che deve essere utilizzato quando tutte le altre operazioni su di <see cref="T:System.Threading.Barrier" /> completati.</threadsafe>
   </Docs>
   <Members>
     <MemberGroup MemberName=".ctor">
@@ -101,6 +101,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="participantCount" Type="System.Int32" />
       </Parameters>
@@ -191,12 +196,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se la barriera è attualmente in esecuzione un'azione post-fase, questa chiamata viene bloccata fino a quando non viene completata l'azione post-fase e la barriera è stata spostata alla fase successiva.  
+ Se la barriera è attualmente in esecuzione un'azione post-fase, questa chiamata viene bloccata fino a quando non viene completata l'azione post-fase e la barriera passa alla fase successiva.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">L'istanza corrente è già stata eliminata.</exception>
-        <exception cref="T:System.InvalidOperationException">L'aggiunta di un partecipante provocherebbe il superamento del conteggio del partecipante della barriera di 32.767.  -oppure- Il metodo è stato richiamato dall'interno di un'azione post-fase.</exception>
+        <exception cref="T:System.InvalidOperationException">L'aggiunta di un partecipante provocherebbe il superamento del conteggio del partecipante della barriera di 32.767.  
+  
+oppure 
+Il metodo è stato richiamato dall'interno di un'azione post-fase.</exception>
       </Docs>
     </Member>
     <Member MemberName="AddParticipants">
@@ -237,13 +245,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se la barriera è attualmente in esecuzione un'azione post-fase, questa chiamata viene bloccata fino a quando non viene completata l'azione post-fase e la barriera è stata spostata alla fase successiva.  
+ Se la barriera è attualmente in esecuzione un'azione post-fase, questa chiamata viene bloccata fino a quando non viene completata l'azione post-fase e la barriera passa alla fase successiva.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">L'istanza corrente è già stata eliminata.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="participantCount" /> è minore di 0.  -oppure- L'aggiunta di <paramref name="participantCount" /> partecipanti provocherebbe il superamento del numero massimo di partecipanti, pari a 32.767.</exception>
+          <paramref name="participantCount" /> è minore di 0.  
+  
+oppure 
+L'aggiunta di partecipanti <paramref name="participantCount" /> provocherebbe il superamento del conteggio del partecipante della barriera di 32.767.</exception>
         <exception cref="T:System.InvalidOperationException">Il metodo è stato richiamato dall'interno di un'azione post-fase.</exception>
       </Docs>
     </Member>
@@ -271,6 +282,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
@@ -328,9 +344,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chiamare il metodo `Dispose` dopo aver terminato di utilizzare l'oggetto <xref:System.Threading.Barrier>. Il metodo `Dispose` lascia l'oggetto <xref:System.Threading.Barrier> in una condizione di inutilizzabilità. Dopo la chiamata `Dispose`, è necessario rilasciare tutti i riferimenti per il <xref:System.Threading.Barrier> consentire al garbage collector di recuperare la memoria che il <xref:System.Threading.Barrier> occupata.  
+ Chiamare il metodo `Dispose` dopo aver terminato di utilizzare l'oggetto <xref:System.Threading.Barrier>. Il metodo `Dispose` lascia l'oggetto <xref:System.Threading.Barrier> in una condizione di inutilizzabilità. Dopo la chiamata `Dispose`, è necessario rilasciare tutti i riferimenti per il <xref:System.Threading.Barrier> in modo che il garbage collector di recuperare la memoria che il <xref:System.Threading.Barrier> occupata.  
   
- Per altre informazioni, vedere [pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [implementazione di un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Per altre informazioni, vedere [pulizia di risorse non gestite](~/docs/standard/garbage-collection/unmanaged.md) e [implementa un metodo Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
 >  Chiamare sempre il metodo `Dispose` prima di rilasciare l'ultimo riferimento a <xref:System.Threading.Barrier>. In caso contrario, le risorse utilizzate non verranno liberate finché il metodo <xref:System.Threading.Barrier> dell'oggetto `Finalize` non viene richiamato dal Garbage Collector.  
@@ -377,7 +393,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A differenza della maggior parte dei membri di <xref:System.Threading.Barrier>, Dispose non è thread-safe e non possono essere utilizzate contemporaneamente ad altri membri di questa istanza.  
+ A differenza della maggior parte dei membri di <xref:System.Threading.Barrier>, Dispose non è thread-safe e non possono essere usati contemporaneamente ad altri membri di questa istanza.  
   
  ]]></format>
         </remarks>
@@ -450,7 +466,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Questo errore può essere 0 durante l'esecuzione di un delegato di azione post-fase oppure se ParticipantCount è 0.  
+ Questo errore può essere 0 durante un'esecuzione del delegato di azione post-fase o se il conteggio del partecipante è 0.  
   
  ]]></format>
         </remarks>
@@ -480,6 +496,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -488,7 +509,10 @@
         <summary>Notifica all'oggetto <see cref="T:System.Threading.Barrier" /> che sarà presente un partecipante in meno.</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ObjectDisposedException">L'istanza corrente è già stata eliminata.</exception>
-        <exception cref="T:System.InvalidOperationException">La barriera dispone già di 0 partecipanti.  -oppure- Il metodo è stato richiamato dall'interno di un'azione post-fase.</exception>
+        <exception cref="T:System.InvalidOperationException">La barriera dispone già di 0 partecipanti.  
+  
+oppure 
+Il metodo è stato richiamato dall'interno di un'azione post-fase.</exception>
       </Docs>
     </Member>
     <Member MemberName="RemoveParticipants">
@@ -528,13 +552,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se `participantCount` partecipanti sono già in attesa per la barriera, questa rimozione soddisfa la barriera, viene eseguita l'azione post-fase e tutti i partecipanti sono riattivati come se il partecipante viene rimosso correttamente ha raggiunto la barriera.  
+ Se `participantCount` partecipanti sono già in attesa per la barriera, la rimozione di cui soddisfa la barriera, viene eseguita l'azione post-fase e tutti i partecipanti vengono riattivati come se questo partecipante viene rimosso correttamente aveva raggiunto la barriera.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">L'istanza corrente è già stata eliminata.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">Il conteggio totale dei partecipanti è minore del <paramref name="participantCount" /> specificato</exception>
-        <exception cref="T:System.InvalidOperationException">La barriera dispone già di 0 partecipanti.  -oppure- Il metodo è stato richiamato dall'interno di un'azione post-fase.  -oppure- Il numero corrente di partecipanti è minore del valore di participantCount specificato</exception>
+        <exception cref="T:System.InvalidOperationException">La barriera dispone già di 0 partecipanti.  
+  
+oppure 
+Il metodo è stato richiamato dall'interno di un'azione post-fase.  
+  
+oppure 
+il conteggio del partecipante corrente è minore del conteggio del partecipante specificato</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="SignalAndWait">
@@ -745,7 +775,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se il `cancellationToken` è stata annullata prima il segnale ha avuto effetto, una <xref:System.OperationCanceledException> viene generata e <xref:System.Threading.Barrier.ParticipantsRemaining%2A> valore non viene ridotto. Se il `cancellationToken` non viene annullata o viene annullata dopo il segnale diventa effettivo <xref:System.Threading.Barrier.ParticipantsRemaining%2A> viene ridotta e non <xref:System.OperationCanceledException> viene generata un'eccezione.  
+ Se il `cancellationToken` è stata annullata prima che il segnale è stata eseguita, un' <xref:System.OperationCanceledException> generata e <xref:System.Threading.Barrier.ParticipantsRemaining%2A> valore non viene ridotto. Se il `cancellationToken` non viene annullata o viene annullato dopo il segnale che ha quindi effetto <xref:System.Threading.Barrier.ParticipantsRemaining%2A> viene ridotta e nessun <xref:System.OperationCanceledException> viene generata un'eccezione.  
   
  ]]></format>
         </remarks>

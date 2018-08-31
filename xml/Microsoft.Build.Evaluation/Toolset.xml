@@ -1,11 +1,11 @@
 <Type Name="Toolset" FullName="Microsoft.Build.Evaluation.Toolset">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ea8ec3b298507abec3154ba6ea36812060798ce2" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="0acb1685fc4773b6d4f058145bcdeef2a0150ff5" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36736881" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="40001045" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Toolset" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Toolset extends System.Object" />
@@ -22,7 +22,7 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2">
       <AttributeName>System.Diagnostics.DebuggerDisplay("ToolsVersion={ToolsVersion} ToolsPath={ToolsPath} #Properties={properties.Count}")</AttributeName>
     </Attribute>
   </Attributes>
@@ -32,7 +32,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- UNDONE: (danmose) revisione immutabilità. Se non si tratta non modificabile, aggiungere un meccanismo per notificare il progetto insieme/s incrementare toolsetVersion.  
+ UNDONE: (danmose) revisione immutabilità. Se questo non è modificabile, aggiungere un meccanismo per notificare il progetto raccolta/s incrementare toolsetVersion.  
   
  ]]></format>
     </remarks>
@@ -58,6 +58,11 @@
         <AssemblyName>Microsoft.Build</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="toolsVersion" Type="System.String" />
         <Parameter Name="toolsPath" Type="System.String" />
@@ -94,7 +99,9 @@
       <Docs>
         <param name="toolsVersion">Nome del set di strumenti.</param>
         <param name="toolsPath">Percorso delle attività e delle destinazioni di questo set di strumenti.</param>
-        <param name="buildProperties">Proprietà che devono essere associate al set di strumenti.  Potrebbe essere null, nel qual caso verrà utilizzato un gruppo di proprietà vuoto.</param>
+        <param name="buildProperties">Proprietà che devono essere associate al set di strumenti.  
+  
+Potrebbe essere null, nel qual caso verrà utilizzato un gruppo di proprietà vuoto.</param>
         <param name="projectCollection">Insieme di progetti da cui ottenere le proprietà.</param>
         <param name="msbuildOverrideTasksPath">Percorso in cui cercare i file con estensione overridetasks di MSBuild.</param>
         <summary>Crea un set di strumenti con le proprietà di compilazione, il percorso e la versione degli strumenti specificati. Le proprietà globali, riservate e di ambiente sono ottenute dall'insieme di progetti specificato.</summary>
@@ -123,7 +130,9 @@
       <Docs>
         <param name="toolsVersion">Nome del set di strumenti.</param>
         <param name="toolsPath">Percorso delle attività e delle destinazioni di questo set di strumenti.</param>
-        <param name="buildProperties">Proprietà che devono essere associate al set di strumenti.  Potrebbe essere null, nel qual caso verrà utilizzato un gruppo di proprietà vuoto.</param>
+        <param name="buildProperties">Proprietà che devono essere associate al set di strumenti.  
+  
+Potrebbe essere null, nel qual caso verrà utilizzato un gruppo di proprietà vuoto.</param>
         <param name="projectCollection">Insieme di progetti da cui ottenere le proprietà.</param>
         <param name="subToolsets">Il set di subset di strumenti associato a questo set di strumenti.</param>
         <param name="msbuildOverrideTasksPath">Percorso in cui cercare i file con estensione overridetasks di MSBuild. Il set di subset di strumenti associato a questo set di strumenti</param>
@@ -153,9 +162,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se [!INCLUDE[vs_dev10_long](~/includes/vs-dev10-long-md.md)] è installato, usare il set di strumenti di base e restituire una versione di set di strumenti sub di "10.0".  
+ Se [!INCLUDE[vs_dev10_long](~/includes/vs-dev10-long-md.md)] è installato, usare il set di strumenti di base e restituire una versione del subset di set di strumenti di "10.0".  
   
- In caso contrario, usare il massimo controllo delle versioni di subset strumenti trovato. Subset di strumenti con le versioni numerate vengono ordinati in ordine numerico; qualsiasi set di strumenti aggiuntivi sub vengono anteposti all'inizio dell'elenco in ordine trovato. Restituisce null se non è disponibile alcun subset di strumenti e [!INCLUDE[vs_dev10_long](~/includes/vs-dev10-long-md.md)] non è installato.  
+ In caso contrario, usare il massimo controllo delle versioni di subset di strumenti disponibili. I set di strumenti Sub con le versioni numerate sono ordinati numericamente; qualsiasi set di strumenti sub aggiuntive vengono anteposti all'inizio dell'elenco in ordine trovato. Restituisce null se non è disponibile alcun set di strumenti sub e [!INCLUDE[vs_dev10_long](~/includes/vs-dev10-long-md.md)] non è installato.  
   
  ]]></format>
         </remarks>
@@ -193,9 +202,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se "VisualStudioVersion" viene impostata come una proprietà per il set di strumenti, quindi sub set di strumenti della versione è impostata su "VisualStudioVersion".  
+ Se "VisualStudioVersion" è impostato come proprietà nel set di strumenti se stesso, sottoversione viene impostato per "VisualStudioVersion".  
   
- In caso contrario, sub set di strumenti della versione è impostata su DefaultSubToolsetVersion del set di strumenti.  
+ Altrimenti sottoversione è impostato su DefaultSubToolsetVersion del set di strumenti.  
   
  ]]></format>
         </remarks>
@@ -229,13 +238,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Se la proprietà globale presente nel set di proprietà globali "VisualStudioVersion" passati, quindi sub set di strumenti della versione è impostata su "VisualStudioVersion".  
+ Se la proprietà globale è presente nel set di proprietà globali "VisualStudioVersion" passato, sottoversione è impostato per "VisualStudioVersion".  
   
- In caso contrario, se "VisualStudioVersion" viene impostata come una proprietà per il set di strumenti, quindi sub set di strumenti della versione è impostata su "VisualStudioVersion".  
+ In caso contrario, se "VisualStudioVersion" è impostato come proprietà nel set di strumenti se stesso, quindi sub set di strumenti della versione sono impostato su "VisualStudioVersion".  
   
- In caso contrario, se la versione di Visual Studio corrispondente alla versione di soluzione (versione di Visual Studio = versione della soluzione: 1) passato a maps a un subset di strumenti esistenti, quindi sub set di strumenti della versione è impostata per la versione di Visual Studio.  
+ In caso contrario, se la versione di Visual Studio corrispondente alla versione della soluzione (versione di Visual Studio = versione della soluzione: 1) passato a maps a un subset di strumenti esistenti, quindi sottoversione è impostato sulla versione di Visual Studio.  
   
- In caso contrario, sub set di strumenti della versione è impostata su DefaultSubToolsetVersion del set di strumenti.  
+ Altrimenti sottoversione è impostato su DefaultSubToolsetVersion del set di strumenti.  
   
  ]]></format>
         </remarks>
@@ -271,7 +280,7 @@
 ## Remarks  
  Se la proprietà non viene trovata nel set di strumenti sub, Cerca la proprietà nel set di strumenti di base.  
   
- Se la proprietà non viene trovata il subset di strumenti o il set di strumenti di base, restituisce null.  
+ Se la proprietà non viene trovata nel set di strumenti sub o set di strumenti di base, restituisce null.  
   
  ]]></format>
         </remarks>
@@ -331,6 +340,11 @@
         <AssemblyName>Microsoft.Build</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -359,6 +373,11 @@
         <AssemblyName>Microsoft.Build</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>

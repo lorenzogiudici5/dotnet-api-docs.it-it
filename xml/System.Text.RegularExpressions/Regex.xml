@@ -1,11 +1,11 @@
 <Type Name="Regex" FullName="System.Text.RegularExpressions.Regex">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="66d9585920a9105184d910b9c95b98eccb3a89a8" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="67e7f6049333b12bfe1d234f9c97a4c28d6d4845" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37611724" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39999294" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Regex : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Regex extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -97,12 +97,12 @@
   
 -   Quando si utilizzano chiamate al metodo statico con un numero elevato di espressioni regolari. Per impostazione predefinita, il motore delle espressioni regolari memorizza nella cache il 15 usate più recentemente espressioni regolari statiche. Se l'applicazione usa più di 15 espressioni regolari statiche, è necessario ricompilare alcune espressioni regolari. Per evitare la ricompilazione, è possibile aumentare il <xref:System.Text.RegularExpressions.Regex.CacheSize%2A?displayProperty=nameWithType> proprietà.  
   
--   Quando crea un'istanza nuova <xref:System.Text.RegularExpressions.Regex> oggetti con espressioni regolari che in precedenza sono stati compilati. Può trattarsi di qualsiasi valore di timeout si applica al dominio dell'applicazione in cui il  viene creata un'istanza di oggetto oppure è stata eseguita la chiamata al metodo statico. È possibile impostare il valore di timeout a livello di applicazione chiamando il <xref:System.Text.RegularExpressions.Regex> metodo a cui assegnare la rappresentazione di stringa di un  valore alla proprietà "REGEX_DEFAULT_MATCH_TIMEOUT". Usando il valore , se non è stato impostato alcun valore di timeout a livello di applicazione.  
+-   Quando crea un'istanza nuova <xref:System.Text.RegularExpressions.Regex> oggetti con espressioni regolari che in precedenza sono stati compilati. Ad esempio, il codice seguente definisce un'espressione regolare per individuare eventuali parole duplicate in un flusso di testo. Anche se l'esempio Usa una singola espressione regolare, crea un'istanza di un nuovo <xref:System.Text.RegularExpressions.Regex> oggetto da elaborare ogni riga di testo. Ciò comporta la ricompilazione dell'espressione regolare con ogni iterazione del ciclo.  
   
      [!code-csharp[System.Text.RegularExpressions.Class.Caching#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.regularexpressions.class.caching/cs/caching1.cs#1)]
      [!code-vb[System.Text.RegularExpressions.Class.Caching#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.regularexpressions.class.caching/vb/caching1.vb#1)]  
   
-     È consigliabile impostare un valore di timeout in tutte le operazioni di corrispondenza espressione regolare.  
+     Per evitare la ricompilazione, è consigliabile creare un'istanza di un singolo <xref:System.Text.RegularExpressions.Regex> oggetto che è possibile accedere a tutto il codice che lo richiede, come illustrato nell'esempio seguente riscritto.  
   
      [!code-csharp[System.Text.RegularExpressions.Class.Caching#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.regularexpressions.class.caching/cs/caching1.cs#2)]
      [!code-vb[System.Text.RegularExpressions.Class.Caching#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.regularexpressions.class.caching/vb/caching1.vb#2)]  
@@ -111,37 +111,37 @@
   
 <a name="regex_ops"></a>   
 ## <a name="performing-regular-expression-operations"></a>Esecuzione di operazioni di espressione regolare  
- Per altre informazioni, vedere <xref:System.Text.RegularExpressions.Regex>procedure consigliate per le espressioni regolari<xref:System.Text.RegularExpressions.Regex>.  
+ Se si decide di creare un'istanza di un <xref:System.Text.RegularExpressions.Regex> dell'oggetto e chiamarne i metodi o chiamare metodi statici, il <xref:System.Text.RegularExpressions.Regex> classe offre le funzionalità di corrispondenza dei modelli seguenti:  
   
--   Nell'esempio seguente usa un'espressione regolare per verificare la presenza di occorrenze ripetute di parole in una stringa. L'espressione regolare <xref:System.Text.RegularExpressions.Regex.IsMatch%2A> può essere interpretato come illustrato nella tabella seguente.  
+-   Convalida di una corrispondenza. Si chiama il <xref:System.Text.RegularExpressions.Regex.IsMatch%2A> metodo per determinare se è presente una corrispondenza.  
   
--   Inizia la corrispondenza sul confine di parola. Trova una o più caratteri alfanumerici fino a un confine di parola. Questo gruppo acquisito <xref:System.Text.RegularExpressions.Match.NextMatch%2A?displayProperty=nameWithType>.  
+-   Recupero di una singola corrispondenza. Si chiama il <xref:System.Text.RegularExpressions.Regex.Match%2A> metodo per recuperare un <xref:System.Text.RegularExpressions.Match> oggetto che rappresenta la prima corrispondenza in una stringa o in parte di una stringa. Corrispondenze successive possono essere recuperate chiamando il <xref:System.Text.RegularExpressions.Match.NextMatch%2A?displayProperty=nameWithType> (metodo).  
   
--   Corrisponde a uno o più caratteri spazio vuoto. Corrisponde al gruppo acquisito denominato <xref:System.Text.RegularExpressions.Regex.Matches%2A>.  
+-   Recupero di tutte le corrispondenze. Si chiama il <xref:System.Text.RegularExpressions.Regex.Matches%2A> metodo per recuperare un <xref:System.Text.RegularExpressions.MatchCollection?displayProperty=nameWithType> oggetto che rappresenta tutte le corrispondenze trovate in una stringa o in parte di una stringa.  
   
--   Nell'esempio seguente viene illustrato l'utilizzo di un'espressione regolare per verificare se una stringa rappresenta un valore di valuta o ha il formato corretto per rappresentare un valore di valuta. In questo caso, l'espressione regolare viene compilata in modo dinamico dal <xref:System.Text.RegularExpressions.Regex.Replace%2A>, , , , e  proprietà per impostazioni cultura correnti dell'utente. Se il sistema corrente delle impostazioni cultura è en-US, l'espressione regolare risulta è . Questa espressione regolare può essere interpretata come illustrato nella tabella seguente.  
+-   Sostituzione di testo corrispondente. Si chiama il <xref:System.Text.RegularExpressions.Regex.Replace%2A> metodo per sostituire testo corrispondente. Il testo di sostituzione può anche essere definito da un'espressione regolare. Inoltre, alcune delle <xref:System.Text.RegularExpressions.Regex.Replace%2A> metodi includono un <xref:System.Text.RegularExpressions.MatchEvaluator> parametro che consente di definire a livello di codice il testo di sostituzione.  
   
--   Dall'inizio della stringa. Trova zero o una occorrenza del segno positivo o il segno negativo.  
+-   Creazione di una matrice di stringhe che è costituita dalle parti di una stringa di input. Si chiama il <xref:System.Text.RegularExpressions.Regex.Split%2A> metodo per suddividere una stringa di input in corrispondenza delle posizioni definite all'espressione regolare.  
   
- Trova zero o una occorrenza del segno di dollaro.  
+ Oltre ai relativi metodi di corrispondenza, il <xref:System.Text.RegularExpressions.Regex> classe include metodi per scopi diversi:  
   
--   Corrisponde a zero o un simbolo di separatore decimale.  
+-   Il <xref:System.Text.RegularExpressions.Regex.Escape%2A> metodo esegue l'escape di caratteri che possono essere interpretati come operatori di espressione regolare in una stringa di input o l'espressione regolare.  
   
--   Corrisponde a due cifre decimali pari a zero o una volta.  
+-   Il <xref:System.Text.RegularExpressions.Regex.Unescape%2A> metodo rimuove i caratteri di escape.  
   
--   Corrisponde al modello di cifre integrali e frazionarie separati da un simbolo di separatore decimale almeno una volta. Trovare la fine della stringa.  
+-   Il <xref:System.Text.RegularExpressions.Regex.CompileToAssembly%2A> metodo crea un assembly che contiene espressioni regolari predefinite. .NET Framework sono disponibili esempi di tali assembly speciali nel <xref:System.Web.RegularExpressions?displayProperty=nameWithType> dello spazio dei nomi.  
   
  [Torna a osservazioni](#remarks)  
   
 <a name="define_timeout"></a>   
 ## <a name="defining-a-time-out-value"></a>Definizione di un valore di timeout  
- In questo caso, l'espressione regolare si presuppone che una stringa di valuta validi non contiene i simboli separatori di gruppo e che abbia senza cifre frazionarie o il numero di cifre frazionarie definite dalle impostazioni cultura correnti  proprietà. Poiché l'espressione regolare in questo esempio viene compilato in modo dinamico, non si sa in fase di progettazione se il simbolo di valuta di cultura correnti, segno decimale o segni positivi e negativi mal interpretate dal motore delle espressioni regolari come regolare operatori di linguaggio di espressione. Per evitare il problema, nell'esempio vengono passate ogni stringa generata in modo dinamico per il  (metodo). Il  classe non è modificabile (sola lettura) e thread-safe. gli oggetti possono essere creati su qualsiasi thread e condividerli fra i thread. Per altre informazioni, vedere [Safety](~/docs/standard/base-types/thread-safety-in-regular-expressions.md) Thread.  
+ .NET Framework supporta un linguaggio delle espressioni regolari completa che fornisce sostanziale potenza e flessibilità nei criteri di ricerca. Tuttavia, la potenza e flessibilità hanno un costo: il rischio di riduzione delle prestazioni. Le espressioni regolari che scarse sono sorprendentemente facile da creare. In alcuni casi, le operazioni di espressione regolare che si basano su un backtracking eccessivo possono bloccarsi durante l'elaborazione di testo che corrisponde quasi al modello di espressione regolare. Per altre informazioni sul motore di espressioni regolari di .NET Framework, vedere [dettagli del comportamento delle espressioni regolari](~/docs/standard/base-types/details-of-regular-expression-behavior.md). Per altre informazioni sull'uso eccessivo del backtracking, vedere [Backtracking](~/docs/standard/base-types/backtracking-in-regular-expressions.md).  
   
- Si noti che questo costruttore è protetto; può essere chiamato solo dalle classi derivate dal [!INCLUDE[net_v45](~/includes/net-v45-md.md)] classe. Il <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> parametro è costituito da elementi di linguaggio di espressioni regolari che descrivono in modo univoco la stringa da confrontare. Per altre informazioni sulle espressioni regolari, vedere la espressioni regolari di .NET Framework e linguaggio di espressioni regolari - riferimento rapido argomenti. Chiama il  è equivalente alla chiamata al costruttore il  costruttore con un valore di  per il  argomento.  
+ A partire dal [!INCLUDE[net_v45](~/includes/net-v45-md.md)], è possibile definire un intervallo di timeout per le corrispondenze di espressione regolare. Se il motore delle espressioni regolari non riesce a identificare una corrispondenza all'interno di questo intervallo di tempo, l'operazione di corrispondenza genera una <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> eccezione. Nella maggior parte dei casi, ciò impedisce al motore delle espressioni regolari inutile consumo di potenza di elaborazione da ricerca di corrispondenza con il testo che corrisponde quasi al modello di espressione regolare. È stato possibile ritenuta è, tuttavia, che l'intervallo di timeout è stato impostato un valore troppo basso oppure che il carico corrente del computer ha causato una riduzione generale delle prestazioni.  
   
- Oggetto  oggetto non è modificabile, il che significa che può essere utilizzato solo per il modello di corrispondenza è definire durante la creazione. Tuttavia, può essere usato qualsiasi numero di volte senza vengano ricompilate. Questo costruttore crea un'istanza di un oggetto espressione regolare tenta una corrispondenza tra maiuscole e minuscole di tutti i caratteri alfabetici definiti .  
+ Come si gestisce l'eccezione dipende dalla causa dell'eccezione. Se l'eccezione si verifica perché l'intervallo di timeout viene impostato un valore troppo basso o a causa di carico eccessivo computer, è possibile aumentare l'intervallo di timeout e ritentare l'operazione corrispondente. Se l'eccezione si verifica perché l'espressione regolare si basa su un backtracking eccessivo, si può presupporre che non esiste una corrispondenza e, facoltativamente, è possibile registrare le informazioni che consentiranno di modificare il criterio di espressione regolare.  
   
- Per trovare una corrispondenza tra maiuscole e minuscole, usare il <xref:System.Text.RegularExpressions.Regex.%23ctor%28System.String%2CSystem.Text.RegularExpressions.RegexOptions%2CSystem.TimeSpan%29> costruttore. Nell'esempio seguente viene illustrato come utilizzare questo costruttore per creare un'istanza di un'espressione regolare che corrisponde a qualsiasi parola che inizia con le lettere "a" o "t". Si noti che il criterio di espressione regolare non corrisponda alla parola "The" all'inizio del testo, in quanto i confronti sono tra maiuscole e minuscole per impostazione predefinita.  
+ È possibile impostare un intervallo di timeout chiamando il <xref:System.Text.RegularExpressions.Regex.%23ctor%28System.String%2CSystem.Text.RegularExpressions.RegexOptions%2CSystem.TimeSpan%29> costruttore quando si crea un'istanza di un oggetto di espressione regolare. Per i metodi statici, è possibile impostare un intervallo di timeout chiamando un overload del metodo corrisponda con un `matchTimeout` parametro. Se non si imposta un valore di timeout in modo esplicito, il valore di timeout predefinito viene determinato come segue:  
   
 -   Utilizzando il timeout a livello di applicazione valore, se uno è presente. Può trattarsi di qualsiasi valore di timeout si applica al dominio dell'applicazione in cui il <xref:System.Text.RegularExpressions.Regex> viene creata un'istanza di oggetto oppure è stata eseguita la chiamata al metodo statico. È possibile impostare il valore di timeout a livello di applicazione chiamando il <xref:System.AppDomain.SetData%2A?displayProperty=nameWithType> metodo a cui assegnare la rappresentazione di stringa di un <xref:System.TimeSpan> valore alla proprietà "REGEX_DEFAULT_MATCH_TIMEOUT".  
   
@@ -194,7 +194,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>Il <see cref="T:System.Text.RegularExpressions.Regex" /> classe non è modificabile (sola lettura) e thread-safe. <see cref="T:System.Text.RegularExpressions.Regex" /> gli oggetti possono essere creati su qualsiasi thread e condividerli fra i thread. Per altre informazioni, vedere [Safety](~/docs/standard/base-types/thread-safety-in-regular-expressions.md) Thread.</threadsafe>
+    <threadsafe>Il <see cref="T:System.Text.RegularExpressions.Regex" /> classe non è modificabile (sola lettura) e thread-safe. <see cref="T:System.Text.RegularExpressions.Regex" /> gli oggetti possono essere creati su qualsiasi thread e condividerli fra i thread. Per altre informazioni, vedere [Thread Safety](~/docs/standard/base-types/thread-safety-in-regular-expressions.md).</threadsafe>
     <altmember cref="T:System.Configuration.RegexStringValidator" />
   </Docs>
   <Members>
@@ -238,6 +238,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>Inizializza una nuova istanza della classe <see cref="T:System.Text.RegularExpressions.Regex" />.</summary>
@@ -279,6 +284,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="pattern" Type="System.String" />
       </Parameters>
@@ -382,6 +392,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters>
         <Parameter Name="pattern" Type="System.String" />
         <Parameter Name="options" Type="System.Text.RegularExpressions.RegexOptions" />
@@ -497,7 +512,10 @@
         <exception cref="T:System.ArgumentNullException">
           <paramref name="pattern" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è un valore valido di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è un valore valido di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
         </block>
@@ -529,6 +547,11 @@
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
@@ -547,7 +570,7 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Il valore in un'operazione set è minore di zero.</exception>
         <block subset="none" type="usage">
-          <para>In .NET Framework precedenti a di [! INCLUDE[net_v20SP1_short](~/Includes/NET-v20sp1-short-MD.MD)], espressioni regolari usate in statiche e chiamate ai metodi di istanza sono stati memorizzati nella cache. A partire da di [! INCLUDE[net_v20SP1_short](~/Includes/NET-v20sp1-short-MD.MD)], regolari solo le espressioni usate nel metodo statico vengono memorizzate nella cache le chiamate.</para>
+          <para>In .NET Framework precedenti al [!INCLUDE[net_v20SP1_short](~/includes/net-v20sp1-short-md.md)], le espressioni regolari usate entrambe statico e chiamate ai metodi di istanza sono stati memorizzati nella cache. A partire dal [!INCLUDE[net_v20SP1_short](~/includes/net-v20sp1-short-md.md)], regular solo le espressioni usate nelle chiamate al metodo statico vengono memorizzate nella cache.</para>
         </block>
       </Docs>
     </Member>
@@ -608,8 +631,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -688,8 +714,11 @@
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -816,6 +845,11 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyName>System.Text.RegularExpressions</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -858,12 +892,15 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  -o-  Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
+        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  
+  
+oppure 
+Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="assemblyname" /> o <paramref name="regexinfos" /> è <see langword="null" />.</exception>
         <exception cref="T:System.PlatformNotSupportedException">.NET core solo: la creazione di un assembly di espressioni regolari compilate non è supportata.</exception>
         <block subset="none" type="usage">
-          <para>Se si sviluppa in un sistema che ha [! INCLUDE[net_v45](~/Includes/NET-v45-MD.MD)] o relative versioni intermedie installati, la destinazione è [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] invece di versioni più recenti installati.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
+          <para>Se si sta sviluppando in un sistema dotato [!INCLUDE[net_v45](~/includes/net-v45-md.md)] o relative versioni intermedie installati, sono destinati [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] anziché versioni successive installato.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
         </block>
       </Docs>
     </Member>
@@ -885,6 +922,11 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyName>System.Text.RegularExpressions</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -945,12 +987,15 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  -o-  Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
+        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  
+  
+oppure 
+Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="assemblyname" /> o <paramref name="regexinfos" /> è <see langword="null" />.</exception>
         <exception cref="T:System.PlatformNotSupportedException">.NET core solo: la creazione di un assembly di espressioni regolari compilate non è supportata.</exception>
         <block subset="none" type="usage">
-          <para>Se si sviluppa in un sistema che ha [! INCLUDE[net_v45](~/Includes/NET-v45-MD.MD)] o relative versioni intermedie installati, la destinazione è [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] invece di versioni più recenti installati.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
+          <para>Se si sta sviluppando in un sistema dotato [!INCLUDE[net_v45](~/includes/net-v45-md.md)] o relative versioni intermedie installati, sono destinati [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] anziché versioni successive installato.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
         </block>
       </Docs>
     </Member>
@@ -972,6 +1017,11 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyName>System.Text.RegularExpressions</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -1017,14 +1067,17 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  -o-  Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
+        <exception cref="T:System.ArgumentException">Il valore della proprietà <see cref="P:System.Reflection.AssemblyName.Name" /> del parametro <paramref name="assemblyname" /> è una stringa vuota o null.  
+  
+oppure 
+Il criterio di ricerca di espressioni regolari di uno o più oggetti in <paramref name="regexinfos" /> contiene una sintassi non valida.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="assemblyname" /> o <paramref name="regexinfos" /> è <see langword="null" />.</exception>
         <exception cref="T:System.Runtime.InteropServices.COMException">Il parametro <paramref name="resourceFile" /> definisce un file di risorse Win32 non valido.</exception>
         <exception cref="T:System.IO.FileNotFoundException">Impossibile trovare il file designato dal parametro <paramref name="resourceFile" />.</exception>
         <exception cref="T:System.PlatformNotSupportedException">.NET core solo: la creazione di un assembly di espressioni regolari compilate non è supportata.</exception>
         <block subset="none" type="usage">
-          <para>Se si sviluppa in un sistema che ha [! INCLUDE[net_v45](~/Includes/NET-v45-MD.MD)] o relative versioni intermedie installati, la destinazione è [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [! INCLUDE[net_v40_short](~/Includes/NET-v40-short-MD.MD)] invece di versioni più recenti installati.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
+          <para>Se si sta sviluppando in un sistema dotato [!INCLUDE[net_v45](~/includes/net-v45-md.md)] o relative versioni intermedie installati, sono destinati [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)], e userai il <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> metodo per creare un assembly che contiene espressioni regolari compilate. Tentativo di utilizzare una delle espressioni regolari in assembly in un sistema che dispone di [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] genera un'eccezione. Per risolvere questo problema, è possibile effettuare una delle operazioni seguenti:-creare l'assembly che contiene le espressioni regolari compilate in un sistema che ha [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] anziché versioni successive installato.  -Invece di chiamare <see cref="M:System.Text.RegularExpressions.Regex.CompileToAssembly(System.Text.RegularExpressions.RegexCompilationInfo[],System.Reflection.AssemblyName)" /> e recuperando l'espressione regolare compilata da un assembly, usare statico o istanza <see cref="T:System.Text.RegularExpressions.Regex" /> metodi con la <see cref="F:System.Text.RegularExpressions.RegexOptions.Compiled" /> opzione quando crea un'istanza un <see cref="T:System.Text.RegularExpressions.Regex" /> di oggetti o chiamare un'espressione regolare metodo corrispondente al modello.</para>
         </block>
       </Docs>
     </Member>
@@ -1548,7 +1601,7 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Runtime.Serialization.OptionalField(VersionAdded=2)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2033,7 +2086,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> o <paramref name="pattern" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è un valore valido di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è un valore valido di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
@@ -2343,7 +2399,13 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="beginning" /> è minore di zero o maggiore della lunghezza di <paramref name="input" />.  -o-  <paramref name="length" /> è minore di zero o maggiore della lunghezza di <paramref name="input" />.  -o-  <paramref name="beginning" /><see langword="+" /><paramref name="length" /><see langword="–1" /> identifica una posizione esterna all'intervallo di <paramref name="input" />.</exception>
+          <paramref name="beginning" /> è minore di zero o maggiore della lunghezza di <paramref name="input" />.  
+  
+oppure 
+ <paramref name="length" /> è minore di zero o maggiore della lunghezza di <paramref name="input" />.  
+  
+oppure 
+ <paramref name="beginning" /><see langword="+" /><paramref name="length" /><see langword="–1" /> identifica una posizione esterna all'intervallo di <paramref name="input" />.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout. Per altre informazioni sui timeout, vedere la sezione Osservazioni.</exception>
         <altmember cref="M:System.Text.RegularExpressions.Match.NextMatch" />
       </Docs>
@@ -2501,7 +2563,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> o <paramref name="pattern" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout. Per altre informazioni sui timeout, vedere la sezione Osservazioni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
@@ -2520,7 +2585,7 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
       <Docs>
         <summary>Cerca in una stringa di input tutte le occorrenze di un'espressione regolare e restituisce tutte le corrispondenze.</summary>
         <block subset="none" type="usage">
-          <para>Quando viene ripetuto un tentativo di corrispondenza chiamando il <see cref="Overload:System.Text.RegularExpressions.Regex.Matches" /> metodo, il motore delle espressioni regolari corrispondenze vuote un trattamento speciale. In genere, il motore delle espressioni regolari inizia la ricerca della corrispondenza successiva esattamente dove la corrispondenza precedente è stata interrotta. Tuttavia, dopo una corrispondenza vuota, il motore delle espressioni regolari avanza di un carattere prima di tentare la corrispondenza successiva. Questo comportamento garantisce che il motore delle espressioni regolari procedura sarà formata da stringa. In caso contrario, poiché una corrispondenza vuota non comporta uno spostamento in avanti, la corrispondenza successiva inizierebbe nella stessa posizione come la corrispondenza precedente e corrisponderebbe ripetutamente la stessa stringa vuota.  Nell'esempio seguente, il criterio di espressione regolare <c>un *</c> cerca zero o più occorrenze della lettera "a" nella stringa "abaabb". Come l'output illustrato nell'esempio, l'oggetto risultante <see cref="T:System.Text.RegularExpressions.MatchCollection" /> oggetto contiene sei <see cref="T:System.Text.RegularExpressions.Match" /> oggetti. Il primo tentativo di ricerca trova il primo "a". La seconda corrispondenza inizia in cui il primo corrispondono esattamente le estremità, prima della prima b. trovata alcuna occorrenza di "a" e restituisce una stringa vuota. La terza corrispondenza non avvia esattamente dove la seconda corrispondenza è terminata, perché la seconda ha restituito una stringa vuota. Inizia invece di un carattere in un secondo momento, dopo il primo "b". La terza corrispondenza trova le due occorrenze di "a" e restituisce "aa". Il quarto tentativo di ricerca inizia in cui è terminata la corrispondenza terzo, prima della seconda "b" e restituisce una stringa vuota. Il quinto tentativo di corrispondenza sposta nuovamente un carattere che inizia prima il terzo "b" e restituisce una stringa vuota. La corrispondenza sesta inizia dopo l'ultima "b" e restituisce una stringa vuota anche in questo caso.  [! code-csharp[System.Text.RegularExpressions.Regex.Matches#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.regularexpressions.regex.matches/cs/emptymatches1.cs#9)] [! code-vb[System.Text.RegularExpressions.Regex.Matches#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.regularexpressions.regex.matches/vb/emptymatches1.vb#9)]</para>
+          <para>Quando viene ripetuto un tentativo di corrispondenza chiamando il <see cref="Overload:System.Text.RegularExpressions.Regex.Matches" /> metodo, il motore delle espressioni regolari corrispondenze vuote un trattamento speciale. In genere, il motore delle espressioni regolari inizia la ricerca della corrispondenza successiva esattamente dove la corrispondenza precedente è stata interrotta. Tuttavia, dopo una corrispondenza vuota, il motore delle espressioni regolari avanza di un carattere prima di tentare la corrispondenza successiva. Questo comportamento garantisce che il motore delle espressioni regolari procedura sarà formata da stringa. In caso contrario, poiché una corrispondenza vuota non comporta uno spostamento in avanti, la corrispondenza successiva inizierebbe nella stessa posizione come la corrispondenza precedente e corrisponderebbe ripetutamente la stessa stringa vuota.  Nell'esempio seguente, il criterio di espressione regolare <c>un *</c> cerca zero o più occorrenze della lettera "a" nella stringa "abaabb". Come l'output illustrato nell'esempio, l'oggetto risultante <see cref="T:System.Text.RegularExpressions.MatchCollection" /> oggetto contiene sei <see cref="T:System.Text.RegularExpressions.Match" /> oggetti. Il primo tentativo di ricerca trova il primo "a". La seconda corrispondenza inizia in cui il primo corrispondono esattamente le estremità, prima della prima b. trovata alcuna occorrenza di "a" e restituisce una stringa vuota. La terza corrispondenza non avvia esattamente dove la seconda corrispondenza è terminata, perché la seconda ha restituito una stringa vuota. Inizia invece di un carattere in un secondo momento, dopo il primo "b". La terza corrispondenza trova le due occorrenze di "a" e restituisce "aa". Il quarto tentativo di ricerca inizia in cui è terminata la corrispondenza terzo, prima della seconda "b" e restituisce una stringa vuota. Il quinto tentativo di corrispondenza sposta nuovamente un carattere che inizia prima il terzo "b" e restituisce una stringa vuota. La corrispondenza sesta inizia dopo l'ultima "b" e restituisce una stringa vuota anche in questo caso.  [! codice-csharp[System.Text.RegularExpressions.Regex.Matches#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.text.regularexpressions.regex.matches/cs/emptymatches1.cs#9)] [! codice vb[System.Text.RegularExpressions.Regex.Matches#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.text.regularexpressions.regex.matches/vb/emptymatches1.vb#9)]</para>
         </block>
       </Docs>
     </MemberGroup>
@@ -2936,7 +3001,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> o <paramref name="pattern" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
         </block>
@@ -3019,6 +3087,11 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Text.RegularExpressions.RegexOptions</ReturnType>
       </ReturnValue>
@@ -4068,7 +4141,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" />, <paramref name="pattern" /> o <paramref name="replacement" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout. Per altre informazioni sui timeout, vedere la sezione Osservazioni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
@@ -4163,7 +4239,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" />, <paramref name="pattern" /> o <paramref name="evaluator" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout. Per altre informazioni sui timeout, vedere la sezione Osservazioni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
@@ -4199,6 +4278,11 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -4755,7 +4839,10 @@ In .NET Core, le chiamate al `Regex.CompileToAssembly` metodo throw un <xref:Sys
         <exception cref="T:System.ArgumentNullException">
           <paramref name="input" /> o <paramref name="pattern" /> è <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  -o-  <paramref name="matchTimeout" /> è negativo, zero o maggiore di circa 24 giorni.</exception>
+          <paramref name="options" /> non è una combinazione bit per bit valida di valori di <see cref="T:System.Text.RegularExpressions.RegexOptions" />.  
+  
+oppure 
+ <paramref name="matchTimeout" /> è negativo, uguale a zero o maggiore di circa 24 giorni.</exception>
         <exception cref="T:System.Text.RegularExpressions.RegexMatchTimeoutException">Si è verificato un timeout. Per altre informazioni sui timeout, vedere la sezione Osservazioni.</exception>
         <block subset="none" type="usage">
           <para>È consigliabile impostare il <paramref name="matchTimeout" /> parametro su un valore appropriato, ad esempio due secondi. Se si disabilita i timeout specificando <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout" />, il motore delle espressioni regolari offre prestazioni leggermente migliori. Tuttavia, è necessario disabilitare i timeout solo nelle condizioni seguenti:: quando l'input elaborata da un'espressione regolare è derivato da un'origine conosciuta e attendibile o è costituito da testo statico. Esclude il testo che è stato in modo dinamico inseriti dagli utenti.  -Quando il criterio di espressione regolare è stata accuratamente testato per verificare che gestisca in modo efficiente trova, mancate corrispondenze e a breve.  -Quando il criterio di espressione regolare non contiene alcun elemento di linguaggio che potrebbero causare un backtracking eccessivo durante l'elaborazione di una corrispondenza più vicino.</para>
