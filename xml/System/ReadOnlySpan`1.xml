@@ -1,11 +1,11 @@
 <Type Name="ReadOnlySpan&lt;T&gt;" FullName="System.ReadOnlySpan&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7e0feb74debd27988fa190cdd4fc23848bb487d3" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="12357179192b89232e7d5799ab47b00a99fb8e1d" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36428534" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39986310" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ReadOnlySpan&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ReadOnlySpan`1&lt;T&gt; extends System.ValueType" />
@@ -29,17 +29,21 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsByRefLike</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Il tipo di elementi nel <see cref="System.ReadOnlySpan`1" />.</typeparam>
+    <summary>Fornisce una rappresentazione di sola lettura indipendente dai tipi e dalla memoria di una regione contigua di memoria arbitraria.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[`ReadOnlySpan<T>` è un [uno struct di riferimento](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type) che viene allocata nello stack e non possono eseguire l'escape mai nell'heap gestito. I tipi struct ref hanno un numero di restrizioni per garantire che non può essere promosso nell'heap gestito, tra cui che essi non possono essere boxed, acquisite nelle espressioni lambda assegnate a variabili di tipo <xref:System.Object>, assegnato a `dynamic` variabili, e essi non può implementare qualsiasi tipo di interfaccia.
+
+Oggetto `ReadOnlySpan<T>` istanza viene spesso usata per fare riferimento a elementi di una matrice o una parte di una matrice. A differenza di una matrice, tuttavia, un `ReadOnlySpan<T>` istanza può fare riferimento alla memoria gestita, della memoria nativa, o la memoria gestita su stack.]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -62,9 +66,11 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">La matrice da cui creare <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Crea un nuovo oggetto <see cref="T:System.ReadOnlySpan`1" /> su un'intera matrice specificata.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Se la matrice è null, questo costruttore restituisce un valore null `ReadOnlySpan<T>`.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -83,7 +89,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -92,10 +98,16 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pointer">Puntatore all'indirizzo iniziale di un numero specificato di oggetti <paramref name="T" /> in memoria.</param>
+        <param name="length">Numero di oggetti <paramref name="T" /> da includere.</param>
+        <summary>Crea un nuovo oggetto <see cref="T:System.ReadOnlySpan`1" /> da un numero specificato di byte a partire da un indirizzo di memoria specificato.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Questo costruttore deve essere utilizzato con cautela, poiché consente di creare in modo arbitrario tipizzato `T`s da un blocco di memoria.]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> è un tipo riferimento o contiene riferimenti e pertanto non può essere archiviato nella memoria non gestita.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="length" /> è negativo.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -115,10 +127,14 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">La matrice da cui creare <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="start">Indice iniziale da cui iniziare l'intervallo di sola lettura.</param>
+        <summary>Crea un nuovo <see cref="T:System.ReadOnlySpan`1" /> da una matrice, iniziando in corrispondenza dell'indice specificato e continuando fino alla fine della matrice.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> è minore di 0 o maggiore della lunghezza della matrice.</exception>
+        <exception cref="T:System.ArgumentNullException">
+          <paramref name="array" /> è null.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -143,11 +159,15 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">La matrice da cui creare <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="start">Indice del primo elemento da includere.</param>
+        <param name="length">Numero di elementi da includere.</param>
+        <summary>Crea un nuovo oggetto <see cref="T:System.ReadOnlySpan`1" /> che include un numero specificato di elementi di una matrice a partire da un indice specificato.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="array" /> è <see langword="null" />, ma <paramref name="start" /> o <paramref name="length" /> è diverso da zero.<p />
+--oppure--<p /><paramref name="start" /> non rientra nei limiti della matrice. <p />
+--oppure--<p /><paramref name="start" /> e <paramref name="length" /> superano il numero di elementi nella matrice.</exception>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -173,9 +193,13 @@
         <Parameter Name="destination" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="destination">Intervallo in cui copiare gli elementi.</param>
+        <summary>Copia il contenuto di questo <see cref="System.ReadOnlySpan`1" /> in una destinazione <see cref="System.Span`1" />.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Se il `source` e `destination` si sovrappongono, l'intera struttura `source` viene gestito come se è stato copiato in un percorso temporaneo prima di copiarli a `destination`.]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="destination" /> è più breve dell'oggetto <see cref="System.ReadOnlySpan`1" /> di origine.</exception>
       </Docs>
     </Member>
     <Member MemberName="DangerousCreate">
@@ -199,16 +223,22 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="objectData" Type="T&amp;" RefType="ref" />
+        <Parameter Name="objectData" Type="T" RefType="ref" />
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="objectData">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">Oggetto gestito che contiene i dati coperti dall'intervallo.</param>
+        <param name="objectData">Riferimento ai dati all'interno dell'oggetto.</param>
+        <param name="length">Numero di elementi <paramref name="T" /> per l'intervallo.</param>
+        <summary>Crea un nuovo <see cref="T:System.ReadOnlySpan`1" /> su una parte di un normale oggetto gestito.</summary>
+        <returns>Oggetto <see cref="T:System.ReadOnlySpan`1" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Questo metodo è pericoloso perché si **non verifica** per le condizioni di errore seguente:
+
+- Il parametro `length` non è corretto.
+- Il parametro `obj` è null.
+- Gli oggetti `obj` punta a può contenere un puntatore non elaborato.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DangerousGetPinnableReference">
@@ -228,9 +258,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Restituisce un riferimento all'elemento di <see cref="T:System.ReadOnlySpan`1" /> in corrispondenza dell'indice zero. Se l'intervallo di sola lettura è vuoto, restituisce il riferimento alla posizione di memoria in cui sarebbe stato archiviato il primo elemento.</summary>
+        <returns>Riferimento all'elemento di <see cref="T:System.ReadOnlySpan`1" /> in corrispondenza dell'indice zero.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Questo metodo restituisce un [uno struct di riferimento](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type). Può essere utilizzato per l'aggiunta un <xref:System.ReadOnlySpan`1> in memoria. È necessario per supportare l'uso di un <xref:System.ReadOnlySpan`1> all'interno di un [fissa](~/docs/csharp/language-reference/keywords/fixed-statement.md) istruzione.
+
+Questo riferimento viene usato per l'aggiunta e non deve mai essere dereferenziato.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Empty">
@@ -253,8 +287,8 @@
         <ReturnType>System.ReadOnlySpan&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Restituisce un oggetto <see cref="T:System.ReadOnlySpan`1" /> vuoto.</summary>
+        <value>Restituisce un oggetto <see cref="T:System.ReadOnlySpan`1" /> vuoto.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -275,10 +309,10 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.Obsolete("Equals() on ReadOnlySpan will always throw an exception. Use == instead.")</AttributeName>
         </Attribute>
       </Attributes>
@@ -289,10 +323,13 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">Non supportato.</param>
+        <summary>Non supportato. Genera un oggetto <see cref="T:System.NotSupportedException" />.</summary>
+        <returns>Non supportato.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Non supportato.]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">Generata sempre da questo metodo.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetEnumerator">
@@ -312,9 +349,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Restituisce un enumeratore per questo <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Enumeratore per questo intervallo di sola lettura.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Invece di chiamare il <xref:System.ReadOnlySpan%601.GetEnumerator%2A> metodo direttamente, è possibile usare il codice c# `foreach` istruzione e Visual Basic `For Each`... `Next` costrutto per enumerare un <xref:System.ReadOnlySpan%601>.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -334,10 +373,10 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.Obsolete("GetHashCode() on ReadOnlySpan will always throw an exception.")</AttributeName>
         </Attribute>
       </Attributes>
@@ -346,9 +385,10 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Non supportato. Genera un oggetto <see cref="T:System.NotSupportedException" />.</summary>
+        <returns>Non supportato.</returns>
+        <remarks>Non supportato.</remarks>
+        <exception cref="T:System.NotSupportedException">Generata sempre da questo metodo.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetPinnableReference">
@@ -369,7 +409,7 @@
         </Attribute>
       </Attributes>
       <ReturnValue>
-        <ReturnType>System.T&amp;</ReturnType>
+        <ReturnType>T@</ReturnType>
         <Attributes>
           <Attribute>
             <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
@@ -378,9 +418,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Restituisce un riferimento all'elemento di <see cref="T:System.ReadOnlySpan`1" /> in corrispondenza dell'indice zero. Se l'intervallo di sola lettura è vuoto, restituisce <see langword="null" />.</summary>
+        <returns>Riferimento all'elemento di <see cref="T:System.ReadOnlySpan`1" /> in corrispondenza dell'indice zero, oppure <see langword="null" /> se <see cref="M:System.ReadOnlySpan`1.IsEmpty" /> è <see langword="true" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Il `GetPinnableReference` metodo restituisce un [struct ref](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type). Può essere utilizzato per l'aggiunta un <xref:System.ReadOnlySpan%601> in memoria. È necessario per supportare l'uso di un <xref:System.ReadOnlySpan%601> all'interno di un [fissa](~/docs/csharp/language-reference/keywords/fixed-statement.md) istruzione.
+
+Questo riferimento viene usato per l'aggiunta e non deve mai essere dereferenziato.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsEmpty">
@@ -403,14 +447,15 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Restituisce un valore che indica se l'intervallo di sola lettura corrente è vuoto.</summary>
+        <value>
+          <see langword="true" /> Quando l'intervallo corrente è vuoto. in caso contrario <see langword="false" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public T&amp; this[int index] { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.T&amp; modreq(System.Runtime.InteropServices.InAttribute) Item(int32)" />
+      <MemberSignature Language="ILAsm" Value=".property instance T&amp; modreq(System.Runtime.InteropServices.InAttribute) Item(int32)" />
       <MemberSignature Language="DocId" Value="P:System.ReadOnlySpan`1.Item(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Default Public ReadOnly Property Item(index As Integer) As T&amp;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property T&amp; ^ default[int] { T&amp; ^ get(int index); };" />
@@ -425,21 +470,23 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
-        <ReturnType>System.T&amp;</ReturnType>
+        <ReturnType>T&amp;</ReturnType>
       </ReturnValue>
       <Parameters>
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <param name="index">Indice in base zero dell'elemento da ottenere.</param>
+        <summary>Ottiene un elemento dall'intervallo di sola lettura in corrispondenza dell'indice in base zero specificato.</summary>
+        <value>L'elemento dall'intervallo di sola lettura.</value>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.IndexOutOfRangeException">
+          <paramref name="index" /> è minore di zero oppure è maggiore o uguale a <see cref="P:System.ReadOnlySpan`1.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -462,8 +509,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Numero di elementi nell'intervallo di sola lettura.</summary>
+        <value>Numero di elementi.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -491,11 +538,14 @@
         <Parameter Name="right" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">Il primo intervallo da confrontare.</param>
+        <param name="right">Il secondo intervallo da confrontare.</param>
+        <summary>Restituisce un valore che indica se due istanze di <see cref="T:System.ReadOnlySpan`1" /> sono uguali.</summary>
+        <returns>
+          <see langword="true" /> se le due istanze di <see cref="T:System.ReadOnlySpan`1" /> sono uguali; in caso contrario, <see langword="false" /></returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Ciò consente di verificare se due <xref:System.ReadOnlySpan`1> istanze puntare alla stessa posizione di memoria iniziale e ha lo stesso <xref:System.ReadOnlySpan`1.Length> valori. Ciò non confrontare il contenuto di due <xref:System.ReadOnlySpan`1> istanze.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Implicit">
@@ -521,9 +571,9 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">Matrice da convertire in <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Definisce una conversione implicita di una matrice in <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Intervallo di sola lettura corrispondente a <paramref name="array" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -555,10 +605,10 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" Index="0" FrameworkAlternate="netcore-2.1" />
       </Parameters>
       <Docs>
-        <param name="arraySegment">To be added.</param>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="arraySegment">Segmento di matrice da convertire in <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="segment">Segmento di matrice da convertire in <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Definisce una conversione implicita di un <see cref="T:System.ArraySegment`1" /> in un <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Intervallo di sola lettura che corrisponde al segmento di matrice.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -586,11 +636,14 @@
         <Parameter Name="right" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">Primo intervallo di sola lettura da confrontare.</param>
+        <param name="right">Secondo intervallo di sola lettura da confrontare.</param>
+        <summary>Restituisce un valore che indica se due istanze di <see cref="T:System.ReadOnlySpan`1" /> non sono uguali.</summary>
+        <returns>
+          <see langword="true" /> se le due istanze <see cref="T:System.ReadOnlySpan`1" /> non sono uguali; in caso contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Due <xref:System.ReadOnlySpan%601> istanze non sono uguali se hanno lunghezze diverse o se gli elementi corrispondenti dei `left` e `right` puntare alle posizioni di memoria diverse.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -616,10 +669,12 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Indice in corrispondenza del quale iniziare la sezione.</param>
+        <summary>Crea una sezione dall'intervallo di sola lettura corrente che inizia in corrispondenza di un indice specificato.</summary>
+        <returns>Un intervallo costituito da tutti gli elementi dell'intervallo corrente da <paramref name="index" /> alla fine dell'intervallo.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> è maggiore del numero di elementi nell'intervallo di sola lettura.</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -646,11 +701,13 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Indice in corrispondenza del quale iniziare la sezione.</param>
+        <param name="length">Lunghezza desiderata della sezione.</param>
+        <summary>Crea una sezione dall'intervallo di sola lettura corrente che inizia in corrispondenza di un indice specificato per una lunghezza specificata.</summary>
+        <returns>Intervallo di sola lettura costituito da <paramref name="length" /> elementi dall'intervallo corrente a partire da <paramref name="index" />.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> è minore di zero oppure è maggiore o uguale a <see cref="T:System.Span`1.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ToArray">
@@ -674,9 +731,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Copia il contenuto di questo intervallo di sola lettura in una nuova matrice.</summary>
+        <returns>Matrice che contiene i dati nell'intervallo corrente.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Questo metodo esegue una copia di dati e allocazione di heap e pertanto deve essere evitato, se possibile. È talvolta necessario quando le API che supportano <xref:System.ReadOnlySpan%601> non sono disponibili, ma le API che funzionano con le matrici sono.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -696,9 +755,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Restituisce la rappresentazione della stringa di questo oggetto <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Rappresentazione in formato stringa dell'istanza.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Per un `ReadOnlySpan<Char>`, il `ToString` metodo restituisce un <xref:System.String> che contiene i caratteri a cui punta l'intervallo. In caso contrario, restituisce un <xref:System.String> con il nome del tipo e il numero di elementi che contiene l'intervallo.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryCopyTo">
@@ -724,10 +785,15 @@
         <Parameter Name="destination" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="destination">Destinazione dell'operazione di copia.</param>
+        <summary>Tenta di copiare il contenuto di questo <see cref="System.ReadOnlySpan`1" /> in un <see cref="System.Span`1" /> e restituisce un valore che indica se l'operazione ha avuto esito positivo.</summary>
+        <returns>
+          <see langword="true" /> se l'operazione ha esito positivo. In caso contrario, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Se il `source` e `destination` si sovrappongono, l'intera struttura `source` viene gestito come se è stato copiato in un percorso temporaneo prima di copiarli a `destination`.
+
+Se il `destination` lunghezza è inferiore `source`, non ci sono elementi vengono copiati e il metodo restituisce `false`.]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
