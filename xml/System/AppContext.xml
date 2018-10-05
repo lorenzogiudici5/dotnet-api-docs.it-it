@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="c2c4803637c97019a9a061ec4bca736535264ba3" />
+    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39909630" />
+    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
+    <Meta Name="ms.locfileid" Value="46621009" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -111,7 +111,7 @@
 ## <a name="appcontext-for-library-consumers"></a>AppContext per consumer della libreria  
  Se sei il consumer di una libreria, il <xref:System.AppContext> classe consente di sfruttare i vantaggi di una libreria o il meccanismo di rifiuto esplicito del metodo della libreria per la nuova funzionalità.   Singoli metodi della libreria di classi che si sta chiamando definiscono commutatori specifici che abilita o disabilita un nuovo comportamento. Il valore dell'opzione è un valore booleano. Se si tratta `false`, che in genere è il valore predefinito, il nuovo comportamento è abilitato; in caso `true`, il nuovo comportamento è disabilitato e il membro si comporta come accadeva in precedenza.  
   
- È possibile impostare il valore di un commutatore in uno dei tre modi:  
+ È possibile impostare il valore di un commutatore in uno dei quattro modi:  
   
 -   Chiamando il <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> metodo nel codice.  Il `switchName` argomento definisce il nome del commutatore e il `isEnabled` proprietà definisce il valore dell'opzione. Poiché <xref:System.AppContext> è una classe statica, è disponibile in base al dominio per ogni applicazione.  
   
@@ -133,12 +133,21 @@
 -   Tramite l'aggiunta di un valore di stringa il cui nome è il nome del commutatore per le `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` chiave del Registro di sistema. Il valore deve essere la rappresentazione di stringa di un <xref:System.Boolean> impostazione che può essere analizzato il <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (metodo), vale a dire deve essere "True", "true", "False" o "false". Se il runtime incontra un altro valore, l'opzione verrà ignorata.  
   
      Uso del Registro di sistema per definire un <xref:System.AppContext> commutatore con ambito computer; vale a dire, influisce su tutte le applicazioni in esecuzione nel computer.  
-  
+
+- Per le applicazioni ASP.NET, si aggiunge un [ \<Aggiungi >](~/docs/framework/configure-apps/file-schema/appsettings/add-element-for-appsettings.md) elemento per il [ \<appSettings >](~/docs/framework/configure-apps/file-schema/appsettings/index.md) sezione del file Web. config. Ad esempio:
+
+   ```xml
+   <appSettings>
+      <add key="AppContext.SetSwitch:switchName1" value="switchValue1" />
+      <add key="AppContext.SetSwitch:switchName2" value="switchValue2" />
+   </appSettings>
+   ```
+   
  Se si imposta la stessa opzione in diversi modi, è l'ordine di precedenza per determinare quale impostazione esegue l'override di altri:  
   
 1.  L'impostazione a livello di codice.  
   
-2.  L'impostazione nel file app. config.  
+2.  L'impostazione nel file app. config o nel file Web. config.  
   
 3.  L'impostazione del Registro di sistema.  
   
@@ -161,6 +170,8 @@
 
  ]]></format>
     </remarks>
+    <related type="Article" href="http://msdn.microsoft.com/library/1eb2fae3-de4b-45b6-852f-517c39b751bd">&lt;runtime&gt; elemento</related>
+    <related type="Article" href="http://msdn.microsoft.com/library/4ce07f47-7ddb-4d91-b067-501bd8b88752">&lt;AppContextSwitchOverrides&gt; elemento</related>
   </Docs>
   <Members>
     <Member MemberName="BaseDirectory">
