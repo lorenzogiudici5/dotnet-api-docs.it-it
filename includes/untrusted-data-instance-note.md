@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> L'utilizzo di un'istanza di tale oggetto con i dati non attendibili implica un rischio per la sicurezza. Usare questo oggetto solo con dati attendibili. Per altre informazioni, vedere [Data Validation](https://www.owasp.org/index.php/Data_Validation) (Convalida dei dati).
