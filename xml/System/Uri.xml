@@ -1,11 +1,11 @@
 <Type Name="Uri" FullName="System.Uri">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bc748165070ca7c2fc35cc5a3d821923907161f7" />
-    <Meta Name="ms.sourcegitcommit" Value="41742a1055cefdeaf2f9d76364f4bad3c9f83126" />
+    <Meta Name="ms.openlocfilehash" Value="6a2e8da0423adb69adab3d2953a45d27b12eeb0c" />
+    <Meta Name="ms.sourcegitcommit" Value="dc6ea82452beeb642259a38f3c2fad756ebd3d9f" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="10/16/2018" />
-    <Meta Name="ms.locfileid" Value="48689799" />
+    <Meta Name="ms.lasthandoff" Value="11/07/2018" />
+    <Meta Name="ms.locfileid" Value="51264567" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Uri : System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit Uri extends System.Object implements class System.Runtime.Serialization.ISerializable" />
@@ -71,7 +71,9 @@
 -   Se il nome host è un indirizzo IPv6, viene utilizzato l'indirizzo IPv6 canonico. ScopeId e altri dati facoltativi IPv6 vengono rimossi.  
   
 -   Rimuove predefinito e i numeri di porta vuoto.
-
+  
+-   Converte i percorsi di file impliciti senza lo schema file:// (ad esempio, "C:\my\file") ai percorsi del file esplicita con lo schema file://.
+  
 -   I caratteri di escape (noto anche come codificato in percentuale in ottetti) che non hanno uno scopo riservato vengono decodificati (noto anche come in corso senza codice di escape). Questi caratteri non riservati includono lettere maiuscole e lettere minuscole (% 41-% 5A e % 61-% 7A), cifre decimali (30-% 39), trattini (% 2D), punto (% 2E), un carattere di sottolineatura (% 5F) e tilde (% 7E).
 
 -   Conversione in formato canonico il percorso per gli URI gerarchico compattando sequenze, ad esempio /., / /... /, e / o (o meno la sequenza viene sottoposto a escape). Si noti che esistono alcuni schemi per cui queste sequenze non vengono compattate.
@@ -168,6 +170,14 @@ http://myUrl/
  La classe <xref:System.GenericUriParser?displayProperty=nameWithType> è stata estesa anche per consentire la creazione di un parser personalizzabile che supporta gli IRI e gli IDN. Il comportamento di un oggetto <xref:System.GenericUriParser?displayProperty=nameWithType> è specificato passando una combinazione bit per bit dei valori disponibili nell'enumerazione <xref:System.GenericUriParserOptions?displayProperty=nameWithType> al costruttore <xref:System.GenericUriParser?displayProperty=nameWithType>. Il tipo <xref:System.GenericUriParserOptions.IriParsing?displayProperty=nameWithType> indica che il parser supporta le regole specificate nel documento RFC 3987 per gli IRI (International Resource Identifier). Se l'utilizzo degli IRI dipende dai valori di configurazione illustrati in precedenza.  
   
  Il tipo <xref:System.GenericUriParserOptions.Idn?displayProperty=nameWithType> indica che il parser supporta l'analisi degli IDN (Internationalized Domain Name) dei nomi host. Se l'utilizzo di IDN dipende dai valori di configurazione illustrati in precedenza.  
+  
+## <a name="implicit-file-path-support"></a>Supporto del percorso File impliciti
+ <xref:System.Uri> possono essere usati anche per rappresentare percorsi di file locali del sistema. Questi percorsi possono essere rappresentati *in modo esplicito* negli URI che iniziano con lo schema file://, e *implicitamente* nell'URI a cui non è conforme allo schema file://. Un esempio concreto, due URI seguenti sono entrambi validi e rappresentano lo stesso percorso di file:
+```csharp
+Uri uri1 = new Uri("C:/test/path/file.txt") // Implicit file path.
+Uri uri2 = new Uri("file:///C:/test/path/file.txt") // Explicit file path.
+```
+ Questi percorsi di file impliciti non sono conformi alla specifica di URI e, pertanto dovrebbero essere evitati laddove possibile. Quando si usa .NET Core nei sistemi basati su Unix, i percorsi dei file impliciti può rivelarsi particolarmente problematici, perché è un percorso file assoluto implicita *indistinguibili* da un percorso relativo. Quando è presente, tali ambiguità <xref:System.Uri> predefinito per l'interpretazione il percorso come un URI assoluto.
   
 ## <a name="performance-considerations"></a>Considerazioni sulle prestazioni  
  Se si usa un *Web.config * file che contiene gli URI per inizializzare il tempo applicazione, altro è necessarie per elaborare gli URI, se gli identificatori di schema siano non standard. In tal caso, inizializzare le parti interessate dell'applicazione quando sono necessari gli URI, non all'ora di inizio.  
