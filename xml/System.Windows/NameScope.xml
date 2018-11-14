@@ -1,11 +1,11 @@
 <Type Name="NameScope" FullName="System.Windows.NameScope">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c8050691de7e750b35010e0b50589b772590922a" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="c4df6846919cfdb4d0730c19306ae1f1e53b729d" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48692880" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51310963" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class NameScope : System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;string,object&gt;&gt;, System.Collections.Generic.IDictionary&lt;string,object&gt;, System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;string,object&gt;&gt;, System.Windows.Markup.INameScopeDictionary" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NameScope extends System.Object implements class System.Collections.Generic.ICollection`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;string, object&gt;&gt;, class System.Collections.Generic.IDictionary`2&lt;string, object&gt;, class System.Collections.Generic.IEnumerable`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;string, object&gt;&gt;, class System.Collections.IEnumerable, class System.Windows.Markup.INameScope, class System.Windows.Markup.INameScopeDictionary" />
@@ -29,10 +29,25 @@
       <InterfaceName>System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;System.String,System.Object&gt;&gt;</InterfaceName>
     </Interface>
     <Interface>
+      <InterfaceName>System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>System.Collections.Generic.IDictionary&lt;System.String,System.Object&gt;</InterfaceName>
     </Interface>
     <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;System.String,System.Object&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Collections.Generic.KeyValuePair&lt;TKey,TValue&gt;&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;T&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Windows.Markup.INameScope</InterfaceName>
     </Interface>
     <Interface>
       <InterfaceName>System.Windows.Markup.INameScopeDictionary</InterfaceName>
@@ -44,7 +59,7 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>Implementa il supporto WPF di base per i metodi <see cref="T:System.Windows.Markup.INameScope" /> che archiviano o recuperano i mapping del nome dell'oggetto in un NameScope XAML specifico. Aggiunge il supporto della proprietà associata per rendere più semplice ottenere o impostare in modo dinamico i nomi degli ambiti dei nomi XAML a livello di elemento.</summary>
+    <summary>Implementa il supporto WPF di base dei metodi <see cref="T:System.Windows.Markup.INameScope" /> che memorizzano o recuperano i mapping nome-oggetto in un particolare ambito dei nomi XAML. Aggiunge il supporto della proprietà associata per rendere più semplice ottenere o impostare in modo dinamico i nomi degli ambiti dei nomi XAML a livello di elemento.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -367,8 +382,8 @@
       </Parameters>
       <Docs>
         <param name="name">Parte del nome di un mapping esistente per cui recuperare la parte dell'oggetto.</param>
-        <summary>Restituisce l'oggetto corrispondente nel NameScope XAML mantenuto dall' oggetto <see cref="T:System.Windows.NameScope" />, sulla base di un nome di stringa fornito.</summary>
-        <returns>Oggetto richiesto mappato con <paramref name="name" />. Può restituire <see langword="null" /> se <paramref name="name" /> è stato fornito come stringa <see langword="null" /> o vuota oppure se non viene trovato alcun oggetto corrispondente.</returns>
+        <summary>Restituisce l'oggetto corrispondente nell'ambito dei nomi XAML mantenuto da <see cref="T:System.Windows.NameScope" />, in base a un nome di stringa fornito.</summary>
+        <returns>Oggetto richiesto mappato mediante <paramref name="name" />. Può restituire <see langword="null" /> se <paramref name="name" /> è stato specificato come <see langword="null" /> o una stringa vuota o se non è stato trovato alcun oggetto corrispondente.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -412,8 +427,8 @@
       </Parameters>
       <Docs>
         <param name="dependencyObject">Oggetto da cui ottenere l'ambito dei nomi XAML.</param>
-        <summary>Fornisce alla proprietà associata la funzione di accesso per la proprietà <see cref="P:System.Windows.NameScope.NameScope" /> associata.</summary>
-        <returns>NameScope XAML, come istanza <see cref="T:System.Windows.Markup.INameScope" />.</returns>
+        <summary>Fornisce la funzione di accesso get per la proprietà associata <see cref="P:System.Windows.NameScope.NameScope" />.</summary>
+        <returns>Ambito dei nomi XAML, come istanza di <see cref="T:System.Windows.Markup.INameScope" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -609,13 +624,13 @@ oppure
         <summary>Registra una nuova coppia nome-oggetto nell'ambito dei nomi XAML corrente.</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="name" /> o <paramref name="scopedElement" /> è stato fornito come <see langword="null" />.</exception>
+          <paramref name="name" /> o <paramref name="scopedElement" /> specificato come <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> è stato fornito come stringa vuota 
+          <paramref name="name" /> specificato come stringa vuota 
 \- oppure - 
- Il parametro <paramref name="name" /> fornito è stato rifiutato dal parser perché contiene caratteri non validi per un nome XAML 
+ Il parametro <paramref name="name" /> specificato è stato rifiutato dal parser, perché contiene caratteri non validi per un nome XAML 
 \- oppure - 
- <paramref name="name" /> forniti comporterebbero una registrazione del nome duplicata.</exception>
+ Il parametro <paramref name="name" /> specificato comporterebbe la registrazione di un nome duplicato.</exception>
         <altmember cref="T:System.Windows.Markup.INameScope" />
         <altmember cref="M:System.Windows.FrameworkElement.RegisterName(System.String,System.Object)" />
         <altmember cref="M:System.Windows.FrameworkContentElement.RegisterName(System.String,System.Object)" />
@@ -733,7 +748,7 @@ oppure
       <Docs>
         <param name="dependencyObject">Oggetto per cui modificare l'ambito dei nomi XAML.</param>
         <param name="value">Nuovo ambito dei nomi XAML, usando un cast di interfaccia.</param>
-        <summary>Fornisce alla proprietà associata il set delle funzioni di accesso per la proprietà <see cref="P:System.Windows.NameScope.NameScope" /> associata.</summary>
+        <summary>Fornisce la funzione di accesso set per la proprietà associata <see cref="P:System.Windows.NameScope.NameScope" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -878,10 +893,10 @@ oppure
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="name" /> è stato fornito come stringa vuota  
+          <paramref name="name" /> specificato come stringa vuota.  
   
 \- oppure - 
- Il parametro <paramref name="name" /> fornito non era stato registrato.</exception>
+ <paramref name="name" /> specificato non registrato.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="name" /> è <see langword="null" />.</exception>
         <altmember cref="T:System.Windows.Markup.INameScope" />
