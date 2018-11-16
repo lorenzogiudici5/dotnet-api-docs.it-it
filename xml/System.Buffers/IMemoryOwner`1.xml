@@ -1,11 +1,11 @@
 <Type Name="IMemoryOwner&lt;T&gt;" FullName="System.Buffers.IMemoryOwner&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b491445174eaa9f5b6e7e520853b5be5b27ec3f7" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="891577a0c3fb5be4a19d18ed9374211c9ee0c900" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="36715106" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51317294" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IMemoryOwner&lt;T&gt; : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IMemoryOwner`1&lt;T&gt; implements class System.IDisposable" />
@@ -17,6 +17,9 @@
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.2.1.0</AssemblyVersion>
   </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Memory</AssemblyName>
+  </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="T" />
   </TypeParameters>
@@ -26,9 +29,25 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Il tipo di elementi da archiviare nella memoria.</typeparam>
+    <summary>Identifica il proprietario di un blocco di memoria che è responsabile della corretta eliminazione delle memoria sottostante.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+
+Il `IMemoryOwner<T>` interfaccia viene utilizzata per definire il proprietario del responsabile per la gestione della durata di un <xref:System.Memory%601> buffer. Un'istanza di `IMemoryOwner<T>` interfaccia viene restituita dal metodo < xef:System.Buffers.MemoryPool%601.Rent%2A?displayProperty=nameWithType >. 
+
+Mentre un buffer può avere più consumer, il proprietario di un singolo può avere solo un determinato momento. Il proprietario può:
+
+- Creare il buffer direttamente o tramite una chiamata di un metodo factory.
+
+- Trasferire la proprietà a un altro consumer. In questo caso, il proprietario precedente non deve più utilizzare il buffer.
+
+- Eliminare definitivamente il buffer quando non è più in uso.
+
+Poiché il `IMemoryOwner<T>` oggetto implementa il <xref:System.IDisposable> interfaccia, è necessario chiamare relativo <xref:System.IDisposable.Dispose%2A> metodo solo dopo che il buffer di memoria non è più necessario e si è eliminati definitivamente lo. È consigliabile *non* smaltire il `IMemoryOnwer<T>` oggetto mentre è disponibile un riferimento per la memoria. Ciò significa che il tipo in cui `IMemoryOwner<T>` viene dichiarato non devono avere un <xref:System.Object.Finalize%2A> (metodo).
+
+   ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Memory">
@@ -43,12 +62,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Ottiene la memoria che appartiene al proprietario.</summary>
+        <value>Quantità di memoria che appartengono al proprietario.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
