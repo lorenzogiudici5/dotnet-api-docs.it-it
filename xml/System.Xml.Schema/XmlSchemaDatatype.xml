@@ -1,11 +1,11 @@
 <Type Name="XmlSchemaDatatype" FullName="System.Xml.Schema.XmlSchemaDatatype">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="74bc8e0e2454425283232d342b277674583e9a17" />
-    <Meta Name="ms.sourcegitcommit" Value="9dda17222b9f7d3edf130133bfb1370d5b410a4b" />
+    <Meta Name="ms.openlocfilehash" Value="fd74f89cbe9b2982b49752ff9b6b16016e220713" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="09/22/2018" />
-    <Meta Name="ms.locfileid" Value="46595374" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52589581" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class XmlSchemaDatatype" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit XmlSchemaDatatype extends System.Object" />
@@ -336,12 +336,31 @@
         <Parameter Name="nsmgr" Type="System.Xml.XmlNamespaceManager" />
       </Parameters>
       <Docs>
-        <param name="s">To be added.</param>
-        <param name="nameTable">To be added.</param>
-        <param name="nsmgr">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="s">Stringa da convalidare rispetto al tipo semplice.</param>
+        <param name="nameTable">Classe <see cref="T:System.Xml.XmlNameTable" /> da usare per l'atomizzazione durante l'analisi della stringa se l'oggetto <see cref="T:System.Xml.Schema.XmlSchemaDatatype" /> rappresenta il tipo xs:NCName.</param>
+        <param name="nsmgr">L'oggetto <see cref="T:System.Xml.XmlNamespaceManager" /> da usare durante l'analisi della stringa se l'oggetto <see cref="T:System.Xml.Schema.XmlSchemaDatatype" /> rappresenta il tipo xs:QName.</param>
+        <summary>Quando ne viene eseguito l'override in una classe derivata, convalida la stringa specificata rispetto a un tipo semplice predefinito o definito dall'utente.</summary>
+        <returns>Oggetto <see cref="T:System.Object" /> di cui può essere eseguito il cast al tipo restituito da <see cref="P:System.Xml.Schema.XmlSchemaDatatype.ValueType" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Il <xref:System.Xml.Schema.XmlSchemaDatatype.ParseValue%2A> metodo convalida la stringa specificata rispetto a un tipo semplice incorporato o definito dall'utente. Ad esempio, se l'oggetto <xref:System.Xml.Schema.XmlSchemaDatatype> rappresenta il tipo xs: date, quindi un'istanza di <xref:System.DateTime> viene restituito.
+
+Di seguito sono riportati i passaggi eseguiti durante il <xref:System.Xml.Schema.XmlSchemaDatatype.ParseValue%2A> processo di convalida del metodo.
+
+1. Convertire la stringa specificata nel relativo tipo Common Language Runtime (CLR) corrispondenti.
+
+2. Verificare che il valore non violino eventuali facet definiti per il tipo semplice.
+
+Il valore convertito viene quindi restituito come un <xref:System.Object> e può essere il cast al tipo restituito dal <xref:System.Xml.Schema.XmlSchemaDatatype.ValueType> proprietà.
+
+Quando il <xref:System.Xml.Schema.XmlSchemaDatatype> oggetto rappresenta un tipo di elenco, il valore di stringa di input viene convertito in un elenco di uno o più oggetti. Quando il <xref:System.Xml.Schema.XmlSchemaDatatype> oggetto rappresenta un tipo di elenco, viene effettuato un tentativo di analizzare il valore di input come un tipo di membro dell'unione. Se il tentativo di analisi non riesce, quindi il tentativo di conversione con il successivo membro dell'unione fino a quando l'analisi ha esito positivo o non sono disponibili altri tipi di membro da analizzare. Se l'analisi ha esito negativo, viene generata un'eccezione.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.Xml.Schema.XmlSchemaValidationException">Il valore di input non è un'istanza valida del tipo di schema XML W3C.</exception>
+        <exception cref="T:System.ArgumentNullException">Il valore da analizzare non può essere Null (Nothing in Visual Basic).</exception>
       </Docs>
     </Member>
     <Member MemberName="TokenizedType">
