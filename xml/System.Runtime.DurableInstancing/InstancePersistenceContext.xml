@@ -1,11 +1,11 @@
 <Type Name="InstancePersistenceContext" FullName="System.Runtime.DurableInstancing.InstancePersistenceContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="774f08f307628a25a88866a93592fcaade22fb04" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="ad341bed6953172fb3eba70952b4f8f56f0e65d7" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39959566" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52611603" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class InstancePersistenceContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit InstancePersistenceContext extends System.Object" />
@@ -96,7 +96,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si tenta di acquisire un blocco, il provider di persistenza potrebbe decidere che l'istanza corrente è già bloccata nell'archivio corrente. Se il token di blocco corrisponde al token di blocco dell'handle corrente, il provider di persistenza può tentare di recuperare il blocco controllandone la versione e passandolo a BeginBindReclaimedLock. Il provider di persistenza non deve apportare modifiche all'istanza finché il blocco non viene recuperato correttamente. Se non sono associati altri handle al blocco, l'operazione BeginBindReclaimedLock ha esito positivo e l'handle corrente viene associato al blocco. In caso contrario, BeginBindReclaimedLock o EndBindReclaimedLock genera InstanceHandleConflictException. Se i comandi sono in corso su altri handle, l'operazione potrebbe non essere completata durante l'attesa per il risultato di tali comandi per decidere se è possibile recuperare il blocco.  
+ Quando si tenta di acquisire un blocco, il provider di persistenza potrebbe decidere che l'istanza corrente è già bloccata nell'archivio corrente. Se il token di blocco corrisponde al token di blocco dell'handle corrente, quindi il provider di persistenza può tentare di recuperare il blocco controllandone la versione e passandolo a BeginBindReclaimedLock. Il provider di persistenza non deve apportare modifiche all'istanza finché il blocco non viene recuperato correttamente. Se non sono associati altri handle al blocco, l'operazione BeginBindReclaimedLock ha esito positivo e l'handle corrente viene associato al blocco. In caso contrario, BeginBindReclaimedLock o EndBindReclaimedLock genera InstanceHandleConflictException. Se i comandi sono in corso su altri handle, l'operazione potrebbe non essere completata durante l'attesa per il risultato di tali comandi per decidere se è possibile recuperare il blocco.  
   
  È necessario associare l'handle dell'istanza corrente a un'istanza e a un proprietario di blocco. L'istanza non deve essere completata. Il token di blocco associato al proprietario di blocco viene utilizzato per identificare il proprietario del blocco.  
   
@@ -253,7 +253,7 @@
       </Parameters>
       <Docs>
         <param name="instanceOwnerId">Identificatore per il proprietario dell'istanza.</param>
-        <param name="lockToken">Il token di blocco del proprietario dell'istanza. È possibile che un provider di persistenza scelga di utilizzare lo stesso valore per l'identificatore del proprietario di istanza e per il token di blocco del proprietario.</param>
+        <param name="lockToken">Il token di blocco del proprietario dell'istanza. È possibile che un provider di persistenza scelga di usare lo stesso valore per l'identificatore del proprietario di istanza e per il token di blocco del proprietario.</param>
         <summary>Associa un proprietario di istanza all'handle dell'istanza corrente.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -292,7 +292,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Quando si tenta di acquisire un blocco, il provider di persistenza potrebbe decidere che l'istanza corrente è già bloccata nell'archivio corrente. Se il token di blocco corrisponde al token di blocco dell'handle corrente, il provider di persistenza può tentare di recuperare il blocco controllandone la versione e passandolo a BindReclaimedLock. Il provider di persistenza non deve apportare modifiche all'istanza finché il blocco non viene recuperato correttamente. Se non sono associati altri handle al blocco, BindReclaimedLock ha esito positivo e l'handle corrente viene associato al blocco. In caso contrario, BindReclaimedLock genera InstanceHandleConflictException. Se i comandi sono in corso su altri handle, BindReclaimedLock può bloccare l'attesa per il risultato di tali comandi prima di decidere se è possibile recuperare il blocco.  
+ Quando si tenta di acquisire un blocco, il provider di persistenza potrebbe decidere che l'istanza corrente è già bloccata nell'archivio corrente. Se il token di blocco corrisponde al token di blocco dell'handle corrente, quindi il provider di persistenza può tentare di recuperare il blocco controllandone la versione e passandolo a BindReclaimedLock. Il provider di persistenza non deve apportare modifiche all'istanza finché il blocco non viene recuperato correttamente. Se non sono associati altri handle al blocco, BindReclaimedLock ha esito positivo e l'handle corrente viene associato al blocco. In caso contrario, BindReclaimedLock genera InstanceHandleConflictException. Se i comandi sono in corso su altri handle, BindReclaimedLock può bloccare l'attesa per il risultato di tali comandi prima di decidere se è possibile recuperare il blocco.  
   
  È necessario associare l'handle dell'istanza corrente a un'istanza e a un proprietario di blocco. L'istanza non deve essere completata. Il token di blocco associato al proprietario di blocco viene utilizzato per identificare il proprietario del blocco.  
   
@@ -532,12 +532,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Ottiene la versione del blocco mantenuto sull'istanza corrente dall'handle dell'istanza corrente.</summary>
-        <value>La versione del blocco dell'istanza associato all'handle dell'istanza corrente o -1 se l'handle non è associato a un blocco.</value>
+        <value>La versione del blocco dell'istanza associato all'handle dell'istanza corrente, oppure -1 se l'handle non è associato a un blocco.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il provider di persistenza deve controllare questo valore rispetto alla versione del blocco mantenuto su un'istanza nell'archivio di istanze quando viene eseguita un'operazione che richiede un blocco (ad esempio, la persistenza dei dati dell'istanza) mediante un handle associato al blocco. Se la versione del blocco non corrisponde, il comando non riesce e genera InstanceLockLostException.  
+ Il provider di persistenza deve controllare questo valore rispetto alla versione del blocco mantenuto su un'istanza nell'archivio di istanze quando viene eseguita un'operazione che richiede un blocco (ad esempio, la persistenza dei dati dell'istanza) mediante un handle associato al blocco. Se la versione del blocco non corrisponde, il comando non riesce instancelocklostexception.  
   
  ]]></format>
         </remarks>
@@ -625,12 +625,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Ottiene il token di blocco del proprietario dell'istanza associato all'handle dell'istanza corrente.</summary>
-        <value>Il token di blocco associato all'handle dell'istanza corrente o Guid.Empty se l'handle non è associato a un proprietario di istanza.</value>
+        <value>Il token di blocco associato all'handle dell'istanza corrente o GUID. Empty se l'handle non è associato a un proprietario di istanza.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il provider di persistenza deve controllare questo valore rispetto al token di blocco mantenuto su un'istanza nell'archivio di istanze quando viene eseguita un'operazione che richiede un blocco (ad esempio, la persistenza dei dati dell'istanza) mediante un handle associato al blocco. Se il token di blocco non corrisponde, il comando non riesce e genera InstanceLockLostException.  
+ Il provider di persistenza deve controllare questo valore rispetto al token di blocco mantenuto su un'istanza nell'archivio di istanze quando viene eseguita un'operazione che richiede un blocco (ad esempio, la persistenza dei dati dell'istanza) mediante un handle associato al blocco. Se il token di blocco non corrisponde, il comando non riesce instancelocklostexception.  
   
  Il provider di persistenza deve utilizzare questo valore come token di blocco quando acquisisce un nuovo blocco su un'istanza (ad esempio, rendere persistenti i dati dell'istanza mediante un handle non ancora associato a un blocco). Se l'istanza è già bloccata nell'archivio di istanze e il token di blocco corrisponde a questo token, il provider di persistenza può tentare di recuperare l'istanza utilizzando BindReclaimedLock.  
   
