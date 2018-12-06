@@ -1,11 +1,11 @@
 <Type Name="BufferedStream" FullName="System.IO.BufferedStream">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="844e045e034922791bd6f5c66770ed7166f90a00" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
+    <Meta Name="ms.openlocfilehash" Value="9cf5c6dc99590b2f24b7725c166fa854be4af0d8" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52255081" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52598915" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BufferedStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BufferedStream extends System.IO.Stream" />
@@ -568,8 +568,52 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Chiude il flusso e libera le risorse, in particolare le risorse di sistema come socket e handle di file, associate al flusso corrente memorizzato nel buffer.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Tutti i dati scritti in precedenza per il buffer viene copiati l'origine dati o nell'archivio sottostante prima di chiusura del flusso memorizzato nel buffer. Pertanto, non è necessario chiamare <xref:System.IO.BufferedStream.Flush> prima di richiamare una chiusura. In seguito a una chiamata a Close, qualsiasi operazione nel flusso memorizzato nel buffer possono generare eccezioni.
+
+La cancellazione del flusso non svuotamento del codificatore sottostante a meno che non si chiama esplicitamente <xref:System.IO.BufferedStream.Flush> o Close. Impostazione <xref:System.IO.StreamWriter.AutoFlush> su true, verranno scaricati i dati dal buffer nel flusso, ma non verrà rimosso lo stato del codificatore. In questo modo il codificatore mantenere lo stato (parzialmente caratteri) in modo che può codificare correttamente il blocco successivo di caratteri. Questo scenario riguarda UTF8 e UTF7, in cui determinati caratteri possono essere codificati solo dopo che il codificatore riceve adiacenti uno o più caratteri.
+
+Tentativo di modificare un flusso dopo che è stato chiuso potrebbe generare un <xref:System.ObjectDisposedException>.
+
+## Examples  
+Questo esempio di codice è parte di un esempio più esaustivo disponibile per il <xref:System.IO.BufferedStream> classe.
+
+```vb
+' When bufStream is closed, netStream is in turn 
+' closed, which in turn shuts down the connection 
+' and closes clientSocket.
+Console.WriteLine(vbCrLf & "Shutting down the connection.")
+bufStream.Close()
+```
+
+```csharp
+// When bufStream is closed, netStream is in turn
+// closed, which in turn shuts down the connection
+// and closes clientSocket.
+Console.WriteLine("\nShutting down the connection.");
+bufStream.Close();
+```
+
+```cpp
+// When bufStream is closed, netStream is in turn closed,
+// which in turn shuts down the connection and closes
+// clientSocket.
+Console::WriteLine( "\nShutting down connection." );
+bufStream->Close();
+
+```
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.IO.IOException">Si è verificato un errore durante il tentativo di chiudere il flusso.</exception>
+        <altmember cref="M:System.IO.BufferedStream.Flush" />
+        <related type="Article" href="~/docs/standard/io/index.md">I/O di file e di flussi</related>
+        <related type="Article" href="~/docs/standard/io/how-to-read-text-from-a-file.md">Procedura: leggere testo da un file</related>
+        <related type="Article" href="~/docs/standard/io/how-to-write-text-to-a-file.md">Procedura: Scrivere un testo in un file</related>
       </Docs>
     </Member>
     <Member MemberName="Dispose">

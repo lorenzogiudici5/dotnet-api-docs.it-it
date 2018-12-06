@@ -1,11 +1,11 @@
 <Type Name="SecurityTokenService" FullName="System.IdentityModel.SecurityTokenService">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b5c8d93b898d628b70967d33278c8cd9f33a66bf" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="49a0ab5f150cc09113681aed718c286d237b6643" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="36479608" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52603582" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SecurityTokenService" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit SecurityTokenService extends System.Object" />
@@ -34,11 +34,11 @@
   
  Nell'elenco seguente fornisce una breve panoramica dei metodi di primaria importanza per gli sviluppatori per l'uso in un ambiente di sviluppo o test.  
   
--   Metodo <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Questo metodo restituisce un <xref:System.IdentityModel.Scope> oggetto che contiene informazioni sull'applicazione relying Party. Questo oggetto viene usato nel resto della pipeline di rilascio dei token e include informazioni relative alla firma e crittografia delle credenziali da utilizzare nella risposta, nonché `AppliesTo` e `ReplyTo` (se richiesto) gli indirizzi. È necessario eseguire l'override di questo metodo.  
+-   Metodo <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> . Questo metodo restituisce un <xref:System.IdentityModel.Scope> oggetto che contiene informazioni sull'applicazione relying Party. Questo oggetto viene usato nel resto della pipeline di rilascio dei token e include informazioni relative alla firma e crittografia delle credenziali da utilizzare nella risposta, nonché `AppliesTo` e `ReplyTo` (se richiesto) gli indirizzi. È necessario eseguire l'override di questo metodo.  
   
--   Metodo <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A>. Questo metodo restituisce un <xref:System.Security.Claims.ClaimsIdentity> oggetto contenente le attestazioni da restituire all'applicazione relying party. È necessario eseguire l'override di questo metodo.  
+-   Metodo <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> . Questo metodo restituisce un <xref:System.Security.Claims.ClaimsIdentity> oggetto contenente le attestazioni da restituire all'applicazione relying party. È necessario eseguire l'override di questo metodo.  
   
--   Metodo <xref:System.IdentityModel.SecurityTokenService.Issue%2A>. Questo metodo implementa la pipeline di richiesta di token, che elabora una richiesta token sicurezza in ingresso (RST) e restituisce una risposta (RSTR) al chiamante che contiene un token che può essere utilizzato per eseguire l'autenticazione con un'applicazione relying Party. Molti degli altri metodi definiti nel <xref:System.IdentityModel.SecurityTokenService> classe vengono chiamati da questo metodo, inclusi i <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> e <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> metodi. Non è necessario eseguire l'override di questo metodo, ma la comprensione della pipeline di richiesta di token che implementa potrebbe risultare utile.  
+-   Metodo <xref:System.IdentityModel.SecurityTokenService.Issue%2A> . Questo metodo implementa la pipeline di richiesta di token, che elabora una richiesta token sicurezza in ingresso (RST) e restituisce una risposta (RSTR) al chiamante che contiene un token che può essere utilizzato per eseguire l'autenticazione con un'applicazione relying Party. Molti degli altri metodi definiti nel <xref:System.IdentityModel.SecurityTokenService> classe vengono chiamati da questo metodo, inclusi i <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> e <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> metodi. Non è necessario eseguire l'override di questo metodo, ma la comprensione della pipeline di richiesta di token che implementa potrebbe risultare utile.  
   
  Un servizio token di sicurezza viene configurato tramite il <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> classe.  
   
@@ -667,7 +667,7 @@ oppure
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>È necessario eseguire l'override di questo metodo nell'implementazione del metodo di <see cref="T:System.IdentityModel.SecurityTokenService" /> classe.</para>
+          <para>È necessario eseguire l'override di questo metodo nell'implementazione della classe <see cref="T:System.IdentityModel.SecurityTokenService" />.</para>
         </block>
         <altmember cref="T:System.IdentityModel.Scope" />
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
@@ -782,7 +782,7 @@ oppure
   
  L'implementazione predefinita crea RSTR passando RST specificato nel parametro della richiesta per il <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityTokenResponse.%23ctor%28System.IdentityModel.Protocols.WSTrust.WSTrustMessage%29?displayProperty=nameWithType> costruttore, richiamo il <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.ApplyTo%2A?displayProperty=nameWithType> metodo sul descrittore del token passati <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> per applicare le proprietà per l'appena creato RSTR, impostando il <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.AppliesTo%2A> proprietà RSTR usando il <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A> proprietà sul descrittore del token e infine l'impostazione il <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> proprietà RSTR in base alla tabella riportata di seguito:  
   
-|Proprietà `RST.ReplyTo`|Proprietà <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A?displayProperty=nameWithType>.|Proprietà `RSTR.ReplyTo`|  
+|Proprietà`RST.ReplyTo` |Proprietà <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A?displayProperty=nameWithType>.|Proprietà`RSTR.ReplyTo` |  
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|  
 |Imposta|Non impostato.|Non impostato.|  
 |Imposta|Imposta|<xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A?displayProperty=nameWithType>|  
@@ -850,7 +850,7 @@ oppure
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>È necessario eseguire l'override di questo metodo nell'implementazione del metodo di <see cref="T:System.IdentityModel.SecurityTokenService" /> classe.</para>
+          <para>È necessario eseguire l'override di questo metodo nell'implementazione della classe <see cref="T:System.IdentityModel.SecurityTokenService" />.</para>
         </block>
         <altmember cref="T:System.IdentityModel.Scope" />
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />

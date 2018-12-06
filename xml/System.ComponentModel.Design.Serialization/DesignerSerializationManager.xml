@@ -1,11 +1,11 @@
 <Type Name="DesignerSerializationManager" FullName="System.ComponentModel.Design.Serialization.DesignerSerializationManager">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d25755190c3410b70176ce9e68fb7096b9117195" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="1bb57a890dbc17d8e6f4866c1db1b268d5c65498" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39773818" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52599110" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class DesignerSerializationManager : IServiceProvider, System.ComponentModel.Design.Serialization.IDesignerSerializationManager" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit DesignerSerializationManager extends System.Object implements class System.ComponentModel.Design.Serialization.IDesignerSerializationManager, class System.IServiceProvider" />
@@ -90,8 +90,8 @@
   
 |Object|Utilizzo|  
 |------------|-----------|  
-|<xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.ResolveName> Evento|Il <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.ResolveName> evento è associato da un serializzatore per fornire aggiuntivi per la risoluzione dei nomi. Tutti i gestori vengono scollegati da questo evento quando termina una sessione.|  
-|<xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> Evento|Il <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento viene generato appena prima dell'eliminazione di una sessione. Quindi, tutti i gestori vengono scollegati da questo evento.|  
+|Evento<xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.ResolveName> |Il <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.ResolveName> evento è associato da un serializzatore per fornire aggiuntivi per la risoluzione dei nomi. Tutti i gestori vengono scollegati da questo evento quando termina una sessione.|  
+|Evento<xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> |Il <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento viene generato appena prima dell'eliminazione di una sessione. Quindi, tutti i gestori vengono scollegati da questo evento.|  
 |Tabella dei nomi|Il gestore della serializzazione mantiene una tabella in cui viene eseguito il mapping tra oggetti e i relativi nomi. I serializzatori possono assegnare i nomi degli oggetti per facilitare l'identificazione. Questa tabella dei nomi viene cancellata al termine della sessione.|  
 |Cache di serializzatori|Il gestore della serializzazione mantiene una cache di serializzatori che è stato chiesto di fornire. Questa cache viene cancellata al termine della sessione. Pubblico <xref:System.ComponentModel.Design.Serialization.DesignerSerializationManager.GetSerializer%2A> metodo può essere chiamato in modo sicuro in qualsiasi momento, ma il relativo valore viene memorizzato nella cache solo se viene chiamato dall'interno di una sessione.|  
 |Stack di contesto|Il gestore della serializzazione gestisce un oggetto denominato lo stack di contesto, che è possibile accedere con il <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.Context%2A> proprietà. I serializzatori possono utilizzare questo stack per memorizzare informazioni aggiuntive che sono disponibile per altri serializzatori. Ad esempio, un serializzatore che sta eseguendo la serializzazione di un valore della proprietà può inserire il nome della proprietà nello stack di serializzazione prima di richiedere il valore da serializzare. Questo stack viene cancellato quando la sessione è terminata.|  
@@ -1053,8 +1053,20 @@
         <ReturnType>System.ComponentModel.Design.Serialization.ResolveNameEventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Viene generato quando il metodo <see cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System#ComponentModel#Design#Serialization#IDesignerSerializationManager#GetName(System.Object)" /> non è in grado di individuare il nome specificato nella tabella dei nomi del gestore della serializzazione.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Il `ResolveName` evento viene generato quando il <xref:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System%23ComponentModel%23Design%23Serialization%23IDesignerSerializationManager%23GetName%2A> viene chiamato, ma non riesce a trovare il nome specificato nella tabella dei nomi del gestore della serializzazione.
+
+Questo evento fornisce un modo per un serializzatore di richiesta-creare un oggetto in modo che il serializzatore non è necessario la creazione di oggetti order dalla dipendenza. Questo delegato viene eliminato immediatamente dopo la serializzazione o deserializzazione è completa.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Il gestore di serializzazione non ha una sessione di serializzazione attiva.</exception>
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.OnResolveName(System.ComponentModel.Design.Serialization.ResolveNameEventArgs)" />
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.System#ComponentModel#Design#Serialization#IDesignerSerializationManager#GetName(System.Object)" />
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete">
@@ -1074,8 +1086,21 @@
         <ReturnType>System.EventHandler</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Viene generato al termine della serializzazione.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+In genere il processo di serializzazione è a thread singolo e deve essere senza stato. Quando queste caratteristiche non sono vere, la <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento può essere utilizzato per organizzare il processo. Un serializzatore possibile rilevare questo evento per il processo di serializzazione è completato.
+
+Ad esempio, a volte un serializzatore deve scrivere in un altro file, ad esempio un file di risorse. In tal caso, sarebbe inefficiente per progettare il serializzatore per chiudere il file quando l'operazione è terminata perché la serializzazione di un oggetto grafico richiede in genere diversi serializzatori; Pertanto, il file di risorse potrebbe essere aperto e chiuso più volte. Al contrario, il file di risorse è accessibile tramite un oggetto che tiene traccia di <xref:System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SerializationComplete> evento e tale oggetto è stato possibile chiudere il file di risorse alla fine della serializzazione.
+
+Un uso correlato, questo evento è utilizzabile per rimuovere un problema temporaneo del servizio installato nel gestore della serializzazione.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Il gestore di serializzazione non ha una sessione di serializzazione attiva.</exception>
+        <altmember cref="M:System.ComponentModel.Design.Serialization.DesignerSerializationManager.GetSerializer(System.Type,System.Type)" />
       </Docs>
     </Member>
     <Member MemberName="System.ComponentModel.Design.Serialization.IDesignerSerializationManager.SetName">
@@ -1146,7 +1171,7 @@
         <returns>Oggetto Service di tipo <paramref name="serviceType" />.  
   
 oppure 
- <see langword="null" />, se non è disponibile un oggetto Service di tipo <paramref name="serviceType" />.</returns>
+ <see langword="null" /> se non c'è un oggetto servizio di tipo <paramref name="serviceType" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
