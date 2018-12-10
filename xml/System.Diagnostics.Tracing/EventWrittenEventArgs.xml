@@ -1,13 +1,5 @@
 <Type Name="EventWrittenEventArgs" FullName="System.Diagnostics.Tracing.EventWrittenEventArgs">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="46860fca723a945b6916f0d8377e0f4796e46365" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="it-IT" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52240040" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public class EventWrittenEventArgs : EventArgs" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="6267829fa563f5420f5249f7a6248c140d093992" /><Meta Name="ms.sourcegitcommit" Value="9d1bf7e4c6d697123f26c810c1a049a755634634" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="it-IT" /><Meta Name="ms.lasthandoff" Value="12/06/2018" /><Meta Name="ms.locfileid" Value="52981968" /></Metadata><TypeSignature Language="C#" Value="public class EventWrittenEventArgs : EventArgs" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit EventWrittenEventArgs extends System.EventArgs" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.Tracing.EventWrittenEventArgs" />
   <TypeSignature Language="VB.NET" Value="Public Class EventWrittenEventArgs&#xA;Inherits EventArgs" />
@@ -37,7 +29,29 @@
   <Interfaces />
   <Docs>
     <summary>Fornisce i dati per il callback <see cref="M:System.Diagnostics.Tracing.EventListener.OnEventWritten(System.Diagnostics.Tracing.EventWrittenEventArgs)" />.</summary>
-    <remarks>To be added.</remarks>
+    <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Ogni volta che un evento viene inviato a un <xref:System.Diagnostics.Tracing.EventListener>, il <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A?displayProperty=nameWithType> viene richiamato il metodo di callback. Viene passato un `EventWrittenEventArgs` istanza che contiene informazioni associate all'evento. Tutti i valori delle proprietà di `EventWrittenEventArgs` classe sono validi solo durante il callback. 
+
+Le sezioni seguenti contengono informazioni aggiuntive sui singoli `EventWrittenEventArgs` proprietà.
+
+### <a name="activityid-property"></a>Proprietà di ActivityId
+
+Quando si usa <xref:System.Activities.Activity?displayProperty=nameWithType> e le relative classi derivate, thread possono essere contrassegnati come avente un'attività associate. Il `ActivityId` proprietà restituisce l'ID attività del thread che ha registrato l'evento. Si noti che i thread non sono necessario avere un'attività, nel qual caso questa proprietà restituisce <xref:System.Guid.Empty?displayProperty=nameWithType>.
+
+### <a name="osthreadid-and-timestamp-properties"></a>Proprietà OSThreadId e TimeStamp 
+
+A partire da .NET Core 2.2 <xref:System.Diagnostics.Tracing.EventListener> oggetti possono sottoscrivere gli eventi di runtime nativo (ad esempio, gli eventi GC e JIT threadpool) oltre agli eventi generati da <xref:System.Diagnostics.Tracing.EventSource> oggetti. Nelle versioni precedenti di .NET Core e tutte le versioni di .NET Framework, l'elemento thead ID e il timestamp possono essere raccolti dall'ambiente, in quanto che vengano inviati in modo sincrono sullo stesso thread che li ha creato. Non tutti gli eventi di runtime nativo possono essere inviati in modo sincrono, tuttavia. Alcuni eventi, ad esempio gli eventi GC, vengono generati quando gestito viene sospeso l'esecuzione del thread. Questi eventi vengono memorizzati nel buffer nel codice nativo e vengono inviati da un thread di dispatcher dopo il codice gestito può eseguire di nuovo. Poiché questi eventi vengono memorizzati nel buffer, l'ambiente non è utilizzabile per recuperare in modo affidabile l'ID del thread e il timestamp. Per questo motivo, a partire da .NET Core 2.2, ID thread e sono disponibili come membri delle informazioni relative al timestamp di `EventWrittenEventArgs` classe.
+
+### <a name="relatedactivityid-property"></a>Proprietà RelatedActivityId
+
+ Un'attività correlata è un'attività che è fortemente correlata a quello corrente. In genere, si tratta di entrambe le attività che ha causato l'attività corrente (gli eventi con il `Start` opcode in genere eseguire questa operazione) o un'attività che è stata creata da quella corrente (gli eventi con il `Send` opcode in genere eseguire questa operazione). Quando viene usato, il `RelatedActivityID` viene passato in modo esplicito per il metodo esegue la registrazione. Numero di eventi non passa un `RelatedActivityId`, nel qual caso questa proprietà restituisce <xref:System.Guid.Empty?displayProperty=nameWithType>.
+
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="ActivityId">
@@ -76,18 +90,7 @@
       <Docs>
         <summary>Ottiene l'ID attività nel thread in cui l'evento è stato scritto.</summary>
         <value>ID attività nel thread in cui l'evento è stato scritto.</value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Il recupero del valore della <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> proprietà accede agli archiviazione thread-local. Questo presenta le implicazioni seguenti:  
-  
--   Il <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> campo è valido solo per la durata del <xref:System.Diagnostics.Tracing.EventListener.OnEventWritten%2A?displayProperty=nameWithType> callback.  
-  
--   Se l'ID attività viene modificato durante il callback, l'ID dell'attività restituita dal <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> proprietà non è valida.  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
         <altmember cref="P:System.Diagnostics.Tracing.EventWrittenEventArgs.RelatedActivityId" />
         <altmember cref="M:System.Diagnostics.Tracing.EventSource.SetCurrentThreadActivityId(System.Guid)" />
       </Docs>
@@ -390,8 +393,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Ottiene l'identificatore del thread per il thread del sistema operativo che ha scritto l'evento (solo .NET Core 2.2 e versioni successive).</summary>
+        <value>L'identificatore del thread per il thread del sistema operativo che ha scritto l'evento.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -499,14 +502,7 @@
       <Docs>
         <summary>Ottiene l'identificatore di un'attività che è correlato all'attività rappresentata dall'istanza corrente.</summary>
         <value>Identificatore dell'attività correlata oppure <see cref="F:System.Guid.Empty" /> se non esiste alcuna attività correlata.</value>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Il <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.RelatedActivityId%2A> è un figlio di <xref:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId%2A> proprietà. ID di un'attività può essere associato a più ID di attività correlate.  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
         <altmember cref="P:System.Diagnostics.Tracing.EventWrittenEventArgs.ActivityId" />
         <altmember cref="M:System.Diagnostics.Tracing.EventSource.WriteEventWithRelatedActivityId(System.Int32,System.Guid,System.Object[])" />
       </Docs>
@@ -601,8 +597,8 @@
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Ottiene l'ora in cui è stato generato originariamente l'evento come timestamp <see cref="System.DateTime" /> (solo .NET Core 2.2 e versioni successive).</summary>
+        <value>Data e ora quando è stato registrato l'evento. Il sistema tenta di essere il più possibile precisi.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
