@@ -1,5 +1,5 @@
 <Type Name="StoryFragment" FullName="System.Windows.Documents.DocumentStructures.StoryFragment">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="27ef05042a61b72cebba755906ab6d4f36092cbf" /><Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="it-IT" /><Meta Name="ms.lasthandoff" Value="11/17/2018" /><Meta Name="ms.locfileid" Value="51865074" /></Metadata><TypeSignature Language="C#" Value="public class StoryFragment : System.Collections.Generic.IEnumerable&lt;System.Windows.Documents.DocumentStructures.BlockElement&gt;, System.Windows.Markup.IAddChild" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="9d2789ee4889d16f6a73855cc55a8bdef544fb08" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="it-IT" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53228921" /></Metadata><TypeSignature Language="C#" Value="public class StoryFragment : System.Collections.Generic.IEnumerable&lt;System.Windows.Documents.DocumentStructures.BlockElement&gt;, System.Windows.Markup.IAddChild" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit StoryFragment extends System.Object implements class System.Collections.Generic.IEnumerable`1&lt;class System.Windows.Documents.DocumentStructures.BlockElement&gt;, class System.Collections.IEnumerable, class System.Windows.Markup.IAddChild" />
   <TypeSignature Language="DocId" Value="T:System.Windows.Documents.DocumentStructures.StoryFragment" />
   <TypeSignature Language="VB.NET" Value="Public Class StoryFragment&#xA;Implements IAddChild, IEnumerable(Of BlockElement)" />
@@ -35,13 +35,13 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Una storia XPS in un [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] documento è quasi equivalente a una storia in un giornale o magazine. Si tratta di un brano di testo e contenuto grafico, in genere su un singolo argomento, in un'unica [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] documento. In genere, estende su più pagine, ma può essere inferiore a una pagina simile a un'intestazione laterale: storia sottoposto a conversione boxing, una rivista. Una storia può anche essere discontinua, ad esempio una storia di giornale homepage che continua a pagina 4. Di conseguenza, una determinata pagina può avere più di una storia e parti di più di una storia. Un'intestazione o piè di pagina è anche un tipo speciale di storia che è interamente contenuta in una singola pagina.  
+ Una storia XPS in un [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] documento è quasi equivalente a una storia in un giornale o magazine. Si tratta di un brano di testo e contenuto grafico, in genere su un singolo argomento, in un'unica [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] documento. In genere, estende su più pagine, ma può essere inferiore a una pagina simile a un'intestazione laterale - boxed storia - nella rivista. Una storia può anche essere discontinua, ad esempio una storia di giornale homepage che continua a pagina 4. Di conseguenza, una determinata pagina può avere più di una storia e parti di più di una storia. Un'intestazione o piè di pagina è anche un tipo speciale di storia che è interamente contenuta in una singola pagina.  
   
  Oggetto <xref:System.Windows.Documents.DocumentStructures.StoryFragment> rappresenta tutto o parte di una storia. Non si può estendere mai più di una pagina, ma può occupare l'intera di una pagina o condividere una pagina con altri frammenti. Se una storia più di una pagina, ogni parte di esso in ogni pagina è un frammento separato. Sebbene le storie possono avere discontinue di frammenti, alcun frammento non può essere discontinuo.  
   
  Solo un <xref:System.Windows.Documents.DocumentStructures.StoryFragments> elemento può essere un elemento padre di un <xref:System.Windows.Documents.DocumentStructures.StoryFragment>.  Il percorso dei <xref:System.Windows.Documents.DocumentStructures.StoryBreak> elementi all'interno di un <xref:System.Windows.Documents.DocumentStructures.StoryFragment> indica se la storia è contenuta in più frammenti, e se i frammenti aggiuntivi precedono o seguono il frammento corrente.  
   
- Quando un <xref:System.Windows.Documents.DocumentStructures.StoryFragment> termina all'interno di un elemento strutturale; ad esempio un `<TableRowGroupStructure>`, quindi [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] applicazioni alla produzione di documento necessario inserire un tag di fine appropriate per l'elemento (in questo caso `</TableRowGroupStructure>`) prima di `</StoryFragment>` tag, anche anche se la struttura in corso continua in un frammento successive. (Questa operazione è necessaria garantire che l'albero degli elementi all'interno di <xref:System.Windows.Documents.DocumentStructures.StoryFragment> è un XML valido.) Il frammento che prosegue la storia deve iniziare con un tag di apertura per la struttura interrotta. L'intero albero di strutture interrotte deve essere considerato simile a quello (con un'eccezione, illustrata di seguito): è necessario aggiungere i tag di fine per ogni tag di inizio non corrispondenti di sopra il punto di interruzione.  
+ Quando un <xref:System.Windows.Documents.DocumentStructures.StoryFragment> termina all'interno di un elemento strutturale; ad esempio un `<TableRowGroupStructure>`, quindi [!INCLUDE[TLA2#tla_xps](~/includes/tla2sharptla-xps-md.md)] applicazioni alla produzione di documento necessario inserire un tag di fine appropriate per l'elemento (in questo caso `</TableRowGroupStructure>`) prima di `</StoryFragment>` tag, anche anche se la struttura in corso continua in un frammento successive. (Questa operazione è necessaria garantire che l'albero degli elementi all'interno di <xref:System.Windows.Documents.DocumentStructures.StoryFragment> è un XML valido.) Il frammento che prosegue la storia deve iniziare con un tag di apertura per la struttura interrotta. L'intero albero di strutture interrotte deve essere trattato allo stesso modo (con un'eccezione, illustrato di seguito): Per ogni tag di inizio non corrispondenti di sopra il punto di interruzione, è necessario aggiungere i tag di fine.  
   
  L'eccezione si applica quando l'interruzione del brano ha luogo immediatamente dopo una `</TableCellStructure>` applicare un tag, quindi l'applicazione di produzione è necessario inserire una struttura di cella vuota nella tabella (`<TableCellStructure></TableCellStructure>`) nel punto corrispondente nel frammento che prosegue la storia. Questa operazione è necessaria affinché dispendiosa in termini di applicazioni che devono unire tutti i frammenti di una determinata storia possono usare un semplice algoritmo per eseguire questa operazione.  
   
@@ -149,7 +149,7 @@
   
  Nell'esempio precedente, se la cella vuota non è stato aggiunto dall'applicazione di produzione, quindi una fusione dei frammenti produrrà una tabella cui prima riga ha solo una cella che contiene entrambi i riferimenti "DelContenuto" e "PiùContenuto" anziché l'originale prima di tutto righe con due celle, ognuno dei quali contiene un solo riferimento  
   
- Quando sottoposto a merge l'intero brano, l'algoritmo deve essere ripetuto per ogni frammento successivi che fa parte della stessa storia. I frammenti che appartengono a una storia sono indicizzati nel `<Story>` elemento. Vedere la sezione 9.1.15 della [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] che è possibile ottenere all'indirizzo [XPS: specifica e download di licenza](https://www.microsoft.com/whdc/xps/downloads.mspx). L'ultimo frammento per una determinata storia avrà un <xref:System.Windows.Documents.DocumentStructures.StoryBreak> elemento come ultimo figlio.  
+ Quando sottoposto a merge l'intero brano, l'algoritmo deve essere ripetuto per ogni frammento successivi che fa parte della stessa storia. I frammenti che appartengono a una storia sono indicizzati nel `<Story>` elemento. Vedere la sezione 9.1.15 della [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [stored procedure estese: Download di licenza e specifica](https://www.microsoft.com/whdc/xps/downloads.mspx). L'ultimo frammento per una determinata storia avrà un <xref:System.Windows.Documents.DocumentStructures.StoryBreak> elemento come ultimo figlio.  
   
    
   
@@ -238,7 +238,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Per altre informazioni sul `FragmentName` attributo del `</StoryFragment>` fa parte di un [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] del documento, vedere il capitolo 9 del [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [XPS: specifica e licenza Scarica](https://www.microsoft.com/whdc/xps/downloads.mspx).  
+ Per altre informazioni sul `FragmentName` attributo del `</StoryFragment>` fa parte di un [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] del documento, vedere il capitolo 9 del [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [XPS: Download di licenza e specifica](https://www.microsoft.com/whdc/xps/downloads.mspx).  
   
  ]]></format>
         </remarks>
@@ -279,7 +279,7 @@
 ## Remarks  
  I valori possibili includono "Header", "Piè di pagina" e "Contenuto".  
   
- Per altre informazioni sul `FragmentType` attributo del `</StoryFragment>` fa parte di un [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] del documento, vedere il capitolo 9 del [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [XPS: specifica e licenza Scarica](https://www.microsoft.com/whdc/xps/downloads.mspx).  
+ Per altre informazioni sul `FragmentType` attributo del `</StoryFragment>` fa parte di un [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] del documento, vedere il capitolo 9 del [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [XPS: Download di licenza e specifica](https://www.microsoft.com/whdc/xps/downloads.mspx).  
   
    
   
@@ -324,7 +324,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Tutti i frammenti di una determinata storia devono avere lo stesso valore per questa proprietà. È necessario che corrisponda il `StoryName` attributo del `<Story>` elemento. Vedere la sezione 9.1.15 della [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] che è possibile ottenere all'indirizzo [XPS: specifica e download di licenza](https://www.microsoft.com/whdc/xps/downloads.mspx).  
+ Tutti i frammenti di una determinata storia devono avere lo stesso valore per questa proprietà. È necessario che corrisponda il `StoryName` attributo del `<Story>` elemento. Vedere la sezione 9.1.15 della [!INCLUDE[TLA#tla_xps](~/includes/tlasharptla-xps-md.md)] specifica che è possibile ottenere in [stored procedure estese: Download di licenza e specifica](https://www.microsoft.com/whdc/xps/downloads.mspx).  
   
  Questa proprietà può essere specificata se <xref:System.Windows.Documents.DocumentStructures.StoryFragment.FragmentType%2A> intestazione o piè di pagina.  
   
